@@ -838,9 +838,9 @@ footer{border-top:1px solid var(--line)}
         <img src="photos/portrait.jpg" alt="Daniel Uusitalo" loading="lazy" decoding="async">
         <figcaption class="tag">IMG/01 / portrait</figcaption>
       </figure>
-      <figure class="photo r32" data-cap="Machn Festival, Leipzig 2026">
-        <img src="photos/machn-leipzig.jpg" alt="Daniel on panel at Machn Festival, Leipzig" loading="lazy" decoding="async">
-        <figcaption class="tag">IMG/02 / machn festival</figcaption>
+      <figure class="photo r32" data-cap="Techarena Zero, Stockholm 2026">
+        <img src="photos/bio-techarena.jpg" alt="Daniel speaking at Techarena Zero, Stockholm" loading="lazy" decoding="async">
+        <figcaption class="tag">IMG/02 / techarena zero</figcaption>
       </figure>
     </div>
   </div>
@@ -1025,6 +1025,7 @@ footer{border-top:1px solid var(--line)}
     <button class="stab active" data-sub="builds" role="tab" aria-selected="true" id="stab-builds" aria-controls="sub-builds" tabindex="0">BUILDS<span class="n" id="n-builds"></span></button>
     <button class="stab" data-sub="writing" role="tab" aria-selected="false" id="stab-writing" aria-controls="sub-writing" tabindex="-1">WRITING<span class="n" id="n-writing"></span></button>
     <button class="stab" data-sub="events" role="tab" aria-selected="false" id="stab-events" aria-controls="sub-events" tabindex="-1">EVENTS<span class="n" id="n-events"></span></button>
+    <button class="stab" data-sub="community" role="tab" aria-selected="false" id="stab-community" aria-controls="sub-community" tabindex="-1">COMMUNITY</button>
   </div>
 
   <!-- builds -->
@@ -1059,6 +1060,14 @@ footer{border-top:1px solid var(--line)}
         <h3>Get in touch</h3>
         <p>Interested in having me speak at your event, join a panel, or host a session? <a href="mailto:daniel@4impact.vc" style="color:var(--fg)">Drop me a line</a>.</p>
       </div>
+    </div>
+  </div>
+
+  <!-- community building -->
+  <div class="sub" id="sub-community" role="tabpanel" aria-labelledby="stab-community">
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:320px;text-align:center;border:1px dashed var(--line);padding:64px 24px">
+      <div style="font-size:3rem;margin-bottom:24px;opacity:.4">&#9888;</div>
+      <div style="font-family:var(--mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)">In progress</div>
     </div>
   </div>
 </section>
@@ -1199,7 +1208,7 @@ const BUILDS_OVERRIDES = {
 
 /* contact sheet — the 35mm strip on the bio tab. EDIT captions + swap for real photos. */
 const PHOTOS = [
-  {img:"photos/contact-01.jpg", cap:"somewhere loud"},
+  {img:"photos/machn-leipzig.jpg", cap:"machn festival 2026"},
   {img:"photos/contact-02.jpg", cap:"[ caption ]"},
   {img:"photos/contact-03.jpg", cap:"[ caption ]"},
   {img:"photos/contact-04.jpg", cap:"[ caption ]"},
