@@ -1,29 +1,21 @@
-# danieljpuusitalo — personal site
+# danieljpuusitalo
 
-Single-file personal website. Black & white, editorial identity. v0.5.0, cursor-reactive halftone field, viewfinder cursor, shutter-wipe tabs, negative-film mode.
+Personal website of Daniel Uusitalo. Single-file static site deployed on GitHub Pages.
 
-## Run
+Black & white editorial identity, cursor-reactive halftone field, viewfinder cursor, shutter-wipe tabs, negative-film mode. No framework, no build step, no dependencies except Google Fonts.
 
-Open `index.html` in a browser. That's it — no build, no install.
+## Run locally
 
-## Edit
+Open `index.html` in a browser. No install, no build.
 
-Content lives in JS arrays at the bottom of `index.html` (`WRITING`, `EVENTS`, `BUILDS`, `PHOTOS`) plus `EDIT:`-marked HTML for static copy. Full conventions and recipes: **CLAUDE.md** (also read automatically by Claude Code).
+## Edit content
 
-## Continue with Claude Code
-
-```
-cd <this folder>
-git init && git add . && git commit -m "v0.4.0"
-claude
-```
-
-Claude Code reads `CLAUDE.md` on start and will know the architecture, design rules, and roadmap. Suggested first prompts: "add my latest article to the wire", "swap the contact sheet to photos in ./photos", "wire BUILDS to my public GitHub repos".
+All content lives in JS arrays at the bottom of `index.html`: `WRITING`, `EVENTS`, `BUILDS`, `PHOTOS`. Edit the arrays, refresh the browser. Full conventions in `CLAUDE.md`.
 
 ## Deploy
 
-Drag `index.html` into [Netlify Drop](https://app.netlify.com/drop), or push to GitHub and enable Pages.
+Hosted via GitHub Pages from the `master` branch root. Pushes to `master` deploy automatically.
 
 ## Keys
 
-`1` `2` `3` tabs · `G` grid · `F` flash · `D` negative mode · `←` `→` lightbox nav · `Esc` close
+`1` `2` `3` tabs | `G` grid | `F` flash | `D` negative mode | `<` `>` lightbox nav | `Esc` close

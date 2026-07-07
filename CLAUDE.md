@@ -41,6 +41,7 @@ Concise, data-anchored, Nordic-humility-with-an-edge. No self-aggrandizing first
 - **Add an event**: add to `EVENTS`. `img` accepts a URL or local path (`photos/x.jpg`). `tmpl:true` renders the dashed placeholder card.
 - **Add a build**: add to `BUILDS`. `gh` URL makes the card a link.
 - **Swap photos**: currently hotlinking Daniel's public Gravatar gallery. Long-term: create a `photos/` folder, drop originals (color is fine — CSS converts), update paths in `PHOTOS`/`EVENTS`/bio `<figure>`s.
+- **Bump version**: the version string lives in 3 places — update all three when releasing: (1) the `<!-- v0.x.x -->` comment near line 5, (2) the hero `.meta` span `V0.x.x`, and (3) the footer `V0.x.x` line. Search for the current version to find them.
 - **Commit log**: `CFG.GITHUB_USER = "danieljpuusitalo"`. Pulls public push events from the GitHub API on load; falls back to labelled `DEMO_COMMITS` when there are none. No token, no server.
 
 ## Facts already verified (don't re-research)

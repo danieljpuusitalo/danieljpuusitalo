@@ -332,7 +332,6 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .constellation{width:100%;margin-bottom:20px}
 .constellation svg{width:100%;height:auto;display:block}
 .constellation .stop{cursor:crosshair}
-.constellation .stop:hover .clbl{fill:var(--dim)}
 .route-tip{
   position:fixed;z-index:200;pointer-events:none;
   background:var(--bg);border:1px solid var(--line);padding:14px 18px;
@@ -496,6 +495,20 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .ev .role{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg);border:1px solid var(--faint);padding:3px 8px;display:inline-block}
 .ev.tmpl{border-style:dashed;color:var(--faint)}
 .ev.tmpl h3{color:var(--faint)}
+/* no-photo typographic placeholder for events */
+.ev-nophoto{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  background:var(--card);position:relative;
+}
+.ev-nophoto::before,.ev-nophoto::after{
+  content:'';position:absolute;width:18px;height:18px;border-color:var(--faint);border-style:solid;
+}
+.ev-nophoto::before{top:12px;left:12px;border-width:1px 0 0 1px}
+.ev-nophoto::after{bottom:12px;right:12px;border-width:0 1px 1px 0}
+.ev-initials{
+  font-family:var(--mono);font-size:2.2rem;font-weight:700;letter-spacing:.2em;
+  color:var(--faint);text-transform:uppercase;
+}
 .affil{display:flex;flex-wrap:wrap;gap:10px}
 
 /* lightbox with prev/next */
@@ -744,8 +757,8 @@ footer{border-top:1px solid var(--line)}
         <img src="photos/portrait.jpg" alt="Daniel Uusitalo" loading="lazy">
         <figcaption class="tag">IMG/01 / portrait</figcaption>
       </figure>
-      <figure class="photo r32" data-cap="Techarena Zero, Stockholm 2025">
-        <img src="photos/bio-techarena.jpg" alt="Daniel speaking at Techarena Zero, Stockholm" loading="lazy">
+      <figure class="photo r32" data-cap="Techarena Zero, Stockholm 2026">
+        <img src="photos/bio-techarena.jpg" alt="Daniel speaking at Techarena Zero, Stockholm 2026" loading="lazy">
         <figcaption class="tag">IMG/02 / techarena zero</figcaption>
       </figure>
     </div>
@@ -911,9 +924,9 @@ footer{border-top:1px solid var(--line)}
   <h2 class="bigline reveal dev">BUILT, <span class="hollow">WRITTEN</span>,<br>SAID OUT LOUD.</h2>
 
   <div class="subtabs" role="tablist">
-    <button class="stab active" data-sub="builds" aria-selected="true">BUILDS<span class="n" id="n-builds"></span></button>
-    <button class="stab" data-sub="writing" aria-selected="false">WRITING<span class="n" id="n-writing"></span></button>
-    <button class="stab" data-sub="events" aria-selected="false">EVENTS<span class="n" id="n-events"></span></button>
+    <button class="stab active" data-sub="builds" role="tab" aria-selected="true">BUILDS<span class="n" id="n-builds"></span></button>
+    <button class="stab" data-sub="writing" role="tab" aria-selected="false">WRITING<span class="n" id="n-writing"></span></button>
+    <button class="stab" data-sub="events" role="tab" aria-selected="false">EVENTS<span class="n" id="n-events"></span></button>
   </div>
 
   <!-- builds -->
@@ -1006,9 +1019,9 @@ const WRITING = [
 
 /* events — img: local path or URL. url: links the card to a source */
 const EVENTS = [
-  {d:"JUN 2025", city:"LEIPZIG, DE", name:"Machn Festival", role:"SPEAKER",
+  {d:"JUN 2026", city:"LEIPZIG, DE", name:"Machn Festival", role:"SPEAKER",
    img:"photos/machn-leipzig.jpg", url:"https://www.machn.co"},
-  {d:"MAY 2025", city:"STOCKHOLM, SE", name:"Techarena Zero", role:"SPEAKER",
+  {d:"MAY 2026", city:"STOCKHOLM, SE", name:"Techarena Zero", role:"SPEAKER",
    img:"photos/techarena-zero-stockholm.jpg", url:"https://www.techarena.se"},
   {d:"APR 2025", city:"AMSTERDAM, NL", name:"PitchXL 2025", role:"INVESTOR JURY",
    img:"photos/pitchxl-jury.jpg", url:"https://lu.ma/pitchxl"},
@@ -1036,8 +1049,8 @@ const EVENTS = [
 
 /* event checklist — auto-crossout: dates in YYYY-MM-DD for comparison */
 const EVENT_CHECKLIST = [
-  {name:"Machn Festival, Leipzig", date:"2025-06-05", display:"5 Jun 2025"},
-  {name:"Techarena Zero, Stockholm", date:"2025-05-28", display:"28 May 2025"},
+  {name:"Machn Festival, Leipzig", date:"2026-06-04", display:"3–4 Jun 2026"},
+  {name:"Techarena Zero, Stockholm", date:"2026-05-28", display:"28 May 2026"},
   {name:"The Drop, Malmo", date:"2026-09-15", display:"15 Sep 2026"},
   {name:"TechBBQ, Copenhagen", date:"2026-08-26", display:"26 Aug 2026"},
   {name:"Slush, Helsinki", date:"2026-11-18", display:"18 Nov 2026"}
@@ -1050,7 +1063,7 @@ const BUILDS = [
    tags:["internal tool","diligence","0\u21921"], gh:""},
   {num:"PRJ/02 / LIVE", name:"HuurHel",
    desc:"Unverified reviews helping renters make semi-informed decisions about Dutch rental properties. Search by address, read what others experienced.",
-   tags:["react","supabase","leaflet"], gh:"https://github.com/danieljpuusitalo/huurhel"},
+   tags:["react","supabase","leaflet"], gh:"https://www.huurhel.nl/"}, /* product URL — repo is private */
   {num:"PRJ/03 / LIVE", name:"FloatNote",
    desc:"Always-on-top floating notepad for Windows. Frameless, transparent, auto-saves, global hotkey, system tray. Multiple windows, dark mode, markdown-ready.",
    tags:["electron","desktop","utility"], gh:"https://github.com/danieljpuusitalo/FloatNote"},
@@ -1193,12 +1206,14 @@ function fireFlash(){
   setTimeout(()=>d.remove(), 420);
 }
 
-/* ── clock + day/week meta (CET) ────────────────────────────────── */
+/* ── clock + day/week meta ──────────────────────────────────────── */
 (function clock(){
   const el = document.getElementById('clock');
   const fmt = new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Amsterdam',
     weekday:'short',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  const tick = ()=> el.textContent = fmt.format(new Date()).replace(/,/g,'').toUpperCase()+' CET';
+  const tzFmt = new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Amsterdam',timeZoneName:'short'});
+  const getTZ = ()=>{ const p = tzFmt.formatToParts(new Date()); const tz = p.find(x=>x.type==='timeZoneName'); return tz ? tz.value : ''; };
+  const tick = ()=> el.textContent = fmt.format(new Date()).replace(/,/g,'').toUpperCase()+' '+getTZ();
   tick(); setInterval(tick,1000);
   const now = new Date();
   const doy = Math.ceil((now - new Date(now.getFullYear(),0,0)) / 864e5);
@@ -1281,6 +1296,7 @@ const wipe = document.getElementById('wipe');
   tabs.forEach(t=>t.addEventListener('click',()=>go(t.dataset.panel)));
   addEventListener('keydown',e=>{
     if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
+    if(e.metaKey||e.ctrlKey||e.altKey) return;
     if(e.key==='1') go('bio'); if(e.key==='2') go('work'); if(e.key==='3') go('projects');
     if(e.key.toLowerCase()==='g') document.body.classList.toggle('show-grid');
     if(e.key.toLowerCase()==='f') fireFlash();
@@ -1359,9 +1375,12 @@ function renderWire(){
     d.className = 'ev spot'+(ev.tmpl?' tmpl':'');
     const cap = `${ev.name}, ${ev.city}`;
     const gi = ev.img ? regPhoto(ev.img, cap) : -1;
+    /* no-photo state: typographic card with oversized mono initials + corner brackets */
+    const initials = ev.name.split(/\s+/).map(w=>w[0]).join('').toUpperCase().slice(0,3);
+    const noPhoto = `<div class="ev-nophoto"><span class="ev-initials">${initials}</span></div>`;
     d.innerHTML =
-      `<figure class="photo r1610" data-gi="${gi}" data-cap="${cap}">${ev.img?`<img src="${ev.img}" alt="${ev.name}" loading="lazy" decoding="async">`:''}
-         <figcaption class="tag">${ev.img?'PHOTO':'DROP PHOTO'}</figcaption></figure>`+
+      `<figure class="photo r1610" data-gi="${gi}" data-cap="${cap}">${ev.img?`<img src="${ev.img}" alt="${ev.name}" loading="lazy" decoding="async">`:noPhoto}
+         <figcaption class="tag">${ev.img?'PHOTO':''}</figcaption></figure>`+
       `<div class="ev-body"><div class="ev-meta"><span>${ev.d}</span><span>${ev.city}</span></div>`+
       `<h3>${ev.name}</h3><span class="role">${ev.role}</span></div>`;
     box.appendChild(d);
@@ -1464,7 +1483,11 @@ document.addEventListener('click', e=>{
   const ph = e.target.closest('.photo, .frame');
   if(!ph || ph.closest('#lb')) return;
   const gi = parseInt(ph.dataset.gi, 10);
-  if(gi >= 0 && GALLERY[gi]) openLb(gi);
+  if(gi >= 0 && GALLERY[gi]){
+    /* if the photo sits inside an <a> (e.g. event cards), prevent the link navigation */
+    if(ph.closest('a')){ e.preventDefault(); e.stopPropagation(); }
+    openLb(gi);
+  }
 });
 
 /* ── spotlight + magnetic buttons ───────────────────────────────── */
