@@ -12,7 +12,7 @@
 <title>daniel uusitalo</title>
 <meta name="description" content="Investor at 4impact capital, The Hague. Writing, side-builds, and the occasional stage.">
 <meta property="og:title" content="daniel uusitalo">
-<meta property="og:description" content="Investor at 4impact capital. Writing, side-builds, and the occasional stage.">
+<meta property="og:description" content="Investor at 4impact capital, The Hague. Writing, side-builds, and the occasional stage.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%230a0a0a'/><path fill='%23f4f4f1' d='M10 10h14v3H13v11h-3zM40 10h14v14h-3V13H40zM10 40h3v11h11v3H10zM51 40h3v14H40v-3h11z'/><circle cx='32' cy='32' r='5' fill='%23f4f4f1'/></svg>">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Daniel Uusitalo",
@@ -333,18 +333,16 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 
 .tracks{border-top:1px solid var(--line);margin-bottom:64px}
 .track-row{
-  display:grid;grid-template-columns:80px 280px 1fr 30px;gap:24px;
+  display:grid;grid-template-columns:80px 280px 1fr;gap:24px;
   padding:26px 12px;border-bottom:1px solid var(--line);
   transition:background .15s,color .15s;align-items:baseline;
 }
-.track-row .go{font-family:var(--mono);opacity:0;transform:translateX(-8px);transition:all .2s}
 .track-row:hover{background:var(--fg);color:var(--bg)}
 .track-row:hover .tnum,.track-row:hover .tdesc{color:var(--bg)}
-.track-row:hover .go{opacity:1;transform:none}
 .tnum{font-family:var(--mono);font-size:12px;color:var(--faint)}
 .tname{font-weight:900;text-transform:uppercase;font-size:1.25rem;letter-spacing:-.01em}
 .tdesc{color:var(--dim);font-size:.95rem;line-height:1.6}
-@media(max-width:860px){.track-row{grid-template-columns:1fr;gap:6px;padding:20px 8px}.track-row .go{display:none}}
+@media(max-width:860px){.track-row{grid-template-columns:1fr;gap:6px;padding:20px 8px}}
 
 .themes{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:64px}
 .chip{
@@ -611,7 +609,7 @@ footer{border-top:1px solid var(--line)}
         <figcaption class="tag">IMG/01 / portrait</figcaption>
       </figure>
       <figure class="photo r32" data-cap="Field notes">
-        <img src="https://0.gravatar.com/userimage/262846558/1ab2f41ff4988980e621332d6c39cd99?size=1024" alt="" loading="lazy">
+        <img src="https://0.gravatar.com/userimage/262846558/1ab2f41ff4988980e621332d6c39cd99?size=1024" alt="Field notes" loading="lazy">
         <figcaption class="tag">IMG/02 / field notes</figcaption>
       </figure>
     </div>
@@ -659,25 +657,21 @@ footer{border-top:1px solid var(--line)}
       <span class="tnum">TRK/01</span>
       <span class="tname">Sourcing</span>
       <span class="tdesc">Thesis-driven coverage of the Nordics: radar, market maps, and a standing coffee rotation through Helsinki, Stockholm, Oslo and Copenhagen.</span>
-      <span class="go">&rarr;</span>
     </div>
     <div class="track-row">
       <span class="tnum">TRK/02</span>
       <span class="tname">Execution</span>
       <span class="tdesc">Deal execution from first meeting through investment committee. Coordinating due diligence workstreams, financial modelling, and structuring.</span>
-      <span class="go">&rarr;</span>
     </div>
     <div class="track-row">
       <span class="tnum">TRK/03</span>
       <span class="tname">Portfolio</span>
-      <span class="tdesc">Closest to <a href="https://www.exnaton.com" target="_blank" rel="noopener">Exnaton</a>, <a href="https://greenshift.com" target="_blank" rel="noopener">GreenShift</a>, <a href="https://www.carbonequity.com" target="_blank" rel="noopener">Carbon Equity</a>, <a href="https://www.ourmind.nl" target="_blank" rel="noopener">OurMind</a> and <a href="https://www.infotiles.com" target="_blank" rel="noopener">InfoTiles</a>. Board support, follow-ons, check-ins.</span>
-      <span class="go">&rarr;</span>
+      <span class="tdesc">Closest to <a href="https://www.exnaton.com" target="_blank" rel="noopener">Exnaton</a>, <a href="https://greenshift.app" target="_blank" rel="noopener">GreenShift</a>, <a href="https://www.carbonequity.com" target="_blank" rel="noopener">Carbon Equity</a>, <a href="https://www.ourmind.nl" target="_blank" rel="noopener">OurMind</a> and <a href="https://www.infotiles.com" target="_blank" rel="noopener">InfoTiles</a>. Board support, follow-ons, check-ins.</span>
     </div>
     <div class="track-row">
       <span class="tnum">TRK/04</span>
       <span class="tname">Comms</span>
       <span class="tdesc">Newsletters, website, PR and social media.</span>
-      <span class="go">&rarr;</span>
     </div>
   </div>
 
@@ -1019,11 +1013,16 @@ const FINE = matchMedia('(pointer: fine)').matches;
     ring.classList.toggle('shoot', !!p);
     ring.classList.toggle('link', !!t && !p);
   });
+  let cRaf=null;
   (function loop(){
     rx += (x-rx)*.16; ry += (y-ry)*.16;
     ring.style.left=rx+'px'; ring.style.top=ry+'px';
-    requestAnimationFrame(loop);
+    cRaf=requestAnimationFrame(loop);
   })();
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.hidden){ cancelAnimationFrame(cRaf); cRaf=null; }
+    else if(!cRaf)(function loop(){rx+=(x-rx)*.16;ry+=(y-ry)*.16;ring.style.left=rx+'px';ring.style.top=ry+'px';cRaf=requestAnimationFrame(loop);})();
+  });
   document.addEventListener('mouseleave', ()=>{ dot.style.opacity=0; ring.style.opacity=0; });
   document.addEventListener('mouseenter', ()=>{ dot.style.opacity=1; ring.style.opacity=1; });
 })();
@@ -1097,7 +1096,7 @@ function fireFlash(){
 
 /* ── name strip ─────────────────────────────────────────────────── */
 (function strip(){
-  const names = ['MONITOR DELOITTE','ERNST & YOUNG','NORDEA','HELEN VENTURES','4IMPACT CAPITAL','AALTO UNIVERSITY','BRUNEL UNIVERSITY','MIT'];
+  const names = ['MONITOR DELOITTE','ERNST & YOUNG','NORDEA','HELEN VENTURES','4IMPACT CAPITAL','AALTO UNIVERSITY','BRUNEL UNIVERSITY'];
   const s = names.map(n=>`<span style="margin:0 .6em">${n}</span>`).join('&middot;') + '&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;&nbsp;';
   document.getElementById('strip-t').innerHTML = s + s;
 })();
@@ -1296,6 +1295,7 @@ let lbIdx = -1;
 function showLb(){
   const g = GALLERY[lbIdx]; if(!g) return;
   document.getElementById('lb-img').src = g.src;
+  document.getElementById('lb-img').alt = g.cap || 'Photo';
   document.getElementById('lb-cap').textContent = g.cap || '-';
   document.getElementById('lb-i').textContent =
     String(lbIdx+1).padStart(2,'0')+'/'+String(GALLERY.length).padStart(2,'0');
