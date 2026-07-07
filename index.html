@@ -60,7 +60,7 @@ body.negative .photo img,body.negative .frame img,body.negative #lb img{
   filter:grayscale(1) contrast(1.2) brightness(1.05) invert(1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scrollbar-color:var(--faint) var(--bg)}
 body{
   background:var(--bg);color:var(--fg);
   font-family:var(--disp);font-weight:500;
@@ -69,6 +69,8 @@ body{
 }
 ::selection{background:var(--fg);color:var(--bg)}
 a{color:inherit;text-decoration:none}
+.tdesc a,.now-card p a,.bio-copy a,.h-row .role a{border-bottom:1px solid var(--faint)}
+.tdesc a:hover,.now-card p a:hover,.bio-copy a:hover,.h-row .role a:hover{border-bottom-color:var(--fg)}
 .hero,main,footer,.strip{position:relative;z-index:1}
 
 /* ═══ 02 · FIELD / OVERLAYS (canvas, grain, grid, flash, wipe) ══════ */
@@ -162,7 +164,7 @@ body.cursor-on #cur,body.cursor-on #curR{display:block}
   padding:14px 24px;font-family:var(--mono);font-size:11px;
   letter-spacing:.08em;color:var(--dim);
   background:linear-gradient(var(--bg) 60%,transparent);
-  text-transform:uppercase;
+  text-transform:uppercase;font-variant-numeric:tabular-nums;
 }
 .topbar .brand{color:var(--fg);font-weight:700}
 .topbar .right{display:flex;gap:20px;align-items:center}
@@ -247,7 +249,7 @@ main{max-width:1280px;margin:0 auto;padding:0 24px}
 .plabel::after{content:" ]";color:var(--dim)}
 .bigline{
   font-size:clamp(1.9rem,4.6vw,3.9rem);font-weight:800;line-height:1.04;
-  letter-spacing:-.025em;text-transform:uppercase;max-width:1000px;margin-bottom:56px;
+  letter-spacing:-.025em;text-transform:uppercase;max-width:1000px;margin-bottom:56px;text-wrap:balance;
 }
 .bigline .hollow{color:transparent;-webkit-text-stroke:1.5px var(--fg)}
 .reveal{opacity:0;transform:translateY(22px);transition:all .6s cubic-bezier(.2,.7,.3,1)}
@@ -269,7 +271,7 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 /* ═══ 06 · BIO ══════════════════════════════════════════════════════ */
 .bio-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;margin-bottom:64px}
 @media(max-width:860px){.bio-grid{grid-template-columns:1fr;gap:40px}}
-.bio-copy p{font-size:1.06rem;line-height:1.75;color:var(--dim);margin-bottom:1.3em;max-width:560px}
+.bio-copy p{font-size:1.06rem;line-height:1.75;color:var(--dim);margin-bottom:1.3em;max-width:560px;text-wrap:pretty}
 .bio-copy p b{color:var(--fg);font-weight:700}
 
 /* photos — auto B/W + flash vignette + halftone that clears on hover; click = lightbox */
@@ -292,6 +294,7 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
   background-size:auto,5px 5px;
 }
 .photo:hover::after{opacity:.3}
+@media(hover:none){.photo::after{opacity:.35}}
 .photo .tag{
   position:absolute;bottom:10px;left:10px;z-index:2;
   font-family:var(--mono);font-size:10px;letter-spacing:.14em;
@@ -302,9 +305,9 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 
 .facts{
   display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  border:1px solid var(--line);margin-bottom:64px;
+  gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:64px;
 }
-.fact{padding:20px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.fact{padding:20px;background:var(--bg)}
 .fact .k{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px}
 .fact .v{font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.02em}
 
@@ -346,6 +349,11 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 @media(max-width:700px){
   .constellation{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .constellation svg{min-width:640px}
+  .constellation::after{
+    content:"[ DRAG \2192 ]";display:block;text-align:center;
+    font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);padding:8px 0 0;
+  }
 }
 
 /* ═══ 07 · WORK ═════════════════════════════════════════════════════ */
@@ -359,6 +367,7 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .now-card p{color:var(--dim);line-height:1.7;font-size:1rem}
 .now-card p b{color:var(--fg)}
 .fund-facts{font-family:var(--mono);font-size:12px;line-height:2.2;color:var(--dim)}
+.fund-facts div{display:grid;grid-template-columns:96px 1fr}
 .fund-facts .k{color:var(--dim)}
 .fund-facts .v{color:var(--fg)}
 
@@ -410,9 +419,9 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .sub-note{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;margin-bottom:24px}
 
 /* builds */
-.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0;border:1px solid var(--line);margin-bottom:48px}
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:48px}
 .proj{
-  padding:32px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:32px;background:var(--bg);
   display:flex;flex-direction:column;gap:16px;min-height:280px;
   transition:background .15s,color .15s;position:relative;
 }
@@ -494,6 +503,8 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .ev h3{font-size:1.15rem;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;line-height:1.15;margin-bottom:8px}
 .ev .role{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg);border:1px solid var(--faint);padding:3px 8px;display:inline-block}
 .ev.tmpl{border-style:dashed;color:var(--faint)}
+@media(min-width:700px){.ev.feat{grid-column:span 2}}
+.ev.feat h3{font-size:1.45rem}
 .ev.tmpl h3{color:var(--faint)}
 /* no-photo typographic placeholder for events */
 .ev-nophoto{
@@ -518,7 +529,9 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 }
 body.negative #lb{background:rgba(242,242,239,.97)}
 #lb.open{display:flex}
-#lb figure{max-width:min(1100px,94vw)}
+#lb figure{max-width:min(1100px,94vw);opacity:0;transform:scale(.98);transition:opacity .15s ease,transform .15s ease}
+#lb.open figure{opacity:1;transform:scale(1)}
+@media(prefers-reduced-motion:reduce){#lb figure{transition:none}}
 #lb img{width:100%;max-height:78vh;object-fit:contain;filter:grayscale(1) contrast(1.2) brightness(1.05)}
 #lb figcaption{
   display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:14px;
@@ -566,6 +579,14 @@ footer{border-top:1px solid var(--line)}
   transition:top .15s ease;
 }
 .skip-link:focus{top:14px}
+.rule{border-top:1px solid var(--line);margin:32px 0}
+.checklist{font-family:var(--mono);font-size:12px;letter-spacing:.06em;margin-bottom:32px;border:1px dashed var(--line);padding:20px 24px;background:var(--card)}
+.cl-row{display:flex;gap:12px;align-items:baseline;padding:6px 0}
+.cl-row.past{text-decoration:line-through;color:var(--faint)}
+.cl-row.upcoming{color:var(--fg)}
+.cl-label{font-size:10px;letter-spacing:.14em;color:var(--dim);min-width:90px}
+.cl-tag{font-size:10px;letter-spacing:.14em;color:var(--dim)}
+:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
@@ -618,18 +639,19 @@ footer{border-top:1px solid var(--line)}
 <section class="hero">
   <!-- Constellation: equirectangular cos(50°). Finnish cluster 5× local expansion. -->
   <div class="constellation" aria-label="Living route constellation">
-    <svg viewBox="0 0 1300 320" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <svg viewBox="0 0 1300 240" xmlns="http://www.w3.org/2000/svg" fill="none">
       <defs>
         <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
           <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
-        <radialGradient id="vign" cx="60%" cy="50%" r="58%">
+        <radialGradient id="vign" cx="60%" cy="50%" r="48%">
           <stop offset="0%" stop-color="white" stop-opacity="1"/>
-          <stop offset="65%" stop-color="white" stop-opacity=".9"/>
+          <stop offset="50%" stop-color="white" stop-opacity=".85"/>
+          <stop offset="85%" stop-color="white" stop-opacity=".3"/>
           <stop offset="100%" stop-color="white" stop-opacity="0"/>
         </radialGradient>
-        <mask id="fade"><rect width="1300" height="320" fill="url(#vign)"/></mask>
+        <mask id="fade"><rect width="1300" height="240" fill="url(#vign)"/></mask>
       </defs>
       <style>
         .clbl{font-family:var(--mono);font-weight:500;letter-spacing:.12em;text-transform:uppercase;transition:fill .2s}
@@ -801,18 +823,18 @@ footer{border-top:1px solid var(--line)}
   <div class="now-card reveal spot">
     <div>
       <div class="status">&#9632; CURRENT</div>
-      <h3>Investor<br><a href="https://4impact.vc" target="_blank" rel="noopener" style="border-bottom:1px solid var(--faint)">4impact capital</a></h3>
+      <h3>Investor<br><a href="https://4impact.vc" target="_blank" rel="noopener">4impact capital</a></h3>
       <p>Software-focused impact VC out of the Netherlands, backing <b>pre-seed to
       Series&nbsp;A</b> across Benelux, DACH and the Nordics. My focus: deal work
       from first call to closing, Nordic sourcing, portfolio support and
       communications.</p>
     </div>
     <div class="fund-facts">
-      <div><span class="k">AUM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="v">&euro;84M</span></div>
-      <div><span class="k">LABEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="v">SFDR Article 9</span></div>
-      <div><span class="k">CHEQUES&nbsp;&nbsp;&nbsp;</span> <span class="v">&euro;250k &ndash; &euro;2.5M</span> initial + reserves</div>
-      <div><span class="k">PORTFOLIO&nbsp;</span> <span class="v">25+ companies</span></div>
-      <div><span class="k">NORDICS&nbsp;&nbsp;&nbsp;</span> <span class="v">&euro;20M+</span> earmarked</div>
+      <div><span class="k">AUM</span> <span class="v">&euro;84M</span></div>
+      <div><span class="k">LABEL</span> <span class="v">SFDR Article 9</span></div>
+      <div><span class="k">CHEQUES</span> <span class="v">&euro;250k &ndash; &euro;2.5M</span> initial + reserves</div>
+      <div><span class="k">PORTFOLIO</span> <span class="v">25+ companies</span></div>
+      <div><span class="k">NORDICS</span> <span class="v">&euro;20M+</span> earmarked</div>
     </div>
   </div>
 
@@ -847,51 +869,51 @@ footer{border-top:1px solid var(--line)}
     <span class="chip">Natural capital</span>
     <span class="chip">Equity &amp; inclusion</span>
     <span class="chip">Health &amp; wellbeing</span>
-    <span class="chip">Digital sovereignty</span>
-    <span class="chip">Physical AI</span>
+    <span class="chip live">Digital sovereignty</span>
+    <span class="chip live">Physical AI</span>
   </div>
 
   <div class="plabel">02 / RECORD</div>
   <div class="history reveal">
     <div class="h-row">
       <span class="yr">NOW</span>
-      <span class="role">Investor, <a href="https://4impact.vc" target="_blank" rel="noopener" style="border-bottom:1px solid var(--faint)">4impact capital</a>
+      <span class="role">Investor, <a href="https://4impact.vc" target="_blank" rel="noopener">4impact capital</a>
         <small>Backing Carbon Equity, Satelligence, Deftpower, Equalture and many more.</small></span>
       <span class="st">&#9632; current</span>
     </div>
     <div class="h-row">
       <span class="yr">PREV</span>
-      <span class="role">Investor, <a href="https://www.helen.fi" target="_blank" rel="noopener" style="border-bottom:1px solid var(--faint)">Helen Ventures</a>
+      <span class="role">Investor, <a href="https://www.helen.fi" target="_blank" rel="noopener">Helen Ventures</a>
         <small>Energy-focused CVC, early backer of Enspired, Gradyent, Virta, LiveEO.</small></span>
       <span class="st">&#9633; archive</span>
     </div>
     <div class="h-row">
       <span class="yr">PREV</span>
-      <span class="role">Strategy Consultant, <a href="https://www.deloitte.com/na/en/services/consulting/services/monitor-deloitte.html" target="_blank" rel="noopener" style="border-bottom:1px solid var(--faint)">Monitor Deloitte</a>
+      <span class="role">Strategy Consultant, <a href="https://www.deloitte.com/na/en/services/consulting/services/monitor-deloitte.html" target="_blank" rel="noopener">Monitor Deloitte</a>
         <small>Organic growth and strategy for industrials in the Nordics.</small></span>
       <span class="st">&#9633; archive</span>
     </div>
     <div class="h-row">
       <span class="yr">PREV</span>
-      <span class="role">Organiser, <a href="https://www.nodus.aalto.fi" target="_blank" rel="noopener" style="border-bottom:1px solid var(--faint)">Nodus Sustainable Design Research Group</a>
+      <span class="role">Organiser, <a href="https://www.nodus.aalto.fi" target="_blank" rel="noopener">Nodus Sustainable Design Research Group</a>
         <small>Organising events at the intersection of design and sustainability.</small></span>
       <span class="st">&#9633; archive</span>
     </div>
     <div class="h-row">
       <span class="yr">PREV</span>
-      <span class="role">Risk Manager, <a href="https://www.nordea.com" target="_blank" rel="noopener" style="border-bottom:1px solid var(--faint)">Nordea</a>
+      <span class="role">Risk Manager, <a href="https://www.nordea.com" target="_blank" rel="noopener">Nordea</a>
         <small>Non-financial risk during a global crisis.</small></span>
       <span class="st">&#9633; archive</span>
     </div>
     <div class="h-row">
       <span class="yr">PREV</span>
-      <span class="role">Consultant, <a href="https://www.ey.com" target="_blank" rel="noopener" style="border-bottom:1px solid var(--faint)">Ernst &amp; Young</a>
+      <span class="role">Consultant, <a href="https://www.ey.com" target="_blank" rel="noopener">Ernst &amp; Young</a>
         <small>Transforming industrial companies into operational and sustainability champions.</small></span>
       <span class="st">&#9633; archive</span>
     </div>
   </div>
 
-  <div style="border-top:1px solid var(--line);margin:32px 0"></div>
+  <div class="rule"></div>
 
   <div class="plabel">02 / AFFILIATIONS</div>
   <div class="history reveal">
@@ -908,7 +930,7 @@ footer{border-top:1px solid var(--line)}
     </div>
   </div>
 
-  <div style="border-top:1px solid var(--line);margin:32px 0"></div>
+  <div class="rule"></div>
 
   <div class="plabel">02 / EDUCATION</div>
   <div class="history reveal">
@@ -964,12 +986,12 @@ footer{border-top:1px solid var(--line)}
   <!-- events -->
   <div class="sub" id="sub-events" role="tabpanel" aria-labelledby="stab-events">
     <div class="sub-note">speaking, hosting, panels and interviews</div>
-    <div id="event-checklist" class="reveal" style="font-family:var(--mono);font-size:12px;letter-spacing:.06em;margin-bottom:32px;border:1px dashed var(--line);padding:20px 24px;background:var(--card)"></div>
+    <div id="event-checklist" class="reveal checklist"></div>
     <div class="ev-grid" id="events-grid"></div>
     <div class="now-card reveal spot" style="grid-template-columns:1fr;text-align:center;padding:48px">
       <div>
         <h3>Get in touch</h3>
-        <p>Interested in having me speak at your event, join a panel, or host a session? <a href="mailto:daniel@4impact.vc" style="color:var(--fg);border-bottom:1px solid var(--faint)">Drop me a line</a>.</p>
+        <p>Interested in having me speak at your event, join a panel, or host a session? <a href="mailto:daniel@4impact.vc" style="color:var(--fg)">Drop me a line</a>.</p>
       </div>
     </div>
   </div>
@@ -1038,7 +1060,7 @@ const EVENTS = [
   {d:"MAR 2025", city:"TIRANA, AL", name:"Slush'd Tirana", role:"SPEAKER",
    img:"photos/slushd-tirana.jpg", url:"https://slush.org"},
   {d:"JAN 2025", city:"DAVOS, CH", name:"WEF Annual Meeting 2025", role:"DAVOS50 DELEGATE",
-   img:"photos/wef-2025.jpg", url:"https://www.weforum.org/events/world-economic-forum-annual-meeting-2025/"},
+   img:"photos/wef-2025.jpg", url:"https://www.weforum.org/events/world-economic-forum-annual-meeting-2025/", feat:true},
   {d:"JAN 2025", city:"DAVOS, CH", name:"Der Brutkasten", role:"INTERVIEW",
    img:"photos/der-brutkasten-interview.jpg", url:"https://brutkasten.com"},
   {d:"2025", city:"ONLINE", name:"The Startup Club", role:"INTERVIEW",
@@ -1409,7 +1431,7 @@ function renderWire(){
     const isLink = ev.url;
     const d = document.createElement(isLink ? 'a' : 'div');
     if(isLink){ d.href=ev.url; d.target='_blank'; d.rel='noopener'; }
-    d.className = 'ev spot'+(ev.tmpl?' tmpl':'');
+    d.className = 'ev spot'+(ev.tmpl?' tmpl':'')+(ev.feat?' feat':'');
     const cap = `${ev.name}, ${ev.city}`;
     const gi = ev.img ? regPhoto(ev.img, cap) : -1;
     /* no-photo state: typographic card with oversized mono initials + corner brackets */
@@ -1433,13 +1455,12 @@ function renderWire(){
   box.innerHTML = EVENT_CHECKLIST.map(ev=>{
     const past = ev.date <= today;
     const check = past ? '&#9745;' : '&#9744;';
-    const style = past ? 'text-decoration:line-through;color:var(--faint)' : 'color:var(--fg)';
     const label = past ? 'DONE' : 'UPCOMING';
-    return `<div style="display:flex;gap:12px;align-items:baseline;padding:6px 0;${style}">
+    return `<div class="cl-row ${past?'past':'upcoming'}">
       <span>${check}</span>
       <span style="flex:1">${ev.name}</span>
-      <span style="font-size:10px;letter-spacing:.14em;color:var(--dim);min-width:90px">${ev.display}</span>
-      <span style="font-size:10px;letter-spacing:.14em;color:var(--dim)">${label}</span>
+      <span class="cl-label">${ev.display}</span>
+      <span class="cl-tag">${label}</span>
     </div>`;
   }).join('');
 })();
@@ -1461,7 +1482,7 @@ function renderWire(){
   const cta = document.createElement('div');
   cta.className='proj';
   cta.style.cssText='display:flex;align-items:center;justify-content:center;text-align:center;border-style:dashed;min-height:280px';
-  cta.innerHTML = `<div><h3 style="font-size:1.2rem;margin-bottom:12px">Interested?</h3><p class="pdesc" style="max-width:240px;margin:0 auto">Want to learn more about any of these projects? <a href="mailto:daniel@4impact.vc" style="color:var(--fg);border-bottom:1px solid var(--faint)">Get in touch</a>.</p></div>`;
+  cta.innerHTML = `<div><h3 style="font-size:1.2rem;margin-bottom:12px">Interested?</h3><p class="pdesc" style="max-width:240px;margin:0 auto">Want to learn more about any of these projects? <a href="mailto:daniel@4impact.vc" style="color:var(--fg)">Get in touch</a>.</p></div>`;
   box.appendChild(cta);
   document.getElementById('n-builds').textContent = `(${BUILDS.filter(b=>!b.tmpl).length})`;
 })();
