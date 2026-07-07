@@ -725,10 +725,21 @@ footer{border-top:1px solid var(--line)}
         <small>Transforming industrial companies into operational and sustainability champions.</small></span>
       <span class="st">&#9633; archive</span>
     </div>
+  </div>
+
+  <div style="border-top:1px solid var(--line);margin:32px 0"></div>
+
+  <div class="plabel">INDEX / AFFILIATIONS</div>
+  <div class="history reveal">
     <div class="h-row">
       <span class="yr">AFFIL</span>
       <span class="role">Climate Reality Leader &middot; Contributing writer &middot; ex-Global Shaper
         <small>The Climate Reality Project. ArcticStartup contributor. World Economic Forum Global Shapers Community.</small></span>
+      <span class="st">&#9632; current</span>
+    </div>
+    <div class="h-row">
+      <span class="yr">MENTOR</span>
+      <span class="role">Red Brick Accelerator &middot; Enactus &middot; The Startup Club</span>
       <span class="st">&#9632; current</span>
     </div>
   </div>
@@ -836,19 +847,20 @@ const CFG = {
 /* writing wire — newest first. src drives the filter chips. */
 const WRITING = [
   {d:"2026.06",    src:"LinkedIn",       type:"ARTICLE",   title:"EU Inc: one small registration, one giant leap for European startups", url:"https://www.linkedin.com/pulse/eu-inc-one-small-registration-giant-leap-european-startups-uusitalo/"},
+  {d:"2026.03",    src:"LinkedIn",       type:"ARTICLE",   title:"The capability you borrow can be taken back", url:"https://www.linkedin.com/pulse/capability-you-borrow-can-taken-back-daniel-uusitalo-ycwge/"},
   {d:"2025.12.19", src:"Impact Loop",    type:"OPED",      title:"Humble Nordic founders are finally getting bolder, now they need to stay that way", url:"https://www.impactloop.com/artikel/humble-nordic-founders-are-finally-getting-bolder-now-they-need-to-stay-that-way"},
   {d:"2025.11",    src:"Impact Loop",    type:"INTERVIEW", title:"Scouting Nordic energy tech: six startups on the radar", url:"https://www.impactloop.com/artikel/daniel-uusitalo-is-scouting-for-nordic-energy-tech-startups-these-6-are-on-his-radar"},
   {d:"2025.10.28", src:"ArcticStartup",  type:"COLUMN",    title:"Building for International Scale from Day One", url:"https://arcticstartup.com/building-for-international-scale-from-day-one/"},
-  {d:"2025.10.19", src:"Medium",         type:"ESSAY",     title:"24 months in VC, minus a few", url:"https://medium.com/@danieljpuusitalo/24-months-in-vc-minus-a-few-116233de85eb"},
+  {d:"2025.10.19", src:"Medium",         type:"BLOG",      title:"24 months in VC, minus a few", url:"https://medium.com/@danieljpuusitalo/24-months-in-vc-minus-a-few-116233de85eb"},
   {d:"2025.06",    src:"LinkedIn",       type:"ARTICLE",   title:"What I look for in a first meeting", url:"https://www.linkedin.com/pulse/what-i-look-first-meeting-daniel-uusitalo/"},
-  {d:"2025.03.31", src:"Medium",         type:"ESSAY",     title:"Attracting International Capital in the New Nordics", url:"https://medium.com/@danieljpuusitalo/attracting-international-capital-in-the-new-nordics-c74e3431825f"},
+  {d:"2025.03.31", src:"Medium",         type:"BLOG",      title:"Attracting International Capital in the New Nordics", url:"https://medium.com/@danieljpuusitalo/attracting-international-capital-in-the-new-nordics-c74e3431825f"},
   {d:"2025.03.31", src:"ArcticStartup",  type:"COLUMN",    title:"Energy tech through the lens of the World Economic Forum", url:"https://arcticstartup.com/energy-tech-through-the-lens-of-of-the-world-economic-forum/"},
   {d:"2025.01",    src:"Der Brutkasten", type:"INTERVIEW", title:"Insights from Davos: the future of European energy tech", url:"https://brutkasten.com/artikel/insights-aus-davos-energy-tech-markt-europa/11"},
-  {d:"2025.01.28", src:"Medium",         type:"ESSAY",     title:"From Davos with Love", url:"https://medium.com/@danieljpuusitalo/from-davos-with-love-66f879d1ca0b"},
+  {d:"2025.01.28", src:"Medium",         type:"BLOG",      title:"From Davos with Love", url:"https://medium.com/@danieljpuusitalo/from-davos-with-love-66f879d1ca0b"},
   {d:"2025",       src:"GeekRoom",       type:"COLUMN",    title:"Beyond Borders: Unlocking Balkan Ambition", url:"https://geekroom.al/en/tech/How-is-the-Balkans%27-new-ambition-developing-beyond-borders/"},
-  {d:"2024.12.26", src:"Medium",         type:"ESSAY",     title:"Useless journaling and its not-so-useless benefits", url:"https://medium.com/@danieljpuusitalo/useless-journaling-and-its-not-so-useless-benefits-fc4d66c10c2c"},
-  {d:"2024.12.13", src:"Medium",         type:"ESSAY",     title:"The rise of energy communities: a new era in local electricity consumption", url:"https://medium.com/@danieljpuusitalo/the-rise-of-energy-communities-a-new-era-in-electricity-consumption-4cafed25451d"},
-  {d:"2024.10.27", src:"Medium",         type:"ESSAY",     title:"12 months in VC", url:"https://medium.com/@danieljpuusitalo/12-months-in-vc-eaab957cd79e"},
+  {d:"2024.12.26", src:"Medium",         type:"BLOG",      title:"Useless journaling and its not-so-useless benefits", url:"https://medium.com/@danieljpuusitalo/useless-journaling-and-its-not-so-useless-benefits-fc4d66c10c2c"},
+  {d:"2024.12.13", src:"Medium",         type:"BLOG",      title:"The rise of energy communities: a new era in local electricity consumption", url:"https://medium.com/@danieljpuusitalo/the-rise-of-energy-communities-a-new-era-in-electricity-consumption-4cafed25451d"},
+  {d:"2024.10.27", src:"Medium",         type:"BLOG",      title:"12 months in VC", url:"https://medium.com/@danieljpuusitalo/12-months-in-vc-eaab957cd79e"},
 ];
 
 /* events — img: local path or URL. checklist items auto-crossout past dates */
@@ -860,7 +872,7 @@ const EVENTS = [
   {d:"APR 2025", city:"AMSTERDAM, NL", name:"PitchXL 2025", role:"INVESTOR JURY",
    img:"photos/pitchXL venture capital jury daniel uusitalo.jpeg"},
   {d:"JAN 2025", city:"DAVOS, CH", name:"WEF Annual Meeting 2025", role:"DAVOS50 DELEGATE",
-   img:"photos/daniel wef.jpg"},
+   img:"photos/wef 2025.jpg"},
   {d:"JAN 2025", city:"DAVOS, CH", name:"Der Brutkasten", role:"INTERVIEW",
    img:"photos/der brutkasten interview thumbnail daniel uusitalo venture capitalist.png"},
   {d:"2025", city:"TIRANA, AL", name:"Slush'd Tirana", role:"SPEAKER",
@@ -870,18 +882,22 @@ const EVENTS = [
   {d:"2025", city:"ONLINE", name:"Nasdaq Ladderworks", role:"INTERVIEW", img:""},
   {d:"2025", city:"ONLINE", name:"Impact Loop, Nordic energy tech", role:"INTERVIEW",
    img:"photos/energy tech nordics thumbnail visual daniel impact loop.jpg"},
-  {d:"2024", city:"HELSINKI, FI", name:"Climate Reality Leadership Summit", role:"DELEGATE", img:""},
-  {d:"2024", city:"HELSINKI, FI", name:"Solve the SDGs Hackathon", role:"HOST", img:""},
-  {d:"2024", city:"LONDON, UK", name:"Abbey Road Studios Hackathon", role:"CO-HOST", img:""}
+  {d:"2024", city:"HELSINKI, FI", name:"Climate Reality Leadership Summit", role:"DELEGATE",
+   img:"photos/climate reality leadership summit 1.jpeg"},
+  {d:"2024", city:"HELSINKI, FI", name:"Solve the SDGs Hackathon", role:"HOST",
+   img:"photos/solve the sdgs hackathon.jpg"},
+  {d:"2024", city:"LONDON, UK", name:"Abbey Road Studios Hackathon", role:"CO-HOST", img:""},
+  {d:"2023", city:"HELSINKI, FI", name:"Nodus Sustainable Design Research Group", role:"HOST",
+   img:"photos/nodus sustainable design research group events.jpeg"}
 ];
 
 /* event checklist — auto-crossout: dates in YYYY-MM-DD for comparison */
 const EVENT_CHECKLIST = [
-  {name:"Machn Festival, Leipzig", date:"2025-06-05", status:"done"},
-  {name:"Techarena Zero, Stockholm", date:"2025-05-28", status:"done"},
-  {name:"The Drop, Malmo", date:"2025-10-01", status:"upcoming"},
-  {name:"TechBBQ, Copenhagen", date:"2025-09-17", status:"upcoming"},
-  {name:"Slush, Helsinki", date:"2025-11-19", status:"upcoming"}
+  {name:"Machn Festival, Leipzig", date:"2025-06-05"},
+  {name:"Techarena Zero, Stockholm", date:"2025-05-28"},
+  {name:"The Drop, Malmo", date:"2026-09-15"},
+  {name:"TechBBQ, Copenhagen", date:"2026-08-26"},
+  {name:"Slush 2026, Helsinki", date:"2026-11-18"}
 ];
 
 /* builds — gh: repo URL if public */
