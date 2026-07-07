@@ -433,6 +433,8 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .pdesc{color:var(--dim);font-size:.95rem;line-height:1.65;flex:1}
 .ptags{display:flex;gap:8px;flex-wrap:wrap;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
 .ptags span{border:1px solid var(--line);padding:4px 8px}
+.pstars{float:right;color:var(--dim);font-variant-numeric:tabular-nums}
+.proj:hover .pstars{color:var(--bg)}
 
 /* commit feed */
 .feedbox{border:1px solid var(--line);background:var(--card);margin-bottom:24px}
@@ -963,7 +965,7 @@ footer{border-top:1px solid var(--line)}
 
   <!-- builds -->
   <div class="sub active" id="sub-builds" role="tabpanel" aria-labelledby="stab-builds">
-    <div class="sub-note">side-builds &amp; internal tooling. public repos surface here when they exist</div>
+    <div class="sub-note">side-builds &amp; internal tooling. public repos surface here when they exist &middot; <span id="builds-mode">STATIC</span></div>
     <div class="proj-grid" id="builds-grid"></div>
 
     <div class="feedbox spot">
@@ -1104,8 +1106,27 @@ const BUILDS = [
    tags:["electron","react","sqlite","ai"], gh:"https://github.com/danieljpuusitalo/nexus"},
   {num:"PRJ/05 / LIVE", name:"This Website",
    desc:"The page you're reading. One HTML file, no framework, no build step. A cursor-reactive dot field, film negatives and a commit log, maintained by editing four arrays.",
-   tags:["single file","design","weekend build"], gh:"https://github.com/danieljpuusitalo"}
+   tags:["single file","design","weekend build"], gh:"https://github.com/danieljpuusitalo/danieljpuusitalo"}
 ];
+
+/* builds overrides — keyed by repo name. Editorial content for known repos.
+   API merges stars/language/recency; these fields win over API-generated content.
+   Repos NOT in this map get auto-generated cards from the API.
+   Repos with no gh URL (Team DD Platform) stay hardcoded in BUILDS only. */
+const BUILDS_OVERRIDES = {
+  'huurhel':          {num:"PRJ/02 / LIVE", name:"HuurHel",
+    desc:"Unverified reviews helping renters make semi-informed decisions about Dutch rental properties. Search by address, read what others experienced.",
+    tags:["react","supabase","leaflet"], url:"https://www.huurhel.nl/", skipApi:true}, /* product URL — repo is private */
+  'FloatNote':        {num:"PRJ/03 / LIVE", name:"FloatNote",
+    desc:"Always-on-top floating notepad for Windows. Frameless, transparent, auto-saves, global hotkey, system tray. Multiple windows, dark mode, markdown-ready.",
+    tags:["electron","desktop","utility"]},
+  'nexus':            {num:"PRJ/04 / LIVE", name:"Nexus",
+    desc:"Local-first personal CRM. Unlimited contacts, BYOK AI copilot, no cloud required. Built for people who take relationships seriously.",
+    tags:["electron","react","sqlite","ai"]},
+  'danieljpuusitalo': {num:"PRJ/05 / LIVE", name:"This Website",
+    desc:"The page you're reading. One HTML file, no framework, no build step. A cursor-reactive dot field, film negatives and a commit log, maintained by editing four arrays.",
+    tags:["single file","design","weekend build"]},
+};
 
 /* contact sheet — the 35mm strip on the bio tab. EDIT captions + swap for real photos. */
 const PHOTOS = [
@@ -1465,15 +1486,18 @@ function renderWire(){
   }).join('');
 })();
 
-/* ── render: builds ─────────────────────────────────────────────── */
-(function renderBuilds(){
+/* ── render: builds — live GitHub API merge with static fallback ── */
+function renderBuildCards(items, live){
   const box = document.getElementById('builds-grid');
-  BUILDS.forEach(b=>{
-    const el = document.createElement(b.gh?'a':'div');
-    if(b.gh){ el.href=b.gh; el.target='_blank'; el.rel='noopener'; }
+  box.innerHTML = '';
+  items.forEach(b=>{
+    const link = b.gh || b.url || '';
+    const el = document.createElement(link?'a':'div');
+    if(link){ el.href=link; el.target='_blank'; el.rel='noopener'; }
     el.className='proj';
     if(b.tmpl) el.style.opacity=.45;
-    el.innerHTML = `<span class="pnum">${b.num}</span><h3>${b.name}</h3>`+
+    const stars = b.stars ? `<span class="pstars">\u2605 ${b.stars}</span>` : '';
+    el.innerHTML = `<span class="pnum">${b.num}${stars}</span><h3>${b.name}</h3>`+
       `<p class="pdesc">${b.desc}</p>`+
       `<div class="ptags">${b.tags.map(t=>`<span>${t}</span>`).join('')}</div>`;
     box.appendChild(el);
@@ -1484,7 +1508,95 @@ function renderWire(){
   cta.style.cssText='display:flex;align-items:center;justify-content:center;text-align:center;border-style:dashed;min-height:280px';
   cta.innerHTML = `<div><h3 style="font-size:1.2rem;margin-bottom:12px">Interested?</h3><p class="pdesc" style="max-width:240px;margin:0 auto">Want to learn more about any of these projects? <a href="mailto:daniel@4impact.vc" style="color:var(--fg)">Get in touch</a>.</p></div>`;
   box.appendChild(cta);
-  document.getElementById('n-builds').textContent = `(${BUILDS.filter(b=>!b.tmpl).length})`;
+  document.getElementById('n-builds').textContent = `(${items.filter(b=>!b.tmpl).length})`;
+  document.getElementById('builds-mode').textContent = live ? 'LIVE / GITHUB' : 'STATIC';
+}
+
+/* static render first (instant, no flash of empty) */
+renderBuildCards(BUILDS, false);
+
+/* then attempt live merge from GitHub API */
+(async function liveBuilds(){
+  if(!CFG.GITHUB_USER) return;
+  try{
+    const r = await fetch(`https://api.github.com/users/${CFG.GITHUB_USER}/repos?sort=pushed&per_page=100`);
+    if(!r.ok) throw 0;
+    const repos = await r.json();
+
+    /* language → readable tag */
+    const langTag = l => l ? l.toLowerCase() : null;
+
+    /* start with hardcoded entries that have no gh URL (internal/private, not on API) */
+    const merged = BUILDS.filter(b => !b.gh);
+
+    /* set of repo names already covered by overrides or hardcoded builds */
+    const seen = new Set(merged.map(b=>b.name));
+
+    /* process each API repo */
+    let autoIdx = Object.keys(BUILDS_OVERRIDES).length + merged.length;
+    repos.forEach(repo => {
+      if(repo.fork) return;                          /* skip forks */
+      const ov = BUILDS_OVERRIDES[repo.name];
+
+      /* skip repos whose override says skipApi (e.g. private repo with product URL) */
+      if(ov && ov.skipApi) return;
+
+      const apiTags = [langTag(repo.language)].filter(Boolean);
+      const pushed = repo.pushed_at ? relTime(repo.pushed_at) : '';
+
+      if(ov){
+        /* override repo: editorial content wins, API adds stars + recency */
+        merged.push({
+          num: ov.num,
+          name: ov.name,
+          desc: ov.desc,
+          tags: ov.tags,
+          gh: ov.url || repo.html_url,
+          stars: repo.stargazers_count || 0,
+          pushed: pushed
+        });
+        seen.add(ov.name);
+      } else {
+        /* auto-discovered repo: generate card from API data */
+        autoIdx++;
+        const autoTags = apiTags.length ? apiTags : ['code'];
+        merged.push({
+          num: `PRJ/${String(autoIdx).padStart(2,'0')} / REPO`,
+          name: repo.name,
+          desc: repo.description || 'Public repository.',
+          tags: autoTags,
+          gh: repo.html_url,
+          stars: repo.stargazers_count || 0,
+          pushed: pushed
+        });
+      }
+    });
+
+    /* add skipApi overrides (like HuurHel with its product URL) */
+    Object.entries(BUILDS_OVERRIDES).forEach(([repoName, ov])=>{
+      if(ov.skipApi && !seen.has(ov.name)){
+        merged.push({
+          num: ov.num, name: ov.name, desc: ov.desc,
+          tags: ov.tags, gh: ov.url || '', stars: 0
+        });
+        seen.add(ov.name);
+      }
+    });
+
+    /* sort: overrides first (by their num), then auto-discovered by push recency */
+    const isOverride = b => Object.values(BUILDS_OVERRIDES).some(o=>o.name===b.name) || BUILDS.some(s=>s.name===b.name);
+    merged.sort((a,b)=>{
+      const ao = isOverride(a), bo = isOverride(b);
+      if(ao && !bo) return -1;
+      if(!ao && bo) return 1;
+      return 0; /* preserve relative order within groups */
+    });
+
+    renderBuildCards(merged, true);
+  }catch{
+    /* rate-limited or offline — static BUILDS already rendered, just confirm status */
+    document.getElementById('builds-mode').textContent = 'STATIC';
+  }
 })();
 
 /* ── render: contact sheet (drag to scroll) ─────────────────────── */
