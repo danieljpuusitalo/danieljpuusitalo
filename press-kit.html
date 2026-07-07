@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0a0a">
+<title>press kit — daniel uusitalo</title>
+<meta name="description" content="Press kit for Daniel Uusitalo, investor at 4impact capital.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%230a0a0a'/><path fill='%23f4f4f1' d='M10 10h14v3H13v11h-3zM40 10h14v14h-3V13H40zM10 40h3v11h11v3H10zM51 40h3v14H40v-3h11z'/><circle cx='32' cy='32' r='5' fill='%23f4f4f1'/></svg>">
+<style>
+:root{
+  --bg:#0a0a0a;
+  --fg:#f4f4f1;
+  --dim:#7d7d78;
+  --faint:#3a3a37;
+  --line:#242422;
+  --card:#0f0f0e;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --disp:'Inter Tight','Helvetica Neue',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--fg);
+  font-family:var(--disp);font-weight:500;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+::selection{background:var(--fg);color:var(--bg)}
+a{color:inherit;text-decoration:none}
+
+.wrap{
+  max-width:760px;margin:0 auto;padding:80px 24px 64px;
+}
+
+/* viewfinder frame */
+.vf{
+  position:relative;padding:48px 40px;margin-bottom:56px;
+}
+.vf::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(var(--fg),var(--fg)) left 0 top 0/24px 2px,
+    linear-gradient(var(--fg),var(--fg)) left 0 top 0/2px 24px,
+    linear-gradient(var(--fg),var(--fg)) right 0 top 0/24px 2px,
+    linear-gradient(var(--fg),var(--fg)) right 0 top 0/2px 24px,
+    linear-gradient(var(--fg),var(--fg)) left 0 bottom 0/24px 2px,
+    linear-gradient(var(--fg),var(--fg)) left 0 bottom 0/2px 24px,
+    linear-gradient(var(--fg),var(--fg)) right 0 bottom 0/24px 2px,
+    linear-gradient(var(--fg),var(--fg)) right 0 bottom 0/2px 24px;
+  background-repeat:no-repeat;
+}
+
+.heading{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:24px;
+}
+
+h1{
+  font-family:var(--disp);font-weight:900;
+  font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:.04em;
+  text-transform:uppercase;line-height:1.1;
+}
+
+.section{margin-bottom:56px}
+.label{
+  font-family:var(--mono);font-size:10px;color:var(--dim);
+  letter-spacing:.18em;text-transform:uppercase;margin-bottom:16px;
+}
+.label::before{content:"[ ";color:var(--dim)}
+.label::after{content:" ]";color:var(--dim)}
+
+.bio{
+  font-size:.95rem;line-height:1.7;color:var(--dim);max-width:640px;
+  user-select:all;margin-bottom:24px;
+}
+.bio b{color:var(--fg);font-weight:700}
+
+.rule{border-top:1px solid var(--line);margin:0 0 56px}
+
+/* headshot */
+.headshot-link{
+  display:inline-block;font-family:var(--mono);font-size:12px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--fg);
+  padding:10px 20px;border:1px solid var(--line);
+  transition:background .2s,color .2s;
+}
+.headshot-link:hover{background:var(--fg);color:var(--bg)}
+
+/* topics */
+.topics{display:flex;flex-direction:column;gap:12px}
+.topic{
+  padding:16px 20px;border:1px solid var(--line);background:var(--card);
+  font-weight:700;font-size:.95rem;text-transform:uppercase;letter-spacing:.03em;
+}
+
+/* back link */
+.back{
+  display:inline-block;font-family:var(--mono);font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
+  border-bottom:1px solid var(--faint);padding-bottom:2px;
+  transition:color .2s,border-color .2s;
+}
+.back:hover{color:var(--fg);border-color:var(--fg)}
+
+/* grain overlay */
+.grain{
+  position:fixed;inset:-50%;width:200%;height:200%;
+  pointer-events:none;z-index:9000;opacity:.055;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 8s steps(10) infinite;
+}
+@keyframes grain{
+  0%,100%{transform:translate(0,0)}10%{transform:translate(-5%,-8%)}
+  30%{transform:translate(4%,-4%)}50%{transform:translate(-6%,6%)}
+  70%{transform:translate(6%,2%)}90%{transform:translate(-3%,4%)}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<div class="wrap">
+  <div class="vf">
+    <div class="heading">PRESS KIT</div>
+    <h1>[ PRESS KIT / DANIEL UUSITALO ]</h1>
+  </div>
+
+  <div class="section">
+    <div class="label">HEADSHOT / B&amp;W</div>
+    <a class="headshot-link" href="photos/portrait.jpg" download="daniel-uusitalo-headshot.jpg">&#8595; Download headshot (JPEG)</a>
+  </div>
+
+  <div class="rule"></div>
+
+  <div class="section">
+    <div class="label">SHORT BIO / 50 WORDS</div>
+    <p class="bio">Daniel Uusitalo is an investor at 4impact capital (&euro;84M AUM, SFDR Art.&nbsp;9), covering pre-seed to Series&nbsp;A software companies across the Nordics, DACH and Benelux. Previously at Helen Ventures (energy CVC). Aalto MSc, Brunel BSc. WEF Davos50 Delegate 2025, Climate Reality Leader. Based in The Hague.</p>
+  </div>
+
+  <div class="section">
+    <div class="label">FULL BIO / 100 WORDS</div>
+    <p class="bio">Daniel Uusitalo is an investor at 4impact capital, a software-focused impact VC based in the Netherlands with &euro;84M under management (SFDR Article&nbsp;9, Fund&nbsp;II closed November 2024 with EIF and Invest-NL as anchor LPs). He covers the Nordics end-to-end: sourcing, deal execution, and portfolio support for companies including Exnaton, GreenShift, Carbon Equity, OurMind and InfoTiles. Before 4impact, he invested in energy tech at Helen Ventures, Helsinki's municipal energy CVC. He holds an MSc from Aalto University and a BSc from Brunel University London. Credentials include WEF Davos50 Delegate 2025, Climate Reality Leader, and WEF Global Shaper (alumnus). He writes on Nordic tech and impact investing for ArcticStartup, Impact Loop and Medium.</p>
+  </div>
+
+  <div class="rule"></div>
+
+  <div class="section">
+    <div class="label">SPEAKING TOPICS</div>
+    <div class="topics">
+      <div class="topic">Nordic Humility, Nordic Ambition</div>
+      <div class="topic">Impact as Underpriced Mainstream</div>
+      <div class="topic">Energy Tech and the European Grid</div>
+      <div class="topic">EU Competitiveness and Founder Sovereignty</div>
+    </div>
+  </div>
+
+  <div class="rule"></div>
+
+  <a class="back" href="./">&larr; [ RETURN TO INDEX ]</a>
+</div>
+</body>
+</html>
