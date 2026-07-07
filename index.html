@@ -390,7 +390,7 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .now-card p{color:var(--dim);line-height:1.7;font-size:1rem}
 .now-card p b{color:var(--fg)}
 .fund-facts{font-family:var(--mono);font-size:12px;line-height:2.2;color:var(--dim)}
-.fund-facts div{display:grid;grid-template-columns:96px 1fr}
+.fund-facts div{display:grid;grid-template-columns:110px 1fr}
 .fund-facts .k{color:var(--dim)}
 .fund-facts .v{color:var(--fg)}
 
@@ -938,9 +938,9 @@ footer{border-top:1px solid var(--line)}
     <div class="fund-facts">
       <div><span class="k">AUM</span> <span class="v">&euro;84M</span></div>
       <div><span class="k">LABEL</span> <span class="v">SFDR Article 9</span></div>
-      <div><span class="k">CHEQUES</span> <span class="v">&euro;250k &ndash; &euro;2.5M</span> initial + reserves</div>
+      <div><span class="k">CHEQUES</span> <span class="v">&euro;250k &ndash; &euro;2.5M initial + reserves</span></div>
       <div><span class="k">PORTFOLIO</span> <span class="v">25+ companies</span></div>
-      <div><span class="k">NORDICS</span> <span class="v">&euro;20M+</span> earmarked</div>
+      <div><span class="k">NORDICS</span> <span class="v">&euro;20M+ earmarked</span></div>
     </div>
   </div>
 
@@ -1021,17 +1021,30 @@ footer{border-top:1px solid var(--line)}
 
   <div class="rule"></div>
 
-  <div class="plabel">02 / AFFILIATIONS</div>
+  <div class="plabel">02 / AFFILIATIONS &amp; MENTORING</div>
   <div class="history reveal">
     <div class="h-row">
-      <span class="yr">AFFIL</span>
-      <span class="role">Climate Reality Leader &middot; Contributing writer &middot; ex-Global Shaper
-        <small>The Climate Reality Project. ArcticStartup contributor. World Economic Forum Global Shapers Community.</small></span>
+      <span class="yr">WRITING</span>
+      <span class="role">ArcticStartup
+        <small>Contributing writer on Nordic startups, energy tech and European competitiveness.</small></span>
       <span class="st">&#9632; current</span>
     </div>
     <div class="h-row">
+      <span class="yr">CLIMATE</span>
+      <span class="role">The Climate Reality Project
+        <small>Trained Climate Reality Leader.</small></span>
+      <span class="st">&#9632; current</span>
+    </div>
+    <div class="h-row">
+      <span class="yr">NETWORK</span>
+      <span class="role">World Economic Forum Global Shapers
+        <small>Davos50 Delegate 2025. Alumni member.</small></span>
+      <span class="st">&#9633; archive</span>
+    </div>
+    <div class="h-row">
       <span class="yr">MENTOR</span>
-      <span class="role">Red Brick Accelerator &middot; Enactus &middot; The Startup Club</span>
+      <span class="role">Red Brick Accelerator &middot; Enactus &middot; The Startup Club
+        <small>Startup mentoring across the Nordics and Benelux.</small></span>
       <span class="st">&#9632; current</span>
     </div>
   </div>
@@ -1139,9 +1152,9 @@ const CFG = {
 
 /* writing wire — newest first. src drives the filter chips. */
 const WRITING = [
+  {d:"2026.06",    src:"LinkedIn",       type:"ARTICLE",   title:"The capability you borrow can be taken back", url:"https://www.linkedin.com/pulse/capability-you-borrow-can-taken-back-daniel-uusitalo-ycwge/"},
   {d:"2026.03",    src:"SeedCue",        type:"INTERVIEW",  title:"Get to a point where you NEED to raise capital", url:"https://www.seedcue.com/post/get-to-a-point-where-you-need-to-raise-capital-daniel-uusitalo-4impact-capital"},
   {d:"2026.03",    src:"Impact Loop",    type:"INTERVIEW",  title:"EU-Inc proposal draws mixed response from impact investors: \u2018On paper, this looks great\u2019", url:"https://impactloop.com/article/eu-inc-proposal-gets-mixed-reactions-from-impact-investors-on-paper-this-looks-great"},
-  {d:"2026.03",    src:"LinkedIn",       type:"ARTICLE",   title:"The capability you borrow can be taken back", url:"https://www.linkedin.com/pulse/capability-you-borrow-can-taken-back-daniel-uusitalo-ycwge/"},
   {d:"2025.12",    src:"Impact Loop",    type:"OPED",      title:"Humble Nordic founders are finally getting bolder, now they need to stay that way", url:"https://www.impactloop.com/artikel/humble-nordic-founders-are-finally-getting-bolder-now-they-need-to-stay-that-way"},
   {d:"2025.11",    src:"Impact Loop",    type:"INTERVIEW", title:"Scouting Nordic energy tech: six startups on the radar", url:"https://www.impactloop.com/artikel/daniel-uusitalo-is-scouting-for-nordic-energy-tech-startups-these-6-are-on-his-radar"},
   {d:"2025.10",    src:"ArcticStartup",  type:"COLUMN",    title:"Building for International Scale from Day One", url:"https://arcticstartup.com/building-for-international-scale-from-day-one/"},
@@ -1182,7 +1195,7 @@ const EVENTS = [
   {d:"MAY 2024", city:"HELSINKI, FI", name:"Solve the SDGs Hackathon", role:"HOST",
    img:"photos/solve-sdgs-hackathon.jpg", url:""},
   {d:"2023", city:"LONDON, UK", name:"Abbey Road Studios Hackathon", role:"CO-HOST",
-   img:"", url:""},
+   img:"photos/abbey-road-hackathon.jpg", url:""},
   {d:"2023", city:"HELSINKI, FI", name:"Nodus Sustainable Design Research Group", role:"HOST",
    img:"photos/nodus-research-group.jpg", url:"https://www.nodus.aalto.fi"}
 ];
