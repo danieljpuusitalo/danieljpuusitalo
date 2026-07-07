@@ -1,6 +1,6 @@
 # CLAUDE.md — danieljpuusitalo personal site
 
-Personal website of Daniel Uusitalo (Associate @ 4impact capital, The Hague; leads Nordic sourcing; writes publicly). Single-file static site, currently v0.5.0 ("the flash field").
+Personal website of Daniel Uusitalo (Associate @ 4impact capital, The Hague; leads Nordic sourcing; writes publicly). Single-file static site, currently v0.5.0.
 
 ## Architecture — non-negotiables
 
@@ -11,11 +11,11 @@ Personal website of Daniel Uusitalo (Associate @ 4impact capital, The Hague; lea
 
 ## Design language (retain in every change)
 
-Norrsken-adjacent editorial black/white with a flash-photography identity, deliberately NOT a terminal/OS persona (an earlier draft drifted too close to komulainen.org — do not reintroduce boot sequences, `~$` prompts, `cat`/`grep` labels, or "cold DM" jokes):
+Norrsken-adjacent editorial black/white, deliberately NOT a terminal/OS persona (an earlier draft drifted too close to komulainen.org, do not reintroduce boot sequences, `~$` prompts, `cat`/`grep` labels, or "cold DM" jokes):
 
 - Section labels: mono, bracketed — `[ FILE 01 / BIO ]`, `[ INDEX / RECORD ]`.
 - Status glyphs: `■ current` / `□ archive` (not ●/○).
-- Photos: auto-B/W + flash vignette + viewfinder corner brackets + halftone screen that clears on hover; click opens the lightbox (prev/next, arrow keys).
+- Photos: auto-B/W + vignette + viewfinder corner brackets + halftone screen that clears on hover; click opens the lightbox (prev/next, arrow keys).
 - Camera-flash intro (once per session). Keys: `[1][2][3]` tabs, `[G]` grid, `[F]` re-fire flash, `[D]` negative-film mode.
 - Hover state everywhere: invert to white bg / black text. `.spot` cards get a cursor-following spotlight.
 - Big type: Inter Tight 800/900 uppercase, tight tracking, `.hollow` = outlined text. Hero name stays modest in size — Daniel vetoed the oversized version. Headlines carry `.reveal.dev` and develop blur→sharp like a photo.
@@ -59,5 +59,5 @@ Netlify Drop or GitHub Pages (repo root, `index.html` is the entry). No config n
 
 1. Live GitHub wiring beyond the commit log — public repos auto-populating `BUILDS`.
 2. Writing wire from RSS/APIs (Medium RSS exists; ArcticStartup/Impact Loop likely scraping or manual) — a small fetch script or GitHub Action generating a `writing.json` would fit the no-build philosophy better than client-side scraping.
-3. Real photo set (party/flash shots) replacing Gravatar hotlinks.
+3. Real photo set replacing Gravatar hotlinks.
 4. OG image, custom domain, real career-history years.

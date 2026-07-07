@@ -1,6 +1,6 @@
 # danieljpuusitalo — personal site
 
-Single-file personal website. Black & white, editorial, flash-photography identity. v0.5.0 "the flash field" — cursor-reactive halftone field, viewfinder cursor, shutter-wipe tabs, negative-film mode.
+Single-file personal website. Black & white, editorial identity. v0.5.0, cursor-reactive halftone field, viewfinder cursor, shutter-wipe tabs, negative-film mode.
 
 ## Run
 
