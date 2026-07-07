@@ -35,7 +35,8 @@
  ],
  "knowsAbout":["venture capital","impact investing","energy technology","Nordic startups","SFDR Article 9","European competitiveness","pre-seed investing","climate tech"],
  "sameAs":["https://www.linkedin.com/in/danieljpuusitalo","https://github.com/danieljpuusitalo",
-           "https://medium.com/@danieljpuusitalo","https://x.com/Daniel_Uusitalo"]}
+           "https://medium.com/@danieljpuusitalo","https://x.com/Daniel_Uusitalo",
+           "https://www.crunchbase.com/person/daniel-uusitalo"]}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1116,6 +1117,7 @@ footer{border-top:1px solid var(--line)}
       <a href="https://medium.com/@danieljpuusitalo" target="_blank" rel="noopener">Medium &nearr;</a>
       <a href="https://x.com/Daniel_Uusitalo" target="_blank" rel="noopener">X &nearr;</a>
       <a href="https://4impact.vc" target="_blank" rel="noopener">4impact capital &nearr;</a>
+      <a href="https://www.crunchbase.com/person/daniel-uusitalo" target="_blank" rel="noopener">Crunchbase &nearr;</a>
     </div>
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. One file, no trackers</span>
@@ -1137,17 +1139,18 @@ const CFG = {
 
 /* writing wire — newest first. src drives the filter chips. */
 const WRITING = [
-  {d:"2026.03",    src:"Impact Loop",    type:"INTERVIEW",  title:"EU Inc: one small registration, one giant leap for European startups", url:"https://impactloop.com/article/eu-inc-proposal-gets-mixed-reactions-from-impact-investors-on-paper-this-looks-great"},
+  {d:"2026.03",    src:"SeedCue",        type:"INTERVIEW",  title:"Get to a point where you NEED to raise capital", url:"https://www.seedcue.com/post/get-to-a-point-where-you-need-to-raise-capital-daniel-uusitalo-4impact-capital"},
+  {d:"2026.03",    src:"Impact Loop",    type:"INTERVIEW",  title:"EU-Inc proposal draws mixed response from impact investors: \u2018On paper, this looks great\u2019", url:"https://impactloop.com/article/eu-inc-proposal-gets-mixed-reactions-from-impact-investors-on-paper-this-looks-great"},
   {d:"2026.03",    src:"LinkedIn",       type:"ARTICLE",   title:"The capability you borrow can be taken back", url:"https://www.linkedin.com/pulse/capability-you-borrow-can-taken-back-daniel-uusitalo-ycwge/"},
   {d:"2025.12",    src:"Impact Loop",    type:"OPED",      title:"Humble Nordic founders are finally getting bolder, now they need to stay that way", url:"https://www.impactloop.com/artikel/humble-nordic-founders-are-finally-getting-bolder-now-they-need-to-stay-that-way"},
   {d:"2025.11",    src:"Impact Loop",    type:"INTERVIEW", title:"Scouting Nordic energy tech: six startups on the radar", url:"https://www.impactloop.com/artikel/daniel-uusitalo-is-scouting-for-nordic-energy-tech-startups-these-6-are-on-his-radar"},
   {d:"2025.10",    src:"ArcticStartup",  type:"COLUMN",    title:"Building for International Scale from Day One", url:"https://arcticstartup.com/building-for-international-scale-from-day-one/"},
   {d:"2025.10",    src:"Medium",         type:"BLOG",      title:"24 months in VC, minus a few", url:"https://medium.com/@danieljpuusitalo/24-months-in-vc-minus-a-few-116233de85eb"},
-  {d:"2025.06",    src:"LinkedIn",       type:"ARTICLE",   title:"What I look for in a first meeting", url:"https://www.linkedin.com/pulse/what-i-look-first-meeting-daniel-uusitalo/"},
-  {d:"2025.03",    src:"Medium",         type:"BLOG",      title:"Attracting International Capital in the New Nordics", url:"https://medium.com/@danieljpuusitalo/attracting-international-capital-in-the-new-nordics-c74e3431825f"},
+  {d:"2025.03",    src:"Platform6",      type:"BLOG",      title:"Attracting International Capital in the New Nordics", url:"https://platform6.fi/article/attracting-international-capital-in-the-new-nordics/"},
   {d:"2025.03",    src:"ArcticStartup",  type:"COLUMN",    title:"Energy tech through the lens of the World Economic Forum", url:"https://arcticstartup.com/energy-tech-through-the-lens-of-of-the-world-economic-forum/"},
   {d:"2025.01",    src:"Der Brutkasten", type:"INTERVIEW", title:"Insights from Davos: the future of European energy tech", url:"https://brutkasten.com/artikel/insights-aus-davos-energy-tech-markt-europa/11"},
   {d:"2025.01",    src:"Medium",         type:"BLOG",      title:"From Davos with Love", url:"https://medium.com/@danieljpuusitalo/from-davos-with-love-66f879d1ca0b"},
+  {d:"2025",       src:"The Startup Club", type:"INTERVIEW", title:"Investor & Advisor with Daniel Uusitalo", url:"https://www.thestartupclub.net/post/investor-advisor-with-daniel-uusitalo"},
   {d:"2025",       src:"GeekRoom",       type:"COLUMN",    title:"Beyond Borders: Unlocking Balkan Ambition", url:"https://geekroom.al/en/tech/How-is-the-Balkans%27-new-ambition-developing-beyond-borders/"},
   {d:"2024.12",    src:"Medium",         type:"BLOG",      title:"Useless journaling and its not-so-useless benefits", url:"https://medium.com/@danieljpuusitalo/useless-journaling-and-its-not-so-useless-benefits-fc4d66c10c2c"},
   {d:"2024.12",    src:"Medium",         type:"BLOG",      title:"The rise of energy communities: a new era in local electricity consumption", url:"https://medium.com/@danieljpuusitalo/the-rise-of-energy-communities-a-new-era-in-electricity-consumption-4cafed25451d"},
@@ -1167,11 +1170,11 @@ const EVENTS = [
   {d:"JAN 2025", city:"DAVOS, CH", name:"WEF Annual Meeting 2025", role:"DAVOS50 DELEGATE",
    img:"photos/wef-2025.jpg", url:"https://www.weforum.org/events/world-economic-forum-annual-meeting-2025/", feat:true},
   {d:"JAN 2025", city:"DAVOS, CH", name:"Der Brutkasten", role:"INTERVIEW",
-   img:"photos/der-brutkasten-interview.jpg", url:"https://brutkasten.com"},
+   img:"photos/der-brutkasten-interview.jpg", url:"https://brutkasten.com", feat:true},
   {d:"2025", city:"ONLINE", name:"The Startup Club", role:"INTERVIEW",
    img:"photos/startup-club-interview.jpg", url:"https://www.thestartupclub.net"},
   {d:"2025", city:"ONLINE", name:"Nasdaq Ladderworks", role:"INTERVIEW",
-   img:"", url:"https://www.nasdaq.com"},
+   img:"photos/nasdaq-ladderworks.jpg", url:"https://www.nasdaq.com"},
   {d:"NOV 2024", city:"ONLINE", name:"Impact Loop, Nordic energy tech", role:"INTERVIEW",
    img:"photos/energy-tech-nordics.jpg", url:"https://impactloop.com"},
   {d:"SEP 2024", city:"HELSINKI, FI", name:"Climate Reality Leadership Summit", role:"DELEGATE",
@@ -1190,7 +1193,9 @@ const EVENT_CHECKLIST = [
   {name:"Techarena Zero, Stockholm", date:"2026-05-28", display:"28 May 2026"},
   {name:"The Drop, Malmo", date:"2026-09-15", display:"15 Sep 2026"},
   {name:"TechBBQ, Copenhagen", date:"2026-08-26", display:"26 Aug 2026"},
-  {name:"Slush, Helsinki", date:"2026-11-18", display:"18 Nov 2026"}
+  {name:"Slush, Helsinki", date:"2026-11-18", display:"18 Nov 2026"},
+  {name:"Techarena, Stockholm", date:"2026-02-11", display:"11 Feb 2026"},
+  {name:"GoWest, Gothenburg", date:"2026-01-28", display:"28 Jan 2026"}
 ];
 
 /* builds — gh: repo URL if public */
