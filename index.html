@@ -161,8 +161,8 @@ body.cursor-on #cur,body.cursor-on #curR{display:block}
 
 /* ═══ 04 · HERO ═════════════════════════════════════════════════════ */
 .hero{
-  min-height:92svh;display:flex;flex-direction:column;
-  justify-content:flex-end;padding:96px 24px 0;
+  min-height:auto;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:72px 24px 0;
   max-width:1280px;margin:0 auto;width:100%;
 }
 .hero .meta{
@@ -316,6 +316,27 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .frame img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.25) brightness(1.02);transition:transform .25s ease}
 .frame:hover img{transform:scale(1.05)}
 .frame .fcap{font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:.16em;text-transform:uppercase;margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* constellation route */
+.constellation{width:100%;margin-bottom:20px}
+.constellation svg{width:100%;height:auto;display:block}
+.constellation .stop{cursor:crosshair}
+.constellation .stop:hover .clbl{fill:var(--dim)}
+.route-tip{
+  position:fixed;z-index:200;pointer-events:none;
+  background:var(--bg);border:1px solid var(--line);padding:14px 18px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--dim);
+  max-width:240px;opacity:0;transition:opacity .15s;line-height:2;
+}
+.route-tip.show{opacity:1}
+.route-tip .tip-city{color:var(--fg);font-weight:700;font-size:11px;display:block;margin-bottom:4px}
+.route-tip .tip-k{color:var(--faint)}
+.route-tip .tip-v{color:var(--fg)}
+@media(max-width:700px){
+  .constellation{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .constellation svg{min-width:640px}
+}
 
 /* ═══ 07 · WORK ═════════════════════════════════════════════════════ */
 .now-card{
@@ -559,7 +580,107 @@ footer{border-top:1px solid var(--line)}
 </header>
 
 <!-- ═══ HERO ═══ -->
+<div class="route-tip" id="route-tip"></div>
 <section class="hero">
+  <!-- Constellation: equirectangular cos(50°). Finnish cluster 5× local expansion. -->
+  <div class="constellation" aria-label="Living route constellation">
+    <svg viewBox="0 0 1300 320" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <defs>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <radialGradient id="vign" cx="60%" cy="50%" r="58%">
+          <stop offset="0%" stop-color="white" stop-opacity="1"/>
+          <stop offset="65%" stop-color="white" stop-opacity=".9"/>
+          <stop offset="100%" stop-color="white" stop-opacity="0"/>
+        </radialGradient>
+        <mask id="fade"><rect width="1300" height="320" fill="url(#vign)"/></mask>
+      </defs>
+      <style>
+        .clbl{font-family:var(--mono);font-weight:500;letter-spacing:.12em;text-transform:uppercase;transition:fill .2s}
+        .stop:hover .clbl{fill:var(--fg)}
+      </style>
+
+      <!-- faded landmasses for geographic orientation -->
+      <g mask="url(#fade)" fill="var(--line)" stroke="var(--faint)" stroke-width=".5" opacity=".3">
+        <!-- US East Coast -->
+        <path d="M43,341 L44,332 L34,321 L38,320 L48,305 L52,300 L60,282 L63,281 L82,280 L84,276 L89,271 L103,265 L104,269 L97,271 L92,262 L97,258 L101,254 L103,248 L106,244 L124,240 L137,234 L148,237 L152,246 L175,236 L215,221 L237,243 L160,310 L43,366 Z"/>
+        <!-- Europe mainland: Iberia → France → Benelux → Denmark, closed through central Europe -->
+        <path d="M774,302 L781,275 L782,265 L777,256 L780,252 L802,247 L818,248 L838,249 L860,251 L863,227 L866,219 L854,207 L826,199 L841,191 L859,192 L867,180 L881,182 L897,165 L917,161 L927,155 L932,143 L956,136 L968,133 L975,122 L970,115 L969,104 L969,97 L986,92 L996,95 L993,110 L985,118 L988,123 L1000,129 L1014,130 L1028,129 L1037,133 L1070,165 L1080,196 L1065,215 L1035,225 L1013,230 L985,225 L957,218 L946,228 L913,243 L880,258 L857,260 L835,288 L774,302 Z"/>
+        <!-- Great Britain -->
+        <path d="M818,176 L824,173 L841,173 L852,170 L865,168 L880,168 L895,164 L898,154 L894,147 L883,142 L881,138 L879,135 L866,125 L862,121 L860,112 L852,102 L856,93 L842,81 L824,82 L815,90 L819,104 L826,111 L821,118 L829,123 L842,123 L846,139 L834,144 L821,156 L833,159 L846,163 L824,170 Z"/>
+        <!-- Ireland -->
+        <path d="M770,152 L764,137 L769,129 L785,119 L799,117 L814,119 L819,128 L813,139 L813,152 L801,155 L785,159 L772,159 Z"/>
+        <!-- Scandinavia: Norway → Sweden → Finland (west coast widened for cluster) -->
+        <path d="M935,49 L939,61 L943,77 L963,87 L980,82 L999,66 L1003,77 L1010,91 L1020,109 L1021,116 L1037,116 L1052,100 L1057,84 L1062,73 L1069,57 L1088,39 L1107,26 L1118,32 L1118,43 L1085,55 L1083,64 L1123,63 L1156,63 L1184,72 L1206,63 L1201,43 L1190,21 L1101,-24 L1035,-24 L990,21 L952,38 L941,43 Z"/>
+        <!-- Italy -->
+        <path d="M975,239 L990,243 L996,256 L1004,261 L1018,267 L1024,275 L1037,278 L1046,285 L1053,300 L1058,308 L1062,300 L1069,293 L1085,286 L1068,275 L1058,268 L1051,265 L1037,261 L1030,248 L1019,242 L1016,237 L1031,224 L1002,227 L982,227 Z"/>
+        <!-- Sicily -->
+        <path d="M1024,308 L1028,309 L1048,308 L1049,320 L1035,321 L1018,312 Z"/>
+      </g>
+
+      <!-- route path (3× Finnish expansion from center 1136,62) -->
+      <path d="M1097,56 L1106,56 L1094,65
+               Q480,340 60,280
+               Q600,-30 1187,65
+               L1062,196 L879,160 L1196,68 L928,153"
+            stroke="var(--dim)" stroke-width="1.5" stroke-dasharray="6 8"/>
+
+      <!-- stops -->
+      <g filter="url(#glow)">
+        <!-- 01 Naantali  60.47°N 22.03°E  true:(1123,60) -->
+        <g class="stop" data-stop="0">
+          <circle cx="1097" cy="56" r="4.5" fill="var(--fg)"/>
+          <text class="clbl" x="1083" y="49" text-anchor="end" font-size="11" fill="var(--dim)">Naantali</text>
+        </g>
+        <!-- 02 Turku  60.45°N 22.27°E  true:(1126,60) -->
+        <g class="stop" data-stop="1">
+          <circle cx="1106" cy="56" r="4.5" fill="var(--fg)"/>
+          <text class="clbl" x="1120" y="52" font-size="11" fill="var(--dim)">Turku</text>
+        </g>
+        <!-- 03 Nauvo  60.19°N 21.91°E  true:(1122,63) -->
+        <g class="stop" data-stop="2">
+          <circle cx="1094" cy="65" r="4.5" fill="var(--fg)"/>
+          <text class="clbl" x="1080" y="73" text-anchor="end" font-size="11" fill="var(--dim)">Nauvo</text>
+        </g>
+        <!-- 04 NYC  40.71°N 74.01°W -->
+        <g class="stop" data-stop="3">
+          <circle cx="60" cy="280" r="4.5" fill="var(--fg)"/>
+          <text class="clbl" x="78" y="275" font-size="11" fill="var(--dim)">New York</text>
+        </g>
+        <!-- 05 Espoo  60.21°N 24.66°E  true:(1153,63) -->
+        <g class="stop" data-stop="4">
+          <circle cx="1187" cy="65" r="4.5" fill="var(--fg)"/>
+          <text class="clbl" x="1187" y="83" text-anchor="middle" font-size="11" fill="var(--dim)">Espoo</text>
+        </g>
+        <!-- 06 Vienna  48.21°N 16.37°E -->
+        <g class="stop" data-stop="5">
+          <circle cx="1062" cy="196" r="4.5" fill="var(--fg)"/>
+          <text class="clbl" x="1080" y="192" font-size="11" fill="var(--dim)">Vienna</text>
+        </g>
+        <!-- 07 London  51.51°N 0.13°W -->
+        <g class="stop" data-stop="6">
+          <circle cx="879" cy="160" r="4.5" fill="var(--fg)"/>
+          <text class="clbl" x="863" y="153" text-anchor="end" font-size="11" fill="var(--dim)">London</text>
+        </g>
+        <!-- 08 Helsinki  60.17°N 24.94°E  true:(1156,64) -->
+        <g class="stop" data-stop="7">
+          <circle cx="1196" cy="68" r="4.5" fill="var(--fg)"/>
+          <text class="clbl" x="1210" y="65" font-size="11" fill="var(--dim)">Helsinki</text>
+        </g>
+        <!-- 09 Den Haag  52.08°N 4.30°E (current) -->
+        <g class="stop" data-stop="8">
+          <circle cx="928" cy="153" r="6" fill="var(--fg)"/>
+          <circle cx="928" cy="153" r="6" fill="var(--fg)" opacity=".3">
+            <animate attributeName="r" values="6;22;6" dur="2.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values=".3;0;.3" dur="2.5s" repeatCount="indefinite"/>
+          </circle>
+          <text class="clbl" x="948" y="149" font-size="11" fill="var(--fg)" font-weight="700">Den Haag</text>
+        </g>
+      </g>
+    </svg>
+  </div>
   <div class="meta">
     <span>PERSONAL SITE / V0.5.0</span>
     <span>HEL &rarr; NYC &rarr; VIE &rarr; LON &rarr; DEN HAAG</span>
@@ -1411,6 +1532,41 @@ function runFeed(commits, live){
 
 /* ── initial stagger for default subtab ─────────────────────────── */
 goSub('builds');
+
+/* ── route constellation tooltip ───────────────────────────────────── */
+(function routeTip(){
+  const tip = document.getElementById('route-tip');
+  if(!tip) return;
+  const stops = [
+    {city:"Naantali, Finland",elev:"10 m",pop:"19,200",note:"Archipelago town on Finland's SW coast"},
+    {city:"Turku, Finland",elev:"10 m",pop:"202,000",note:"Finland's oldest city, former medieval capital"},
+    {city:"Nauvo, Finland",elev:"5 m",pop:"1,500",note:"Island municipality in the Turku archipelago"},
+    {city:"New York City, USA",elev:"10 m",pop:"8,260,000",note:"Five boroughs, 800+ languages spoken"},
+    {city:"Espoo, Finland",elev:"30 m",pop:"304,000",note:"Finland's second city, home of Aalto University"},
+    {city:"Vienna, Austria",elev:"171 m",pop:"2,000,000",note:"Imperial capital on the Danube"},
+    {city:"London, United Kingdom",elev:"11 m",pop:"8,800,000",note:"Global financial centre on the Thames"},
+    {city:"Helsinki, Finland",elev:"10 m",pop:"665,000",note:"Baltic capital, design and tech hub"},
+    {city:"Den Haag, Netherlands",elev:"1 m",pop:"553,000",note:"City of peace and justice, seat of government"},
+  ];
+  document.querySelectorAll('.constellation .stop').forEach(g=>{
+    const i = parseInt(g.dataset.stop);
+    const s = stops[i]; if(!s) return;
+    g.addEventListener('mouseenter', ()=>{
+      tip.innerHTML =
+        `<span class="tip-city">${String(i+1).padStart(2,'0')} / ${s.city}</span>`+
+        `<span class="tip-k">ELEV </span><span class="tip-v">${s.elev}</span><br>`+
+        `<span class="tip-k">POP  </span><span class="tip-v">${s.pop}</span><br>`+
+        `<span class="tip-k">     </span>${s.note}`;
+      tip.classList.add('show');
+    });
+    g.addEventListener('mousemove', e=>{
+      const x = e.clientX+16;
+      tip.style.left = (x+240>innerWidth ? e.clientX-256 : x)+'px';
+      tip.style.top = (e.clientY-10)+'px';
+    });
+    g.addEventListener('mouseleave', ()=>tip.classList.remove('show'));
+  });
+})();
 </script>
 </body>
 </html>
