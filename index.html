@@ -664,19 +664,19 @@ footer{border-top:1px solid var(--line)}
     <div class="track-row">
       <span class="tnum">TRK/02</span>
       <span class="tname">Execution</span>
-      <span class="tdesc">First call &rarr; debrief &rarr; IC memo &rarr; financial model. The unglamorous middle of a deal, done properly.</span>
+      <span class="tdesc">Deal execution from first meeting through investment committee. Coordinating due diligence workstreams, financial modelling, and structuring.</span>
       <span class="go">&rarr;</span>
     </div>
     <div class="track-row">
       <span class="tnum">TRK/03</span>
       <span class="tname">Portfolio</span>
-      <span class="tdesc">Closest to Exnaton, GreenShift, Carbon Equity and InfoTiles. Board support, follow-ons, check-ins.</span>
+      <span class="tdesc">Closest to <a href="https://www.exnaton.com" target="_blank" rel="noopener">Exnaton</a>, <a href="https://greenshift.com" target="_blank" rel="noopener">GreenShift</a>, <a href="https://www.carbonequity.com" target="_blank" rel="noopener">Carbon Equity</a>, <a href="https://www.ourmind.nl" target="_blank" rel="noopener">OurMind</a> and <a href="https://www.infotiles.com" target="_blank" rel="noopener">InfoTiles</a>. Board support, follow-ons, check-ins.</span>
       <span class="go">&rarr;</span>
     </div>
     <div class="track-row">
       <span class="tnum">TRK/04</span>
       <span class="tname">Comms</span>
-      <span class="tdesc">Monthly LP letters, the 4impact Insights community newsletter, LinkedIn and the fund website.</span>
+      <span class="tdesc">Newsletters, website, PR and social media.</span>
       <span class="go">&rarr;</span>
     </div>
   </div>
@@ -689,8 +689,8 @@ footer{border-top:1px solid var(--line)}
     <span class="chip">Natural capital</span>
     <span class="chip">Equity &amp; inclusion</span>
     <span class="chip">Health &amp; wellbeing</span>
-    <span class="chip live">Digital sovereignty</span>
-    <span class="chip live">Physical AI</span>
+    <span class="chip">Digital sovereignty</span>
+    <span class="chip">Physical AI</span>
   </div>
 
   <div class="plabel">INDEX / RECORD</div>
@@ -698,7 +698,8 @@ footer{border-top:1px solid var(--line)}
     <!-- EDIT: years + add roles as you like -->
     <div class="h-row">
       <span class="yr">NOW</span>
-      <span class="role">Associate, 4impact capital</span>
+      <span class="role">Investor, 4impact capital
+        <small>Backing Carbon Equity, Satelligence, Deftpower, Equalture and many more.</small></span>
       <span class="st">&#9632; current</span>
     </div>
     <div class="h-row">
@@ -709,14 +710,18 @@ footer{border-top:1px solid var(--line)}
     </div>
     <div class="h-row">
       <span class="yr">EDU</span>
-      <span class="role">Aalto University, MSc Econ &amp; Business
-        <small>BSc International Business, Brunel University London.</small></span>
+      <span class="role">Aalto University, MSc Economics &amp; Business</span>
+      <span class="st">&#9633; archive</span>
+    </div>
+    <div class="h-row">
+      <span class="yr">EDU</span>
+      <span class="role">Brunel University London, BSc International Business</span>
       <span class="st">&#9633; archive</span>
     </div>
     <div class="h-row">
       <span class="yr">AFFIL</span>
-      <span class="role">WEF Global Shaper &middot; Climate Reality Leader
-        <small>Davos50 Delegate, World Economic Forum Annual Meeting 2025. Contributor, ArcticStartup.</small></span>
+      <span class="role">Climate Reality Leader &middot; Contributing writer &middot; ex-Global Shaper
+        <small>The Climate Reality Project. ArcticStartup contributor. World Economic Forum Global Shapers Community.</small></span>
       <span class="st">&#9632; current</span>
     </div>
   </div>
@@ -758,14 +763,20 @@ footer{border-top:1px solid var(--line)}
 
   <!-- events -->
   <div class="sub" id="sub-events">
-    <div class="sub-note">stages, delegations &amp; field trips. photos open full-frame</div>
+    <div class="sub-note">speaking, hosting, panels and interviews</div>
+    <div class="facts reveal" style="margin-bottom:32px">
+      <div class="fact spot"><div class="k">RECENT</div><div class="v">Machn Festival, Leipzig</div></div>
+      <div class="fact spot"><div class="k">RECENT</div><div class="v">Techarena Zero, Stockholm</div></div>
+      <div class="fact spot"><div class="k">UPCOMING</div><div class="v">The Drop, Malmo</div></div>
+      <div class="fact spot"><div class="k">UPCOMING</div><div class="v">TechBBQ, Copenhagen</div></div>
+      <div class="fact spot"><div class="k">UPCOMING</div><div class="v">Slush, Helsinki</div></div>
+    </div>
     <div class="ev-grid" id="events-grid"></div>
-    <div class="plabel">INDEX / AFFILIATIONS</div>
-    <div class="affil">
-      <span class="chip">WEF Global Shapers</span>
-      <span class="chip">Climate Reality Corps</span>
-      <span class="chip">Davos50, WEF'25</span>
-      <span class="chip">ArcticStartup contributor</span>
+    <div class="now-card reveal spot" style="grid-template-columns:1fr;text-align:center;padding:48px">
+      <div>
+        <h3>Get in touch</h3>
+        <p>Interested in having me speak at your event, join a panel, or host a session? <a href="mailto:daniel@4impact.vc" style="color:var(--fg);border-bottom:1px solid var(--faint)">Drop me a line</a>.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -821,28 +832,41 @@ const WRITING = [
 
 /* events — img: any URL or local path ("photos/davos.jpg"). tmpl:true = dashed placeholder */
 const EVENTS = [
-  {d:"JAN 2025", city:"DAVOS, CH",    name:"WEF Annual Meeting 2025", role:"DAVOS50 DELEGATE",
+  {d:"JUN 2025", city:"LEIPZIG, DE", name:"Machn Festival", role:"SPEAKER", img:""},
+  {d:"MAY 2025", city:"STOCKHOLM, SE", name:"Techarena Zero", role:"SPEAKER", img:""},
+  {d:"APR 2025", city:"AMSTERDAM, NL", name:"PitchXL 2025", role:"INVESTOR JURY", img:""},
+  {d:"JAN 2025", city:"DAVOS, CH", name:"WEF Annual Meeting 2025", role:"DAVOS50 DELEGATE",
    img:"https://0.gravatar.com/userimage/262846558/2b83017a2c36ee9085cb6470c9722e56?size=1024"},
-  {d:"JAN 2025", city:"DAVOS, CH",    name:"Der Brutkasten, live interview", role:"MEDIA",
+  {d:"JAN 2025", city:"DAVOS, CH", name:"Der Brutkasten", role:"INTERVIEW",
    img:"https://1.gravatar.com/userimage/262846558/411c68e4f54f0dfc263e5a010cba2674?size=1024"},
-  {d:"2025",     city:"TIRANA, AL",   name:"Slush'D Tirana", role:"GUEST + WRITE-UP",
+  {d:"2025", city:"TIRANA, AL", name:"Slush'd Tirana", role:"SPEAKER",
    img:"https://0.gravatar.com/userimage/262846558/43f48e53de65bc7219cd215abdd4afb5?size=1024"},
-  {d:"ANNUAL",   city:"HELSINKI, FI", name:"Slush", role:"PILGRIMAGE",
-   img:"https://0.gravatar.com/userimage/262846558/588a2607aafe57f49e4815737d01ae7e?size=1024"},
-  {d:"[DATE]",   city:"[CITY]",       name:"Your next stage here", role:"SPEAKER", img:"", tmpl:true},
+  {d:"2025", city:"ONLINE", name:"The Startup Club", role:"INTERVIEW", img:""},
+  {d:"2025", city:"ONLINE", name:"Nasdaq Ladderworks", role:"INTERVIEW", img:""},
+  {d:"2025", city:"ONLINE", name:"Impact Loop, Nordic energy tech", role:"INTERVIEW", img:""},
+  {d:"2024", city:"HELSINKI, FI", name:"Climate Reality Leadership Summit", role:"DELEGATE", img:""},
+  {d:"2024", city:"HELSINKI, FI", name:"Solve the SDGs Hackathon", role:"HOST", img:""},
+  {d:"2024", city:"LONDON, UK", name:"Abbey Road Studios Hackathon", role:"CO-HOST",
+   img:"https://0.gravatar.com/userimage/262846558/588a2607aafe57f49e4815737d01ae7e?size=1024"}
 ];
 
 /* builds — gh: repo URL if public */
 const BUILDS = [
   {num:"PRJ/01 / IN PRODUCTION", name:"Team DD Platform",
    desc:"Internal due-diligence platform built for 4impact capital. Structures the part of diligence that's hardest to spreadsheet: the team. Reference signals, founder assessment, repeatable scoring, used on live deals.",
-   tags:["internal tool","diligence","0→1"], gh:""},
-  {num:"PRJ/02 / LIVE", name:"This Website",
+   tags:["internal tool","diligence","0\u21921"], gh:""},
+  {num:"PRJ/02 / LIVE", name:"HuurHel",
+   desc:"Anonymous rental review platform for the Dutch market. Search by address, leave verified reviews, help renters make informed decisions.",
+   tags:["react","supabase","leaflet"], gh:"https://github.com/danieljpuusitalo/huurhel"},
+  {num:"PRJ/03 / LIVE", name:"FloatNote",
+   desc:"Minimal floating desktop notepad for Windows. Always-on-top, frameless, auto-saves. Built with Electron.",
+   tags:["electron","desktop","utility"], gh:"https://github.com/danieljpuusitalo/FloatNote"},
+  {num:"PRJ/04 / LIVE", name:"Nexus",
+   desc:"Local-first personal CRM. Unlimited contacts, BYOK AI copilot, no cloud required. Built for people who take relationships seriously.",
+   tags:["electron","react","sqlite","ai"], gh:"https://github.com/danieljpuusitalo/nexus"},
+  {num:"PRJ/05 / LIVE", name:"This Website",
    desc:"The page you're reading. One HTML file, no framework, no build step. A cursor-reactive dot field, film negatives and a commit log, maintained by editing four arrays.",
-   tags:["single file","design","weekend build"], gh:"https://github.com/danieljpuusitalo"},
-  {num:"PRJ/03 / [TEMPLATE]", name:"Next build here",
-   desc:"Public repos from GitHub land in this grid. Add a card by copying one object in the BUILDS array.",
-   tags:["placeholder"], gh:"", tmpl:true},
+   tags:["single file","design","weekend build"], gh:"https://github.com/danieljpuusitalo"}
 ];
 
 /* contact sheet — the 35mm strip on the bio tab. EDIT captions + swap for real photos. */
@@ -1023,7 +1047,7 @@ function fireFlash(){
 
 /* ── name strip ─────────────────────────────────────────────────── */
 (function strip(){
-  const s = 'DANIEL UUSITALO &nbsp;&#10022;&nbsp; '.repeat(6);
+  const s = 'MONITOR DELOITTE &middot; EY &middot; NORDEA &middot; HELEN &middot; TECH2IMPACT &middot; ARCTICSTARTUP &middot; TENZING &middot; MIT &middot; AALTO UNIVERSITY &middot; BRUNEL UNIVERSITY &nbsp;&nbsp;&nbsp; ';
   document.getElementById('strip-t').innerHTML = s + s;
 })();
 
