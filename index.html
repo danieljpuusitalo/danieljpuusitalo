@@ -614,6 +614,45 @@ footer{border-top:1px solid var(--line)}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
+
+/* ═══ PRINT — clean one-page B/W CV ═══════════════════════════════ */
+@media print{
+  *{animation:none!important;transition:none!important}
+  html,body{background:#fff!important;color:#000!important;font-size:11px}
+  :root{--bg:#fff;--fg:#000;--dim:#555;--faint:#999;--line:#ccc;--card:#f5f5f5}
+
+  /* hide decorative/interactive layers */
+  #field,.grain,.gridlines,#flash,#wipe,#exp,#cur,#curR,
+  .strip,.topbar,.skip-link,.constellation,
+  #lb,.snapfx,.photo::before,.photo::after,
+  .tabs,.subtabs,.tip,.checklist,.filter-bar,
+  .cursor-on,.ticker{display:none!important}
+
+  /* show all panels, remove tab gating */
+  .panel{display:block!important;padding:24px 0 12px!important;break-inside:avoid}
+
+  /* hero compact */
+  .hero{padding:0!important;min-height:auto!important}
+  .hero h1{font-size:1.8rem!important}
+  .hero .hollow{-webkit-text-stroke-width:.8px!important}
+  .hero .sub{font-size:.85rem!important;margin:8px 0 4px!important}
+
+  /* photos: show inline, no filters */
+  .photo img,.frame img,#lb img{filter:none!important}
+  .photo,.frame{max-width:100px;margin:6px 0}
+
+  /* typography */
+  .bigline,.sec{font-size:1.1rem!important}
+  a{text-decoration:underline!important}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:8px;word-break:break-all}
+
+  /* layout: single column, tight */
+  main{max-width:100%!important;padding:0 12px!important}
+  .proj-grid,.facts,.wrow{display:block!important}
+  footer{font-size:9px;border-top:1px solid #ccc;padding:8px 0;break-inside:avoid}
+
+  @page{margin:1.5cm;size:A4}
+}
 </style>
 </head>
 <body>
@@ -1388,6 +1427,7 @@ const wipe = document.getElementById('wipe');
   const tabs = [...document.querySelectorAll('.tab')];
   const panels = [...document.querySelectorAll('.panel')];
   let busy = false;
+  let firstActivate = true;
   function activate(id){
     tabs.forEach(t=>{
       const on = t.dataset.panel===id;
@@ -1396,7 +1436,8 @@ const wipe = document.getElementById('wipe');
       t.setAttribute('tabindex', on ? '0' : '-1');
     });
     panels.forEach(p=>p.classList.toggle('active', p.id===id));
-    try{ history.replaceState(null,'','#'+id); }catch(e){}
+    if(firstActivate) firstActivate = false;
+    else try{ history.replaceState(null,'','#'+id); }catch(e){}
     document.querySelectorAll('#'+id+' .reveal').forEach((el,i)=>{
       el.classList.remove('in');
       setTimeout(()=>el.classList.add('in'), 80+i*110);
@@ -1425,6 +1466,13 @@ const wipe = document.getElementById('wipe');
   addEventListener('keydown',e=>{
     if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
     if(e.metaKey||e.ctrlKey||e.altKey) return;
+    const lbOpen = document.getElementById('lb')?.classList.contains('open');
+    if(lbOpen){
+      if(e.key==='Escape') closeLb();
+      else if(e.key==='ArrowLeft') stepLb(-1);
+      else if(e.key==='ArrowRight') stepLb(1);
+      return;
+    }
     if(e.key==='1') go('bio'); if(e.key==='2') go('work'); if(e.key==='3') go('projects');
     if(e.key.toLowerCase()==='g') document.body.classList.toggle('show-grid');
     if(e.key.toLowerCase()==='f') fireFlash();
@@ -1433,8 +1481,6 @@ const wipe = document.getElementById('wipe');
       document.dispatchEvent(new Event('negtoggle'));
     }
     if(e.key==='Escape') closeLb();
-    if(e.key==='ArrowLeft') stepLb(-1);
-    if(e.key==='ArrowRight') stepLb(1);
   });
   const h = location.hash.slice(1);
   activate(['bio','work','projects'].includes(h) ? h : 'bio');

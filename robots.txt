@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://danieljpuusitalo.github.io/danieljpuusitalo/sitemap.xml

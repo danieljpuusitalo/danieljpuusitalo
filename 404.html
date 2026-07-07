@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 — daniel uusitalo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:#0a0a0a;color:#f4f4f1;
+  font-family:'JetBrains Mono',ui-monospace,monospace;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:100vh;text-align:center;padding:24px;
+  -webkit-font-smoothing:antialiased;
+}
+.vf{
+  position:relative;width:320px;height:220px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.vf::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(#f4f4f1,#f4f4f1) left 0 top 0/24px 2px,
+    linear-gradient(#f4f4f1,#f4f4f1) left 0 top 0/2px 24px,
+    linear-gradient(#f4f4f1,#f4f4f1) right 0 top 0/24px 2px,
+    linear-gradient(#f4f4f1,#f4f4f1) right 0 top 0/2px 24px,
+    linear-gradient(#f4f4f1,#f4f4f1) left 0 bottom 0/24px 2px,
+    linear-gradient(#f4f4f1,#f4f4f1) left 0 bottom 0/2px 24px,
+    linear-gradient(#f4f4f1,#f4f4f1) right 0 bottom 0/24px 2px,
+    linear-gradient(#f4f4f1,#f4f4f1) right 0 bottom 0/2px 24px;
+  background-repeat:no-repeat;
+}
+h1{
+  font-family:'Inter Tight','Helvetica Neue',sans-serif;
+  font-weight:900;font-size:clamp(1.4rem,4vw,2rem);
+  letter-spacing:.06em;text-transform:uppercase;
+  margin-bottom:16px;
+}
+.label{
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:#7d7d78;margin-bottom:24px;
+}
+a{
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:#f4f4f1;border-bottom:1px solid #3a3a37;
+  text-decoration:none;transition:border-color .2s;
+}
+a:hover{border-color:#f4f4f1}
+</style>
+</head>
+<body>
+<div class="vf">
+  <h1>[ FRAME NOT FOUND ]</h1>
+  <p class="label">ERROR 404 / NEGATIVE SPACE</p>
+  <a href="./">[ RETURN TO INDEX ]</a>
+</div>
+</body>
+</html>
