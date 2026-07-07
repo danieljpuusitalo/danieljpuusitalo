@@ -1103,7 +1103,7 @@ footer{border-top:1px solid var(--line)}
    DATA — edit these arrays, refresh, done. (See CLAUDE.md for recipes.)
    ═══════════════════════════════════════════════════════════════════ */
 const CFG = {
-  GITHUB_USER: "danieljpuusitalo",  // live commit feed; demo fallback if no public events
+  GITHUB_USER: "danieljpuusitalo",  // live commit feed; static fallback if no public events
   NOW: ["SOURCING THE NORDICS","WRITING IN PUBLIC","SHIPPING SIDE-BUILDS",
         "READING 10-KS FOR FUN"],
 };
@@ -1224,7 +1224,7 @@ const PHOTOS = [
   {img:"photos/platform6-showcase.jpg", cap:"platform6 showcase, tampere 2024"},
 ];
 
-/* commit-log demo data (fallback when no public GitHub events) */
+/* commit-log static data (fallback when no public GitHub events) */
 const DEMO_COMMITS = [
   {sha:'a3f1c2b', repo:'4i/dd-platform',  msg:'feat: reference-check scoring v2', t:'2h'},
   {sha:'9b22e01', repo:'4i/deal-radar',   msg:'fix: dedupe funding signals before scoring', t:'5h'},
@@ -1814,7 +1814,7 @@ if(FINE && !REDUCED){
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 })();
 
-/* ── commit feed: live via GitHub API, demo fallback ────────────── */
+/* ── commit feed: live via GitHub API, static fallback ─────────── */
 function relTime(iso){
   const s = (Date.now()-new Date(iso))/1000;
   if(s<3600) return Math.max(1,s/60|0)+'m';
@@ -1830,9 +1830,8 @@ function lineEl(c){
 }
 function runFeed(commits, live){
   const feed = document.getElementById('feed');
-  document.getElementById('feed-mode').textContent = live ? 'LIVE / GITHUB' : 'DEMO DATA';
-  document.getElementById('feed-note').textContent = live ? '@'+CFG.GITHUB_USER
-    : 'no public events @'+CFG.GITHUB_USER+', demo';
+  document.getElementById('feed-mode').textContent = live ? 'LIVE / GITHUB' : 'STATIC';
+  document.getElementById('feed-note').textContent = '@'+CFG.GITHUB_USER;
   const initial = commits.slice(0,6);
   initial.forEach((c,i)=>{ const el=lineEl(c); feed.appendChild(el);
     setTimeout(()=>el.classList.add('on'), 300+i*180); });
