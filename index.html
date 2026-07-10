@@ -1687,6 +1687,15 @@ renderBuildCards(BUILDS, false);
       `</div>`+
       `<div class="gh-heatmap">${cols.join('')}</div>`;
     card.style.display = '';
+    /* trim any partially-clipped leftmost column */
+    requestAnimationFrame(()=>{
+      const hm = card.querySelector('.gh-heatmap');
+      if(!hm) return;
+      const hmLeft = hm.getBoundingClientRect().left;
+      hm.querySelectorAll('.gh-col').forEach(col=>{
+        if(col.getBoundingClientRect().left < hmLeft) col.remove();
+      });
+    });
   }catch(e){ /* hide silently on error */ }
 })();
 
