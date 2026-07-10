@@ -437,11 +437,11 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .gh-repos{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;margin-top:4px}
 .gh-heatmap{display:flex;gap:3px;overflow:hidden;justify-content:flex-end}
 .gh-col{display:flex;flex-direction:column;gap:3px}
-.gh-cell{width:12px;height:12px;flex-shrink:0;background:var(--card)}
-.gh-cell[data-l="1"]{background:rgba(244,244,241,.18)}
-.gh-cell[data-l="2"]{background:rgba(244,244,241,.42)}
-.gh-cell[data-l="3"]{background:rgba(244,244,241,.68)}
-.gh-cell[data-l="4"]{background:var(--fg)}
+.gh-cell{width:12px;height:12px;flex-shrink:0;background:#161b22}
+.gh-cell[data-l="1"]{background:#0e4429}
+.gh-cell[data-l="2"]{background:#006d32}
+.gh-cell[data-l="3"]{background:#26a641}
+.gh-cell[data-l="4"]{background:#39d353}
 @media(max-width:480px){.gh-card{grid-template-columns:1fr}.gh-avatar{display:none}}
 
 /* builds */
@@ -1660,10 +1660,10 @@ renderBuildCards(BUILDS, false);
     const now = new Date();
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const dow = (todayStart.getDay()+6)%7; // 0=Mon
-    const gridStart = new Date(todayStart.getTime() - (dow + 15*7)*dayMs);
+    const gridStart = new Date(todayStart.getTime() - (dow + 51*7)*dayMs);
 
     const cols = [];
-    for(let w=0;w<16;w++){
+    for(let w=0;w<52;w++){
       let cells='';
       for(let d=0;d<7;d++){
         const date = new Date(gridStart.getTime()+(w*7+d)*dayMs);
