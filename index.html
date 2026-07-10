@@ -428,17 +428,16 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .sub-note{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;margin-bottom:24px}
 
 /* github profile card */
-.gh-card{display:grid;grid-template-columns:auto 1fr;gap:20px;padding:20px;border:1px solid var(--line);margin-bottom:20px;align-items:center}
-.gh-avatar{width:52px;height:52px;border-radius:50%;filter:grayscale(1) contrast(1.1);display:block;flex-shrink:0}
-.gh-meta{display:flex;flex-direction:column;gap:10px;min-width:0}
-.gh-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-.gh-user{font-weight:900;font-size:.9rem;text-transform:uppercase;letter-spacing:-.01em}
-.gh-link{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .15s}
+.gh-card{display:grid;grid-template-columns:auto 1fr;gap:24px;padding:20px;border:1px solid var(--line);margin-bottom:20px;align-items:center}
+.gh-left{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.gh-avatar{width:96px;height:96px;border-radius:50%;filter:grayscale(1) contrast(1.1);display:block;flex-shrink:0}
+.gh-user{font-weight:900;font-size:.9rem;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:2px}
+.gh-link{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .15s;display:block}
 .gh-link:hover{color:var(--fg)}
-.gh-stats{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;display:flex;gap:16px;flex-wrap:wrap}
-.gh-heatmap{display:flex;gap:2px;overflow:hidden}
-.gh-col{display:flex;flex-direction:column;gap:2px}
-.gh-cell{width:9px;height:9px;flex-shrink:0;background:var(--card)}
+.gh-repos{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;margin-top:4px}
+.gh-heatmap{display:flex;gap:3px;overflow:hidden;justify-content:flex-end}
+.gh-col{display:flex;flex-direction:column;gap:3px}
+.gh-cell{width:12px;height:12px;flex-shrink:0;background:var(--card)}
 .gh-cell[data-l="1"]{background:rgba(244,244,241,.18)}
 .gh-cell[data-l="2"]{background:rgba(244,244,241,.42)}
 .gh-cell[data-l="3"]{background:rgba(244,244,241,.68)}
@@ -1633,16 +1632,20 @@ renderBuildCards(BUILDS, false);
   const card = document.getElementById('gh-card');
   if(!card) return;
   try{
-    const [pr, er] = await Promise.all([
+    /* fetch profile + 3 pages of events (300 max, ~90 day window) in parallel */
+    const fetches = [
       fetch(`https://api.github.com/users/${CFG.GITHUB_USER}`),
-      fetch(`https://api.github.com/users/${CFG.GITHUB_USER}/events/public?per_page=100`)
-    ]);
+      ...[1,2,3].map(p=>fetch(`https://api.github.com/users/${CFG.GITHUB_USER}/events/public?per_page=100&page=${p}`))
+    ];
+    const [pr, ...evRes] = await Promise.all(fetches);
     if(!pr.ok) throw 0;
-    const [profile, events] = await Promise.all([pr.json(), er.ok ? er.json() : []]);
+    const profile = await pr.json();
+    const eventPages = await Promise.all(evRes.map(r=>r.ok?r.json():[]));
+    const events = eventPages.flat();
 
-    /* build day-count map */
+    /* day-count map */
     const counts = {};
-    (Array.isArray(events)?events:[]).forEach(e=>{
+    events.forEach(e=>{
       const d = e.created_at ? e.created_at.slice(0,10) : null;
       if(d) counts[d] = (counts[d]||0)+1;
     });
@@ -1669,19 +1672,15 @@ renderBuildCards(BUILDS, false);
     }
 
     card.innerHTML =
-      `<img class="gh-avatar" src="${profile.avatar_url}" alt="${profile.login}" loading="lazy">`+
-      `<div class="gh-meta">`+
-        `<div class="gh-top">`+
-          `<span class="gh-user">${profile.name||profile.login}</span>`+
+      `<div class="gh-left">`+
+        `<img class="gh-avatar" src="${profile.avatar_url}" alt="${profile.login}" loading="lazy">`+
+        `<div>`+
+          `<div class="gh-user">${profile.name||profile.login}</div>`+
           `<a class="gh-link" href="https://github.com/${profile.login}" target="_blank" rel="noopener">@${profile.login} ↗</a>`+
+          `<div class="gh-repos">${profile.public_repos} PUBLIC REPOS</div>`+
         `</div>`+
-        `<div class="gh-stats">`+
-          `<span>${profile.public_repos} REPOS</span>`+
-          `<span>${profile.followers} FOLLOWERS</span>`+
-          `<span>${profile.following} FOLLOWING</span>`+
-        `</div>`+
-        `<div class="gh-heatmap">${cols.join('')}</div>`+
-      `</div>`;
+      `</div>`+
+      `<div class="gh-heatmap">${cols.join('')}</div>`;
     card.style.display = '';
   }catch(e){ /* hide silently on error */ }
 })();
