@@ -427,6 +427,24 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .sub.active{display:block}
 .sub-note{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;margin-bottom:24px}
 
+/* github profile card */
+.gh-card{display:grid;grid-template-columns:auto 1fr;gap:20px;padding:20px;border:1px solid var(--line);margin-bottom:20px;align-items:center}
+.gh-avatar{width:52px;height:52px;border-radius:50%;filter:grayscale(1) contrast(1.1);display:block;flex-shrink:0}
+.gh-meta{display:flex;flex-direction:column;gap:10px;min-width:0}
+.gh-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.gh-user{font-weight:900;font-size:.9rem;text-transform:uppercase;letter-spacing:-.01em}
+.gh-link{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .15s}
+.gh-link:hover{color:var(--fg)}
+.gh-stats{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;display:flex;gap:16px;flex-wrap:wrap}
+.gh-heatmap{display:flex;gap:2px;overflow:hidden}
+.gh-col{display:flex;flex-direction:column;gap:2px}
+.gh-cell{width:9px;height:9px;flex-shrink:0;background:var(--card)}
+.gh-cell[data-l="1"]{background:rgba(244,244,241,.18)}
+.gh-cell[data-l="2"]{background:rgba(244,244,241,.42)}
+.gh-cell[data-l="3"]{background:rgba(244,244,241,.68)}
+.gh-cell[data-l="4"]{background:var(--fg)}
+@media(max-width:480px){.gh-card{grid-template-columns:1fr}.gh-avatar{display:none}}
+
 /* builds */
 .proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:48px}
 .proj{
@@ -798,8 +816,7 @@ footer{border-top:1px solid var(--line)}
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
   <p class="sub">
     <!-- EDIT: hero one-liner -->
-    Investor at <b>4impact capital</b>, The Hague. This is the personal
-    corner: writing, side-builds, and the occasional stage.
+    Investor at <b>4impact capital</b>, based in the Netherlands. Personal library for work, experiences and projects.
   </p>
   <div class="nowline">NOW / <span id="rot">SOURCING THE NORDICS</span></div>
   <nav class="tabs" role="tablist">
@@ -1036,6 +1053,7 @@ footer{border-top:1px solid var(--line)}
   <!-- builds -->
   <div class="sub active" id="sub-builds" role="tabpanel" aria-labelledby="stab-builds">
     <div class="sub-note">side-builds &amp; internal tooling. public repos surface automatically &middot; <span id="builds-mode">STATIC</span></div>
+    <div id="gh-card" class="gh-card spot" style="display:none"></div>
     <div class="proj-grid" id="builds-grid"></div>
 
     <div class="feedbox spot">
@@ -1608,6 +1626,65 @@ function renderBuildCards(items, live){
 
 /* static render first (instant, no flash of empty) */
 renderBuildCards(BUILDS, false);
+
+/* ── GitHub profile card with 16-week heatmap ── */
+(async function ghCard(){
+  if(!CFG.GITHUB_USER) return;
+  const card = document.getElementById('gh-card');
+  if(!card) return;
+  try{
+    const [pr, er] = await Promise.all([
+      fetch(`https://api.github.com/users/${CFG.GITHUB_USER}`),
+      fetch(`https://api.github.com/users/${CFG.GITHUB_USER}/events/public?per_page=100`)
+    ]);
+    if(!pr.ok) throw 0;
+    const [profile, events] = await Promise.all([pr.json(), er.ok ? er.json() : []]);
+
+    /* build day-count map */
+    const counts = {};
+    (Array.isArray(events)?events:[]).forEach(e=>{
+      const d = e.created_at ? e.created_at.slice(0,10) : null;
+      if(d) counts[d] = (counts[d]||0)+1;
+    });
+
+    /* grid: 16 cols (weeks) × 7 rows (Mon→Sun) */
+    const dayMs = 86400000;
+    const now = new Date();
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const dow = (todayStart.getDay()+6)%7; // 0=Mon
+    const gridStart = new Date(todayStart.getTime() - (dow + 15*7)*dayMs);
+
+    const cols = [];
+    for(let w=0;w<16;w++){
+      let cells='';
+      for(let d=0;d<7;d++){
+        const date = new Date(gridStart.getTime()+(w*7+d)*dayMs);
+        if(date>now){ cells+=`<div class="gh-cell"></div>`; continue; }
+        const key = date.toISOString().slice(0,10);
+        const n = counts[key]||0;
+        const l = n===0?0:n===1?1:n<=3?2:n<=6?3:4;
+        cells+=`<div class="gh-cell" data-l="${l}" title="${key} · ${n} events"></div>`;
+      }
+      cols.push(`<div class="gh-col">${cells}</div>`);
+    }
+
+    card.innerHTML =
+      `<img class="gh-avatar" src="${profile.avatar_url}" alt="${profile.login}" loading="lazy">`+
+      `<div class="gh-meta">`+
+        `<div class="gh-top">`+
+          `<span class="gh-user">${profile.name||profile.login}</span>`+
+          `<a class="gh-link" href="https://github.com/${profile.login}" target="_blank" rel="noopener">@${profile.login} ↗</a>`+
+        `</div>`+
+        `<div class="gh-stats">`+
+          `<span>${profile.public_repos} REPOS</span>`+
+          `<span>${profile.followers} FOLLOWERS</span>`+
+          `<span>${profile.following} FOLLOWING</span>`+
+        `</div>`+
+        `<div class="gh-heatmap">${cols.join('')}</div>`+
+      `</div>`;
+    card.style.display = '';
+  }catch(e){ /* hide silently on error */ }
+})();
 
 /* then attempt live merge from GitHub API */
 (async function liveBuilds(){
