@@ -311,10 +311,11 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .photo-stack{display:flex;flex-direction:column;gap:20px}
 
 .facts{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:64px;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;margin-bottom:64px;
 }
-.fact{padding:20px;background:var(--bg)}
+@media(max-width:860px){.facts{grid-template-columns:repeat(2,1fr)}}
+.fact{padding:20px;background:var(--bg);border:1px solid var(--line)}
 .fact .k{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px}
 .fact .v{font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.02em}
 
@@ -503,7 +504,9 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 }
 
 /* events */
-.ev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;margin-bottom:48px;align-items:start}
+.ev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:48px;align-items:start}
+@media(max-width:960px){.ev-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.ev-grid{grid-template-columns:1fr}}
 .ev{border:1px solid var(--line);transition:border-color .15s;opacity:0;transform:translateY(14px)}
 .ev.on{opacity:1;transform:none;transition:opacity .45s ease,transform .45s ease,border-color .15s}
 .ev:hover{border-color:var(--fg)}
@@ -1175,8 +1178,8 @@ const EVENT_CHECKLIST = [
 
 /* builds — gh: repo URL if public */
 const BUILDS = [
-  {num:"PRJ/01 / IN PRODUCTION", name:"Team DD Platform",
-   desc:"Internal due-diligence platform built for 4impact capital. Structures the part of diligence that's hardest to spreadsheet: the team. Reference signals, founder assessment, repeatable scoring, used on live deals.",
+  {num:"PRJ/01 / IN PRODUCTION", name:"Team Intelligence",
+   desc:"AI-assisted due-diligence platform that scores venture teams via questionnaires and secondary research — online footprint monitoring, company registry checks and automated reference triangulation.",
    tags:["internal tool","diligence","0\u21921"], gh:""},
   {num:"PRJ/02 / LIVE", name:"HuurHel",
    desc:"Unverified reviews helping renters make semi-informed decisions about Dutch rental properties. Search by address, read what others experienced.",
