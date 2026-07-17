@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://danieljpuusitalo.github.io/danieljpuusitalo/</loc></url>
-  <url><loc>https://danieljpuusitalo.github.io/danieljpuusitalo/press-kit.html</loc></url>
+  <url>
+    <loc>https://danieljpuusitalo.github.io/danieljpuusitalo/</loc>
+    <lastmod>2026-07-17</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljpuusitalo.github.io/danieljpuusitalo/press-kit.html</loc>
+    <lastmod>2026-07-17</lastmod>
+  </url>
 </urlset>
