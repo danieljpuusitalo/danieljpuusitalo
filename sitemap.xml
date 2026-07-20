@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://danieljpuusitalo.github.io/danieljpuusitalo/</loc>
-    <lastmod>2026-07-17</lastmod>
+    <lastmod>2026-07-20</lastmod>
   </url>
   <url>
     <loc>https://danieljpuusitalo.github.io/danieljpuusitalo/press-kit.html</loc>
-    <lastmod>2026-07-17</lastmod>
+    <lastmod>2026-07-20</lastmod>
+  </url>
+  <url>
+    <loc>https://danieljpuusitalo.github.io/danieljpuusitalo/gallery.html</loc>
+    <lastmod>2026-07-20</lastmod>
+    <image:image>
+      <image:loc>https://danieljpuusitalo.github.io/danieljpuusitalo/photos/daniel-uusitalo-tirana-slushd-2025.jpg</image:loc>
+      <image:caption>Daniel Uusitalo on stage as investor jury at Slush'd Tirana 2025, Albania</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://danieljpuusitalo.github.io/danieljpuusitalo/photos/daniel-uusitalo-tirana-slushd-2025-conversation.jpg</image:loc>
+      <image:caption>Daniel Uusitalo in conversation with founders at Slush'd Tirana 2025, Albania</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://danieljpuusitalo.github.io/danieljpuusitalo/photos/daniel-uusitalo-machn-leipzig-2026.jpg</image:loc>
+      <image:caption>Daniel Uusitalo speaking on a panel at Machn Festival 2026 in Leipzig, Germany</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://danieljpuusitalo.github.io/danieljpuusitalo/photos/daniel-uusitalo-techarena-zero-stockholm-2026.jpg</image:loc>
+      <image:caption>Daniel Uusitalo of 4impact capital on the energy tech panel at Techarena Zero 2026 in Stockholm, Sweden</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://danieljpuusitalo.github.io/danieljpuusitalo/photos/daniel-uusitalo-platform6-tampere-2025.jpg</image:loc>
+      <image:caption>Daniel Uusitalo on the investor panel at Platform6 Stream Connect 2025 in Tampere, Finland</image:caption>
+    </image:image>
   </url>
 </urlset>

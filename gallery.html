@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0a0a0a">
-<title>press kit — daniel uusitalo</title>
-<meta name="description" content="Press kit for Daniel Uusitalo, investor at 4impact capital.">
-<link rel="canonical" href="https://danieljpuusitalo.github.io/danieljpuusitalo/press-kit.html">
-<meta property="og:title" content="press kit — daniel uusitalo">
-<meta property="og:description" content="Press kit for Daniel Uusitalo, investor at 4impact capital.">
+<title>photo archive — daniel uusitalo</title>
+<meta name="description" content="Photos of Daniel Uusitalo, investor at 4impact capital, speaking and judging at Slush'd Tirana, Machn Festival Leipzig, Techarena Zero Stockholm and Platform6 Tampere.">
+<link rel="canonical" href="https://danieljpuusitalo.github.io/danieljpuusitalo/gallery.html">
+<meta property="og:title" content="photo archive — daniel uusitalo">
+<meta property="og:description" content="Photos of Daniel Uusitalo, investor at 4impact capital, speaking and judging at Slush'd Tirana, Machn Festival Leipzig, Techarena Zero Stockholm and Platform6 Tampere.">
 <meta property="og:type" content="profile">
-<meta property="og:url" content="https://danieljpuusitalo.github.io/danieljpuusitalo/press-kit.html">
+<meta property="og:url" content="https://danieljpuusitalo.github.io/danieljpuusitalo/gallery.html">
 <meta property="og:image" content="https://danieljpuusitalo.github.io/danieljpuusitalo/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -41,10 +41,9 @@ body{
 a{color:inherit;text-decoration:none}
 
 .wrap{
-  max-width:760px;margin:0 auto;padding:80px 24px 64px;
+  max-width:960px;margin:0 auto;padding:80px 24px 64px;
 }
 
-/* viewfinder frame */
 .vf{
   position:relative;padding:48px 40px;margin-bottom:56px;
 }
@@ -73,39 +72,30 @@ h1{
   text-transform:uppercase;line-height:1.1;
 }
 
-.section{margin-bottom:56px}
-.label{
-  font-family:var(--mono);font-size:10px;color:var(--dim);
-  letter-spacing:.18em;text-transform:uppercase;margin-bottom:16px;
-}
-.label::before{content:"[ ";color:var(--dim)}
-.label::after{content:" ]";color:var(--dim)}
-
-.bio{
+.intro{
   font-size:.95rem;line-height:1.7;color:var(--dim);max-width:640px;
-  user-select:all;margin-bottom:24px;
+  margin-bottom:56px;
 }
-.bio b{color:var(--fg);font-weight:700}
 
 .rule{border-top:1px solid var(--line);margin:0 0 56px}
 
-/* headshot */
-.headshot-link{
-  display:inline-block;font-family:var(--mono);font-size:12px;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--fg);
-  padding:10px 20px;border:1px solid var(--line);
-  transition:background .2s,color .2s;
+.grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:56px;
 }
-.headshot-link:hover{background:var(--fg);color:var(--bg)}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
 
-/* topics */
-.topics{display:flex;flex-direction:column;gap:12px}
-.topic{
-  padding:16px 20px;border:1px solid var(--line);background:var(--card);
-  font-weight:700;font-size:.95rem;text-transform:uppercase;letter-spacing:.03em;
+figure{border:1px solid var(--line);background:var(--card)}
+figure img{
+  width:100%;height:100%;aspect-ratio:3/2;object-fit:cover;display:block;
+  filter:grayscale(1) contrast(1.2) brightness(1.05);
 }
+figcaption{
+  font-family:var(--mono);font-size:10px;color:var(--dim);
+  letter-spacing:.1em;text-transform:uppercase;padding:14px 16px;
+  border-top:1px solid var(--line);
+}
+figcaption b{color:var(--fg);font-weight:700;display:block;font-size:11px;margin-bottom:4px;text-transform:none;letter-spacing:0}
 
-/* back link */
 .back{
   display:inline-block;font-family:var(--mono);font-size:11px;
   letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
@@ -114,7 +104,6 @@ h1{
 }
 .back:hover{color:var(--fg);border-color:var(--fg)}
 
-/* grain overlay */
 .grain{
   position:fixed;inset:-50%;width:200%;height:200%;
   pointer-events:none;z-index:9000;opacity:.055;
@@ -133,44 +122,40 @@ h1{
 
 <div class="wrap">
   <div class="vf">
-    <div class="heading">FILE 04 / PRESS</div>
+    <div class="heading">FILE 05 / PHOTO ARCHIVE</div>
     <h1>Daniel Uusitalo</h1>
   </div>
 
-  <div class="section">
-    <div class="label">HEADSHOT</div>
-    <a class="headshot-link" href="photos/portrait-bw.jpg" download="daniel-uusitalo-headshot-bw.jpg">&#8595; B/W (JPEG)</a>
-    <a class="headshot-link" href="photos/portrait.jpg" download="daniel-uusitalo-headshot-color.jpg" style="margin-left:12px">&#8595; Color (JPEG)</a>
-  </div>
+  <p class="intro">Photos from talks, panels and jury duty across the Nordics and Balkans &mdash; Slush'd Tirana, Machn Festival Leipzig, Techarena Zero Stockholm, Platform6 Stream Connect Tampere. For headshots and bio copy, see the <a href="press-kit.html" style="text-decoration:underline">press kit</a>.</p>
 
   <div class="rule"></div>
 
-  <div class="section">
-    <div class="label">SHORT BIO / 50 WORDS</div>
-    <p class="bio">Daniel Uusitalo is an investor at 4impact capital (&euro;84M AUM, SFDR Art.&nbsp;9), covering pre-seed to Series&nbsp;A software companies across the Nordics, DACH and Benelux. Previously at Helen Ventures. Aalto MSc, Brunel BSc. WEF Davos50 Delegate 2025, Climate Reality Leader. Based in The Hague.</p>
-  </div>
-
-  <div class="section">
-    <div class="label">FULL BIO / 120 WORDS</div>
-    <p class="bio">Daniel Uusitalo is an investor at 4impact capital, a software-focused impact VC based in the Netherlands (SFDR Article&nbsp;9, Fund&nbsp;II closed November 2024 with EIF and Invest-NL as anchor LPs). He covers the Nordics end-to-end: sourcing, deal execution, and portfolio support for companies including Exnaton, GreenShift, Carbon Equity, OurMind and InfoTiles. Before 4impact, he invested in energy tech at Helen Ventures. He holds an MSc from Aalto University and a BSc from Brunel University London. Credentials include WEF Davos50 Delegate 2025, Climate Reality Leader, and WEF Global Shaper (alumni). He writes on Nordic tech and impact investing.</p>
-  </div>
-
-  <div class="rule"></div>
-
-  <div class="section">
-    <div class="label">SPEAKING TOPICS</div>
-    <div class="topics">
-      <div class="topic">Nordic Humility, Nordic Ambition</div>
-      <div class="topic">Impact as Underpriced Mainstream</div>
-      <div class="topic">Energy Tech and the European Grid</div>
-      <div class="topic">EU Competitiveness and Sovereignty</div>
-    </div>
+  <div class="grid">
+    <figure>
+      <img src="photos/daniel-uusitalo-tirana-slushd-2025.jpg" alt="Daniel Uusitalo on stage as investor jury at Slush'd Tirana 2025, Albania" loading="lazy" decoding="async">
+      <figcaption><b>Slush'd Tirana 2025</b>Tirana, Albania &middot; Investor Jury</figcaption>
+    </figure>
+    <figure>
+      <img src="photos/daniel-uusitalo-tirana-slushd-2025-conversation.jpg" alt="Daniel Uusitalo in conversation with founders at Slush'd Tirana 2025, Albania" loading="lazy" decoding="async">
+      <figcaption><b>Slush'd Tirana 2025</b>Tirana, Albania &middot; Investor Jury</figcaption>
+    </figure>
+    <figure>
+      <img src="photos/daniel-uusitalo-machn-leipzig-2026.jpg" alt="Daniel Uusitalo speaking on a panel at Machn Festival 2026 in Leipzig, Germany" loading="lazy" decoding="async">
+      <figcaption><b>Machn Festival 2026</b>Leipzig, Germany &middot; Speaker</figcaption>
+    </figure>
+    <figure>
+      <img src="photos/daniel-uusitalo-techarena-zero-stockholm-2026.jpg" alt="Daniel Uusitalo of 4impact capital on the energy tech panel at Techarena Zero 2026 in Stockholm, Sweden" loading="lazy" decoding="async">
+      <figcaption><b>Techarena Zero 2026</b>Stockholm, Sweden &middot; Speaker</figcaption>
+    </figure>
+    <figure>
+      <img src="photos/daniel-uusitalo-platform6-tampere-2025.jpg" alt="Daniel Uusitalo on the investor panel at Platform6 Stream Connect 2025 in Tampere, Finland" loading="lazy" decoding="async">
+      <figcaption><b>Platform6 Stream Connect 2025</b>Tampere, Finland &middot; Speaker</figcaption>
+    </figure>
   </div>
 
   <div class="rule"></div>
 
   <a class="back" href="./">&larr; [ RETURN TO INDEX ]</a>
-  <a class="back" href="gallery.html" style="margin-left:24px">[ PHOTO ARCHIVE ] &rarr;</a>
 </div>
 <script data-goatcounter="https://danieluusitalo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
