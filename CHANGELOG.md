@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.7.7 — 2026-08-13
+
+Homepage repositioned toward "European venture capitalist" and person-first framing. Title/OG title → "Daniel Uusitalo — European Venture Capitalist"; meta/OG/schema descriptions rewritten person-first (startups, AI, resilience, climate tech). Hero and bio copy generalized off the employer; "Day job" fact → "Venture capital". The WORK panel's 4impact fund-specs card is kept intact (it adds value); `worksFor: 4impact` retained as a factual schema field. No "Associate" anywhere — role reads "Investor" only.
+
 ## v0.7.6 — 2026-08-13
 
 Press kit re-centered on Daniel as an independent investor rather than his employer. Short bio replaced with the canonical third-person bio ("European venture capitalist and environmental activist…"); full bio rewritten to lead with the person and mention 4impact capital for specificity (dropped fund mechanics — AUM/SFDR/LP/portfolio-name detail). Meta + OG descriptions repositioned to match.
