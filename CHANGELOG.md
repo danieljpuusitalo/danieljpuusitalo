@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.7.1 — 2026-08-13
+
+Content update. Two new writing entries: SeedCue guest post "Someone else decides what your stack costs next year" (Aug 2026) and The Startup Club op-ed "Why the NO had nothing to do with your product" (Aug 2026), both dated 2026.08. New build card: 4impact Data Room (PRJ/02, IN DEVELOPMENT) — the checklist-driven virtual data room for material due diligence; remaining build cards renumbered to PRJ/03–06 in both BUILDS and BUILDS_OVERRIDES.
+
 ## v0.7.0 — 2026-07-07 "the audit"
 
 Bug fixes, drift corrections, and design polish from a full-site audit. Machn Festival link fixed (was pointing at wrong organization). NYC constellation stop remapped into the shrunken viewBox. Startup Club date corrected to 2026. Print CSS now shows all subtab panels and reveal elements. Live builds sort order fixed (override group sorted by PRJ number). FloatNote-mac excluded from auto-discovered build cards. Sitemap.xml created (robots.txt was advertising a 404). Press kit restructured: heading de-duplicated, B/W headshot derivative added alongside color, canonical + OG tags, bio word count corrected. Event card grid no longer stretches short cards to match featured-card height. Subtab count contrast fixed. og:title aligned with page title. 404 page gains favicon. Skip-link target gains tabindex. Orphaned contact-01.jpg removed. Stale microcopy updated to present tense. CHANGELOG rebuilt from git history. CLAUDE.md rewritten to match current architecture. Version bumped across all three locations.
