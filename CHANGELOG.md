@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.7.3 — 2026-08-13
+
+Entity/SEO: added the Gravatar profile (danieljpuusitalo.link) to the JSON-LD sameAs array, cross-linking the personal site with the Gravatar identity page that feeds Google's person entity. Pairs with off-site levers (Wikidata P856 official website → danieluusitalo.com; Gravatar website field → danieluusitalo.com).
+
 ## v0.7.2 — 2026-08-13 "custom domain"
 
 Connected custom domain danieluusitalo.com (GoDaddy DNS → GitHub Pages, HTTPS enforced). Added CNAME file. Repointed all absolute site metadata from the old github.io/danieljpuusitalo/ URL to the apex domain: canonical + og:url + og:image across index.html, press-kit.html and gallery.html; JSON-LD url + image; robots.txt sitemap pointer; and every loc/image:loc in sitemap.xml. GitHub repo/profile links and api.github.com calls left untouched.
