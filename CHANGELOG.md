@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.7.4 — 2026-08-13
+
+Added Threads (threads.net/@danieljpuusitalo) to the JSON-LD sameAs array, matching the verified account set on the Gravatar profile.
+
 ## v0.7.3 — 2026-08-13
 
 Entity/SEO: added the Gravatar profile (danieljpuusitalo.link) to the JSON-LD sameAs array, cross-linking the personal site with the Gravatar identity page that feeds Google's person entity. Pairs with off-site levers (Wikidata P856 official website → danieluusitalo.com; Gravatar website field → danieluusitalo.com).
