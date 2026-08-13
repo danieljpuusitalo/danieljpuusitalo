@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.7.5 — 2026-08-13
+
+Enriched the JSON-LD Person schema for stronger entity signals: added `description` (canonical bio sentence), `memberOf` (WEF Global Shapers Community, The Climate Reality Project) and `homeLocation` (The Hague). All facts already present on-site, now machine-legible for search/knowledge-graph.
+
 ## v0.7.4 — 2026-08-13
 
 Added Threads (threads.net/@danieljpuusitalo) to the JSON-LD sameAs array, matching the verified account set on the Gravatar profile.
