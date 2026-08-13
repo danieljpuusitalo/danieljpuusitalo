@@ -3,15 +3,23 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://danieluusitalo.com/</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-08-13</lastmod>
+    <image:image>
+      <image:loc>https://danieluusitalo.com/photos/portrait.jpg</image:loc>
+      <image:caption>Portrait of Daniel Uusitalo, European venture capitalist, in The Hague</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://danieluusitalo.com/photos/bio-techarena.jpg</image:loc>
+      <image:caption>Daniel Uusitalo speaking at Techarena Zero 2026 in Stockholm, Sweden</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://danieluusitalo.com/press-kit.html</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-08-13</lastmod>
   </url>
   <url>
     <loc>https://danieluusitalo.com/gallery.html</loc>
-    <lastmod>2026-07-20</lastmod>
+    <lastmod>2026-08-13</lastmod>
     <image:image>
       <image:loc>https://danieluusitalo.com/photos/daniel-uusitalo-tirana-slushd-2025.jpg</image:loc>
       <image:caption>Daniel Uusitalo on stage as investor jury at Slush'd Tirana 2025, Albania</image:caption>
@@ -26,11 +34,19 @@
     </image:image>
     <image:image>
       <image:loc>https://danieluusitalo.com/photos/daniel-uusitalo-techarena-zero-stockholm-2026.jpg</image:loc>
-      <image:caption>Daniel Uusitalo of 4impact capital on the energy tech panel at Techarena Zero 2026 in Stockholm, Sweden</image:caption>
+      <image:caption>Daniel Uusitalo on the energy tech panel at Techarena Zero 2026 in Stockholm, Sweden</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://danieluusitalo.com/photos/daniel-uusitalo-platform6-tampere-2025.jpg</image:loc>
       <image:caption>Daniel Uusitalo on the investor panel at Platform6 Stream Connect 2025 in Tampere, Finland</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://danieluusitalo.com/photos/daniel-uusitalo-davos-2025-alexander-stubb.jpg</image:loc>
+      <image:caption>Daniel Uusitalo with President Alexander Stubb of Finland at the World Economic Forum Annual Meeting 2025 in Davos, Switzerland</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://danieluusitalo.com/photos/daniel-uusitalo-davos-2025-frej-larsson.jpg</image:loc>
+      <image:caption>Daniel Uusitalo with Frej Larsson at the World Economic Forum Annual Meeting 2025 in Davos, Switzerland</image:caption>
     </image:image>
   </url>
 </urlset>

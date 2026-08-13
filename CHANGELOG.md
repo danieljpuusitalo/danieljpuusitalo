@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.7.8 — 2026-08-13
+
+Image sitemap expanded to help photos re-index under the new domain after the migration: gallery images completed from 5 → 7 (added both Davos 2025 photos), plus homepage portrait + Techarena photo; all lastmod refreshed to 2026-08-13. Gallery page identity text aligned person-first ("European venture capitalist"; dropped "4impact capital" from the meta/OG description and the Techarena alt).
+
 ## v0.7.7 — 2026-08-13
 
 Homepage repositioned toward "European venture capitalist" and person-first framing. Title/OG title → "Daniel Uusitalo — European Venture Capitalist"; meta/OG/schema descriptions rewritten person-first (startups, AI, resilience, climate tech). Hero and bio copy generalized off the employer; "Day job" fact → "Venture capital". The WORK panel's 4impact fund-specs card is kept intact (it adds value); `worksFor: 4impact` retained as a factual schema field. No "Associate" anywhere — role reads "Investor" only.
