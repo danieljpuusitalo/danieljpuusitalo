@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.7.2 — 2026-08-13 "custom domain"
+
+Connected custom domain danieluusitalo.com (GoDaddy DNS → GitHub Pages, HTTPS enforced). Added CNAME file. Repointed all absolute site metadata from the old github.io/danieljpuusitalo/ URL to the apex domain: canonical + og:url + og:image across index.html, press-kit.html and gallery.html; JSON-LD url + image; robots.txt sitemap pointer; and every loc/image:loc in sitemap.xml. GitHub repo/profile links and api.github.com calls left untouched.
+
 ## v0.7.1 — 2026-08-13
 
 Content update. Two new writing entries: SeedCue guest post "Someone else decides what your stack costs next year" (Aug 2026) and The Startup Club op-ed "Why the NO had nothing to do with your product" (Aug 2026), both dated 2026.08. New build card: 4impact Data Room (PRJ/02, IN DEVELOPMENT) — the checklist-driven virtual data room for material due diligence; remaining build cards renumbered to PRJ/03–06 in both BUILDS and BUILDS_OVERRIDES.
