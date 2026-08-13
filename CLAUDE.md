@@ -1,6 +1,6 @@
 # CLAUDE.md — danieljpuusitalo personal site
 
-Personal website of Daniel Uusitalo (Associate @ 4impact capital, The Hague; leads Nordic sourcing; writes publicly). Single-file static site, currently v0.7.0. Hosted on GitHub Pages.
+Personal website of Daniel Uusitalo (Associate @ 4impact capital, The Hague; leads Nordic sourcing; writes publicly). Single-file static site, currently v0.7.2. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
 
 ## Architecture — non-negotiables
 
@@ -21,9 +21,11 @@ Personal website of Daniel Uusitalo (Associate @ 4impact capital, The Hague; lea
 | `photos/` | All images — local, compressed, lazy-loaded |
 | `photos/portrait.jpg` | Color headshot |
 | `photos/portrait-bw.jpg` | B/W headshot derivative (grayscale + contrast 1.2) |
+| `gallery.html` | Standalone photo archive page (for image-search indexing) |
 | `sitemap.xml` | Sitemap for crawlers (referenced by robots.txt) |
 | `robots.txt` | Crawler directives + sitemap pointer |
 | `.nojekyll` | Prevents GitHub Pages Jekyll processing |
+| `CNAME` | Custom-domain pointer for GitHub Pages (`danieluusitalo.com`) |
 
 ## Design language (retain in every change)
 
@@ -73,7 +75,7 @@ Concise, data-anchored, Nordic-humility-with-an-edge. No self-aggrandizing first
 
 ## Analytics
 
-Decision made to add cookieless GoatCounter analytics. Not yet implemented — add to index.html, press-kit.html, and 404.html when ready, and update the footer copy from "no trackers" to "no cookies".
+Cookieless GoatCounter analytics is live (`danieluusitalo.goatcounter.com`), wired into all four HTML files (`index.html`, `press-kit.html`, `gallery.html`, `404.html`). Footer copy updated to "no cookies".
 
 ## Facts already verified (don't re-research)
 
@@ -85,4 +87,4 @@ Open `index.html` in a browser: check all three tabs + subtabs, filter chips, li
 
 ## Deploy
 
-GitHub Pages (repo root, `index.html` is the entry). No config needed. `.nojekyll` present.
+GitHub Pages (repo root, `index.html` is the entry). `.nojekyll` present. Custom domain `danieluusitalo.com` via the `CNAME` file + GoDaddy DNS (4 A records `@` → `185.199.108–111.153`, `www` CNAME → `danieljpuusitalo.github.io`), Enforce HTTPS on. All absolute URLs (canonical, `og:url`, `og:image`, JSON-LD, `sitemap.xml`, `robots.txt`) use `https://danieluusitalo.com/` at ROOT — no `/danieljpuusitalo/` subpath. Verified in Google Search Console as a Domain property (DNS TXT); sitemap submitted.
