@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.7.6 — 2026-08-13
+
+Press kit re-centered on Daniel as an independent investor rather than his employer. Short bio replaced with the canonical third-person bio ("European venture capitalist and environmental activist…"); full bio rewritten to lead with the person and mention 4impact capital for specificity (dropped fund mechanics — AUM/SFDR/LP/portfolio-name detail). Meta + OG descriptions repositioned to match.
+
 ## v0.7.5 — 2026-08-13
 
 Enriched the JSON-LD Person schema for stronger entity signals: added `description` (canonical bio sentence), `memberOf` (WEF Global Shapers Community, The Climate Reality Project) and `homeLocation` (The Hague). All facts already present on-site, now machine-legible for search/knowledge-graph.
