@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.8.1 — 2026-08-14
+
+Browser-verified fixes to the v0.8.0 layout pass. Contact sheet: added `min-width:0` to `.frame` — `flex:0 0 200px` alone was overridden by the default `min-width:auto` (each image's intrinsic width floored the frame wider), so frames still rendered 246–311px and clipped on mobile; now uniform 200px (158px mobile). Bio grid: reverted the centered `justify-content:center` (which indented the text ~75px off the title's left edge and pulled the photos ~75px in from the right) back to an edge-aligned `1fr minmax(0,500px)` — text now flush-left with the title, portrait flush to the right edge, symmetric, mid-gap down from ~172px to ~92px. Verified in-browser (indent 0, photo-to-edge 0, frames uniform).
+
 ## v0.8.0 — 2026-08-14 "builds & polish"
 
 Builds: renamed "4impact Data Room" → "DD-Dev" (description unchanged); added OCS-Engine (PRJ/06, "Full-stack social media automation for SMEs" — kept high-level, no client detail), This Website → PRJ/07. Performance: canvas dot-field draw loop optimized — precomputed per-dot twinkle phase, squared-distance gate (skip sqrt for the ~90% of dots outside the cursor radius), and `globalAlpha` + single `fillStyle` instead of a per-dot `rgba()` string (was ~180k string allocations/sec); identical visual, much lighter per frame. Layout: contact-sheet frames given a fixed width (200px desktop / 158px mobile) so thumbnails are uniform on desktop and no longer clip to the left edge on mobile. Bio grid recomposed — capped both columns and centered the pair (was `1.15fr .85fr` with a ~170px dead gutter between text and photos) so text sits beside the photos with balanced editorial margins.

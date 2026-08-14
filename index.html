@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.8.0
+     DANIEL UUSITALO / personal site v0.8.1
      Single file. No build step. No dependencies except Google Fonts.
      Project conventions & editing guide: see CLAUDE.md in this folder.
      ═══════════════════════════════════════════════════════════════════ -->
@@ -355,9 +355,9 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .spot:hover::after{opacity:1}
 
 /* ═══ 06 · BIO ══════════════════════════════════════════════════════ */
-.bio-grid{display:grid;grid-template-columns:minmax(0,600px) minmax(360px,430px);gap:52px;justify-content:center;align-items:start;margin-bottom:64px}
-@media(max-width:860px){.bio-grid{grid-template-columns:1fr;gap:40px;justify-content:stretch}}
-.bio-copy p{font-size:1.06rem;line-height:1.75;color:var(--dim);margin-bottom:1.3em;max-width:600px;text-wrap:pretty}
+.bio-grid{display:grid;grid-template-columns:1fr minmax(0,500px);gap:48px;align-items:start;margin-bottom:64px}
+@media(max-width:860px){.bio-grid{grid-template-columns:1fr;gap:40px}}
+.bio-copy p{font-size:1.06rem;line-height:1.75;color:var(--dim);margin-bottom:1.3em;max-width:640px;text-wrap:pretty}
 .bio-copy p b{color:var(--fg);font-weight:700}
 
 /* photos — auto B/W + flash vignette + halftone that clears on hover; click = lightbox */
@@ -409,7 +409,7 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
   user-select:none;
 }
 .sheet img{-webkit-user-drag:none;user-drag:none}
-.frame{flex:0 0 200px;transition:transform .25s ease}
+.frame{flex:0 0 200px;min-width:0;transition:transform .25s ease}
 @media(max-width:640px){.frame{flex-basis:158px}}
 .frame:nth-child(odd){transform:rotate(-.7deg)}
 .frame:nth-child(even){transform:rotate(.55deg)}
@@ -889,7 +889,7 @@ footer{border-top:1px solid var(--line)}
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.8.0</span>
+    <span>PERSONAL SITE / V0.8.1</span>
     <span>HEL &rarr; NYC &rarr; VIE &rarr; LON &rarr; DEN HAAG</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
@@ -1210,7 +1210,7 @@ footer{border-top:1px solid var(--line)}
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. One file, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.8.0 / DEPLOYED 2026.08.14</span>
+      <span>V0.8.1 / DEPLOYED 2026.08.14</span>
     </div>
   </div>
 </footer>
