@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.8.2 — 2026-08-14
+
+De-duplicated the contact block. The bio panel had a "01 / CONTACT SHEET" email block (NO FORMS / email / socials) sitting above the "01 / GALLERY" photo strip, duplicating the footer contact. Removed the bio-panel one; the footer keeps the contact and adopts that block's format — heading now reads "[ CONTACT SHEET ]" with "NO FORMS. NO CALENDLY. JUST MAIL." on its own line (was the single-line "CONTACT / no forms, no calendly, just mail"). Bio panel now flows BIO → CONVICTION → GALLERY. Browser-verified.
+
 ## v0.8.1 — 2026-08-14
 
 Browser-verified fixes to the v0.8.0 layout pass. Contact sheet: added `min-width:0` to `.frame` — `flex:0 0 200px` alone was overridden by the default `min-width:auto` (each image's intrinsic width floored the frame wider), so frames still rendered 246–311px and clipped on mobile; now uniform 200px (158px mobile). Bio grid: reverted the centered `justify-content:center` (which indented the text ~75px off the title's left edge and pulled the photos ~75px in from the right) back to an edge-aligned `1fr minmax(0,500px)` — text now flush-left with the title, portrait flush to the right edge, symmetric, mid-gap down from ~172px to ~92px. Verified in-browser (indent 0, photo-to-edge 0, frames uniform).
