@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.7.9
+     DANIEL UUSITALO / personal site v0.8.0
      Single file. No build step. No dependencies except Google Fonts.
      Project conventions & editing guide: see CLAUDE.md in this folder.
      ═══════════════════════════════════════════════════════════════════ -->
@@ -355,9 +355,9 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .spot:hover::after{opacity:1}
 
 /* ═══ 06 · BIO ══════════════════════════════════════════════════════ */
-.bio-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;margin-bottom:64px}
-@media(max-width:860px){.bio-grid{grid-template-columns:1fr;gap:40px}}
-.bio-copy p{font-size:1.06rem;line-height:1.75;color:var(--dim);margin-bottom:1.3em;max-width:560px;text-wrap:pretty}
+.bio-grid{display:grid;grid-template-columns:minmax(0,600px) minmax(360px,430px);gap:52px;justify-content:center;align-items:start;margin-bottom:64px}
+@media(max-width:860px){.bio-grid{grid-template-columns:1fr;gap:40px;justify-content:stretch}}
+.bio-copy p{font-size:1.06rem;line-height:1.75;color:var(--dim);margin-bottom:1.3em;max-width:600px;text-wrap:pretty}
 .bio-copy p b{color:var(--fg);font-weight:700}
 
 /* photos — auto B/W + flash vignette + halftone that clears on hover; click = lightbox */
@@ -409,7 +409,8 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
   user-select:none;
 }
 .sheet img{-webkit-user-drag:none;user-drag:none}
-.frame{min-width:170px;flex:0 0 auto;transition:transform .25s ease}
+.frame{flex:0 0 200px;transition:transform .25s ease}
+@media(max-width:640px){.frame{flex-basis:158px}}
 .frame:nth-child(odd){transform:rotate(-.7deg)}
 .frame:nth-child(even){transform:rotate(.55deg)}
 .frame:hover{transform:rotate(0)}
@@ -888,7 +889,7 @@ footer{border-top:1px solid var(--line)}
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.7.9</span>
+    <span>PERSONAL SITE / V0.8.0</span>
     <span>HEL &rarr; NYC &rarr; VIE &rarr; LON &rarr; DEN HAAG</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
@@ -1209,7 +1210,7 @@ footer{border-top:1px solid var(--line)}
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. One file, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.7.9 / DEPLOYED 2026.08.14</span>
+      <span>V0.8.0 / DEPLOYED 2026.08.14</span>
     </div>
   </div>
 </footer>
@@ -1296,7 +1297,7 @@ const BUILDS = [
   {num:"PRJ/01 / IN PRODUCTION", name:"Team Intelligence",
    desc:"AI-assisted due-diligence platform that scores venture teams via questionnaires and secondary research — online footprint monitoring, company registry checks and automated reference triangulation.",
    tags:["internal tool","diligence","0\u21921"], gh:""},
-  {num:"PRJ/02 / IN DEVELOPMENT", name:"4impact Data Room",
+  {num:"PRJ/02 / IN DEVELOPMENT", name:"DD-Dev",
    desc:"Checklist-driven virtual data room for material due diligence. Founder teams upload documents item by item; 4impact reviews in the same surface with a versioned accept / request-changes loop. Deliberately smaller and stricter than the rest of the stack \u2014 AI-free, append-only, default-deny access, documents custodied behind a log-first signed-URL broker.",
    tags:["react","supabase","security","diligence"], gh:""},
   {num:"PRJ/03 / LIVE", name:"HuurHel",
@@ -1308,7 +1309,10 @@ const BUILDS = [
   {num:"PRJ/05 / LIVE", name:"Nexus",
    desc:"Local-first personal CRM. Unlimited contacts, BYOK AI copilot, no cloud required. Built for people who take relationships seriously.",
    tags:["electron","react","sqlite","ai"], gh:"https://github.com/danieljpuusitalo/nexus"},
-  {num:"PRJ/06 / LIVE", name:"This Website",
+  {num:"PRJ/06 / IN DEVELOPMENT", name:"OCS-Engine",
+   desc:"Full-stack social media automation for SMEs: generates, schedules and publishes content across channels end-to-end.",
+   tags:["python","automation","social media"], gh:""},
+  {num:"PRJ/07 / LIVE", name:"This Website",
    desc:"The page you're reading. One HTML file, no framework, no build step. A cursor-reactive dot field, film negatives and a commit log, maintained by editing four arrays.",
    tags:["single file","design","weekend build"], gh:"https://github.com/danieljpuusitalo/danieljpuusitalo"}
 ];
@@ -1327,7 +1331,7 @@ const BUILDS_OVERRIDES = {
   'nexus':            {num:"PRJ/05 / LIVE", name:"Nexus",
     desc:"Local-first personal CRM. Unlimited contacts, BYOK AI copilot, no cloud required. Built for people who take relationships seriously.",
     tags:["electron","react","sqlite","ai"]},
-  'danieljpuusitalo': {num:"PRJ/06 / LIVE", name:"This Website",
+  'danieljpuusitalo': {num:"PRJ/07 / LIVE", name:"This Website",
     desc:"The page you're reading. One HTML file, no framework, no build step. A cursor-reactive dot field, film negatives and a commit log, maintained by editing four arrays.",
     tags:["single file","design","weekend build"]},
   'FloatNote-mac':    {skipApi:true},
@@ -1378,7 +1382,7 @@ const FINE = matchMedia('(pointer: fine)').matches;
     cx.setTransform(dpr,0,0,dpr,0,0);
     dots = [];
     for(let y=GAP/2; y<H; y+=GAP)
-      for(let x=GAP/2; x<W; x+=GAP) dots.push({x,y});
+      for(let x=GAP/2; x<W; x+=GAP) dots.push({x,y,p:(x*.7+y*1.3)*.05});
   }
   function draw(){
     t++;
@@ -1386,16 +1390,18 @@ const FINE = matchMedia('(pointer: fine)').matches;
     mx += (tx-mx)*.08; my += (ty-my)*.08;
     cx.clearRect(0,0,W,H);
     const neg = document.body.classList.contains('negative');
-    for(const d of dots){
-      const dist = Math.hypot(d.x-mx, d.y-my);
-      const boost = Math.max(0, 1 - dist/240);
-      const tw = .5 + .5*Math.sin((d.x*.7 + d.y*1.3)*.05 + t*.02);
-      const a = .05 + tw*.04 + boost*.45;
-      const r = .8 + tw*.3 + boost*1.9;
-      cx.beginPath(); cx.arc(d.x, d.y, r, 0, 6.2832);
-      cx.fillStyle = neg ? `rgba(13,13,12,${a})` : `rgba(244,244,241,${a})`;
+    cx.fillStyle = neg ? '#0d0d0c' : '#f4f4f1';
+    const R2 = 240*240;
+    for(let i=0;i<dots.length;i++){
+      const d = dots[i];
+      const dx = d.x-mx, dy = d.y-my, d2 = dx*dx+dy*dy;
+      const boost = d2 < R2 ? 1 - Math.sqrt(d2)/240 : 0;
+      const tw = .5 + .5*Math.sin(d.p + t*.02);
+      cx.globalAlpha = .05 + tw*.04 + boost*.45;
+      cx.beginPath(); cx.arc(d.x, d.y, .8 + tw*.3 + boost*1.9, 0, 6.2832);
       cx.fill();
     }
+    cx.globalAlpha = 1;
     raf = requestAnimationFrame(draw);
   }
   function drawStatic(){

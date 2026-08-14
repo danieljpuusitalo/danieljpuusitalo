@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.8.0 — 2026-08-14 "builds & polish"
+
+Builds: renamed "4impact Data Room" → "DD-Dev" (description unchanged); added OCS-Engine (PRJ/06, "Full-stack social media automation for SMEs" — kept high-level, no client detail), This Website → PRJ/07. Performance: canvas dot-field draw loop optimized — precomputed per-dot twinkle phase, squared-distance gate (skip sqrt for the ~90% of dots outside the cursor radius), and `globalAlpha` + single `fillStyle` instead of a per-dot `rgba()` string (was ~180k string allocations/sec); identical visual, much lighter per frame. Layout: contact-sheet frames given a fixed width (200px desktop / 158px mobile) so thumbnails are uniform on desktop and no longer clip to the left edge on mobile. Bio grid recomposed — capped both columns and centered the pair (was `1.15fr .85fr` with a ~170px dead gutter between text and photos) so text sits beside the photos with balanced editorial margins.
+
 ## v0.7.9 — 2026-08-14
 
 Restructured homepage JSON-LD into an `@graph` (WebPage → ImageObject → Person) for a stronger representative-image signal: the portrait is now a full `ImageObject` (1024×1052, contentUrl, caption) referenced by both `Person.image` and the WebPage's `primaryImageOfPage`. Improves eligibility for a Google result thumbnail. No visible-page change. (Title/OG already read "European Venture Capitalist" since v0.7.7 — confirmed no "Finnish Venture Capitalist" remains; factual Finland/nationality references kept.)
