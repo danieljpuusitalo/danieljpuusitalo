@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.7.9 — 2026-08-14
+
+Restructured homepage JSON-LD into an `@graph` (WebPage → ImageObject → Person) for a stronger representative-image signal: the portrait is now a full `ImageObject` (1024×1052, contentUrl, caption) referenced by both `Person.image` and the WebPage's `primaryImageOfPage`. Improves eligibility for a Google result thumbnail. No visible-page change. (Title/OG already read "European Venture Capitalist" since v0.7.7 — confirmed no "Finnish Venture Capitalist" remains; factual Finland/nationality references kept.)
+
 ## v0.7.8 — 2026-08-13
 
 Image sitemap expanded to help photos re-index under the new domain after the migration: gallery images completed from 5 → 7 (added both Davos 2025 photos), plus homepage portrait + Techarena photo; all lastmod refreshed to 2026-08-13. Gallery page identity text aligned person-first ("European venture capitalist"; dropped "4impact capital" from the meta/OG description and the Techarena alt).
