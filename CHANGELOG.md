@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.8.3 — 2026-08-14
+
+Content + polish batch. Mobile: hid the constellation's horizontal scrollbar (`scrollbar-width:none` + `::-webkit-scrollbar`), keeping drag-scroll and the "[ DRAG → ]" hint. Work/Affiliations: ArcticStartup → "Various Outlets" (+"across outlets"); Climate Reality → "Trained by Al Gore in Rome, member of the network."; WEF → "Former Global Shapers, Finnish Curator, Treasurer and sponsored attendee of the WEF Annual Summit 2025." Education: added MIT between Aalto and Brunel (type "Professional Program", subject "Digital Transformation", "Scholarship programme via Santander and MIT Professional Education"). Work/Themes: removed the bullet (`live`) from "Digital sovereignty" and "Physical AI". Builds: DD-Dev description genericized + shortened (dropped 4impact / internals) to "Document transfer and validation infrastructure for due diligence…"; OCS-Engine gains "used by health studios across NL". Browser-verified.
+
 ## v0.8.2 — 2026-08-14
 
 De-duplicated the contact block. The bio panel had a "01 / CONTACT SHEET" email block (NO FORMS / email / socials) sitting above the "01 / GALLERY" photo strip, duplicating the footer contact. Removed the bio-panel one; the footer keeps the contact and adopts that block's format — heading now reads "[ CONTACT SHEET ]" with "NO FORMS. NO CALENDLY. JUST MAIL." on its own line (was the single-line "CONTACT / no forms, no calendly, just mail"). Bio panel now flows BIO → CONVICTION → GALLERY. Browser-verified.

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.8.2
+     DANIEL UUSITALO / personal site v0.8.3
      Single file. No build step. No dependencies except Google Fonts.
      Project conventions & editing guide: see CLAUDE.md in this folder.
      ═══════════════════════════════════════════════════════════════════ -->
@@ -436,7 +436,8 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .route-tip .tip-k{color:var(--dim)}
 .route-tip .tip-v{color:var(--fg)}
 @media(max-width:700px){
-  .constellation{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .constellation{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .constellation::-webkit-scrollbar{display:none}
   .constellation svg{min-width:640px}
   .constellation::after{
     content:"[ DRAG \2192 ]";display:block;text-align:center;
@@ -889,7 +890,7 @@ footer{border-top:1px solid var(--line)}
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.8.2</span>
+    <span>PERSONAL SITE / V0.8.3</span>
     <span>HEL &rarr; NYC &rarr; VIE &rarr; LON &rarr; DEN HAAG</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
@@ -1027,8 +1028,8 @@ footer{border-top:1px solid var(--line)}
     <span class="chip">Natural capital</span>
     <span class="chip">Equity &amp; inclusion</span>
     <span class="chip">Health &amp; wellbeing</span>
-    <span class="chip live">Digital sovereignty</span>
-    <span class="chip live">Physical AI</span>
+    <span class="chip">Digital sovereignty</span>
+    <span class="chip">Physical AI</span>
   </div>
 
   <div class="plabel">02 / RECORD</div>
@@ -1077,20 +1078,20 @@ footer{border-top:1px solid var(--line)}
   <div class="history reveal">
     <div class="h-row">
       <span class="yr">WRITING</span>
-      <span class="role">ArcticStartup
-        <small>Contributing writer on Nordic startups, energy tech and European competitiveness.</small></span>
+      <span class="role">Various Outlets
+        <small>Contributing writer on Nordic startups, energy tech and European competitiveness across outlets.</small></span>
       <span class="st">&#9632; current</span>
     </div>
     <div class="h-row">
       <span class="yr">CLIMATE</span>
       <span class="role">The Climate Reality Project
-        <small>Trained Climate Reality Leader.</small></span>
+        <small>Trained by Al Gore in Rome, member of the network.</small></span>
       <span class="st">&#9632; current</span>
     </div>
     <div class="h-row">
       <span class="yr">NETWORK</span>
       <span class="role">World Economic Forum Global Shapers
-        <small>Davos50 Delegate 2025. Alumni member.</small></span>
+        <small>Former Global Shapers, Finnish Curator, Treasurer and sponsored attendee of the WEF Annual Summit 2025.</small></span>
       <span class="st">&#9633; archive</span>
     </div>
     <div class="h-row">
@@ -1109,6 +1110,12 @@ footer{border-top:1px solid var(--line)}
       <span class="yr">MSC</span>
       <span class="role">Aalto University, Economics &amp; Business
         <small>Systems thinking, sustainable materials, and the energy industry.</small></span>
+      <span class="st">&#9633; archive</span>
+    </div>
+    <div class="h-row">
+      <span class="yr">Professional Program</span>
+      <span class="role">Massachusetts Institute of Technology, Digital Transformation
+        <small>Scholarship programme via Santander and MIT Professional Education.</small></span>
       <span class="st">&#9633; archive</span>
     </div>
     <div class="h-row">
@@ -1199,7 +1206,7 @@ footer{border-top:1px solid var(--line)}
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. One file, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.8.2 / DEPLOYED 2026.08.14</span>
+      <span>V0.8.3 / DEPLOYED 2026.08.14</span>
     </div>
   </div>
 </footer>
@@ -1287,7 +1294,7 @@ const BUILDS = [
    desc:"AI-assisted due-diligence platform that scores venture teams via questionnaires and secondary research — online footprint monitoring, company registry checks and automated reference triangulation.",
    tags:["internal tool","diligence","0\u21921"], gh:""},
   {num:"PRJ/02 / IN DEVELOPMENT", name:"DD-Dev",
-   desc:"Checklist-driven virtual data room for material due diligence. Founder teams upload documents item by item; 4impact reviews in the same surface with a versioned accept / request-changes loop. Deliberately smaller and stricter than the rest of the stack \u2014 AI-free, append-only, default-deny access, documents custodied behind a log-first signed-URL broker.",
+   desc:"Document transfer and validation infrastructure for due diligence \u2014 versioned, access-controlled and built for sensitive material.",
    tags:["react","supabase","security","diligence"], gh:""},
   {num:"PRJ/03 / LIVE", name:"HuurHel",
    desc:"Unverified reviews helping renters make semi-informed decisions about Dutch rental properties. Search by address, read what others experienced.",
@@ -1299,7 +1306,7 @@ const BUILDS = [
    desc:"Local-first personal CRM. Unlimited contacts, BYOK AI copilot, no cloud required. Built for people who take relationships seriously.",
    tags:["electron","react","sqlite","ai"], gh:"https://github.com/danieljpuusitalo/nexus"},
   {num:"PRJ/06 / IN DEVELOPMENT", name:"OCS-Engine",
-   desc:"Full-stack social media automation for SMEs: generates, schedules and publishes content across channels end-to-end.",
+   desc:"Full-stack social media automation for SMEs, used by health studios across NL — generates, schedules and publishes content end-to-end.",
    tags:["python","automation","social media"], gh:""},
   {num:"PRJ/07 / LIVE", name:"This Website",
    desc:"The page you're reading. One HTML file, no framework, no build step. A cursor-reactive dot field, film negatives and a commit log, maintained by editing four arrays.",
