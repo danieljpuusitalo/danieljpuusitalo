@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.8.3
+     DANIEL UUSITALO / personal site v0.8.4
      Single file. No build step. No dependencies except Google Fonts.
      Project conventions & editing guide: see CLAUDE.md in this folder.
      ═══════════════════════════════════════════════════════════════════ -->
@@ -12,6 +12,7 @@
 <title>Daniel Uusitalo — European Venture Capitalist</title>
 <meta name="description" content="Daniel Uusitalo is a European venture capitalist and environmental activist, writing about startups, artificial intelligence, resilience and climate tech.">
 <meta name="author" content="Daniel Uusitalo">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://danieluusitalo.com/">
 <meta property="og:title" content="Daniel Uusitalo — European Venture Capitalist">
 <meta property="og:description" content="Daniel Uusitalo is a European venture capitalist and environmental activist, writing about startups, artificial intelligence, resilience and climate tech.">
@@ -20,8 +21,18 @@
 <meta property="og:image" content="https://danieluusitalo.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Daniel Uusitalo — European Venture Capitalist">
+<meta property="og:site_name" content="Daniel Uusitalo">
+<meta property="og:locale" content="en_US">
+<meta property="profile:first_name" content="Daniel">
+<meta property="profile:last_name" content="Uusitalo">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Daniel_Uusitalo">
 <meta name="twitter:creator" content="@Daniel_Uusitalo">
+<meta name="twitter:title" content="Daniel Uusitalo — European Venture Capitalist">
+<meta name="twitter:description" content="Daniel Uusitalo is a European venture capitalist and environmental activist, writing about startups, artificial intelligence, resilience and climate tech.">
+<meta name="twitter:image" content="https://danieluusitalo.com/og.png">
+<meta name="twitter:image:alt" content="Daniel Uusitalo — European Venture Capitalist">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%230a0a0a'/><path fill='%23f4f4f1' d='M10 10h14v3H13v11h-3zM40 10h14v14h-3V13H40zM10 40h3v11h11v3H10zM51 40h3v14H40v-3h11z'/><circle cx='32' cy='32' r='5' fill='%23f4f4f1'/></svg>">
 <script type="application/ld+json">
 {
@@ -47,13 +58,19 @@
   {
   "@type": "Person",
   "@id": "https://danieluusitalo.com/#person",
+  "mainEntityOfPage": { "@id": "https://danieluusitalo.com/#webpage" },
   "name": "Daniel Uusitalo",
   "givenName": "Daniel",
   "familyName": "Uusitalo",
   "url": "https://danieluusitalo.com/",
   "image": { "@id": "https://danieluusitalo.com/#primaryimage" },
   "description": "European venture capitalist and environmental activist who writes about startups, artificial intelligence, resilience and climate tech.",
-  "jobTitle": "Venture Capitalist",
+  "jobTitle": ["Venture Capitalist", "Investor"],
+  "hasOccupation": {
+    "@type": "Occupation",
+    "name": "Venture Capitalist",
+    "occupationLocation": { "@type": "Place", "name": "Europe" }
+  },
   "nationality": {
     "@type": "Country",
     "name": "Finland"
@@ -890,7 +907,7 @@ footer{border-top:1px solid var(--line)}
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.8.3</span>
+    <span>PERSONAL SITE / V0.8.4</span>
     <span>HEL &rarr; NYC &rarr; VIE &rarr; LON &rarr; DEN HAAG</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
@@ -936,7 +953,7 @@ footer{border-top:1px solid var(--line)}
     <div class="photo-stack reveal">
       <!-- EDIT: swap Gravatar hotlinks for local files (photos/...) anytime -->
       <figure class="photo r45" data-cap="Portrait, Den Haag">
-        <img src="photos/portrait.jpg" alt="Daniel Uusitalo" loading="lazy" decoding="async">
+        <img src="photos/portrait.jpg" alt="Daniel Uusitalo, European venture capitalist" loading="lazy" decoding="async">
         <figcaption class="tag">IMG/01 / portrait</figcaption>
       </figure>
       <figure class="photo r32" data-cap="Techarena Zero, Stockholm 2026">
@@ -1206,7 +1223,7 @@ footer{border-top:1px solid var(--line)}
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. One file, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.8.3 / DEPLOYED 2026.08.14</span>
+      <span>V0.8.4 / DEPLOYED 2026.08.14</span>
     </div>
   </div>
 </footer>

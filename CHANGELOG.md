@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.8.4 — 2026-08-14 "SEO sweep"
+
+Entity/crawlability pass. Added `robots` meta `index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1` to index, gallery and press-kit — enables large image previews and full snippets in Google results. Completed the social-card set: Twitter title/description/image/image:alt/site, plus og:image:alt, og:site_name, og:locale and profile:first_name/last_name. JSON-LD Person strengthened: jobTitle now ["Venture Capitalist","Investor"], added hasOccupation (Occupation, Europe) and mainEntityOfPage → the WebPage node. Hero portrait alt enriched ("Daniel Uusitalo, European venture capitalist"). Sitemap lastmod refreshed to 2026-08-14 across all URLs.
+
 ## v0.8.3 — 2026-08-14
 
 Content + polish batch. Mobile: hid the constellation's horizontal scrollbar (`scrollbar-width:none` + `::-webkit-scrollbar`), keeping drag-scroll and the "[ DRAG → ]" hint. Work/Affiliations: ArcticStartup → "Various Outlets" (+"across outlets"); Climate Reality → "Trained by Al Gore in Rome, member of the network."; WEF → "Former Global Shapers, Finnish Curator, Treasurer and sponsored attendee of the WEF Annual Summit 2025." Education: added MIT between Aalto and Brunel (type "Professional Program", subject "Digital Transformation", "Scholarship programme via Santander and MIT Professional Education"). Work/Themes: removed the bullet (`live`) from "Digital sovereignty" and "Physical AI". Builds: DD-Dev description genericized + shortened (dropped 4impact / internals) to "Document transfer and validation infrastructure for due diligence…"; OCS-Engine gains "used by health studios across NL". Browser-verified.
