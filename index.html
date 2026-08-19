@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.8.4
+     DANIEL UUSITALO / personal site v0.8.5
      Single file. No build step. No dependencies except Google Fonts.
      Project conventions & editing guide: see CLAUDE.md in this folder.
      ═══════════════════════════════════════════════════════════════════ -->
@@ -619,17 +619,17 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 }
 
 /* events */
-.ev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:48px;align-items:start}
+.ev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:48px;align-items:stretch}
 @media(max-width:960px){.ev-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.ev-grid{grid-template-columns:1fr}}
-.ev{border:1px solid var(--line);transition:border-color .15s;opacity:0;transform:translateY(14px)}
+.ev{border:1px solid var(--line);transition:border-color .15s;opacity:0;transform:translateY(14px);display:flex;flex-direction:column}
 .ev.on{opacity:1;transform:none;transition:opacity .45s ease,transform .45s ease,border-color .15s}
 .ev:hover{border-color:var(--fg)}
 .ev .photo{border:none;border-bottom:1px solid var(--line)}
-.ev-body{padding:18px 20px 20px}
+.ev-body{padding:18px 20px 20px;flex:1;display:flex;flex-direction:column}
 .ev-meta{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;display:flex;justify-content:space-between;gap:8px}
-.ev h3{font-size:1.15rem;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;line-height:1.15;margin-bottom:8px}
-.ev .role{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg);border:1px solid var(--faint);padding:3px 8px;display:inline-block}
+.ev h3{font-size:1.15rem;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;line-height:1.15;margin-bottom:8px;min-height:2.3em}
+.ev .role{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg);border:1px solid var(--faint);padding:3px 8px;display:inline-block;align-self:flex-start;margin-top:auto}
 .ev.tmpl{border-style:dashed;color:var(--dim)}
 @media(min-width:700px){.ev.feat{grid-column:span 2}}
 .ev.feat h3{font-size:1.45rem}
@@ -907,7 +907,7 @@ footer{border-top:1px solid var(--line)}
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.8.4</span>
+    <span>PERSONAL SITE / V0.8.5</span>
     <span>HEL &rarr; NYC &rarr; VIE &rarr; LON &rarr; DEN HAAG</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
@@ -1002,10 +1002,10 @@ footer{border-top:1px solid var(--line)}
     </div>
     <div class="fund-facts">
       <div><span class="k">AUM</span> <span class="v">&euro;84M</span></div>
+      <div><span class="k">FUNDS</span> <span class="v">Fund I, Fund II</span></div>
       <div><span class="k">LABEL</span> <span class="v">SFDR Article 9</span></div>
       <div><span class="k">CHEQUES</span> <span class="v">&euro;250k &ndash; &euro;2.5M initial + reserves</span></div>
-      <div><span class="k">PORTFOLIO</span> <span class="v">25+ companies</span></div>
-      <div><span class="k">NORDICS</span> <span class="v">&euro;20M+ earmarked</span></div>
+      <div><span class="k">PORTFOLIO</span> <span class="v">23+ companies</span></div>
     </div>
   </div>
 
@@ -1223,7 +1223,7 @@ footer{border-top:1px solid var(--line)}
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. One file, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.8.4 / DEPLOYED 2026.08.14</span>
+      <span>V0.8.5 / DEPLOYED 2026.08.19</span>
     </div>
   </div>
 </footer>
@@ -1266,32 +1266,32 @@ const EVENTS = [
    img:"photos/machn-leipzig.jpg", url:"https://machn-festival.de/en/"},
   {d:"MAY 2026", city:"STOCKHOLM, SE", name:"Techarena Zero 2026", role:"SPEAKER",
    img:"photos/techarena-zero-stockholm.jpg", url:"https://www.techarena.se"},
-  {d:"MAR 2025", city:"TAMPERE, FI", name:"Platform6 Stream Connect 2025", role:"SPEAKER",
-   img:"photos/platform6-stream-connect.jpg", url:"https://platform6.fi/"},
+  {d:"MAY 2026", city:"ONLINE", name:"The Startup Club", role:"INTERVIEW",
+   img:"photos/startup-club-interview.jpg", url:"https://www.thestartupclub.net", archived:true},
   {d:"JUN 2025", city:"AMSTERDAM, NL", name:"PitchXL 2025", role:"INVESTOR JURY",
    img:"photos/pitchxl-jury.jpg", url:"https://asif.ventures/"},
+  {d:"MAR 2025", city:"TAMPERE, FI", name:"Platform6 Stream Connect 2025", role:"SPEAKER",
+   img:"photos/platform6-stream-connect.jpg", url:"https://platform6.fi/"},
   {d:"MAR 2025", city:"TIRANA, AL", name:"Slush'd Tirana 2025", role:"SPEAKER",
    img:"photos/slushd-tirana.jpg", url:"https://slush.org"},
+  {d:"2025", city:"ONLINE", name:"Nasdaq Ladderworks", role:"INTERVIEW",
+   img:"photos/nasdaq-ladderworks.jpg", url:"https://www.nasdaq.com", archived:true},
   {d:"JAN 2025", city:"DAVOS, CH", name:"WEF Annual Meeting 2025", role:"DAVOS50 DELEGATE",
    img:"photos/wef-2025.jpg", url:"https://www.weforum.org/events/world-economic-forum-annual-meeting-2025/", feat:true},
   {d:"JAN 2025", city:"DAVOS, CH", name:"Der Brutkasten", role:"INTERVIEW",
    img:"photos/der-brutkasten-interview.jpg", url:"https://brutkasten.com", archived:true},
-  {d:"MAY 2026", city:"ONLINE", name:"The Startup Club", role:"INTERVIEW",
-   img:"photos/startup-club-interview.jpg", url:"https://www.thestartupclub.net", archived:true},
-  {d:"2025", city:"ONLINE", name:"Nasdaq Ladderworks", role:"INTERVIEW",
-   img:"photos/nasdaq-ladderworks.jpg", url:"https://www.nasdaq.com", archived:true},
   {d:"NOV 2024", city:"ONLINE", name:"Impact Loop, Nordic energy tech", role:"INTERVIEW",
    img:"photos/energy-tech-nordics.jpg", url:"https://impactloop.com", archived:true},
   {d:"SEP 2024", city:"TAMPERE, FI", name:"Platform6 Startup Showcase 2024", role:"INVESTOR JURY",
    img:"photos/platform6-event.jpg", url:"https://platform6.fi/"},
   {d:"SEP 2024", city:"HELSINKI, FI", name:"Climate Reality Leadership Summit 2024", role:"DELEGATE",
-   img:"photos/climate-reality-summit.jpg", url:"https://www.climaterealityproject.org"},
+   img:"photos/climate-reality-summit.jpg", pos:"50% 80%", url:"https://www.climaterealityproject.org"},
   {d:"MAY 2024", city:"HELSINKI, FI", name:"Solve the SDGs Hackathon 2024", role:"HOST",
    img:"photos/solve-sdgs-hackathon.jpg", url:""},
-  {d:"2020", city:"LONDON, UK", name:"Abbey Road Studios Hackathon 2020", role:"CO-HOST",
-   img:"photos/abbey-road-hackathon.jpg", url:""},
   {d:"2022\u20132023", city:"HELSINKI, FI", name:"NODUS Talks", role:"ORGANISER",
-   img:"photos/nodus-research-group.jpg", url:"https://www.nodus.aalto.fi"}
+   img:"photos/nodus-research-group.jpg", pos:"50% 78%", url:"https://www.nodus.aalto.fi"},
+  {d:"2020", city:"LONDON, UK", name:"Abbey Road Studios Hackathon 2020", role:"CO-HOST",
+   img:"photos/abbey-road-hackathon.jpg", url:""}
 ];
 
 /* event checklist — auto-crossout: dates in YYYY-MM-DD for comparison */
@@ -1301,6 +1301,7 @@ const EVENT_CHECKLIST = [
   {name:"Techarena Zero 2026, Stockholm", date:"2026-05-28", display:"28 May 2026"},
   {name:"Machn Festival 2026, Leipzig", date:"2026-06-04", display:"3–4 Jun 2026"},
   {name:"TechBBQ 2026, Copenhagen", date:"2026-08-26", display:"26 Aug 2026"},
+  {name:"Nordic Tech Week 2026, Stockholm", date:"2026-09-11", display:"10–11 Sep 2026"},
   {name:"The Drop 2026, Malmö", date:"2026-09-15", display:"15 Sep 2026"},
   {name:"Slush 2026, Helsinki", date:"2026-11-18", display:"18 Nov 2026"}
 ];
@@ -1308,10 +1309,10 @@ const EVENT_CHECKLIST = [
 /* builds — gh: repo URL if public */
 const BUILDS = [
   {num:"PRJ/01 / IN PRODUCTION", name:"Team Intelligence",
-   desc:"AI-assisted due-diligence platform that scores venture teams via questionnaires and secondary research — online footprint monitoring, company registry checks and automated reference triangulation.",
+   desc:"AI-assisted due-diligence platform that scores venture teams via questionnaires and secondary research: online footprint monitoring, company registry checks and automated reference triangulation.",
    tags:["internal tool","diligence","0\u21921"], gh:""},
   {num:"PRJ/02 / IN DEVELOPMENT", name:"DD-Dev",
-   desc:"Document transfer and validation infrastructure for due diligence \u2014 versioned, access-controlled and built for sensitive material.",
+   desc:"Document transfer and validation infrastructure for due diligence: versioned, access-controlled and built for sensitive material.",
    tags:["react","supabase","security","diligence"], gh:""},
   {num:"PRJ/03 / LIVE", name:"HuurHel",
    desc:"Unverified reviews helping renters make semi-informed decisions about Dutch rental properties. Search by address, read what others experienced.",
@@ -1323,7 +1324,7 @@ const BUILDS = [
    desc:"Local-first personal CRM. Unlimited contacts, BYOK AI copilot, no cloud required. Built for people who take relationships seriously.",
    tags:["electron","react","sqlite","ai"], gh:"https://github.com/danieljpuusitalo/nexus"},
   {num:"PRJ/06 / IN DEVELOPMENT", name:"OCS-Engine",
-   desc:"Full-stack social media automation for SMEs, used by health studios across NL — generates, schedules and publishes content end-to-end.",
+   desc:"Full-stack social media automation for SMEs, used by health studios across NL: generates, schedules and publishes content end-to-end.",
    tags:["python","automation","social media"], gh:""},
   {num:"PRJ/07 / LIVE", name:"This Website",
    desc:"The page you're reading. One HTML file, no framework, no build step. A cursor-reactive dot field, film negatives and a commit log, maintained by editing four arrays.",
@@ -1689,8 +1690,9 @@ function renderWire(){
     /* no-photo state: typographic card with oversized mono initials + corner brackets */
     const initials = ev.name.split(/\s+/).map(w=>w[0]).join('').toUpperCase().slice(0,3);
     const noPhoto = `<div class="ev-nophoto"><span class="ev-initials">${initials}</span></div>`;
+    const posStyle = ev.pos ? ` style="object-position:${ev.pos}"` : '';
     d.innerHTML =
-      `<figure class="photo r1610" data-gi="${gi}" data-cap="${cap}">${ev.img?`<img src="${ev.img}" alt="${ev.name}" loading="lazy" decoding="async">`:noPhoto}
+      `<figure class="photo r1610" data-gi="${gi}" data-cap="${cap}">${ev.img?`<img src="${ev.img}" alt="${ev.name}" loading="lazy" decoding="async"${posStyle}>`:noPhoto}
          <figcaption class="tag">${ev.img?'PHOTO':''}</figcaption></figure>`+
       `<div class="ev-body"><div class="ev-meta"><span>${ev.d}</span><span>${ev.city}</span></div>`+
       `<h3>${ev.name}</h3><span class="role">${ev.role}</span></div>`;
