@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.8.5
+     DANIEL UUSITALO / personal site v0.8.6
      Single file. No build step. No dependencies except Google Fonts.
      Project conventions & editing guide: see CLAUDE.md in this folder.
      ═══════════════════════════════════════════════════════════════════ -->
@@ -907,7 +907,7 @@ footer{border-top:1px solid var(--line)}
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.8.5</span>
+    <span>PERSONAL SITE / V0.8.6</span>
     <span>HEL &rarr; NYC &rarr; VIE &rarr; LON &rarr; DEN HAAG</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
@@ -1223,7 +1223,7 @@ footer{border-top:1px solid var(--line)}
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. One file, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.8.5 / DEPLOYED 2026.08.19</span>
+      <span>V0.8.6 / DEPLOYED 2026.08.23</span>
     </div>
   </div>
 </footer>
@@ -1294,7 +1294,8 @@ const EVENTS = [
    img:"photos/abbey-road-hackathon.jpg", url:""}
 ];
 
-/* event checklist — auto-crossout: dates in YYYY-MM-DD for comparison */
+/* event checklist — auto-crossout once passed. `date` = event's LAST day
+   (YYYY-MM-DD); it stays UPCOMING through that day and crosses out the day after. */
 const EVENT_CHECKLIST = [
   {name:"GoWest 2026, Gothenburg", date:"2026-01-28", display:"28 Jan 2026"},
   {name:"Techarena 2026, Stockholm", date:"2026-02-11", display:"11 Feb 2026"},
@@ -1303,6 +1304,8 @@ const EVENT_CHECKLIST = [
   {name:"TechBBQ 2026, Copenhagen", date:"2026-08-26", display:"26 Aug 2026"},
   {name:"Nordic Tech Week 2026, Stockholm", date:"2026-09-11", display:"10–11 Sep 2026"},
   {name:"The Drop 2026, Malmö", date:"2026-09-15", display:"15 Sep 2026"},
+  {name:"Prompt What Matters Fixathon 2026, Barcelona", date:"2026-10-14", display:"13–14 Oct 2026"},
+  {name:"Norrsken Impact Week 2026, Barcelona", date:"2026-10-15", display:"14–15 Oct 2026"},
   {name:"Slush 2026, Helsinki", date:"2026-11-18", display:"18 Nov 2026"}
 ];
 
@@ -1701,13 +1704,16 @@ function renderWire(){
   document.getElementById('n-events').textContent = `(${EVENTS.filter(e=>!e.tmpl && !e.archived).length})`;
 })();
 
-/* ── render: event checklist (auto-crossout past dates) ────────── */
+/* ── render: event checklist (auto-crossout once an event has passed) ──
+   ev.date = the event's LAST day (YYYY-MM-DD). Crossout is strict (< today)
+   so an event stays UPCOMING through its final day and only crosses out the
+   day AFTER it has fully passed. */
 (function renderChecklist(){
   const box = document.getElementById('event-checklist');
   if(!box) return;
   const today = new Date().toISOString().split('T')[0];
   box.innerHTML = EVENT_CHECKLIST.map(ev=>{
-    const past = ev.date <= today;
+    const past = ev.date < today;
     const check = past ? '&#9745;' : '&#9744;';
     const label = past ? 'DONE' : 'UPCOMING';
     return `<div class="cl-row ${past?'past':'upcoming'}">
