@@ -1,6 +1,19 @@
 # CLAUDE.md — danieljpuusitalo personal site
 
-Personal website of Daniel Uusitalo (Associate @ 4impact capital, The Hague; leads Nordic sourcing; writes publicly). Single-file static site, currently v0.7.2. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
+Personal website of Daniel Uusitalo — European venture capitalist and environmental activist (Investor at 4impact capital, The Hague; leads Nordic sourcing; writes publicly). Single-file static site, currently v0.8.7. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
+
+## Positioning — non-negotiables
+
+Identity-facing copy leads **person-first**, not employer-first.
+
+- **Role word is "Investor" or "venture capitalist". Never "Associate"** — anywhere, including this file, the README, and commit messages.
+- Name form is **"Daniel Uusitalo"**. "Daniel J.P. Uusitalo" is an alias only (Wikidata), never a display name.
+- 4impact references are fine but kept light and factual: the WORK-panel fund-specs card, `worksFor` in schema, the CV role entry, contact/footer. Helen Ventures is a **past** role — never present-tense.
+- **Canonical bio — reuse VERBATIM, do not paraphrase.** It must stay byte-identical across `index.html` (meta/OG/Twitter/JSON-LD `Person.description`), `press-kit.html`, Gravatar, and every third-party profile. Google fuses person descriptions from multiple sources, so drift between surfaces is itself the defect:
+
+  > Daniel Uusitalo is a European venture capitalist and environmental activist. He writes about start-ups, artificial intelligence, resilience and climate tech across different platforms. Daniel was born in Finland but grew up in New York City, Vienna, and London.
+
+  Note the exact forms: "start-ups" hyphenated, "He writes about" (not "writing about"), and the opening semantic triple "Daniel Uusitalo is a…" — keep all three.
 
 ## Architecture — non-negotiables
 
