@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.9.0
+     DANIEL UUSITALO / personal site v0.9.1
      Single file. No build step. No dependencies except Google Fonts.
      Project conventions & editing guide: see CLAUDE.md in this folder.
      ═══════════════════════════════════════════════════════════════════ -->
@@ -907,7 +907,7 @@ footer{border-top:1px solid var(--line)}
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.9.0</span>
+    <span>PERSONAL SITE / V0.9.1</span>
     <span>HEL &rarr; NYC &rarr; VIE &rarr; LON &rarr; DEN HAAG</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
@@ -1224,7 +1224,7 @@ footer{border-top:1px solid var(--line)}
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. One file, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.9.0 / DEPLOYED 2026.09.08</span>
+      <span>V0.9.1 / DEPLOYED 2026.09.08</span>
     </div>
   </div>
 </footer>
@@ -1274,12 +1274,29 @@ const WRITING = [
   {d:"2024.12",    src:"Medium",         type:"BLOG",      title:"Useless journaling and its not-so-useless benefits", url:"https://medium.com/@danieljpuusitalo/useless-journaling-and-its-not-so-useless-benefits-fc4d66c10c2c"},
   {d:"2024.12",    src:"Medium",         type:"BLOG",      title:"The rise of energy communities: a new era in local electricity consumption", url:"https://medium.com/@danieljpuusitalo/the-rise-of-energy-communities-a-new-era-in-electricity-consumption-4cafed25451d"},
   {d:"2024.10",    src:"Medium",         type:"BLOG",      title:"12 months in VC", url:"https://medium.com/@danieljpuusitalo/12-months-in-vc-eaab957cd79e"},
-  /* Same interview on two outlets. Ladderworks runs an interview-then-syndicate-to-Nasdaq
-     model, but the bylined dates run the other way (Nasdaq 23 Mar, Ladderworks 29 Mar 2024),
-     so neither is labelled "original" here. Both carry their own date. */
-  {d:"2024.03",    src:"Nasdaq",         type:"INTERVIEW", title:"Daniel Uusitalo: Supercharging Innovative and Transformative Energy Tech in Europe", url:"https://www.nasdaq.com/articles/daniel-uusitalo%3A-supercharging-innovative-and-transformative-energy-tech-in-europe", note:"Same interview, also on Ladderworks"},
-  {d:"2024.03",    src:"Ladderworks",    type:"INTERVIEW", title:"Daniel Uusitalo: Supercharging Innovative and Transformative Energy Tech in Europe", url:"https://www.ladderworks.co/blogs/spiffys-blog/daniel-uusitalo-supercharging-innovative-and-transformative-energy-tech-in-europe", note:"Same interview, also on Nasdaq"},
+  /* Also ran on Ladderworks (29 Mar 2024) — same interview, weaker domain, so only
+     the Nasdaq surface is listed. The Ladderworks URL still lives on Wikidata P973. */
+  {d:"2024.03",    src:"Nasdaq",         type:"INTERVIEW", title:"Daniel Uusitalo: Supercharging Innovative and Transformative Energy Tech in Europe", url:"https://www.nasdaq.com/articles/daniel-uusitalo%3A-supercharging-innovative-and-transformative-energy-tech-in-europe"},
 ];
+
+/* ═══ DATE IS THE ORDERING AUTHORITY ════════════════════════════════
+   Everything that renders writing sorts by date, so the order entries
+   sit in above is irrelevant — an entry can never appear out of place
+   again. Add new pieces anywhere in the array; put them at the top by
+   habit, but nothing breaks if you don't.
+
+     "2026.09" -> 202609
+     "2025"    -> 202500   (year-only sorts below every month of 2025)
+
+   Mirrored in tools/build-writing.mjs — change both together, and the
+   generator will fail loudly if a date is malformed.
+   ═══════════════════════════════════════════════════════════════════ */
+function dkey(d){
+  const m = String(d).match(/^(\d{4})(?:\.(\d{1,2}))?$/);
+  if(!m) return -1;                      // malformed sorts to the bottom, visibly
+  return +m[1]*100 + (m[2] ? +m[2] : 0);
+}
+const WRITING_SORTED = [...WRITING].sort((a,b)=>dkey(b.d)-dkey(a.d));
 
 /* events — img: local path or URL. url: links the card to a source */
 const EVENTS = [
@@ -1295,8 +1312,8 @@ const EVENTS = [
    img:"photos/platform6-stream-connect.jpg", url:"https://platform6.fi/"},
   {d:"MAR 2025", city:"TIRANA, AL", name:"Slush'd Tirana 2025", role:"SPEAKER",
    img:"photos/slushd-tirana.jpg", url:"https://slush.org"},
-  {d:"2025", city:"ONLINE", name:"Nasdaq Ladderworks", role:"INTERVIEW",
-   img:"photos/nasdaq-ladderworks.jpg", url:"https://www.nasdaq.com", archived:true},
+  {d:"2024", city:"ONLINE", name:"Nasdaq", role:"INTERVIEW",
+   img:"photos/nasdaq-ladderworks.jpg", url:"https://www.nasdaq.com/articles/daniel-uusitalo%3A-supercharging-innovative-and-transformative-energy-tech-in-europe", archived:true},
   {d:"JAN 2025", city:"DAVOS, CH", name:"WEF Annual Meeting 2025", role:"DAVOS50 DELEGATE",
    img:"photos/wef-2025.jpg", url:"https://www.weforum.org/events/world-economic-forum-annual-meeting-2025/", feat:true},
   {d:"JAN 2025", city:"DAVOS, CH", name:"Der Brutkasten", role:"INTERVIEW",
@@ -1333,7 +1350,7 @@ const EVENT_CHECKLIST = [
 /* builds — gh: repo URL if public */
 const BUILDS = [
   {num:"PRJ/01 / IN PRODUCTION", name:"Team Intelligence",
-   desc:"AI-assisted due-diligence platform that scores venture teams via questionnaires and secondary research: online footprint monitoring, company registry checks and automated reference triangulation.",
+   desc:"AI-assisted due diligence on startup teams: extracts evidence from decks, CVs and transcripts, checks it against web search, Nordic registries and domain records, then grades it with confidence intervals.",
    tags:["internal tool","diligence","0\u21921"], gh:""},
   {num:"PRJ/02 / IN DEVELOPMENT", name:"DD-Dev",
    desc:"Document transfer and validation infrastructure for due diligence: versioned, access-controlled and built for sensitive material.",
@@ -1344,14 +1361,14 @@ const BUILDS = [
   {num:"PRJ/04 / LIVE", name:"FloatNote",
    desc:"Always-on-top floating notepad for Windows. Frameless, transparent, auto-saves, global hotkey, system tray. Multiple windows, dark mode, markdown-ready.",
    tags:["electron","desktop","utility"], gh:"https://github.com/danieljpuusitalo/FloatNote"},
-  {num:"PRJ/05 / LIVE", name:"Nexus",
-   desc:"Local-first personal CRM. Unlimited contacts, BYOK AI copilot, no cloud required. Built for people who take relationships seriously.",
-   tags:["electron","react","sqlite","ai"], gh:"https://github.com/danieljpuusitalo/nexus"},
-  {num:"PRJ/06 / IN DEVELOPMENT", name:"OCS-Engine",
-   desc:"Full-stack social media automation for SMEs, used by health studios across NL: generates, schedules and publishes content end-to-end.",
+  {num:"PRJ/05 / IN DEVELOPMENT", name:"Nexus",
+   desc:"Conversation record layer over meeting notetakers: reorganises transcripts by person instead of by meeting, and tracks a two-sided ledger of commitments made and owed.",
+   tags:["react","typescript","vite"], gh:"https://github.com/danieljpuusitalo/nexus"},
+  {num:"PRJ/06 / IN PRODUCTION", name:"OCS-Engine",
+   desc:"Full-stack social automation for SMEs, used by health studios across NL. Cron-publishes to Instagram, Facebook and Google Business Profile behind a Notion approval gate; four feeds merged into one KPI view.",
    tags:["python","automation","social media"], gh:""},
   {num:"PRJ/07 / LIVE", name:"This Website",
-   desc:"The page you're reading. One HTML file, no framework, no build step. A cursor-reactive dot field, film negatives and a commit log, maintained by editing four arrays.",
+   desc:"The page you're reading. One HTML file, no framework, no bundler. A cursor-reactive dot field, film negatives and a commit log, maintained by editing a few arrays.",
    tags:["single file","design","weekend build"], gh:"https://github.com/danieljpuusitalo/danieljpuusitalo"}
 ];
 
@@ -1366,11 +1383,11 @@ const BUILDS_OVERRIDES = {
   'FloatNote':        {num:"PRJ/04 / LIVE", name:"FloatNote",
     desc:"Always-on-top floating notepad for Windows. Frameless, transparent, auto-saves, global hotkey, system tray. Multiple windows, dark mode, markdown-ready.",
     tags:["electron","desktop","utility"]},
-  'nexus':            {num:"PRJ/05 / LIVE", name:"Nexus",
-    desc:"Local-first personal CRM. Unlimited contacts, BYOK AI copilot, no cloud required. Built for people who take relationships seriously.",
-    tags:["electron","react","sqlite","ai"]},
+  'nexus':            {num:"PRJ/05 / IN DEVELOPMENT", name:"Nexus",
+    desc:"Conversation record layer over meeting notetakers: reorganises transcripts by person instead of by meeting, and tracks a two-sided ledger of commitments made and owed.",
+    tags:["react","typescript","vite"]},
   'danieljpuusitalo': {num:"PRJ/07 / LIVE", name:"This Website",
-    desc:"The page you're reading. One HTML file, no framework, no build step. A cursor-reactive dot field, film negatives and a commit log, maintained by editing four arrays.",
+    desc:"The page you're reading. One HTML file, no framework, no bundler. A cursor-reactive dot field, film negatives and a commit log, maintained by editing a few arrays.",
     tags:["single file","design","weekend build"]},
   'FloatNote-mac':    {skipApi:true},
 };
@@ -1554,7 +1571,7 @@ function fireFlash(){
 
 /* ── ticker — real headlines from the writing wire ──────────────── */
 (function ticker(){
-  const items = WRITING.slice(0,6)
+  const items = WRITING_SORTED.slice(0,6)
     .map(w=>`<b>${w.src.toUpperCase()}</b> &middot; ${w.title.toUpperCase()} &nbsp;&nbsp;&#9642;&nbsp;&nbsp; `)
     .join('');
   document.getElementById('ticker-track').innerHTML = items + items;
@@ -1668,13 +1685,13 @@ let wireFilter = 'ALL';
 function renderWire(){
   const box = document.getElementById('writing-feed');
   box.innerHTML = '';
-  const list = WRITING.filter(w=>wireFilter==='ALL'||w.src.toUpperCase()===wireFilter);
+  const list = WRITING_SORTED.filter(w=>wireFilter==='ALL'||w.src.toUpperCase()===wireFilter);
   list.forEach(w=>{
     const a = document.createElement('a');
     a.className='wrow'; a.href=w.url; a.target='_blank'; a.rel='noopener';
     a.innerHTML = `<span class="wdate">${w.d}</span>`+
       `<span class="wsrc">${w.src}</span>`+
-      `<span class="wtitle">${w.title}${w===WRITING[0]?'<span class="new">&#9679; LATEST</span>':''}</span>`+
+      `<span class="wtitle">${w.title}${w===WRITING_SORTED[0]?'<span class="new">&#9679; LATEST</span>':''}</span>`+
       `<span class="wtype">${w.type}</span><span class="warr">&nearr;</span>`;
     box.appendChild(a);
   });

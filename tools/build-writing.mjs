@@ -80,10 +80,36 @@ function readWriting() {
           `    Known: ${Object.keys(KIND).join(', ')}\n` +
           `    Add it to KIND in this script and decide: authored or about?`);
     }
+    if (dkey(w.d) < 0) {
+      die(`Entry ${i} ("${w.title}") has a malformed date "${w.d}".\n` +
+          `    Use "YYYY.MM" (e.g. 2026.09) or "YYYY" if the month is unknown.`);
+    }
+    const mo = String(w.d).split('.')[1];
+    if (mo !== undefined && (+mo < 1 || +mo > 12)) {
+      die(`Entry ${i} ("${w.title}") has month "${mo}" in date "${w.d}" — must be 01-12.`);
+    }
     if (seen.has(w.url)) die(`Duplicate URL: ${w.url}`);
     seen.add(w.url);
   });
-  return list;
+
+  // Date is the ordering authority — array order is irrelevant.
+  // Mirrors WRITING_SORTED in index.html.
+  const sorted = [...list].sort((a, b) => dkey(b.d) - dkey(a.d));
+  const drifted = sorted.findIndex((w, i) => w !== list[i]);
+  if (drifted !== -1) {
+    console.log(`\n  · note: the WRITING array is not in date order (first at index ` +
+                `${drifted}, "${sorted[drifted].title.slice(0, 40)}…").\n` +
+                `    Output is sorted correctly regardless — tidy the array only if you want to.`);
+  }
+  return sorted;
+}
+
+/* "2026.09" -> 202609 · "2025" -> 202500 (year-only sorts below every
+   month of that year) · malformed -> -1, which the validator rejects. */
+function dkey(d) {
+  const m = String(d).match(/^(\d{4})(?:\.(\d{1,2}))?$/);
+  if (!m) return -1;
+  return +m[1] * 100 + (m[2] ? +m[2] : 0);
 }
 
 /* ── helpers ─────────────────────────────────────────────────────── */
