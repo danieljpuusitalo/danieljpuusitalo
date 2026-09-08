@@ -44,6 +44,15 @@ Identity-facing copy leads **person-first**, not employer-first.
 | `robots.txt` | Crawler directives + sitemap pointer |
 | `.nojekyll` | Prevents GitHub Pages Jekyll processing |
 | `CNAME` | Custom-domain pointer for GitHub Pages (`danieluusitalo.com`) |
+| `.gitignore` | Backstop only. The real protection is that private docs live outside this repo — see below. |
+
+## Private working docs — NOT in this repo
+
+**This repo is PUBLIC.** Personal working notes — anything not about the website itself — live in **`../danieljpuusitalo-private/`** (i.e. `~/danieljpuusitalo-private/`), outside the repo entirely. That folder has its own README indexing them.
+
+**Why outside rather than ignored (moved 2026-09-08):** they previously sat *inside* this repo protected only by an **untracked** `.gitignore` — so one `git add -A`, or a fresh clone where that file did not exist, would have published them. Committing that `.gitignore` was not a fix either: it had to *name* each file, and the names are themselves the disclosure. Do not move them back, and do not list them in `.gitignore`.
+
+**The same rule applies to commit messages, changelog entries and this file.** A commit message is exactly as public as a tracked file, and it cannot be edited later without rewriting history. Describe *what changed in the site*; never describe the contents of the private folder.
 
 ## Design language (retain in every change)
 

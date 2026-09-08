@@ -1,0 +1,16 @@
+# This repo is PUBLIC. Nothing private belongs in it.
+#
+# Personal working notes live OUTSIDE this directory, in a sibling folder
+# that is not a repo. Keeping them out of the tree is the real protection:
+# an ignore rule that has to name each file would leak those names the
+# moment it is committed.
+#
+# The rules below are only a backstop for accidents.
+
+private/
+*.local.md
+*.local.html
+.env
+.env.*
+.DS_Store
+Thumbs.db
