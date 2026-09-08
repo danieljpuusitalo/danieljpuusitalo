@@ -28,6 +28,7 @@ Identity-facing copy leads **person-first**, not employer-first.
 | File | Purpose |
 |------|---------|
 | `index.html` | The entire site: CSS + HTML + JS + data |
+| `writing.html` | Crawlable writing archive — static mirror of `WRITING` (linked from footer + writing subtab) |
 | `press-kit.html` | Standalone press kit page (linked from footer) |
 | `404.html` | Custom 404 page |
 | `og.png` | Open Graph image (1200×630) |
@@ -74,7 +75,15 @@ Norrsken-adjacent editorial black/white, deliberately NOT a terminal/OS persona 
 
 ## Common tasks
 
-- **Add an article**: prepend one object to `WRITING` (`d`, `src`, `type`, `title`, `url`). Filter chips and ticker update automatically. Newest first; index 0 gets the LATEST badge.
+- **Add an article**: TWO places, both by hand.
+  1. Prepend one object to `WRITING` in `index.html` (`d`, `src`, `type`, `title`, `url`). Filter chips and ticker update automatically. Newest first; index 0 gets the LATEST badge.
+  2. Add it to `writing.html` — a visible `.wrow` **and** a matching `Article` node in the JSON-LD, plus a `ListItem` (authored) or a `Person.subjectOf` entry (interview/commentary).
+
+  **Why by hand:** `writing.html` exists because the `index.html` wire is client-rendered and invisible to every crawler that doesn't run JS (ChatGPT, Claude, Perplexity all execute zero JS; verified 2026-09-08 that a non-JS fetch of `/` returns no article titles). Automating the mirror would need a build step, which the architecture rules forbid. The cost is drift — **if the two lists disagree, `writing.html` is the one Google and the AI crawlers read.**
+
+  **Authored vs about — get this right.** Op-eds/columns/essays he WROTE go in the authored list with `author: {@id: #person}`. Interviews, quote roundups and profiles go in the second list with `about: {@id: #person}` and a `Person.subjectOf` reference. Miscategorising an interview as authored is both a factual error and a schema one. (Note: TechRound "GCSE Results Day" is a roundup by Les-Leigh A quoting him, NOT his byline — it was mislabelled `FEATURE` in `WRITING` until 2026-09-08.)
+
+  **Keep Article nodes thin** — `url`, `name`, `publisher`, `datePublished`, and one of `author`/`about`. No `image`, no `articleBody`. Fat nodes for content hosted on someone else's domain read as rich-result farming and risk a "structured data does not match page content" manual action. Every schema node must correspond 1:1 with a visible row.
 - **Add an event**: add to `EVENTS`. `img` accepts a URL or local path (`photos/x.jpg`). `url` links the card to a source. Set `archived:true` for interviews/past appearances. Set `feat:true` for featured 2-col cards.
 - **Add a build**: add to `BUILDS` for hardcoded entries, or add to `BUILDS_OVERRIDES` keyed by repo name for repos that should merge with API data.
 - **Exclude a repo**: add `'repo-name': {skipApi:true}` to `BUILDS_OVERRIDES`.

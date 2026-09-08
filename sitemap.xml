@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://danieluusitalo.com/</loc>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <image:image>
       <image:loc>https://danieluusitalo.com/photos/portrait.jpg</image:loc>
       <image:caption>Portrait of Daniel Uusitalo, European venture capitalist, in The Hague</image:caption>
@@ -14,12 +14,16 @@
     </image:image>
   </url>
   <url>
+    <loc>https://danieluusitalo.com/writing.html</loc>
+    <lastmod>2026-09-08</lastmod>
+  </url>
+  <url>
     <loc>https://danieluusitalo.com/press-kit.html</loc>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-09-06</lastmod>
   </url>
   <url>
     <loc>https://danieluusitalo.com/gallery.html</loc>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-09-06</lastmod>
     <image:image>
       <image:loc>https://danieluusitalo.com/photos/daniel-uusitalo-tirana-slushd-2025.jpg</image:loc>
       <image:caption>Daniel Uusitalo on stage as investor jury at Slush'd Tirana 2025, Albania</image:caption>
