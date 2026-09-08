@@ -1,6 +1,6 @@
 # CLAUDE.md — danieljpuusitalo personal site
 
-Personal website of Daniel Uusitalo — European venture capitalist and environmental activist (Investor at 4impact capital, The Hague; leads Nordic sourcing; writes publicly). Single-file static site, currently v0.8.7. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
+Personal website of Daniel Uusitalo — European venture capitalist and environmental activist (Investor at 4impact capital, The Hague; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.9.3. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
 
 ## Positioning — non-negotiables
 
@@ -21,7 +21,7 @@ Identity-facing copy leads **person-first**, not employer-first.
 
   **Daniel's own framing (2026-09-08): "the one file no build step thing is more of a marketing gimmick as part of this website — it is not a hard rule if it makes sense to improve the website in ways the principle does not align with, as long as the website continues to be easy to maintain and add to."** So the real test is **maintainability, not purity**. Don't refuse a genuine improvement to protect the slogan; do refuse anything that makes adding an article, event or project harder than editing an array. React, Tailwind and a full SSG remain off the table unless Daniel asks — those fail the maintainability test, not the slogan test.
 - **`tools/` holds hand-run maintenance scripts, not a build pipeline.** `tools/build-writing.mjs` regenerates `writing.html` from `index.html`'s `WRITING` array. Zero dependencies. The site still deploys as plain static files with nothing to compile. Don't add a `package.json`, a watcher, or a CI hook — the value is that a human runs one command and can read the diff.
-- **Companion pages:** `press-kit.html` (standalone press kit with headshot downloads, bios, speaking topics), `404.html` (custom error page). Both share the same design language and favicon.
+- **Companion pages (four):** `writing.html` (generated writing archive), `press-kit.html` (headshot downloads, bios, speaking topics), `gallery.html` (photo archive), `404.html` (custom error page). All four share the same design language and favicon.
 - **Strictly black & white.** All colors come from the CSS tokens in `:root` (`--bg #0a0a0a`, `--fg #f4f4f1`, `--dim`, `--faint`, `--line`, `--card`). Never add a hue. Photos are forced to B/W via CSS filters — never bypass this.
 - **Content is data.** Dynamic sections render from JS arrays in the `DATA` block at the bottom of `index.html`: `WRITING`, `EVENTS`, `BUILDS`, `BUILDS_OVERRIDES`, `PHOTOS`, `EVENT_CHECKLIST`, `DEMO_COMMITS`, plus `CFG`. Editing content means editing an array, not markup. Keep it that way.
 - **Everything below the `ENGINE` comment is logic** — safe to refactor, but keep it dependency-free vanilla JS.
@@ -100,7 +100,9 @@ Norrsken-adjacent editorial black/white, deliberately NOT a terminal/OS persona 
 - **Add a build**: add to `BUILDS` for hardcoded entries, or add to `BUILDS_OVERRIDES` keyed by repo name for repos that should merge with API data.
 - **Exclude a repo**: add `'repo-name': {skipApi:true}` to `BUILDS_OVERRIDES`.
 - **Swap photos**: drop files into `photos/` (color is fine — CSS converts to B/W). Update paths in `PHOTOS`/`EVENTS`/bio `<figure>`s.
-- **Bump version**: the version string lives in 3 places — update all three when releasing: (1) the `<!-- v0.x.x -->` comment near line 5, (2) the hero `.meta` span `V0.x.x`, and (3) the footer `V0.x.x` line. Search for the current version to find them.
+- **Bump version**: the version string lives in **4** places — update all four when releasing: (1) the `<!-- v0.x.x -->` comment near line 5, (2) the hero `.meta` span `V0.x.x`, (3) the footer `V0.x.x` line, and (4) **`DEMO_COMMITS`** — the `feat: ship v0.x.x` entry, which is user-visible whenever the GitHub API is rate-limited or offline and otherwise advertises a stale release. Also update `currently v0.x.x` in this file's first paragraph. Search for the current version to find them all.
+
+  The footer also carries a hardcoded `DEPLOYED YYYY.MM.DD` — it is the only date readout on the page that is not computed, so it goes stale the next time you push without touching it. Update it in the same pass.
 - **Commit log**: `CFG.GITHUB_USER = "danieljpuusitalo"`. Pulls public push events from the GitHub API on load; falls back to labelled `DEMO_COMMITS` when there are none. No token, no server.
 
 ## Voice rules
@@ -109,7 +111,7 @@ Concise, data-anchored, Nordic-humility-with-an-edge. No self-aggrandizing first
 
 ## Analytics
 
-Cookieless GoatCounter analytics is live (`danieluusitalo.goatcounter.com`), wired into all four HTML files (`index.html`, `press-kit.html`, `gallery.html`, `404.html`). Footer copy updated to "no cookies".
+Cookieless GoatCounter analytics is live (`danieluusitalo.goatcounter.com`), wired into all five HTML files (`index.html`, `writing.html`, `press-kit.html`, `gallery.html`, `404.html`). Footer copy updated to "no cookies".
 
 ## Facts already verified (don't re-research)
 

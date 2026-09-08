@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.9.3 — 2026-09-08 "contradiction sweep"
+
+A full audit of every page, plus the public repo metadata, for claims that had gone stale or that contradict each other.
+
+**Hard factual errors.** The Impact Loop "Scouting Nordic energy tech" interview was dated `NOV 2024` in `EVENTS` and `2025.11` in `WRITING` — one item, two years. Verified against the live article (3 Nov 2025); `EVENTS` was wrong and is corrected. The CV said "WEF **Annual Summit** 2025" while the same file's `EVENTS` said "WEF Annual **Meeting** 2025" — the Meeting is the real event. `DEMO_COMMITS`, which renders whenever the GitHub API is rate-limited, advertised "ship v0.5.1" on a v0.9.x site.
+
+**Schema contradicting the page.** JSON-LD asserted present `memberOf` the WEF Global Shapers Community while the visible CV row said "Former" with an `□ archive` glyph, and the press kit said "(alumni)". Moved to `alumniOf`, which is schema-valid for a past organisational affiliation and keeps the entity link. (Care needed: `alumniOf` already existed for Aalto and Brunel — a second key would have silently dropped both.)
+
+**Retired-claim sweep.** "One file / no build step / single file" removed from the source header, the footer, `README.md` and the project card; the card had also drifted to "three companion pages" while the file header listed four. The header claimed Google Fonts was the only dependency, omitting GoatCounter. `README.md` rewritten with a structure table and the generator workflow.
+
+**Public repo metadata.** The site repo's GitHub description still read "One file, no build step" and its homepage pointed at the **old** `danieljpuusitalo.github.io` URL rather than the canonical domain — both fixed. The `nexus` repo description still read "Personal CRM desktop app", contradicting the site's own card; updated to the record layer.
+
+**Labels vs content.** The EVENTS sub-note promised "interviews", but every interview in `EVENTS` is `archived:true` and filtered out of the grid — it now points at the writing archive, where they actually live. The contact-sheet label gains a link to `gallery.html`, mirroring how the writing sub-note links its archive. The "Side quests" card omitted Building, the single most load-bearing one on the page.
+
+**Numbering and print.** Auto-discovered build cards seeded their index from key counts, including `skipApi` stubs that render nothing, so the visible sequence jumped PRJ/07 → PRJ/09; now seeded from the highest rendered number. The empty "COMMUNITY — IN DEVELOPMENT" tab was printing on the one-page CV.
+
+**Companion pages** now share a consistent three-item cross-link nav; `writing.html` was previously orphaned, reachable only from the homepage. Its meta description omitted LinkedIn and GeekRoom, and its intro claimed a "full archive" of interviews after the Ladderworks entry was deliberately removed — now "selected". Press-kit bio word-count labels said 50 and 120 words for bios that are 38 and 110. Gallery geography omitted Germany while listing Leipzig. One image alt dropped the surname.
+
 ## v0.9.2 — 2026-09-08 "project copy, corrected and sharpened"
 
 **Team Intelligence — questionnaire restored.** v0.9.1 over-corrected: the founder/team questionnaire (the team-scan lens, `/q/:slug` and `/i/:token`, scored by `packages/scan-scoring`) is real and operational, and removing it understated the platform. The original sentence's actual flaw was implying the questionnaire and the research pipeline feed one blended number — something the codebase explicitly forbids ("the scan lens and profiler lens never merge into one number"). Now framed as **dual-lens**: a scored questionnaire *alongside* the document-and-web evidence pipeline. Both lenses present, neither merged.
