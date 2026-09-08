@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.9.1
+     DANIEL UUSITALO / personal site v0.9.2
      Single file. No build step. No dependencies except Google Fonts.
      Project conventions & editing guide: see CLAUDE.md in this folder.
      ═══════════════════════════════════════════════════════════════════ -->
@@ -907,7 +907,7 @@ footer{border-top:1px solid var(--line)}
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.9.1</span>
+    <span>PERSONAL SITE / V0.9.2</span>
     <span>HEL &rarr; NYC &rarr; VIE &rarr; LON &rarr; DEN HAAG</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
@@ -1224,7 +1224,7 @@ footer{border-top:1px solid var(--line)}
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. One file, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.9.1 / DEPLOYED 2026.09.08</span>
+      <span>V0.9.2 / DEPLOYED 2026.09.08</span>
     </div>
   </div>
 </footer>
@@ -1350,7 +1350,7 @@ const EVENT_CHECKLIST = [
 /* builds — gh: repo URL if public */
 const BUILDS = [
   {num:"PRJ/01 / IN PRODUCTION", name:"Team Intelligence",
-   desc:"AI-assisted due diligence on startup teams: extracts evidence from decks, CVs and transcripts, checks it against web search, Nordic registries and domain records, then grades it with confidence intervals.",
+   desc:"Dual-lens due diligence on startup teams: a scored founder and team questionnaire alongside an evidence pipeline that reads decks, CVs and transcripts, verifies against web search, Nordic registries and domain records, and grades with confidence intervals.",
    tags:["internal tool","diligence","0\u21921"], gh:""},
   {num:"PRJ/02 / IN DEVELOPMENT", name:"DD-Dev",
    desc:"Document transfer and validation infrastructure for due diligence: versioned, access-controlled and built for sensitive material.",
@@ -1365,11 +1365,11 @@ const BUILDS = [
    desc:"Conversation record layer over meeting notetakers: reorganises transcripts by person instead of by meeting, and tracks a two-sided ledger of commitments made and owed.",
    tags:["react","typescript","vite"], gh:"https://github.com/danieljpuusitalo/nexus"},
   {num:"PRJ/06 / IN PRODUCTION", name:"OCS-Engine",
-   desc:"Full-stack social automation for SMEs, used by health studios across NL. Cron-publishes to Instagram, Facebook and Google Business Profile behind a Notion approval gate; four feeds merged into one KPI view.",
+   desc:"Autonomous social media engine for SMEs, in production for health studios across NL. Cron-publishes to Instagram, Facebook and Google Business Profile behind a compliance linter and a human veto window; four analytics feeds fold into one KPI contract that re-weights the next cycle. 554 tests, unattended.",
    tags:["python","automation","social media"], gh:""},
   {num:"PRJ/07 / LIVE", name:"This Website",
-   desc:"The page you're reading. One HTML file, no framework, no bundler. A cursor-reactive dot field, film negatives and a commit log, maintained by editing a few arrays.",
-   tags:["single file","design","weekend build"], gh:"https://github.com/danieljpuusitalo/danieljpuusitalo"}
+   desc:"The page you're reading. One hand-written HTML file plus three companion pages, no framework and no bundler. A cursor-reactive dot field, film negatives, a live commit log, and a writing archive generated from the same arrays that render this page.",
+   tags:["hand-written","design","weekend build"], gh:"https://github.com/danieljpuusitalo/danieljpuusitalo"}
 ];
 
 /* builds overrides — keyed by repo name. Editorial content for known repos.
@@ -1387,8 +1387,8 @@ const BUILDS_OVERRIDES = {
     desc:"Conversation record layer over meeting notetakers: reorganises transcripts by person instead of by meeting, and tracks a two-sided ledger of commitments made and owed.",
     tags:["react","typescript","vite"]},
   'danieljpuusitalo': {num:"PRJ/07 / LIVE", name:"This Website",
-    desc:"The page you're reading. One HTML file, no framework, no bundler. A cursor-reactive dot field, film negatives and a commit log, maintained by editing a few arrays.",
-    tags:["single file","design","weekend build"]},
+    desc:"The page you're reading. One hand-written HTML file plus three companion pages, no framework and no bundler. A cursor-reactive dot field, film negatives, a live commit log, and a writing archive generated from the same arrays that render this page.",
+    tags:["hand-written","design","weekend build"]},
   'FloatNote-mac':    {skipApi:true},
 };
 

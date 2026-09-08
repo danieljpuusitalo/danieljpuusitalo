@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.9.2 — 2026-09-08 "project copy, corrected and sharpened"
+
+**Team Intelligence — questionnaire restored.** v0.9.1 over-corrected: the founder/team questionnaire (the team-scan lens, `/q/:slug` and `/i/:token`, scored by `packages/scan-scoring`) is real and operational, and removing it understated the platform. The original sentence's actual flaw was implying the questionnaire and the research pipeline feed one blended number — something the codebase explicitly forbids ("the scan lens and profiler lens never merge into one number"). Now framed as **dual-lens**: a scored questionnaire *alongside* the document-and-web evidence pipeline. Both lenses present, neither merged.
+
+**OCS-Engine sharpened.** Reframed from "full-stack social automation" to an autonomous engine, naming the compliance linter, the human veto window, the KPI contract that re-weights the next cycle, and the 554-test suite running unattended. Every claim verified against the repo — still no Meta ads claim, because that integration does not exist, and still no version number, because the project has none.
+
+**"This Website" was out of date.** "One HTML file" stopped being true the moment the companion pages landed; there are now three linked ones (`writing.html`, `press-kit.html`, `gallery.html`) plus a 404. Copy updated to "one hand-written HTML file plus three companion pages", and it now mentions the generated writing archive. The `single file` tag — which contradicted the new sentence — became `hand-written`.
+
 ## v0.9.1 — 2026-09-08 "date authority + project accuracy"
 
 **Writing.** Removed the Ladderworks entry — same interview as the Nasdaq piece, weaker domain, so only the stronger surface is listed (the Ladderworks URL still lives on Wikidata P973). **Date is now the sole ordering authority**: `dkey()` normalises `"2026.09"` → `202609` and year-only `"2025"` → `202500` (sorting below every month of that year), and the wire, the ticker and the generated archive all render from `WRITING_SORTED`. Array order is now irrelevant — nothing can appear out of place again regardless of where a new entry is pasted. The generator validates date format and month range, failing loudly on a malformed date, and prints a non-fatal note if the source array itself is out of order. Also corrected the archived Nasdaq event card: dated 2025 when the article is March 2024, and pointed at the bare domain instead of the article.
