@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.9.4 — 2026-09-11 "Nordic Tech Week"
+
+New EVENTS entry: **Nordic Tech Week 2026**, Stockholm, SPEAKER — the Mastercard Lighthouse fintech-and-impact panel at Volvo Studio Stockholm, 10 Sep 2026. It leads the grid, which goes from 11 cards to 12, and is named after the parent event rather than the session so it reads like every other card. The same photo opens `gallery.html`, whose intro list and four copies of the page description now name Stockholm's Nordic Tech Week alongside Tirana, Leipzig, Tampere and Davos.
+
+The room photo was downscaled to the 1600px / sub-200KB band the other event thumbnails sit in — the source was 3000px and 4.4MB — and it is exactly 3:2, which is the ratio the gallery grid crops to. The Luma link is stored without its `?tk=` invite token: that token is per-recipient and does not belong in a public href.
+
 ## v0.9.3 — 2026-09-08 "contradiction sweep"
 
 A full audit of every page, plus the public repo metadata, for claims that had gone stale or that contradict each other.
