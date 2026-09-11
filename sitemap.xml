@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://danieluusitalo.com/</loc>
-    <lastmod>2026-09-08</lastmod>
+    <lastmod>2026-09-11</lastmod>
     <image:image>
       <image:loc>https://danieluusitalo.com/photos/portrait.jpg</image:loc>
       <image:caption>Portrait of Daniel Uusitalo, European venture capitalist, in The Hague</image:caption>
@@ -23,7 +23,11 @@
   </url>
   <url>
     <loc>https://danieluusitalo.com/gallery.html</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-09-11</lastmod>
+    <image:image>
+      <image:loc>https://danieluusitalo.com/photos/daniel-uusitalo-mastercard-lighthouse-nordic-tech-week-2026.jpg</image:loc>
+      <image:caption>Daniel Uusitalo on the Mastercard Lighthouse fintech and impact tech panel at Nordic Tech Week 2026 in Stockholm, Sweden</image:caption>
+    </image:image>
     <image:image>
       <image:loc>https://danieluusitalo.com/photos/daniel-uusitalo-tirana-slushd-2025.jpg</image:loc>
       <image:caption>Daniel Uusitalo on stage as investor jury at Slush'd Tirana 2025, Albania</image:caption>
@@ -50,7 +54,7 @@
     </image:image>
     <image:image>
       <image:loc>https://danieluusitalo.com/photos/daniel-uusitalo-davos-2025-frej-larsson.jpg</image:loc>
-      <image:caption>Daniel Uusitalo with Frej Larsson at the World Economic Forum Annual Meeting 2025 in Davos, Switzerland</image:caption>
+      <image:caption>Daniel Uusitalo with Frej Larsson on the mountainside at the World Economic Forum Annual Meeting 2025 in Davos, Switzerland</image:caption>
     </image:image>
   </url>
 </urlset>
