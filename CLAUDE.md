@@ -1,6 +1,6 @@
 # CLAUDE.md — danieljpuusitalo personal site
 
-Personal website of Daniel Uusitalo — European venture capitalist and environmental activist (Investor at 4impact capital, The Hague; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.9.4. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
+Personal website of Daniel Uusitalo — European venture capitalist and environmental activist (Investor at 4impact capital, The Hague; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.9.5. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
 
 ## Positioning — non-negotiables
 
@@ -93,6 +93,8 @@ Norrsken-adjacent editorial black/white, deliberately NOT a terminal/OS persona 
   2. Run `node tools/build-writing.mjs` to regenerate `writing.html`.
 
   `WRITING` is the **single source of truth** for both the homepage wire and the crawlable archive. Never hand-edit `writing.html`'s rows or JSON-LD — the generator overwrites everything between the `<!-- GEN:… -->` markers. Prose outside the markers (intro, headings, styles) is safe to edit by hand.
+
+  **The `GEN:SCHEMA` markers must stay OUTSIDE the `<script type="application/ld+json">` tag, which the generator emits itself.** An HTML comment between the opening tag and the opening `{` makes the block invalid JSON and strict parsers reject the entire graph — v0.9.0 shipped it that way and all 24 nodes were unparseable until v0.9.5. If you ever move a marker, re-run `node -e "JSON.parse(...)"` on the block, not just `--check` (which compares the two files and happily confirms that both are broken in the same way).
 
   **`type` decides authorship, so get it right** — it selects both the section and the schema claim:
   - `OPED` · `COLUMN` · `BLOG` · `ARTICLE` → "Written by", emits `author: {@id: #person}`

@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.9.5 — 2026-09-11 "the archive's schema was never valid"
+
+`writing.html` exists for one reason: crawlers that don't run JavaScript see nothing on the homepage wire, so the archive is the static mirror that carries the articles and their structured data. Its structured data has been unparseable since v0.9.0.
+
+The generator's `<!-- GEN:SCHEMA -->` markers sat *inside* the `<script type="application/ld+json">` tag, so every render put an HTML comment between the opening tag and the opening `{`. That is not valid JSON — `JSON.parse` and Python's `json` both reject it — which means the CollectionPage, the ItemList and all 21 Article nodes, 24 in total, were being discarded by any strict consumer. The markers now sit outside the tag and `build-writing.mjs` emits the `<script>` wrapper itself, which is what makes that placement possible.
+
+Worth naming the reason it survived three releases: `--check` compares `writing.html` against what the generator would produce. Both were wrong in the same way, so it passed every time. A sync check is not a validity check, and `CLAUDE.md` now says so.
+
+Also: `sitemap.xml` `lastmod` for `writing.html` moved to 2026-09-11.
+
 ## v0.9.4 — 2026-09-11 "Nordic Tech Week"
 
 New EVENTS entry: **Nordic Tech Week 2026**, Stockholm, SPEAKER — the Mastercard Lighthouse fintech-and-impact panel at Volvo Studio Stockholm, 10 Sep 2026. It leads the grid, which goes from 11 cards to 12, and is named after the parent event rather than the session so it reads like every other card. The same photo opens `gallery.html`, whose intro list and four copies of the page description now name Stockholm's Nordic Tech Week alongside Tirana, Leipzig, Tampere and Davos.

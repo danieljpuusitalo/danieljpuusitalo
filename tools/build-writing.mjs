@@ -176,7 +176,13 @@ function build(list) {
     ...about.map(articleNode),
   ];
 
-  const schema = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  /* The <script> wrapper is generated, not templated, so the GEN markers
+     can sit OUTSIDE it. An HTML comment between <script type="application/
+     ld+json"> and the opening `{` makes the block invalid JSON — strict
+     parsers reject the whole graph — so the markers must never live
+     inside the tag. */
+  const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
+  const schema = `<script type="application/ld+json">\n${json}\n</script>`;
 
   const section = (heading, note, items) =>
     `  <h2>${heading}</h2>\n  <div class="snote">${note}</div>\n  <div class="wire">\n${items.map(row).join('')}\n  </div>`;
