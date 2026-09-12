@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.9.6 — 2026-09-12 "two events back, one city corrected"
+
+Two entries added to `EVENTS`, which goes from 12 visible cards to 14. **Pitch Events at Antler Helsinki** (Nov 2024, Helsinki, investor jury) and the **Global Shapers Annual Summit 2022** (Geneva, delegate) — the latter dated from the summit itself, 2–4 September 2022. Neither carries a source link: the Antler sessions have no public page, and the Global Shapers card points at the Forum's standing meeting page rather than a 2022 archive.
+
+**The Climate Reality entry was in the wrong city and the wrong month.** It read `SEP 2024 / HELSINKI, FI` while the CV row three panels up said "Trained by Al Gore in Rome" — a contradiction sitting in one file. The photo settles it: Italian slides, Al Gore on the screen. Corrected to `JUN 2024 / ROME, IT`, the 56th Climate Reality Leadership training, 28–30 June 2024. Note that `EVENTS` still has no date sort — unlike `WRITING`, it renders in raw array order, so both new entries were placed by hand.
+
+`EVENT_CHECKLIST`: The Drop 2026 in Malmö is 15–16 September, not a single day. The `date` field is the event's *last* day, so the crossout now fires on the 17th rather than the 16th.
+
+Both photos join `gallery.html` and the image sitemap, cropped to the 3:2 / 1600px / sub-200KB band the other event thumbnails sit in — the Antler source was 8816px and 9.2MB. The four copies of the gallery's page description were left alone: at ~220 characters they are already past what a search snippet will show, and lengthening the venue list to add two more names makes that worse, not better. The visible intro paragraph does name both.
+
 ## v0.9.5 — 2026-09-11 "the archive's schema was never valid"
 
 `writing.html` exists for one reason: crawlers that don't run JavaScript see nothing on the homepage wire, so the archive is the static mirror that carries the articles and their structured data. Its structured data has been unparseable since v0.9.0.
