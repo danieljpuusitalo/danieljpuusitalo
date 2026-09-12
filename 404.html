@@ -3,12 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>404 — daniel uusitalo</title>
+<title>404 / daniel uusitalo</title>
+<meta name="description" content="This page does not exist on danieluusitalo.com. Return to the index for work, writing, projects and the photo archive.">
+<!-- noindex, follow: the page itself should never rank, but the link back
+     to the index should still be crawled. No canonical either, since a 404
+     has no canonical version of itself to point at.
+
+     The OG tags are here for the one case that does matter: someone pastes
+     a broken danieluusitalo.com link into Slack or LinkedIn, and the
+     unfurl should still read as this site rather than as a blank card. -->
 <meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#0a0a0a">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Daniel Uusitalo">
+<meta property="og:title" content="404 / Daniel Uusitalo">
+<meta property="og:description" content="This page does not exist. Return to the index for work, writing, projects and the photo archive.">
+<meta property="og:image" content="https://danieluusitalo.com/og.png">
+<meta property="og:image:alt" content="Daniel Uusitalo / European Venture Capitalist">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://danieluusitalo.com/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%230a0a0a'/><path fill='%23f4f4f1' d='M10 10h14v3H13v11h-3zM40 10h14v14h-3V13H40zM10 40h3v11h11v3H10zM51 40h3v14H40v-3h11z'/><circle cx='32' cy='32' r='5' fill='%23f4f4f1'/></svg>">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0a'/%3E%3Cpath fill='%23f4f4f1' d='M10 10h14v3H13v11h-3zM40 10h14v14h-3V13H40zM10 40h3v11h11v3H10zM51 40h3v14H40v-3h11z'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23f4f4f1'/%3E%3C/svg%3E">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
@@ -51,6 +69,9 @@ a{
   text-decoration:none;transition:border-color .2s;
 }
 a:hover{border-color:#f4f4f1}
+/* A dead end is a wasted crawl and a wasted visit. The nav below is the
+   only outbound path off this page, so it names every other page. */
+.nav{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:28px}
 </style>
 </head>
 <body>
@@ -58,6 +79,11 @@ a:hover{border-color:#f4f4f1}
   <h1>[ FRAME NOT FOUND ]</h1>
   <p class="label">ERROR 404 / NEGATIVE SPACE</p>
   <a href="./">[ RETURN TO INDEX ]</a>
+  <nav class="nav">
+    <a href="writing.html">Writing archive</a>
+    <a href="gallery.html">Photo archive</a>
+    <a href="press-kit.html">Press kit</a>
+  </nav>
 </div>
 <script data-goatcounter="https://danieluusitalo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>

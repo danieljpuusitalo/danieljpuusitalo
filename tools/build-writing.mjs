@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* ═══════════════════════════════════════════════════════════════════
-   build-writing.mjs — regenerate writing.html from index.html's WRITING
+   build-writing.mjs / regenerate writing.html from index.html's WRITING
 
    The homepage writing wire is client-rendered, so crawlers that don't
    execute JavaScript (OpenAI, Anthropic and Perplexity crawlers all
@@ -13,7 +13,7 @@
      node tools/build-writing.mjs --check   exit 1 if out of sync
 
    No dependencies, no npm, no bundler. This is a maintenance script you
-   run by hand, NOT a build step — the site still deploys as plain static
+   run by hand, NOT a build step; the site still deploys as plain static
    files. That distinction is what keeps CLAUDE.md's architecture rule
    intact.
    ═══════════════════════════════════════════════════════════════════ */
@@ -28,7 +28,7 @@ const OUT = join(ROOT, 'writing.html');
 const PERSON = 'https://danieluusitalo.com/#person';
 
 /* Which section a piece belongs to, and whether he WROTE it or it is
-   ABOUT him. Unknown types throw — never guess this, it is both a
+   ABOUT him. Unknown types throw; never guess this, it is both a
    factual claim and a schema claim. */
 const KIND = {
   OPED: 'by', COLUMN: 'by', BLOG: 'by', ARTICLE: 'by',
@@ -45,7 +45,7 @@ function readWriting() {
   const open = src.indexOf('[', start);
 
   // Bracket-match so a `]` inside a title can never truncate the array.
-  // Must understand strings AND comments — an apostrophe in a `/* … */`
+  // Must understand strings AND comments: an apostrophe in a `/* … */`
   // note would otherwise read as an unterminated string and swallow
   // the rest of the file.
   let depth = 0, end = -1, inStr = null, inCom = null;
@@ -86,20 +86,20 @@ function readWriting() {
     }
     const mo = String(w.d).split('.')[1];
     if (mo !== undefined && (+mo < 1 || +mo > 12)) {
-      die(`Entry ${i} ("${w.title}") has month "${mo}" in date "${w.d}" — must be 01-12.`);
+      die(`Entry ${i} ("${w.title}") has month "${mo}" in date "${w.d}" must be 01-12.`);
     }
     if (seen.has(w.url)) die(`Duplicate URL: ${w.url}`);
     seen.add(w.url);
   });
 
-  // Date is the ordering authority — array order is irrelevant.
+  // Date is the ordering authority; array order is irrelevant.
   // Mirrors WRITING_SORTED in index.html.
   const sorted = [...list].sort((a, b) => dkey(b.d) - dkey(a.d));
   const drifted = sorted.findIndex((w, i) => w !== list[i]);
   if (drifted !== -1) {
     console.log(`\n  · note: the WRITING array is not in date order (first at index ` +
                 `${drifted}, "${sorted[drifted].title.slice(0, 40)}…").\n` +
-                `    Output is sorted correctly regardless — tidy the array only if you want to.`);
+                `    Output is sorted correctly regardless; tidy the array only if you want to.`);
   }
   return sorted;
 }
@@ -150,10 +150,10 @@ function build(list) {
       '@type': 'CollectionPage',
       '@id': 'https://danieluusitalo.com/writing.html#webpage',
       url: 'https://danieluusitalo.com/writing.html',
-      name: 'Writing archive — Daniel Uusitalo',
+      name: 'Writing archive / Daniel Uusitalo',
       description: 'Articles, op-eds and columns by Daniel Uusitalo, plus interviews and commentary published about him.',
       inLanguage: 'en',
-      isPartOf: { '@id': 'https://danieluusitalo.com/#webpage' },
+      isPartOf: { '@id': 'https://danieluusitalo.com/#website' },
       about: { '@id': PERSON },
       mainEntity: { '@id': 'https://danieluusitalo.com/writing.html#authored' },
     },
@@ -178,8 +178,8 @@ function build(list) {
 
   /* The <script> wrapper is generated, not templated, so the GEN markers
      can sit OUTSIDE it. An HTML comment between <script type="application/
-     ld+json"> and the opening `{` makes the block invalid JSON — strict
-     parsers reject the whole graph — so the markers must never live
+     ld+json"> and the opening `{` makes the block invalid JSON: strict
+     parsers reject the whole graph, so the markers must never live
      inside the tag. */
   const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2);
   const schema = `<script type="application/ld+json">\n${json}\n</script>`;
@@ -231,7 +231,7 @@ if (check) {
     console.log(`\n  = writing.html already up to date (${counts.total} pieces).\n`);
   } else {
     writeFileSync(OUT, html);
-    console.log(`\n  ✓ writing.html regenerated — ${counts.total} pieces: ` +
+    console.log(`\n  ✓ writing.html regenerated: ${counts.total} pieces: ` +
                 `${counts.by} authored, ${counts.about} about.\n` +
                 `    Every schema node maps 1:1 to a visible row.\n`);
   }

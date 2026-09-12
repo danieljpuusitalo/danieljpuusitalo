@@ -1,5 +1,45 @@
 # Changelog
 
+## v0.9.7 - 2026-09-12 "one array, four surfaces, and the projects nobody could crawl"
+
+### EVENTS is now the only place a photograph is declared
+
+`PHOTOS` is gone. Before this release the same photograph was described in three places: once in `EVENTS` for the event card, once in `PHOTOS` for the homepage gallery, and once by hand in `gallery.html` and again in `sitemap.xml`. Four copies of one fact, kept in sync by memory.
+
+Every event now carries a `pics[]` with `src`, `alt` and an optional `cap` / `note` / `pos` / `sheet`, plus a `slug` and a `k` sort key. Three lists fall out of it: `EVENTS_SORTED`, `ARCHIVE` (every pic of every non-archived event, flattened, newest first) and `SHEET` (the 35mm contact strip, which is now `ARCHIVE.filter(p => p.sheet)` rather than a separate list). Adding a photograph is one array edit and one command.
+
+`tools/build-gallery.mjs` writes `gallery.html` and the image block of `sitemap.xml` from that array, and `tools/lib.mjs` holds the helpers all the generators share. The generator validates rather than assumes: missing fields, a malformed `k`, a duplicate or non-URL-safe slug, an alt under five words, a `src` that is not on disk, a file listed twice, and orphan JPEGs in `photos/` that nothing references. Any of those stops the build.
+
+### The archive is the superset now
+
+`gallery.html` holds 24 photographs across 15 events, against 14 event cards on the homepage and 8 frames in the contact sheet. It is sorted by date of occurrence, newest first, and every figcaption carries a real `<time datetime>`. Every figure has its own anchor, so `gallery.html#techarena-zero-2026` is a link you can send someone, and the homepage lightbox caption now links through to it. Interview cards stay out: their images are article thumbnails, not photographs, and they belong to the writing archive.
+
+### The audit: projects were invisible to every crawler except Google
+
+A non-JavaScript read of `/` returned the whole BIO panel and the whole WORK panel as static text, which was the good news. It returned zero project names. The builds grid is built by `renderBuildCards()` inside two nested `display:none` containers, so Googlebot rendered it and the OpenAI, Anthropic and Perplexity crawlers saw an empty div. Writing had `writing.html` and events had `gallery.html`. Projects had nothing.
+
+`tools/build-projects.mjs` now writes the seven curated cards into `index.html` as real HTML, byte-matching what the renderer produces from `BUILDS`. The browser clears it within milliseconds and renders the live version, which is ordinary progressive enhancement: the static copy is a faithful subset of the rendered one, never something shown only to crawlers. API-discovered repos are deliberately left out, because they change without anyone editing this repo and freezing them into the markup would only guarantee a stale claim. Static text on the homepage went from 5,713 to 7,522 characters.
+
+### Photographs, for machines
+
+Filenames are descriptive now, because the filename is itself an image-search signal: `contact-05.jpg` became `daniel-uusitalo-wef-davos-2025-delegation.jpg`. Every archive image carries `width`/`height` read straight out of the JPEG header, so the grid cannot shift as photos load, plus `loading="lazy"` and `decoding="async"`. Alt text describes what is visible in the frame and names him only where he is actually identifiable, because an alt is a factual claim and not a keyword slot.
+
+`gallery.html` emits one `ImageObject` per visible figure with its caption, dimensions and place. It emits no `datePublished`: half these events are month-precision only and schema.org `Date` wants `YYYY-MM-DD`, so publishing one would mean inventing a day. The visible `<time datetime="2026-09">` carries the date instead, which is valid HTML and does not have to lie.
+
+### Structured data plumbing
+
+A `WebSite` node ties the four pages together and gives the site a name for search results; `writing.html`, `gallery.html` and `press-kit.html` now declare `isPartOf` against it rather than against the homepage's `WebPage`, which was the wrong parent. `gallery.html` restates a thin `Person` node: its 24 `ImageObject`s all point `about` at `#person`, an id defined on the homepage, and a validator handed that page alone saw 24 dangling references. `Person.email` was added, disclosing nothing that the `mailto:` link on the page did not already publish.
+
+### Smaller things
+
+`404.html` had a title and nothing else: no description, no Open Graph, no way out except the index. It now has all three, plus links to the three companion pages, so a broken link is no longer a dead end for a visitor or a crawler. It stays `noindex, follow` and still has no canonical, because a 404 has no canonical version of itself to point at.
+
+The lightbox `<img>` had no `src` at all, which is invalid HTML that validators flag on every crawl; it now holds a 1x1 transparent GIF until a photo is opened. `#builds`, `#writing`, `#events` and `#community` work as deep links into the projects subtabs, which is what the archive pages and the footer point at. The bio photo stack looks its frames up in `ARCHIVE` by filename, so the Techarena portrait links to its archive entry like every other photograph and the press-kit portrait correctly does not.
+
+The favicon's inline SVG is percent-encoded now. It sat in the `href` as raw markup, so every page began `data:image/svg+xml,<svg ...>` and any parser that finds tags by regex rather than by building a DOM closed the `<link>` early and read `">` as the first text on the page. Browsers were always fine, since the angle brackets were inside a quoted attribute; the parsers that were not are exactly the ones that read this site without running JavaScript. `<` and `>` are now `%3C` and `%3E`, which every browser accepts and no naive parser can trip over.
+
+Em dashes and double hyphens are gone from `index.html`, `gallery.html`, `press-kit.html`, `writing.html`, `404.html` and `README.md`. En dashes stay in date ranges, where they are correct. `CLAUDE.md` carries the rule now, along with the `EVENTS` shape, the three generators and the requirement that any new client-rendered section gets a static mirror.
+
 ## v0.9.6 — 2026-09-12 "two events back, one city corrected"
 
 Two entries added to `EVENTS`, which goes from 12 visible cards to 14. **Pitch Events at Antler Helsinki** (Nov 2024, Helsinki, investor jury) and the **Global Shapers Annual Summit 2022** (Geneva, delegate) — the latter dated from the summit itself, 2–4 September 2022. Neither carries a source link: the Antler sessions have no public page, and the Global Shapers card points at the Forum's standing meeting page rather than a 2022 archive.
