@@ -29,15 +29,25 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "ProfilePage",
-  "@id": "https://danieluusitalo.com/press-kit.html#webpage",
-  "url": "https://danieluusitalo.com/press-kit.html",
-  "name": "Press kit / Daniel Uusitalo",
-  "description": "Daniel Uusitalo is a venture capitalist at 4impact capital. Press kit: short and full bios, headshots and speaking topics.",
-  "inLanguage": "en",
-  "isPartOf": { "@id": "https://danieluusitalo.com/#website" },
-  "about": { "@id": "https://danieluusitalo.com/#person" },
-  "mainEntity": { "@id": "https://danieluusitalo.com/#person" }
+  "@graph": [
+    {
+      "@type": "ProfilePage",
+      "@id": "https://danieluusitalo.com/press-kit.html#webpage",
+      "url": "https://danieluusitalo.com/press-kit.html",
+      "name": "Press kit / Daniel Uusitalo",
+      "description": "Daniel Uusitalo is a venture capitalist at 4impact capital. Press kit: short and full bios, headshots and speaking topics.",
+      "inLanguage": "en",
+      "isPartOf": { "@id": "https://danieluusitalo.com/#website" },
+      "about": { "@id": "https://danieluusitalo.com/#person" },
+      "mainEntity": { "@id": "https://danieluusitalo.com/#person" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://danieluusitalo.com/#person",
+      "name": "Daniel Uusitalo",
+      "url": "https://danieluusitalo.com/"
+    }
+  ]
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">

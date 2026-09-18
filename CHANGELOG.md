@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.11.2 - 2026-09-18 "a reference that pointed nowhere"
+
+Search Console flagged an invalid object type for `mainEntity` on the press kit. The page declared itself a `ProfilePage` whose main entity was `{"@id": "https://danieluusitalo.com/#person"}`, a bare reference with no type. Google requires `mainEntity` on a `ProfilePage` to be a `Person` or an `Organization`, and an untyped reference is neither.
+
+The reference itself was not wrong. It points at the canonical `Person` node, which is the right way to say "this page and the home page are about the same entity". The problem is that a validator resolves `@id` only within the graph of the page it is reading, and the press kit was the one page that referenced `#person` without also defining it. `writing.html` and `gallery.html` had carried a local `Person` node all along, which is why neither ever complained.
+
+The press kit now carries the same lean node, in an `@graph` alongside the `ProfilePage`:
+
+```json
+{ "@type": "Person", "@id": "https://danieluusitalo.com/#person",
+  "name": "Daniel Uusitalo", "url": "https://danieluusitalo.com/" }
+```
+
+Four properties, matching what the two generated pages already emit. No copy of the bio and no second `sameAs` list, because a description that lives in two files is a description that will eventually disagree with itself.
+
 ## v0.11.1 - 2026-09-18 "four profiles, six impostors"
 
 Added Instagram, Facebook, YouTube and theorg to `sameAs`, bringing it to 16 entries. Each was confirmed by direct evidence rather than a matching handle: the Instagram profile links out to danieluusitalo.com, the Facebook intro lists The Hague and Monitor Deloitte and Aalto University, the YouTube channel description is his own bio verbatim, and the theorg entry sits under the 4impact capital organisation.
