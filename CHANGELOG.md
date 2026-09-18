@@ -1,5 +1,31 @@
 # Changelog
 
+## v0.11.0 - 2026-09-18 "a sentence Google can actually read"
+
+### The bio now says who he works for, in prose
+
+The canonical description had a gap nobody noticed because the structured data hid it. `worksFor: 4impact capital` has been in the JSON-LD for months, but structured data is not what search engines excerpt for a person description. They excerpt readable prose, and the old description never named the employer:
+
+> Daniel Uusitalo is a European venture capitalist and environmental activist. He writes about start-ups, artificial intelligence, resilience and climate tech across different platforms.
+
+An occupation with no organisation attached to it. The new string opens with the full triple, subject and predicate and organisation in the first clause:
+
+> Daniel Uusitalo is a venture capitalist at 4impact capital, where he invests in early-stage European software companies across the Nordics, DACH and Benelux. Born in Finland and based in The Hague, he is a Climate Reality Leader and writes about start-ups, artificial intelligence and climate tech.
+
+"Environmental activist" moves out of the opening sentence. Two occupations in one clause split the signal, and "Climate Reality Leader" is a credential someone can verify where "environmental activist" is a self-description. It is still there, one sentence later.
+
+This partly reverses v0.4.x and v0.5.0, which deliberately stripped the employer out of the descriptions to read person-first. Person-first still holds: Daniel is the grammatical subject and the page is about him, not the fund. The employer sits in the predicate because otherwise no readable sentence on the site connected the name to the organisation.
+
+### The BIO panel lead paragraph is third person now
+
+It read "I invest in early-stage European software founders" and had since the site was written. A person description is always third person, so first-person prose cannot be used as a source for one, which meant the most authoritative page on the site offered nothing to quote. The lead paragraph is now the canonical string verbatim, byte-identical to the meta, OG, Twitter and JSON-LD copies. The paragraphs after it stay in his voice, where the voice belongs.
+
+Verified: the new paragraph survives a JavaScript-stripped read of `/`, which is what the non-Google crawlers see.
+
+### Surfaces aligned
+
+The canonical string now appears byte-identical in eight places across `index.html`, `press-kit.html` and `writing.html`. The role phrase "venture capitalist at 4impact capital" replaces "European venture capitalist and environmental activist" in the page-level descriptions of `writing.html`, `gallery.html`, `press-kit.html` and the README. The press kit full bio was rewritten to open with the same clause as the short one, and now mentions The Hague.
+
 ## v0.9.7 - 2026-09-12 "one array, four surfaces, and the projects nobody could crawl"
 
 ### EVENTS is now the only place a photograph is declared

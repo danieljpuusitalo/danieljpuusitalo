@@ -1,6 +1,6 @@
 # CLAUDE.md — danieljpuusitalo personal site
 
-Personal website of Daniel Uusitalo — European venture capitalist and environmental activist (Investor at 4impact capital, The Hague; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.10.0. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
+Personal website of Daniel Uusitalo — venture capitalist at 4impact capital, The Hague (Investor; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.11.0. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
 
 ## Positioning — non-negotiables
 
@@ -8,12 +8,18 @@ Identity-facing copy leads **person-first**, not employer-first.
 
 - **Role word is "Investor" or "venture capitalist". Never "Associate"** — anywhere, including this file, the README, and commit messages.
 - Name form is **"Daniel Uusitalo"**. "Daniel J.P. Uusitalo" is an alias only (Wikidata), never a display name.
-- 4impact references are fine but kept light and factual: the WORK-panel fund-specs card, `worksFor` in schema, the CV role entry, contact/footer. Helen Ventures is a **past** role — never present-tense.
-- **Canonical bio — reuse VERBATIM, do not paraphrase.** It must stay byte-identical across `index.html` (meta/OG/Twitter/JSON-LD `Person.description`), `press-kit.html`, Gravatar, and every third-party profile. Google fuses person descriptions from multiple sources, so drift between surfaces is itself the defect:
+- 4impact references are otherwise kept light and factual: the WORK-panel fund-specs card, `worksFor` in schema, the CV role entry, contact/footer. Helen Ventures is a **past** role — never present-tense.
 
-  > Daniel Uusitalo is a European venture capitalist and environmental activist. He writes about start-ups, artificial intelligence, resilience and climate tech across different platforms. Daniel was born in Finland but grew up in New York City, Vienna, and London.
+  **Amended 2026-09-18 (Daniel approved the new bio explicitly).** v0.4.x/v0.5.0 deliberately stripped "4impact capital" *out* of the descriptions to read person-first. The employer is now back, but only in the predicate of the canonical bio. Person-first is unchanged as a rule: Daniel is still the grammatical subject and the page is still about him, not the fund. The reason for the reversal is entity resolution, not positioning. `worksFor` is structured data and structured data is not what gets excerpted, so with no employer in any readable prose there was no name-to-organisation triple on the site at all. Do not extend this into employer-led copy anywhere else.
+- **Canonical bio — reuse VERBATIM, do not paraphrase.** It must stay byte-identical across `index.html` (meta/OG/Twitter/JSON-LD `Person.description` **and the visible lead paragraph of the BIO panel**), `press-kit.html`, `writing.html`, Gravatar, and every third-party profile:
 
-  Note the exact forms: "start-ups" hyphenated, "He writes about" (not "writing about"), and the opening semantic triple "Daniel Uusitalo is a…" — keep all three.
+  > Daniel Uusitalo is a venture capitalist at 4impact capital, where he invests in early-stage European software companies across the Nordics, DACH and Benelux. Born in Finland and based in The Hague, he is a Climate Reality Leader and writes about start-ups, artificial intelligence and climate tech.
+
+  Note the exact forms: "start-ups" hyphenated, "writes about" (not "writing about"), and the opening semantic triple **"Daniel Uusitalo is a venture capitalist at 4impact capital"** — subject, predicate, organisation, in the first clause. Keep all three.
+
+  **Why byte-identity matters, corrected 2026-09-18.** The old rule here said "Google fuses person descriptions from multiple sources". That is **not** how it works and the claim traces to a single unsourced sentence. Google **selects one source** and excerpts it, which it confirms in its own docs by telling you to "contact the source of the information" rather than offering an edit field. Consistency still decides the outcome, but the mechanism is *which source wins*, not *how the blend comes out*. Right rule, wrong reason: do not relax it.
+
+  **Third person is a requirement, not a style preference.** A knowledge-panel description is always third person, so first-person prose cannot be selected as a source at all. The BIO panel's lead paragraph was first person until 2026-09-18, which made the site's most authoritative page unusable as a source. Paragraphs after the lead stay in his voice; the lead does not.
 
 ## Architecture — non-negotiables
 

@@ -1,6 +1,6 @@
 # danieljpuusitalo
 
-Personal website of Daniel Uusitalo, European venture capitalist and environmental activist. Hand-written static site deployed on GitHub Pages at [danieluusitalo.com](https://danieluusitalo.com).
+Personal website of Daniel Uusitalo, venture capitalist at 4impact capital. Hand-written static site deployed on GitHub Pages at [danieluusitalo.com](https://danieluusitalo.com).
 
 Black & white editorial identity, cursor-reactive halftone field, viewfinder cursor, shutter-wipe tabs, negative-film mode. No framework, no bundler, no dependencies except Google Fonts.
 
