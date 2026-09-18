@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.11.1 - 2026-09-18 "four profiles, six impostors"
+
+Added Instagram, Facebook, YouTube and theorg to `sameAs`, bringing it to 16 entries. Each was confirmed by direct evidence rather than a matching handle: the Instagram profile links out to danieluusitalo.com, the Facebook intro lists The Hague and Monitor Deloitte and Aalto University, the YouTube channel description is his own bio verbatim, and the theorg entry sits under the 4impact capital organisation.
+
+The handle pattern breaks on Facebook. His slug is `Daniel.Uusitalo`, not `danieljpuusitalo`, and the latter does not exist.
+
+Six accounts belonging to other people with the same name were found and deliberately excluded. Two of them outrank the real ones in search, including the Instagram account that is the first result for his name plus the platform. A `sameAs` entry is an assertion that an account belongs to a person, so a plausible guess there is worse than an omission.
+
 ## v0.11.0 - 2026-09-18 "a sentence Google can actually read"
 
 ### The bio now says who he works for, in prose
