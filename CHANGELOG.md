@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.12.0 - 2026-09-19 "a graph that said he had stopped working"
+
+The contribution card on the builds tab drew its grid from `/users/:u/events/public`. That endpoint is not a commit history. It is a truncated activity feed, it counts events rather than commits, it omits private repositories, and in practice it returned 47 records covering 26 days. The other 46 columns of a 52-week grid were blank by construction. The card was not reporting a quiet year; it was reporting the length of an API response.
+
+The honest source is the calendar fragment GitHub serves at `github.com/users/:u/contributions`, which carries exact per-day counts for public and private work and needs no token. It also sends no CORS header, so a browser cannot read it. It is therefore fetched at the desk by `tools/build-contributions.mjs` and spliced into the page as static HTML, which has the side effect of putting the card in front of crawlers that do not run JavaScript — something the client-rendered version never was. Four unauthenticated API calls per pageview went away with it, along with the failure mode where the whole card silently vanished for anyone who had spent GitHub's 60-per-hour anonymous budget.
+
+Two problems surfaced underneath that, both worth recording.
+
+**The calendar disagrees with the commits API, and the calendar is the one that is wrong.** Adding a second email address to a GitHub account re-attributes past commits within the hour, but the contribution calendar is a cached aggregate that rebuilds on its own schedule, and no amount of asking from outside will hurry it. Eight days were short; one of them read zero against three commits that exist and have SHAs. So each day is now reconciled as the higher of the two sources. That can only ever raise a day to a number of commits that provably exist, it never invents one, and it collapses into a no-op the moment GitHub catches up, which is why it stays in permanently instead of being a patch someone has to remember to remove. Private repositories still come from the calendar, which is the only source for them.
+
+**The grid was transposed, and it looked fine.** GitHub's fragment is seven `<tr>`, one per weekday, each holding 53 `<td>`, so reading it in document order gives every Sunday, then every Monday. Slicing that into sevens builds a column out of seven consecutive Sundays. The result still resembles a heatmap, and an existing guard that checked the grid starts on a Sunday passed it happily, because row-major order does begin on the first Sunday and end on the last Saturday. Caught by reading the `title` attributes inside a single column and noticing the dates were a week apart. Sorted by date now, with a guard that asserts consecutive days and refuses to render across a gap.
+
+The greens are gone. Five greys, matching the rest of the site, with the intensity thresholds read back out of GitHub's own `data-level` attribute rather than invented, so the shading still agrees with the profile page.
+
+Finally, the card updates itself. `.github/workflows/contributions.yml` re-snapshots daily and commits the result, which on a Pages repo is the deploy. It is the only automated job here and the only generator that gets one, because it is the only one whose input lives outside the repo.
+
 ## v0.11.2 - 2026-09-18 "a reference that pointed nowhere"
 
 Search Console flagged an invalid object type for `mainEntity` on the press kit. The page declared itself a `ProfilePage` whose main entity was `{"@id": "https://danieluusitalo.com/#person"}`, a bare reference with no type. Google requires `mainEntity` on a `ProfilePage` to be a `Person` or an `Organization`, and an untyped reference is neither.

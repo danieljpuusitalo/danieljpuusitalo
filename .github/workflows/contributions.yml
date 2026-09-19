@@ -1,0 +1,73 @@
+# Keeps the GitHub contribution card on the builds tab current.
+#
+# This is the only automated job in the repo, and it is here because it is
+# the only generator whose input lives outside the repo. The other three
+# (writing, gallery, projects) are pure functions of arrays a human edits,
+# so a human runs them and reads the diff. This one's input is Daniel's
+# own activity, which changes without anyone touching a file, so a card
+# that only refreshes when someone remembers to refresh it is a card that
+# is wrong most of the time.
+#
+# Pages deploys from master at repo root, so the commit at the end of this
+# job *is* the deploy. Nothing else to trigger.
+name: contributions
+
+on:
+  schedule:
+    # 05:17 UTC daily. Not on the hour: GitHub queues every :00 cron on the
+    # planet at once and they can slip by a long way. Lands ~07:17 in NL,
+    # so the card is already current at the start of the day.
+    - cron: '17 5 * * *'
+  workflow_dispatch:        # and a button, for when the answer is needed now
+
+concurrency:
+  group: contributions
+  cancel-in-progress: false # never let a cancel leave a half-written index.html
+
+permissions:
+  contents: write           # the job commits index.html back to master
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Re-snapshot the contribution calendar
+        env:
+          # Anonymous api.github.com is 60 requests an hour per IP, and a
+          # shared runner's IP may have spent them before we arrive.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node tools/build-contributions.mjs
+
+      - name: Verify what was written
+        run: node tools/build-contributions.mjs --check
+
+      - name: Verify the hand-run generators did not drift
+        # Not blocking. These three have nothing to do with the heatmap, and
+        # unrelated drift must not be allowed to freeze the card — but it
+        # should still be visible in the log.
+        continue-on-error: true
+        run: |
+          node tools/build-writing.mjs --check
+          node tools/build-gallery.mjs --check
+          node tools/build-projects.mjs --check
+
+      - name: Commit if the numbers moved
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "No change — the generator left index.html alone."
+            exit 0
+          fi
+          # Commit as the bot, never as Daniel. A commit authored by him
+          # would be counted by the very graph this job renders, and the
+          # card would start quoting its own automation back at him.
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'chore: re-snapshot the contribution heatmap'
+          git push

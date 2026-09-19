@@ -1,6 +1,6 @@
 # CLAUDE.md — danieljpuusitalo personal site
 
-Personal website of Daniel Uusitalo — venture capitalist at 4impact capital, The Hague (Investor; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.11.2. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
+Personal website of Daniel Uusitalo — venture capitalist at 4impact capital, The Hague (Investor; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.12.0. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
 
 ## Positioning — non-negotiables
 
@@ -26,16 +26,21 @@ Identity-facing copy leads **person-first**, not employer-first.
 - **One file — a preference, not a commandment.** Everything lives in `index.html`: CSS, HTML, JS, data. No frameworks, no bundler, no npm. Only external dependency: Google Fonts (Inter Tight + JetBrains Mono).
 
   **Daniel's own framing (2026-09-08): "the one file no build step thing is more of a marketing gimmick as part of this website — it is not a hard rule if it makes sense to improve the website in ways the principle does not align with, as long as the website continues to be easy to maintain and add to."** So the real test is **maintainability, not purity**. Don't refuse a genuine improvement to protect the slogan; do refuse anything that makes adding an article, event or project harder than editing an array. React, Tailwind and a full SSG remain off the table unless Daniel asks — those fail the maintainability test, not the slogan test.
-- **`tools/` holds hand-run maintenance scripts, not a build pipeline.** Three generators, all zero-dependency, all sharing `tools/lib.mjs`, all supporting `--check` (exit non-zero on drift):
+- **`tools/` holds hand-run maintenance scripts, not a build pipeline.** Four generators, all zero-dependency, all sharing `tools/lib.mjs`, all supporting `--check`:
 
   | Script | Reads | Writes |
   |---|---|---|
   | `build-writing.mjs` | `WRITING` | `writing.html` |
   | `build-gallery.mjs` | `EVENTS` | `gallery.html` + `sitemap.xml` |
   | `build-projects.mjs` | `BUILDS` | the static mirror inside `index.html`'s `#builds-grid` |
+  | `build-contributions.mjs` | github.com/users/:u/contributions (network) | the contribution card inside `index.html`'s `#gh-card` |
 
-  The site still deploys as plain static files with nothing to compile. Don't add a `package.json`, a watcher, or a CI hook — the value is that a human runs one command and can read the diff. **Run all three `--check`s before calling any content change done.**
-- **Client-rendered panels need static mirrors.** Every dynamic section renders inside two nested `display:none` containers, so a crawler that doesn't execute JS sees nothing. Googlebot renders JS; the OpenAI, Anthropic and Perplexity crawlers do not. Three of the four dynamic surfaces are therefore mirrored: writing → `writing.html`, events/photos → `gallery.html`, projects → generated HTML inside `#builds-grid` that the renderer overwrites on load. **If you add a fourth client-rendered content section, it needs a mirror too** — otherwise it is invisible to everything except Google.
+  The first three are pure: same input, same output, so `--check` demands byte equality. `build-contributions.mjs` reads a live third-party page that changes every time Daniel commits, so byte equality would fail daily and train you to ignore it. Its `--check` is offline and validates structure and age instead (missing markers, malformed grid, snapshot older than 90 days). Only the re-snapshot path touches the network.
+
+  The site still deploys as plain static files with nothing to compile. Don't add a `package.json` or a watcher — the value is that a human runs one command and can read the diff. **Run all four `--check`s before calling any content change done.**
+
+  **The one automated exception, added 2026-09-19 at Daniel's request:** `.github/workflows/contributions.yml` runs `build-contributions.mjs` daily and commits the result. It earns the exception because it is the only generator whose input is not in the repo — writing, gallery and projects are pure functions of arrays a human edits, so a human should run them and read the diff, and that rule is unchanged for all three. The heatmap's input is Daniel's own activity, which moves without anyone touching a file, so leaving it to memory guarantees a stale card. **Don't generalise this into a build pipeline.** If you are about to automate a generator whose input lives in `index.html`, the answer is no.
+- **Client-rendered panels need static mirrors.** Every dynamic section renders inside two nested `display:none` containers, so a crawler that doesn't execute JS sees nothing. Googlebot renders JS; the OpenAI, Anthropic and Perplexity crawlers do not. Four surfaces are therefore mirrored: writing → `writing.html`, events/photos → `gallery.html`, projects → generated HTML inside `#builds-grid` that the renderer overwrites on load, and the contribution heatmap → generated HTML inside `#gh-card`, which since v0.12.0 has no client render at all. The commit-log feedbox is the one that is still JS-only, by design: it is a live ticker, not content. **If you add another client-rendered content section, it needs a mirror too** — otherwise it is invisible to everything except Google.
 - **Companion pages (four):** `writing.html` (generated writing archive), `press-kit.html` (headshot downloads, bios, speaking topics), `gallery.html` (photo archive), `404.html` (custom error page). All four share the same design language and favicon.
 - **Strictly black & white.** All colors come from the CSS tokens in `:root` (`--bg #0a0a0a`, `--fg #f4f4f1`, `--dim`, `--faint`, `--line`, `--card`). Never add a hue. Photos are forced to B/W via CSS filters — never bypass this.
 - **Content is data.** Dynamic sections render from JS arrays in the `DATA` block at the bottom of `index.html`: `WRITING`, `EVENTS`, `BUILDS`, `BUILDS_OVERRIDES`, `EVENT_CHECKLIST`, `DEMO_COMMITS`, plus `CFG`. Editing content means editing an array, not markup. Keep it that way.
@@ -55,10 +60,11 @@ Identity-facing copy leads **person-first**, not employer-first.
 |------|---------|
 | `index.html` | The entire site: CSS + HTML + JS + data. The projects cards inside `#builds-grid` are **generated** — do not hand-edit inside the `<!-- GEN:BUILDS -->` markers |
 | `writing.html` | Crawlable writing archive — **generated** from `WRITING`, do not hand-edit inside the `<!-- GEN:… -->` markers |
-| `tools/lib.mjs` | Shared helpers for all three generators: `readArray`, `dkey`, `esc`, `isoDate`, `jpegSize`, `splice`, `die`. No deps. |
+| `tools/lib.mjs` | Shared helpers for all four generators: `readArray`, `dkey`, `esc`, `isoDate`, `jpegSize`, `splice`, `die`. No deps. |
 | `tools/build-writing.mjs` | Regenerates `writing.html` from `WRITING`. Run by hand, not a build step. Zero deps. |
 | `tools/build-gallery.mjs` | Regenerates `gallery.html` + `sitemap.xml`'s image block from `EVENTS`. Validates hard: missing fields, malformed `k`, duplicate slugs, stub alts, missing files, **orphan photos**. |
 | `tools/build-projects.mjs` | Regenerates the static projects mirror inside `index.html` from `BUILDS`. |
+| `tools/build-contributions.mjs` | Re-snapshots the GitHub contribution heatmap into `index.html`'s `#gh-card`. The only generator that hits the network. Validates GitHub's headline total against its own per-day sum, then reconciles each day against the commits API and takes the higher of the two. Refuses to write a number it cannot reconcile. |
 | `press-kit.html` | Standalone press kit page (linked from footer) |
 | `404.html` | Custom 404 page |
 | `og.png` | Open Graph image (1200×630) |
@@ -163,9 +169,15 @@ The archive anchor for a pic is `slug` for the first one and `slug-N` for the re
 - **Exclude a repo**: add `'repo-name': {skipApi:true}` to `BUILDS_OVERRIDES`.
 - **Deep-link into a panel**: `#bio`, `#work`, `#projects` open a tab; `#builds`, `#writing`, `#events`, `#community` open the projects tab on that subtab. The archive pages and the footer use these. The subtab is selected by the stagger call at the *bottom* of the script, which runs last — setting it earlier gets overwritten.
 - **Swap photos**: drop files into `photos/` (color is fine, CSS converts to B/W), update the `src` in that event's `pics[]` or in the bio `<figure>`s, then run `node tools/build-gallery.mjs`. Name files descriptively — the filename is itself an image-search signal, so `daniel-uusitalo-machn-leipzig-2026.jpg` beats `contact-04.jpg`.
-- **Bump version**: the version string lives in **4** places — update all four when releasing: (1) the `<!-- v0.x.x -->` comment near line 5, (2) the hero `.meta` span `V0.x.x`, (3) the footer `V0.x.x` line, and (4) **`DEMO_COMMITS`** — the `feat: ship v0.x.x` entry, which is user-visible whenever the GitHub API is rate-limited or offline and otherwise advertises a stale release. Also update `currently v0.x.x` in this file's first paragraph. Search for the current version to find them all.
+- **Bump version**: the version string lives in **4** places — update all four when releasing: (1) the `<!-- v0.x.x -->` comment near line 5, (2) the hero `.meta` span `V0.x.x`, (3) the footer `V0.x.x` line, and (4) **`DEMO_COMMITS`** — *if* it still carries a `feat: ship v0.x.x` entry. As of v0.12.0 it does not; the fallback feed is all undated placeholder commits. Check before hunting for a fourth occurrence. Also update `currently v0.x.x` in this file's first paragraph. Search for the current version to find them all.
 
   The footer also carries a hardcoded `DEPLOYED YYYY.MM.DD` — it is the only date readout on the page that is not computed, so it goes stale the next time you push without touching it. Update it in the same pass.
+- **Refresh the contribution heatmap**: `node tools/build-contributions.mjs`. **Since 2026-09-19 a daily GitHub Action does this for you** (`.github/workflows/contributions.yml`, 05:17 UTC, plus a `workflow_dispatch` button in the Actions tab); run it by hand only when you want the answer before tomorrow. It commits to `master`, which is also the deploy. Expect roughly one bot commit whenever the numbers actually move, and one a week otherwise — the generator refuses to rewrite the file just to bump its own snapshot date, but refreshes anyway every 7 days so `--check`'s staleness guard stays meaningful. The grid is a fixed 12-month window because that is all GitHub's fragment serves, and there is nothing earlier to show — full-year fetches for 2023, 2024 and 2025 all return zero active days, the account's first public repo being from 2026-02-17. **Commits only reach this graph if their author email is on the GitHub account**, so an unrecognised `git config user.email` silently deletes work from it.
+
+  Two traps in that script, both hit on 2026-09-19 and both now guarded:
+
+  - **GitHub's calendar lags its own commits API.** Adding an email to the account re-attributes past commits within the hour, but the calendar is a cached aggregate and rebuilds on its own schedule; eight days were still short, one of them showing zero against three pushed commits. There is no way to force the rebuild from outside. The script therefore fetches every default-branch commit from every non-fork repo and takes `max(calendar[day], attributedCommits[day])`. That can only raise a day to a number of commits that provably exist, each nameable by SHA, and it becomes a no-op once GitHub catches up — which is why it stays in permanently instead of being a one-off patch. Private repos still come from the calendar, the only source for them.
+  - **The fragment is row-major, not column-major.** It is seven `<tr>`, one per weekday, each holding 53 `<td>`. Document order is therefore every Sunday, then every Monday, and so on. Slicing that into sevens builds a "week" out of seven consecutive Sundays and ships a scrambled grid that still looks plausible at a glance — check the `title` attributes within one `.gh-col`, they must be consecutive dates. The script now sorts by date and asserts there is no gap before rendering.
 - **Commit log**: `CFG.GITHUB_USER = "danieljpuusitalo"`. Pulls public push events from the GitHub API on load; falls back to labelled `DEMO_COMMITS` when there are none. No token, no server.
 
 ## Voice rules
@@ -186,12 +198,13 @@ LinkedIn `/in/danieljpuusitalo`, GitHub `danieljpuusitalo`, Medium `@danieljpuus
 
 ## Verification before calling anything done
 
-Run all three drift checks — they are the cheap half and they catch the failure nobody notices, a mirror quietly going stale:
+Run all four drift checks — they are the cheap half and they catch the failure nobody notices, a mirror quietly going stale:
 
 ```
-node tools/build-writing.mjs  --check
-node tools/build-gallery.mjs  --check
-node tools/build-projects.mjs --check
+node tools/build-writing.mjs       --check
+node tools/build-gallery.mjs      --check
+node tools/build-projects.mjs     --check
+node tools/build-contributions.mjs --check
 ```
 
 Then open `index.html` in a browser: check all three tabs + subtabs, filter chips, lightbox (click photo, Esc closes), no console errors. Also check ~390px width (mobile layout shifts). Print preview: all three panels present, writing + events visible. Negative mode [D]: verify constellation NYC visible in both modes.
