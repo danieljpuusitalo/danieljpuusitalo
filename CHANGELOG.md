@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.12.2 - 2026-09-19 "four times a day, and on every push"
+
+Nothing on the page changed. The job behind it did.
+
+Daily was the wrong cadence for the one square a visitor is most likely to look at, the one for today, which could sit most of a day out of date. It now runs every six hours and on every push to `master`, so a commit from the laptop is on the card within about fifteen seconds. That is close to free in the commit log as well as on the runner, because the generator already refuses to rewrite `index.html` just to bump its own snapshot date: extra runs are almost always a no-op, and only real movement produces a commit.
+
+Adding a `push` trigger to a job that itself pushes looks like a loop and is not one. A commit made with `GITHUB_TOKEN` cannot start another workflow run; that is GitHub's protection, not an arrangement in this file. Verified by watching the bot's commit land and confirming no run followed it. What the trigger does create is a genuine race, since a push-triggered run and a scheduled one can now overlap, so the push is wrapped in a rebase-and-retry rather than failing and leaving the card a cycle behind.
+
+The runner also warned that both pinned actions target a deprecated Node. `actions/checkout` moves to v7. `actions/setup-node` was deleted rather than upgraded: the runner image already ships a current Node and the script is dependency-free ESM, so pinning a version bought nothing while adding a second third-party action to keep from rotting. The job prints `node --version` now, so the log still records what it ran on.
+
 ## v0.12.1 - 2026-09-19 "a resize that was not a resize"
 
 The heatmap hides whichever of its 53 columns do not fit, so the container never clips one down the middle. It measures on load, which is useless here: the card sits inside a panel that is `display:none` until its tab is clicked, so the first measurement is always zero and no `resize` event ever follows.
