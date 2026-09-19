@@ -39,18 +39,21 @@ jobs:
   snapshot:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
+      # No actions/setup-node. The runner image ships a current Node and the
+      # script is plain ESM with fetch and no dependencies, so pinning a
+      # version buys nothing and adds a second third-party action to keep
+      # from rotting. The step below prints what it got, so if that ever
+      # stops being true the log says so.
       - name: Re-snapshot the contribution calendar
         env:
           # Anonymous api.github.com is 60 requests an hour per IP, and a
           # shared runner's IP may have spent them before we arrive.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node tools/build-contributions.mjs
+        run: |
+          node --version
+          node tools/build-contributions.mjs
 
       - name: Verify what was written
         run: node tools/build-contributions.mjs --check
