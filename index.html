@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.12.0
+     DANIEL UUSITALO / personal site v0.12.1
      Hand-written. No framework, no bundler. External dependencies: Google Fonts + GoatCounter (cookieless analytics).
      Companion pages: writing.html (generated), press-kit.html, gallery.html, 404.html.
      Project conventions & editing guide: see CLAUDE.md in this folder.
@@ -946,7 +946,7 @@ footer{border-top:1px solid var(--line)}
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.12.0</span>
+    <span>PERSONAL SITE / V0.12.1</span>
     <span>HEL &rarr; NYC &rarr; VIE &rarr; LON &rarr; DEN HAAG</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
@@ -1308,7 +1308,7 @@ footer{border-top:1px solid var(--line)}
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. Hand-written, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.12.0 / DEPLOYED 2026.09.19</span>
+      <span>V0.12.1 / DEPLOYED 2026.09.19</span>
     </div>
   </div>
 </footer>
@@ -2055,6 +2055,11 @@ renderBuildCards(BUILDS, false);
     es => { if(es.some(e => e.isIntersecting)) trim(); },
     {rootMargin:'400px'}                               /* trim before it is on screen, not as it arrives */
   ).observe(hm);
+  /* The observer alone leaves a beat where a half-cut column is on screen,
+     because it cannot fire until the panel has been laid out. Any click
+     might be the one that reveals the card, so re-measure after it: two
+     frames, to land after the tab switch has settled. 53 rect reads. */
+  addEventListener('click', () => requestAnimationFrame(() => requestAnimationFrame(trim)), {passive:true});
   addEventListener('resize', trim, {passive:true});
 })();
 

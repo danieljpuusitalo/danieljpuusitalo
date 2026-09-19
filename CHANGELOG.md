@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.12.1 - 2026-09-19 "a resize that was not a resize"
+
+The heatmap hides whichever of its 53 columns do not fit, so the container never clips one down the middle. It measures on load, which is useless here: the card sits inside a panel that is `display:none` until its tab is clicked, so the first measurement is always zero and no `resize` event ever follows.
+
+`ResizeObserver` is the obvious instrument and it does not work. The heatmap is 665px wide before the panel is hidden and 665px after it is shown, and a box returning to a size it already had is not a resize, so nothing fires. Confirmed by observing a full hide-and-show cycle and collecting zero notifications. Becoming visible is an intersection, not a resize, so it uses `IntersectionObserver` now.
+
+That alone still left a beat where a half-cut column was on screen, because the observer cannot fire until the panel has been laid out. A click listener re-measures two frames later, which covers the gap.
+
 ## v0.12.0 - 2026-09-19 "a graph that said he had stopped working"
 
 The contribution card on the builds tab drew its grid from `/users/:u/events/public`. That endpoint is not a commit history. It is a truncated activity feed, it counts events rather than commits, it omits private repositories, and in practice it returned 47 records covering 26 days. The other 46 columns of a 52-week grid were blank by construction. The card was not reporting a quiet year; it was reporting the length of an API response.
