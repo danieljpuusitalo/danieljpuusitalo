@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased - 2026-09-19 "the check that cried wolf"
+
+No version bump, because nothing a visitor can see changed and no byte of committed content moved.
+
+`node tools/build-projects.mjs --check` reported drift on a clean tree, immediately after a checkout, with nothing to fix. Running the generator produced a file `git diff` called identical, and the check then passed. The cause is line endings. Git was set to check files out as CRLF on this machine, the generators build their markup in plain JS where a joined block is always LF, so the block sitting in `index.html` and the block the generator produced could never compare equal. CI runs on Linux, saw LF, and passed. The local check was the one lying.
+
+Only this generator tripped, which is why it went unnoticed: it is the only one that joins its cards with an explicit `'\n'` and then compares whole files. The contributions check validates structure rather than diffing, and the writing and gallery checks target files that happened not to hit the same path.
+
+Fixed with a `.gitattributes` that checks every text file out as LF. The blobs in history were already LF, so this changes nothing that is stored, verified with an empty `git add --renormalize` diff. It only stops git rewriting line endings on the way out, which makes the local checks and CI finally agree about the same tree.
+
 ## v0.12.2 - 2026-09-19 "four times a day, and on every push"
 
 Nothing on the page changed. The job behind it did.

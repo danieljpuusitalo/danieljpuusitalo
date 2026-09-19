@@ -1,0 +1,13 @@
+# Check every text file out with LF, on every machine.
+#
+# Why this exists: the generators in tools/ build their markup in plain JS,
+# so a joined block is always "\n" separated. index.html was being checked
+# out with CRLF on Windows (core.autocrlf=true), so the block already in
+# the file and the block the generator produced could never be equal, and
+# `node tools/build-projects.mjs --check` reported permanent false drift
+# on a clean tree. CI runs on Linux and saw LF, so the two disagreed and
+# the local check was the one crying wolf.
+#
+# The blobs in history are already LF, so this changes nothing that is
+# committed. It only stops git rewriting line endings on the way out.
+* text=auto eol=lf
