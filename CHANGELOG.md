@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.12.3 - 2026-09-20 "an eighth card"
+
+Equity Cockpit joins the builds grid, as PRJ/07. This Website moves down to PRJ/08 to keep the numbering sequential.
+
+Added to both `BUILDS` and `BUILDS_OVERRIDES`, so the client-rendered card and the static mirror non-JS crawlers read agree, then regenerated the mirror inside `#builds-grid` with `build-projects.mjs`. No engine change: this is a content-only release.
+
 ## Unreleased - 2026-09-19 "the check that cried wolf"
 
 No version bump, because nothing a visitor can see changed and no byte of committed content moved.

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.12.2
+     DANIEL UUSITALO / personal site v0.12.3
      Hand-written. No framework, no bundler. External dependencies: Google Fonts + GoatCounter (cookieless analytics).
      Companion pages: writing.html (generated), press-kit.html, gallery.html, 404.html.
      Project conventions & editing guide: see CLAUDE.md in this folder.
@@ -946,7 +946,7 @@ footer{border-top:1px solid var(--line)}
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.12.2</span>
+    <span>PERSONAL SITE / V0.12.3</span>
     <span>HEL &rarr; NYC &rarr; VIE &rarr; LON &rarr; DEN HAAG</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
@@ -1243,7 +1243,8 @@ footer{border-top:1px solid var(--line)}
       <a class="proj" href="https://github.com/danieljpuusitalo/FloatNote" target="_blank" rel="noopener"><span class="pnum">PRJ/04 / LIVE</span><h3>FloatNote</h3><p class="pdesc">Always-on-top floating notepad for Windows. Frameless, transparent, auto-saves, global hotkey, system tray. Multiple windows, dark mode, markdown-ready.</p><div class="ptags"><span>electron</span><span>desktop</span><span>utility</span></div></a>
       <a class="proj" href="https://github.com/danieljpuusitalo/nexus" target="_blank" rel="noopener"><span class="pnum">PRJ/05 / IN DEVELOPMENT</span><h3>Nexus</h3><p class="pdesc">Conversation record layer over meeting notetakers: reorganises transcripts by person instead of by meeting, and tracks a two-sided ledger of commitments made and owed.</p><div class="ptags"><span>react</span><span>typescript</span><span>vite</span></div></a>
       <div class="proj"><span class="pnum">PRJ/06 / IN PRODUCTION</span><h3>OCS-Engine</h3><p class="pdesc">Autonomous social media engine for SMEs, in production for health studios across NL. Cron-publishes to Instagram, Facebook and Google Business Profile behind a compliance linter and a human veto window; four analytics feeds fold into one KPI contract that re-weights the next cycle. 554 tests, unattended.</p><div class="ptags"><span>python</span><span>automation</span><span>social media</span></div></div>
-      <a class="proj" href="https://github.com/danieljpuusitalo/danieljpuusitalo" target="_blank" rel="noopener"><span class="pnum">PRJ/07 / LIVE</span><h3>This Website</h3><p class="pdesc">The page you're reading. One hand-written HTML file plus four companion pages, no framework and no bundler. A cursor-reactive dot field, film negatives, a live commit log, and a writing archive generated from the same arrays that render this page.</p><div class="ptags"><span>hand-written</span><span>design</span><span>weekend build</span></div></a>
+      <a class="proj" href="https://github.com/danieljpuusitalo/equity-cockpit" target="_blank" rel="noopener"><span class="pnum">PRJ/07 / LIVE</span><h3>Equity Cockpit</h3><p class="pdesc">Personal portfolio monitor that opens on the book rather than on a ticker: an allocation treemap, sector and geography exposure computed through the funds rather than around them, concentration, and a reporting calendar. Joins a broker export, live market prices and a written decision log, then reports only where the three disagree. It never suggests a trade.</p><div class="ptags"><span>python</span><span>analytics</span><span>self-hosted</span></div></a>
+      <a class="proj" href="https://github.com/danieljpuusitalo/danieljpuusitalo" target="_blank" rel="noopener"><span class="pnum">PRJ/08 / LIVE</span><h3>This Website</h3><p class="pdesc">The page you're reading. One hand-written HTML file plus four companion pages, no framework and no bundler. A cursor-reactive dot field, film negatives, a live commit log, and a writing archive generated from the same arrays that render this page.</p><div class="ptags"><span>hand-written</span><span>design</span><span>weekend build</span></div></a>
 <!-- /GEN:BUILDS -->
     </div>
 
@@ -1308,7 +1309,7 @@ footer{border-top:1px solid var(--line)}
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. Hand-written, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.12.2 / DEPLOYED 2026.09.19</span>
+      <span>V0.12.3 / DEPLOYED 2026.09.20</span>
     </div>
   </div>
 </footer>
@@ -1594,7 +1595,10 @@ const BUILDS = [
   {num:"PRJ/06 / IN PRODUCTION", name:"OCS-Engine",
    desc:"Autonomous social media engine for SMEs, in production for health studios across NL. Cron-publishes to Instagram, Facebook and Google Business Profile behind a compliance linter and a human veto window; four analytics feeds fold into one KPI contract that re-weights the next cycle. 554 tests, unattended.",
    tags:["python","automation","social media"], gh:""},
-  {num:"PRJ/07 / LIVE", name:"This Website",
+  {num:"PRJ/07 / LIVE", name:"Equity Cockpit",
+   desc:"Personal portfolio monitor that opens on the book rather than on a ticker: an allocation treemap, sector and geography exposure computed through the funds rather than around them, concentration, and a reporting calendar. Joins a broker export, live market prices and a written decision log, then reports only where the three disagree. It never suggests a trade.",
+   tags:["python","analytics","self-hosted"], gh:"https://github.com/danieljpuusitalo/equity-cockpit"},
+  {num:"PRJ/08 / LIVE", name:"This Website",
    desc:"The page you're reading. One hand-written HTML file plus four companion pages, no framework and no bundler. A cursor-reactive dot field, film negatives, a live commit log, and a writing archive generated from the same arrays that render this page.",
    tags:["hand-written","design","weekend build"], gh:"https://github.com/danieljpuusitalo/danieljpuusitalo"}
 ];
@@ -1613,7 +1617,10 @@ const BUILDS_OVERRIDES = {
   'nexus':            {num:"PRJ/05 / IN DEVELOPMENT", name:"Nexus",
     desc:"Conversation record layer over meeting notetakers: reorganises transcripts by person instead of by meeting, and tracks a two-sided ledger of commitments made and owed.",
     tags:["react","typescript","vite"]},
-  'danieljpuusitalo': {num:"PRJ/07 / LIVE", name:"This Website",
+  'equity-cockpit':   {num:"PRJ/07 / LIVE", name:"Equity Cockpit",
+    desc:"Personal portfolio monitor that opens on the book rather than on a ticker: an allocation treemap, sector and geography exposure computed through the funds rather than around them, concentration, and a reporting calendar. Joins a broker export, live market prices and a written decision log, then reports only where the three disagree. It never suggests a trade.",
+    tags:["python","analytics","self-hosted"]},
+  'danieljpuusitalo': {num:"PRJ/08 / LIVE", name:"This Website",
     desc:"The page you're reading. One hand-written HTML file plus four companion pages, no framework and no bundler. A cursor-reactive dot field, film negatives, a live commit log, and a writing archive generated from the same arrays that render this page.",
     tags:["hand-written","design","weekend build"]},
   'FloatNote-mac':    {skipApi:true},
