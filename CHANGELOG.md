@@ -32,6 +32,11 @@ Companion-page titles read `press kit / daniel uusitalo`, while the schema `name
 - **A tab click during the shutter wipe is queued instead of dropped.** A click on a second tab within 520 ms of the first was silently ignored, which looked like an unresponsive tab. The latest click now runs when the wipe finishes.
 - **The gallery's count line is readable.** It was 10px text in `--faint`, about 1.8:1 against the background. It now uses `--dim`, like every other line of meta text.
 
+### Event names
+
+- The Tirana event is now named "Tirana Slush'd 2025" everywhere: the card, photo alt text, gallery captions and sitemap image captions. The link stays on slush.org.
+- Every event name now carries its year: "Pitch Events at Antler Helsinki 2024" and "Civics Innovation Hub 2025" joined the rest. NODUS Talks keeps its multi-year name, and interviews stay named after the outlet.
+
 ## v0.12.3 - 2026-09-20 "an eighth card"
 
 Equity Cockpit joins the builds grid, as PRJ/07. This Website moves down to PRJ/08 to keep the numbering sequential.
