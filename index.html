@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.12.3
+     DANIEL UUSITALO / personal site v0.12.4
      Hand-written. No framework, no bundler. External dependencies: Google Fonts + GoatCounter (cookieless analytics).
      Companion pages: writing.html (generated), press-kit.html, gallery.html, 404.html.
      Project conventions & editing guide: see CLAUDE.md in this folder.
@@ -56,7 +56,7 @@
     ]
   },
   {
-    "@type": "WebPage",
+    "@type": "ProfilePage",
     "@id": "https://danieluusitalo.com/#webpage",
     "url": "https://danieluusitalo.com/",
     "name": "Daniel Uusitalo / European Venture Capitalist",
@@ -64,7 +64,8 @@
     "inLanguage": "en",
     "isPartOf": { "@id": "https://danieluusitalo.com/#website" },
     "primaryImageOfPage": { "@id": "https://danieluusitalo.com/#primaryimage" },
-    "about": { "@id": "https://danieluusitalo.com/#person" }
+    "about": { "@id": "https://danieluusitalo.com/#person" },
+    "mainEntity": { "@id": "https://danieluusitalo.com/#person" }
   },
   {
     "@type": "ImageObject",
@@ -86,34 +87,60 @@
   "image": { "@id": "https://danieluusitalo.com/#primaryimage" },
   "description": "Daniel Uusitalo is a venture capitalist at 4impact capital, where he invests in early-stage European software companies across the Nordics, DACH and Benelux. Born in Finland and based in The Hague, he is a Climate Reality Leader and writes about start-ups, artificial intelligence and climate tech.",
   "jobTitle": ["Venture Capitalist", "Investor"],
-  "hasOccupation": {
-    "@type": "Occupation",
-    "name": "Venture Capitalist",
-    "occupationLocation": { "@type": "Place", "name": "Europe" }
-  },
+  "hasOccupation": [
+    {
+      "@type": "Occupation",
+      "name": "Venture Capitalist",
+      "occupationLocation": { "@type": "Place", "name": "Europe" },
+      "sameAs": "https://www.wikidata.org/wiki/Q16023665"
+    },
+    {
+      "@type": "Occupation",
+      "name": "Investor",
+      "sameAs": "https://www.wikidata.org/wiki/Q557880"
+    }
+  ],
   "nationality": {
     "@type": "Country",
-    "name": "Finland"
+    "name": "Finland",
+    "sameAs": "https://www.wikidata.org/wiki/Q33"
   },
   "worksFor": {
     "@type": "Organization",
     "name": "4impact capital",
-    "url": "https://www.4impact.vc/"
+    "url": "https://www.4impact.vc/",
+    "sameAs": [
+      "https://www.wikidata.org/wiki/Q141104168",
+      "https://www.linkedin.com/company/4impactvc/",
+      "https://www.crunchbase.com/organization/4impact"
+    ]
   },
   "alumniOf": [
     {
       "@type": "CollegeOrUniversity",
       "name": "Aalto University",
-      "url": "https://www.aalto.fi"
+      "url": "https://www.aalto.fi",
+      "sameAs": "https://www.wikidata.org/wiki/Q300980"
     },
     {
       "@type": "CollegeOrUniversity",
       "name": "Brunel University London",
-      "url": "https://www.brunel.ac.uk"
+      "url": "https://www.brunel.ac.uk",
+      "sameAs": "https://www.wikidata.org/wiki/Q932411"
     },
     {
       "@type": "Organization",
-      "name": "World Economic Forum Global Shapers Community"
+      "name": "World Economic Forum Global Shapers Community",
+      "sameAs": "https://www.wikidata.org/wiki/Q24817272"
+    },
+    {
+      "@type": "Organization",
+      "name": "Helen Ventures",
+      "parentOrganization": {
+        "@type": "Organization",
+        "name": "Helen",
+        "sameAs": "https://www.wikidata.org/wiki/Q3129981"
+      }
     }
   ],
   "knowsLanguage": ["en", "fi", "sv", "de"],
@@ -128,12 +155,14 @@
   "memberOf": [
     {
       "@type": "Organization",
-      "name": "The Climate Reality Project"
+      "name": "The Climate Reality Project",
+      "sameAs": "https://www.wikidata.org/wiki/Q5133444"
     }
   ],
   "homeLocation": {
     "@type": "Place",
-    "name": "The Hague, Netherlands"
+    "name": "The Hague, Netherlands",
+    "sameAs": "https://www.wikidata.org/wiki/Q36600"
   },
   "email": "daniel@4impact.vc",
   "sameAs": [
@@ -946,7 +975,7 @@ footer{border-top:1px solid var(--line)}
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.12.3</span>
+    <span>PERSONAL SITE / V0.12.4</span>
     <span>HEL &rarr; NYC &rarr; VIE &rarr; LON &rarr; DEN HAAG</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
@@ -1309,7 +1338,7 @@ footer{border-top:1px solid var(--line)}
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. Hand-written, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.12.3 / DEPLOYED 2026.09.20</span>
+      <span>V0.12.4 / DEPLOYED 2026.09.23</span>
     </div>
   </div>
 </footer>
@@ -1836,14 +1865,21 @@ const SUBTABS = ['builds','writing','events','community'];
       setTimeout(()=>el.classList.add('in'), 80+i*110);
     });
   }
+  /* A click that lands mid-wipe is queued, not dropped: dropping it read as
+     "the tab did not respond" and cost the visitor a second click. */
+  let pending = null;
   function go(id){
-    if(busy || document.getElementById(id).classList.contains('active')) return;
+    if(busy){ pending = id; return; }
+    if(document.getElementById(id).classList.contains('active')) return;
     if(REDUCED){ activate(id); return; }
     busy = true;
     wipe.classList.add('run');
     requestAnimationFrame(()=>requestAnimationFrame(()=>wipe.classList.add('closed')));
     setTimeout(()=>{ activate(id); wipe.classList.remove('closed'); }, 260);
-    setTimeout(()=>{ wipe.classList.remove('run'); busy=false; }, 520);
+    setTimeout(()=>{
+      wipe.classList.remove('run'); busy=false;
+      if(pending){ const p = pending; pending = null; go(p); }
+    }, 520);
   }
   tabs.forEach(t=>t.addEventListener('click',()=>go(t.dataset.panel)));
   /* roving tabindex: arrow keys move between tabs */

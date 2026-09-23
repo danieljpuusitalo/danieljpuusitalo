@@ -1,5 +1,37 @@
 # Changelog
 
+## v0.12.4 - 2026-09-23 "the same graph, drawn twice"
+
+### Schema: every entity the Person points at now names itself
+
+The `Person` node has declared `sameAs` its Wikidata item for months, but everything it pointed *at* was a bare string: an employer called "4impact capital", schools called "Aalto University", a place called "The Hague". Wikidata already models all of these as items, and the Wikidata item already links to them. The site was describing the same graph as Wikidata without saying so.
+
+Each nested entity now carries a `sameAs` to the same Wikidata item the Wikidata statement uses, read back from the live item rather than recalled:
+
+| On the site | Links to | Wikidata property it mirrors |
+|---|---|---|
+| `worksFor` 4impact capital | Q141104168, plus the fund's own LinkedIn and Crunchbase pages (taken from 4impact.vc's own links) | P108 |
+| `alumniOf` Aalto, Brunel | Q300980, Q932411 | P69 |
+| `alumniOf` Helen Ventures (new) | `parentOrganization` Helen, Q3129981 | P108 (past) |
+| `alumniOf` Global Shapers | Q24817272 | — |
+| `memberOf` Climate Reality Project | Q5133444 | — |
+| `hasOccupation` (now two) | Q16023665 venture capitalist, Q557880 investor | P106 |
+| `nationality`, `homeLocation` | Q33, Q36600 | P27, P937 |
+
+Helen Ventures was already on the visible CV row, so the new node maps to content on the page. No new facts were added, only links from the facts that were already there.
+
+The homepage's page node is now a `ProfilePage` with `mainEntity` pointing at the Person. It was a plain `WebPage`, which left the press kit as the only page on the site declaring itself a profile page, although the homepage is the canonical one.
+
+### Titles carry the name as it is written
+
+Companion-page titles read `press kit / daniel uusitalo`, while the schema `name` on each page used the capitalised form. The `<title>` is the blue link in search results and the headline on a shared card, so it now follows the name rule too: `Press kit / Daniel Uusitalo`, and the same for writing, the gallery and the 404.
+
+### Clarity
+
+- **A way home at the top of every companion page.** The press kit, gallery and writing archive only linked back to the index from the footer, or from a word inside a paragraph. A journalist arriving on the press kit from a search result had to scroll to the bottom to find the rest of the site. The file label now starts with `← Index`.
+- **A tab click during the shutter wipe is queued instead of dropped.** A click on a second tab within 520 ms of the first was silently ignored, which looked like an unresponsive tab. The latest click now runs when the wipe finishes.
+- **The gallery's count line is readable.** It was 10px text in `--faint`, about 1.8:1 against the background. It now uses `--dim`, like every other line of meta text.
+
 ## v0.12.3 - 2026-09-20 "an eighth card"
 
 Equity Cockpit joins the builds grid, as PRJ/07. This Website moves down to PRJ/08 to keep the numbering sequential.
