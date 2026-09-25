@@ -1,6 +1,6 @@
 # CLAUDE.md — danieljpuusitalo personal site
 
-Personal website of Daniel Uusitalo — venture capitalist at 4impact capital, The Hague (Investor; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.12.5. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
+Personal website of Daniel Uusitalo — venture capitalist at 4impact capital, The Hague (Investor; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.12.6. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
 
 ## Positioning — non-negotiables
 
@@ -184,7 +184,9 @@ The archive anchor for a pic is `slug` for the first one and `slug-N` for the re
 
   - **GitHub's calendar lags its own commits API.** Adding an email to the account re-attributes past commits within the hour, but the calendar is a cached aggregate and rebuilds on its own schedule; eight days were still short, one of them showing zero against three pushed commits. There is no way to force the rebuild from outside. The script therefore fetches every default-branch commit from every non-fork repo and takes `max(calendar[day], attributedCommits[day])`. That can only raise a day to a number of commits that provably exist, each nameable by SHA, and it becomes a no-op once GitHub catches up — which is why it stays in permanently instead of being a one-off patch. Private repos still come from the calendar, the only source for them.
   - **The fragment is row-major, not column-major.** It is seven `<tr>`, one per weekday, each holding 53 `<td>`. Document order is therefore every Sunday, then every Monday, and so on. Slicing that into sevens builds a "week" out of seven consecutive Sundays and ships a scrambled grid that still looks plausible at a glance — check the `title` attributes within one `.gh-col`, they must be consecutive dates. The script now sorts by date and asserts there is no gap before rendering.
-- **Commit log**: `CFG.GITHUB_USER = "danieljpuusitalo"`. Pulls public push events from the GitHub API on load; falls back to labelled `DEMO_COMMITS` when there are none. No token, no server.
+- **Commit log**: `CFG.GITHUB_USER = "danieljpuusitalo"`. On load it reads the public events feed to learn the four public repos most recently pushed to, then reads each repo's commits endpoint and merges by date (up to six unauthenticated requests per visit, against a 60/hour per-IP limit). Bot commits and the heatmap re-snapshot commits are dropped. Falls back to `DEMO_COMMITS`, labelled STATIC, when rate-limited or offline. No token, no server.
+
+  **Why two hops (fixed 2026-09-25, v0.12.6).** The original code read `payload.commits` off each `PushEvent`. GitHub's public events API no longer includes that array: a push payload is only `before`, `head`, `ref`, `push_id`, `repository_id`. The `.slice` on `undefined` threw, the `catch` swallowed it, and every visitor saw the STATIC fallback while the page claimed a live log. Since v0.12.6 `DEMO_COMMITS` holds real commits (every SHA resolves in a public repo) with a fixed date in the time column, so the fallback is stale rather than fictional. If the feed ever shows STATIC on a normal connection, check the API shape first, not the network.
 
 ## Voice rules
 

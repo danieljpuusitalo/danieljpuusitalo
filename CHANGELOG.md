@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.12.6 - 2026-09-25 "the log was a prop"
+
+### The live commit log was never live
+
+The feedbox read `payload.commits` off each public `PushEvent`. GitHub's public events API stopped shipping that array: a push payload is now only `before`, `head`, `ref`, `push_id` and `repository_id`. The `.slice` on `undefined` threw, the `catch` swallowed it, and every visitor saw the STATIC fallback under a heading that said live. The fallback itself was eight invented commits in repos that do not exist.
+
+Two hops now: the events feed says which four public repos moved most recently, each repo's commits endpoint supplies the commits, and they merge by date. Bot commits and the heatmap re-snapshot commits are filtered out so the ticker shows work, not upkeep. Verified against the real API: 15 commits across sifter, this site and equity-cockpit. The fallback is now eight real commits with a fixed date in the time column, so when the API is rate-limited the log is stale rather than fictional. Feed lines are built with `textContent` rather than `innerHTML`, since the messages come off the network.
+
+### Projects: two promotions and a new card
+
+- **Team Intelligence** and **OCS-Engine** move from IN PRODUCTION to LIVE, matching the other shipped cards. Both descriptions rewritten for clarity: what the two lenses are, what the evidence pipeline actually checks, where the engine publishes and what gates it. The OCS test count read 554; the suite has 1,098 tests on `master` today, so the card now says "over a thousand" rather than a number that goes stale.
+- **Sifter** gets an editorial card (PRJ/09, IN DEVELOPMENT) instead of the auto-generated one-liner the API produced. The description explains why native ads slip past blockers and how the extension finds and hides them in place under a time budget.
+- **This Website** now mentions the self-refreshing contribution heatmap and the crawlable archives. The "weekend build" tag was retired: the site is at v0.12.6.
+
 ## v0.12.4 - 2026-09-23 "the same graph, drawn twice"
 
 ### Schema: every entity the Person points at now names itself
