@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.12.7 - 2026-10-07 "one more row"
+
+Content-only release. The writing archive gains The Drop's session summary of "The Electric Stack: Who Wins?", the panel he co-hosted (September 2026, filed as QUOTED, so it sits under Interviews & commentary and emits `about`, not `author`). It went live on 2026-10-01 without a version bump; this release records it and moves the footer's hardcoded deploy date, which had stayed at 2026.09.25.
+
 ## v0.12.6 - 2026-09-25 "the log was a prop"
 
 ### The live commit log was never live
