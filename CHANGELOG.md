@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.12.8 - 2026-10-11 "one more profile"
+
+Schema-only release. The `Person` node's `sameAs` gains Daniel's World Economic Forum profile, `weforum.org/people/daniel-uusitalo/`. The Wikidata item now carries the matching World Economic Forum ID (P10347, `daniel-uusitalo`), so the site and Wikidata name the same profile. No visible copy changed. The footer's deploy date moves with it.
+
 ## v0.12.7 - 2026-10-07 "one more row"
 
 Content-only release. The writing archive gains The Drop's session summary of "The Electric Stack: Who Wins?", the panel he co-hosted (September 2026, filed as QUOTED, so it sits under Interviews & commentary and emits `about`, not `author`). It went live on 2026-10-01 without a version bump; this release records it and moves the footer's hardcoded deploy date, which had stayed at 2026.09.25.
