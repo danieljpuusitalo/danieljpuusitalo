@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.12.9 - 2026-10-16 "the follow-up"
+
+Content-only release. The writing archive gains Impact Loop's "EU-Inc dream collides with political reality: ‘It’s going in the wrong direction’" (15 October 2026), filed as QUOTED, so it sits under Interviews & commentary and emits `about`, not `author`. It follows up the March 2026 Impact Loop piece on the same proposal, which is already in the archive. It takes the LATEST badge and the first ticker slot. `sitemap.xml` `lastmod` for `writing.html` and the footer's deploy date move with it.
+
 ## v0.12.8 - 2026-10-11 "one more profile"
 
 Schema-only release. The `Person` node's `sameAs` gains Daniel's World Economic Forum profile, `weforum.org/people/daniel-uusitalo/`. The Wikidata item now carries the matching World Economic Forum ID (P10347, `daniel-uusitalo`), so the site and Wikidata name the same profile. No visible copy changed. The footer's deploy date moves with it.
