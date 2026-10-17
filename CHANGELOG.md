@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.13.1 - 2026-10-17 "the strip fills itself"
+
+The contact sheet on the bio tab (01/GALLERY) now picks up new events automatically. It used to need a hand-set `sheet:true` on a photo, so the three 2026 events added since were in the gallery and on the events tab but never reached the strip.
+
+- Every event now puts one frame on the strip: its `sheet:true` picks if it has any, otherwise its lead photo.
+- `sheet:false` on an event keeps it off. The six older events that were never on the strip carry it, so the existing nine frames are unchanged.
+- Impact/Week 2026, Nordic Tech Week 2026 and Techarena Zero 2026 join the strip (12 frames, newest first).
+- No photo, alt text, caption, gallery entry, heading, meta tag or schema changed. The three new frames reuse images already on the page with identical alt text.
+
 ## v0.13.0 - 2026-10-17 "less shouting"
 
 Design polish release. The site reads simpler: fewer caps, fewer boxes, less motion. No copy, photo, caption, alt text, heading, meta tag or schema changed.

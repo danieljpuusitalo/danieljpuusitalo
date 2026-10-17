@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.13.0
+     DANIEL UUSITALO / personal site v0.13.1
      Hand-written. No framework, no bundler. External dependencies: Google Fonts + GoatCounter (cookieless analytics).
      Companion pages: writing.html (generated), press-kit.html, gallery.html, 404.html.
      Project conventions & editing guide: see CLAUDE.md in this folder.
@@ -1003,7 +1003,7 @@ addEventListener('error',function(){document.documentElement.classList.remove('j
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.13.0</span>
+    <span>PERSONAL SITE / V0.13.1</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
   <p class="sub">
@@ -1359,7 +1359,7 @@ addEventListener('error',function(){document.documentElement.classList.remove('j
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. Hand-written, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.13.0 / DEPLOYED 2026.10.17</span>
+      <span>V0.13.1 / DEPLOYED 2026.10.17</span>
     </div>
   </div>
 </footer>
@@ -1440,7 +1440,7 @@ const WRITING_SORTED = [...WRITING].sort((a,b)=>dkey(b.d)-dkey(a.d));
    The single source of truth for every event photo on the site:
 
      1. the events grid (03/EVENTS)      card = pics[0]
-     2. the contact sheet (01/GALLERY)   every pic marked `sheet:true`
+     2. the contact sheet (01/GALLERY)   one frame per event, automatic
      3. gallery.html, the photo archive  EVERY pic, newest first
      4. the <image:image> block in sitemap.xml
 
@@ -1467,7 +1467,9 @@ const WRITING_SORTED = [...WRITING].sort((a,b)=>dkey(b.d)-dkey(a.d));
                        `role` ("With President Alexander Stubb").
                 pos    object-position for this frame, overriding the
                        event's. Portraits need it: the archive is 3:2.
-                sheet  true = also appears in the 35mm contact sheet.
+                sheet  true = this frame is the event's pick for the 35mm
+                       contact sheet. Without one, the lead photo (pics[0])
+                       flows in on its own.
      url      links the card to a source. "" = no card link.
      archived true = press or interview, not a photograph of an event.
               No card, no archive entry, no sitemap entry.
@@ -1475,6 +1477,7 @@ const WRITING_SORTED = [...WRITING].sort((a,b)=>dkey(b.d)-dkey(a.d));
               rather than spoke).
      feat     true = double-width featured card.
      pos      object-position, for cards whose subject is off-centre.
+     sheet    false = keep this event out of the contact sheet entirely.
    ═══════════════════════════════════════════════════════════════════ */
 const EVENTS = [
   {k:"2026.10", d:"OCT 2026", city:"BARCELONA, ES", name:"Impact/Week 2026", role:"HACKATHON WINNER",
@@ -1527,7 +1530,7 @@ const EVENTS = [
       alt:"PitchXL jury slide naming Daniel Uusitalo of 4impact projected above a full auditorium at the Asif Ventures final in Amsterdam"}]},
 
   {k:"2025.03", d:"MAR 2025", city:"TAMPERE, FI", name:"Platform6 Stream Connect 2025", role:"SPEAKER",
-   slug:"platform6-stream-connect-2025", url:"https://platform6.fi/", pics:[
+   slug:"platform6-stream-connect-2025", sheet:false, url:"https://platform6.fi/", pics:[
      {src:"photos/daniel-uusitalo-platform6-tampere-2025.jpg",
       alt:"Daniel Uusitalo speaking into a handheld microphone on a four-person investor panel at Platform6 Stream Connect in Tampere"}]},
 
@@ -1561,7 +1564,7 @@ const EVENTS = [
       alt:"Around twenty workshop participants wearing lanyards posed in front of Civics Innovation Hub banners in Zagreb"}]},
 
   {k:"2024.11", d:"NOV 2024", city:"HELSINKI, FI", name:"Pitch Events at Antler Helsinki 2024", role:"INVESTOR JURY",
-   slug:"antler-helsinki-pitch-2024", url:"", pics:[
+   slug:"antler-helsinki-pitch-2024", sheet:false, url:"", pics:[
      {src:"photos/daniel-uusitalo-antler-helsinki-pitch-2024.jpg",
       alt:"Four panellists seated at a table beside Tech Nordic Advocates and XES banners at the Antler Helsinki pitch events"}]},
 
@@ -1573,7 +1576,7 @@ const EVENTS = [
       alt:"Attendees on sofas wearing translation headsets at the Startup Tampere Showcase 2024 in Tampere"}]},
 
   {k:"2024.06", d:"JUN 2024", city:"ROME, IT", name:"Climate Reality Leadership Corps Training 2024", role:"DELEGATE",
-   slug:"climate-reality-leadership-corps-2024", pos:"50% 80%", url:"https://www.climaterealityproject.org", pics:[
+   slug:"climate-reality-leadership-corps-2024", sheet:false, pos:"50% 80%", url:"https://www.climaterealityproject.org", pics:[
      {src:"photos/climate-reality-leadership-corps-rome-2024.jpg",
       alt:"Al Gore speaking from the podium to a packed hall at the Climate Reality Leadership Corps training in Rome"}]},
 
@@ -1591,18 +1594,18 @@ const EVENTS = [
       alt:"Hands holding a smartphone displaying the Nasdaq logo against a blue stock-chart background"}]},
 
   {k:"2022.09", d:"SEP 2022", city:"GENEVA, CH", name:"Global Shapers Annual Summit 2022", role:"DELEGATE",
-   slug:"global-shapers-annual-summit-2022", url:"https://www.weforum.org/meetings/global-shapers-annual-summit/", pics:[
+   slug:"global-shapers-annual-summit-2022", sheet:false, url:"https://www.weforum.org/meetings/global-shapers-annual-summit/", pics:[
      {src:"photos/daniel-uusitalo-global-shapers-summit-geneva-2022.jpg",
       alt:"Daniel Uusitalo with three fellow Global Shapers wearing summit badges on a terrace above Lake Geneva"}]},
 
   /* k is the START of the range, so it sorts below the Sep 2022 summit */
   {k:"2022", d:"2022–2023", city:"HELSINKI, FI", name:"NODUS Talks", role:"ORGANISER",
-   slug:"nodus-talks", pos:"50% 78%", url:"https://www.nodus.aalto.fi", pics:[
+   slug:"nodus-talks", sheet:false, pos:"50% 78%", url:"https://www.nodus.aalto.fi", pics:[
      {src:"photos/nodus-talks-aalto-biochar-session.jpg",
       alt:"Speakers beside a projected Nodus Talks slide on biochar at an Aalto University session in Helsinki"}]},
 
   {k:"2020", d:"2020", city:"LONDON, UK", name:"Abbey Road Studios Hackathon 2020", role:"CO-HOST",
-   slug:"abbey-road-hackathon-2020", url:"", pics:[
+   slug:"abbey-road-hackathon-2020", sheet:false, url:"", pics:[
      {src:"photos/abbey-road-studios-hackathon-london-2020.jpg",
       alt:"Winners holding plaques on stage under an illuminated Tenzing sign at the Abbey Road Studios hackathon in London"}]}
 ];
@@ -1690,8 +1693,17 @@ const BUILDS_OVERRIDES = {
 };
 
 /* contact sheet: the 35mm strip on the bio tab. Derived, not authored.
-   To add or drop a frame, flip `sheet:true` on a pic in EVENTS. */
-const SHEET = ARCHIVE.filter(p => p.sheet);
+   Every event flows in by itself: its `sheet:true` pics if it marks any,
+   otherwise its lead photo. `sheet:false` on the event keeps it out.
+   A lead photo with no `cap` gets a short one ("name, city"); the
+   archive's own caption is left alone. */
+const SHEET = EVENTS_SORTED.filter(e => !e.archived && e.sheet !== false).flatMap(e => {
+  const mine = ARCHIVE.filter(p => p.ev === e);
+  const picked = mine.filter(p => p.sheet);
+  if (picked.length) return picked;
+  const lead = mine[0];
+  return lead ? [{...lead, cap: e.pics[0].cap || `${e.name}, ${e.city.split(',')[0]}`.toLowerCase()}] : [];
+});
 
 /* commit-log static data: fallback when the GitHub API is rate-limited or
    offline. These are REAL commits from public repos (every SHA resolves),

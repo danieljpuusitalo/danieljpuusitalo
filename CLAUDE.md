@@ -1,6 +1,6 @@
 # CLAUDE.md — danieljpuusitalo personal site
 
-Personal website of Daniel Uusitalo — venture capitalist at 4impact capital, The Hague (Investor; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.13.0. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
+Personal website of Daniel Uusitalo — venture capitalist at 4impact capital, The Hague (Investor; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.13.1. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
 
 ## Positioning — non-negotiables
 
@@ -55,7 +55,7 @@ Identity-facing copy leads **person-first**, not employer-first.
   |---|---|
   | `EVENTS_SORTED` | `EVENTS` newest first, by `dkey(k)` |
   | `ARCHIVE` | every pic of every non-archived event, flattened, newest first. `gallery.html` is its static mirror. |
-  | `SHEET` | `ARCHIVE.filter(p => p.sheet)` — the 35mm contact strip on the bio tab |
+  | `SHEET` | one frame per event, automatic: its `sheet:true` pics if it marks any, else its lead photo. Event-level `sheet:false` keeps it out. The 35mm contact strip on the bio tab |
 - **Everything below the `ENGINE` comment is logic** — safe to refactor, but keep it dependency-free vanilla JS.
 
 ## File inventory
@@ -126,6 +126,7 @@ Every event carries the fields three surfaces need. Required: `k`, `d`, `city`, 
 | `slug` | the event's anchor in `gallery.html`, and therefore a **public URL**. URL-safe, unique, and not to be changed casually. |
 | `pics[]` | every photograph of this event, best first: `src`, `alt`, optional `cap` / `note` / `pos` / `sheet` |
 | `pos` | `object-position` for the crop, event-level; a pic-level `pos` overrides it. Portraits need one — the archive grid is 3:2. |
+| `sheet` | event-level `sheet:false` keeps the event off the contact sheet. Without it, a new event's lead photo joins the strip by itself; pic-level `sheet:true` picks a different frame (or two). The lead frame's strip caption is the pic's `cap`, else `name, city` lowercased. |
 
 Two rules the generator enforces that are worth knowing before you hit them:
 
