@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.12.9
+     DANIEL UUSITALO / personal site v0.12.10
      Hand-written. No framework, no bundler. External dependencies: Google Fonts + GoatCounter (cookieless analytics).
      Companion pages: writing.html (generated), press-kit.html, gallery.html, 404.html.
      Project conventions & editing guide: see CLAUDE.md in this folder.
@@ -977,7 +977,7 @@ footer{border-top:1px solid var(--line)}
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.12.9</span>
+    <span>PERSONAL SITE / V0.12.10</span>
     <span>HEL &rarr; NYC &rarr; VIE &rarr; LON &rarr; DEN HAAG</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
@@ -1341,7 +1341,7 @@ footer{border-top:1px solid var(--line)}
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. Hand-written, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.12.9 / DEPLOYED 2026.10.16</span>
+      <span>V0.12.10 / DEPLOYED 2026.10.17</span>
     </div>
   </div>
 </footer>
@@ -1459,6 +1459,11 @@ const WRITING_SORTED = [...WRITING].sort((a,b)=>dkey(b.d)-dkey(a.d));
      pos      object-position, for cards whose subject is off-centre.
    ═══════════════════════════════════════════════════════════════════ */
 const EVENTS = [
+  {k:"2026.10", d:"OCT 2026", city:"BARCELONA, ES", name:"Impact/Week 2026", role:"HACKATHON WINNER",
+   slug:"impact-week-barcelona-2026", url:"https://www.norrsken.org/impactweek", pics:[
+     {src:"photos/daniel-uusitalo-impact-week-barcelona-2026-fixathon.jpg",
+      alt:"Daniel Uusitalo with the Fixathon winning team on stage beneath the lit Norrsken sign at Impact/Week in Barcelona, beside a banner reading Fixathon Impact/Week Winning Team 2026"}]},
+
   /* Same sort key as Nordic Tech Week (10–11 Sep), so array order breaks the
      tie: The Drop ran 15–16 Sep and belongs above it. */
   {k:"2026.09", d:"SEP 2026", city:"MALMÖ, SE", name:"The Drop 2026", role:"ROUNDTABLE HOST",

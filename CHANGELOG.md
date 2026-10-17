@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.12.10 - 2026-10-17 "the winning team"
+
+Content-only release. The events section gains Impact/Week 2026 (Norrsken House Barcelona, 14–15 October 2026), role HACKATHON WINNER: his team won the Fixathon there. The photo is a 3:2 crop of the stage under the Norrsken sign, with the Fixathon Impact/Week Winning Team 2026 banner in frame. `gallery.html` and the image block of `sitemap.xml` are regenerated from it, and the footer's deploy date moves with it.
+
 ## v0.12.9 - 2026-10-16 "the follow-up"
 
 Content-only release. The writing archive gains Impact Loop's "EU-Inc dream collides with political reality: ‘It’s going in the wrong direction’" (15 October 2026), filed as QUOTED, so it sits under Interviews & commentary and emits `about`, not `author`. It follows up the March 2026 Impact Loop piece on the same proposal, which is already in the archive. It takes the LATEST badge and the first ticker slot. `sitemap.xml` `lastmod` for `writing.html` and the footer's deploy date move with it.

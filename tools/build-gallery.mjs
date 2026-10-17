@@ -41,7 +41,7 @@ const PERSON = `${SITE}/#person`;
 const NON_EVENT = ['portrait.jpg', 'portrait-bw.jpg'];
 
 const COUNTRY = {
-  AL: 'Albania', CH: 'Switzerland', DE: 'Germany', FI: 'Finland', HR: 'Croatia',
+  AL: 'Albania', CH: 'Switzerland', DE: 'Germany', ES: 'Spain', FI: 'Finland', HR: 'Croatia',
   IT: 'Italy', NL: 'Netherlands', SE: 'Sweden', UK: 'United Kingdom',
 };
 
