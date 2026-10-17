@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.13.2 - 2026-10-17 "streamlined"
+
+Two label changes on the work tab (02). Subtexts are unchanged.
+
+- Affiliations: The Climate Reality Project is now labelled NETWORK, the same as WEF Global Shapers (was CLIMATE).
+- Education: degree subjects removed from the three rows, which now read Aalto University, Massachusetts Institute of Technology and Brunel University London. The MSC, Professional Program and BSC labels and every subtext stay.
+- No meta tag, schema, heading or photo changed.
+
 ## v0.13.1 - 2026-10-17 "the strip fills itself"
 
 The contact sheet on the bio tab (01/GALLERY) now picks up new events automatically. It used to need a hand-set `sheet:true` on a photo, so the three 2026 events added since were in the gallery and on the events tab but never reached the strip.
