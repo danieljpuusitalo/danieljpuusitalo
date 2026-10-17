@@ -1,5 +1,29 @@
 # Changelog
 
+## v0.13.0 - 2026-10-17 "less shouting"
+
+Design polish release. The site reads simpler: fewer caps, fewer boxes, less motion. No copy, photo, caption, alt text, heading, meta tag or schema changed.
+
+### Visible
+- Card titles, track roles, fact values and event names are sentence case at 600 to 800 weight. Uppercase is now reserved for the hero name and the section headlines.
+- Outlined text (`.hollow`) is filled with the background and stroked underneath, so the variable font's overlapping contours no longer show inside the letters.
+- The builds grid and the bio facts are drawn with hairlines instead of grey gaps and boxes.
+- The conviction paragraph is set as a pull quote with a rule on its left.
+- The hero meta line drops the city route; the route map above it already shows it.
+- The empty COMMUNITY subtab is gone. `#community` falls back to the bio tab.
+- The topbar clock drops its seconds, and the status dot no longer pulses.
+- Negative mode inverts the event frames and the lightbox only; the bio photos stay positive.
+- On phones the route map is cropped to Europe instead of scrolling sideways.
+
+### Behaviour
+- Reveal-on-scroll hides content only when an inline script has set `html.js`, and any script error removes it, so a failed script leaves a readable page instead of a blank one. Without JavaScript the two bio photos are now visible.
+- The Den Haag ping is a CSS animation instead of SMIL, so reduced motion stops it. Smooth scrolling is reduced-motion aware too.
+- The dot field draws in eight alpha batches per frame, halves its frame rate on touch devices and debounces resize. The cursor ring stops its loop once settled.
+- GitHub requests time out after six seconds and are cached for 30 minutes per session; the live feed pauses while the tab is hidden.
+- The lightbox makes the page behind it inert and locks its scroll. Tab lists support Home and End.
+- Captions and alt text are attribute-escaped when rendered.
+- Google Fonts load without blocking first paint.
+
 ## v0.12.10 - 2026-10-17 "the winning team"
 
 Content-only release. The events section gains Impact/Week 2026 (Norrsken House Barcelona, 14–15 October 2026), role HACKATHON WINNER: his team won the Fixathon there. The photo is a 3:2 crop of the stage under the Norrsken sign, with the Fixathon Impact/Week Winning Team 2026 banner in frame. `gallery.html` and the image block of `sitemap.xml` are regenerated from it, and the footer's deploy date moves with it.

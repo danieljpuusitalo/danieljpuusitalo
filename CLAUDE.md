@@ -1,6 +1,6 @@
 # CLAUDE.md — danieljpuusitalo personal site
 
-Personal website of Daniel Uusitalo — venture capitalist at 4impact capital, The Hague (Investor; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.12.10. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
+Personal website of Daniel Uusitalo — venture capitalist at 4impact capital, The Hague (Investor; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.13.0. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
 
 ## Positioning — non-negotiables
 
@@ -99,7 +99,8 @@ Norrsken-adjacent editorial black/white, deliberately NOT a terminal/OS persona 
 - Photos: auto-B/W + vignette + viewfinder corner brackets + halftone screen that clears on hover; click opens the lightbox (prev/next, arrow keys).
 - Camera-flash intro (once per session). Keys: `[1][2][3]` tabs, `[G]` grid, `[F]` re-fire flash, `[D]` negative-film mode.
 - Hover state everywhere: invert to white bg / black text. `.spot` cards get a cursor-following spotlight.
-- Big type: Inter Tight 800/900 uppercase, tight tracking, `.hollow` = outlined text. Hero name stays modest in size — Daniel vetoed the oversized version. Headlines carry `.reveal.dev` and develop blur→sharp like a photo.
+- Big type: Inter Tight 800/900 uppercase, tight tracking, `.hollow` = outlined text (filled with `--bg`, stroke painted under the fill so the variable font's contour overlaps don't show). Uppercase-heavy is reserved for the hero name and the `.bigline` headlines; card titles, roles, fact values and event names are sentence case at 600–800 (polish pass 2026-10). Hero name stays modest in size — Daniel vetoed the oversized version. Headlines carry `.reveal.dev` and develop blur→sharp like a photo.
+- `.reveal` hides content only under `html.js`, which an inline script at the top of `<body>` sets and any script error removes. A broken script must degrade to a visible static page, never a blank one.
 - Grain overlay + ticker (auto-generated from `WRITING` top 6 headlines — never hardcode ticker text) + giant outlined name marquee (`.strip`) above the footer.
 
 ## Interaction layer — the "flash field"
@@ -110,7 +111,7 @@ Norrsken-adjacent editorial black/white, deliberately NOT a terminal/OS persona 
 - `#exp` + `EXP` readout: scroll progress as exposure. `D187 · W28` day/week counter in topbar.
 - NOW rotator: `CFG.NOW` array, shutter-blink swap every ~3.2s.
 - Negative mode: `body.negative` swaps the token values (light bg, dark fg) and double-inverts photos into film negatives. Never implement it via `filter: invert()` on body/html — that breaks position:fixed anchoring.
-- ALL motion respects `prefers-reduced-motion` (static dot field, no cursor, no wipe, no rotator, no magnetics). Keep that guarantee for anything new.
+- ALL motion respects `prefers-reduced-motion` (static dot field, no cursor, no wipe, no rotator, no magnetics, no smooth scroll, no Den Haag ping). Keep that guarantee for anything new — which is why animation is CSS, never SMIL: reduced motion cannot stop a SMIL `<animate>`.
 
 ## Data conventions
 
@@ -171,7 +172,7 @@ The archive anchor for a pic is `slug` for the first one and `slug-N` for the re
   Position in the array does not matter — `k` decides the order everywhere. Never hand-edit `gallery.html`'s figures or its schema.
 - **Add a build**: add to `BUILDS` for hardcoded entries, or add to `BUILDS_OVERRIDES` keyed by repo name for repos that should merge with API data. **Then run `node tools/build-projects.mjs`** — `BUILDS` also feeds the static mirror that non-JS crawlers read.
 - **Exclude a repo**: add `'repo-name': {skipApi:true}` to `BUILDS_OVERRIDES`.
-- **Deep-link into a panel**: `#bio`, `#work`, `#projects` open a tab; `#builds`, `#writing`, `#events`, `#community` open the projects tab on that subtab. The archive pages and the footer use these. The subtab is selected by the stagger call at the *bottom* of the script, which runs last — setting it earlier gets overwritten.
+- **Deep-link into a panel**: `#bio`, `#work`, `#projects` open a tab; `#builds`, `#writing`, `#events` open the projects tab on that subtab (the empty COMMUNITY subtab was removed 2026-10; `#community` now falls back to the bio tab). The archive pages and the footer use these. The subtab is selected by the stagger call at the *bottom* of the script, which runs last — setting it earlier gets overwritten.
 - **Swap photos**: drop files into `photos/` (color is fine, CSS converts to B/W), update the `src` in that event's `pics[]` or in the bio `<figure>`s, then run `node tools/build-gallery.mjs`. Name files descriptively — the filename is itself an image-search signal, so `daniel-uusitalo-machn-leipzig-2026.jpg` beats `contact-04.jpg`.
 - **Bump version**: the version string lives in **4** places — update all four when releasing: (1) the `<!-- v0.x.x -->` comment near line 5, (2) the hero `.meta` span `V0.x.x`, (3) the footer `V0.x.x` line, and (4) **`DEMO_COMMITS`** — *if* it still carries a `feat: ship v0.x.x` entry. As of v0.12.0 it does not; the fallback feed is all undated placeholder commits. Check before hunting for a fourth occurrence. Also update `currently v0.x.x` in this file's first paragraph. Search for the current version to find them all.
 

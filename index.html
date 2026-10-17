@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.12.10
+     DANIEL UUSITALO / personal site v0.13.0
      Hand-written. No framework, no bundler. External dependencies: Google Fonts + GoatCounter (cookieless analytics).
      Companion pages: writing.html (generated), press-kit.html, gallery.html, 404.html.
      Project conventions & editing guide: see CLAUDE.md in this folder.
@@ -191,7 +191,11 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<!-- Fonts load without blocking first paint: the stylesheet arrives as
+     media=print and switches itself on. The noscript copy covers no-JS. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet"></noscript>
 <style>
 /* ═══ 01 · TOKENS ═══════════════════════════════════════════════════ */
 :root{
@@ -213,11 +217,15 @@ body.negative{
   --line:#d9d9d4;
   --card:#eaeae6;
 }
-body.negative .photo img,body.negative .frame img,body.negative #lb img{
+/* the contact sheet and the viewer go negative; the .photo cards (bio
+   portraits, event cards) stay positive, because a face in negative reads
+   as a mistake, not a mode */
+body.negative .frame img,body.negative #lb img{
   filter:grayscale(1) contrast(1.2) brightness(1.05) invert(1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;scrollbar-color:var(--faint) var(--bg)}
+html{scrollbar-color:var(--faint) var(--bg)}
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 body{
   background:var(--bg);color:var(--fg);
   font-family:var(--disp);font-weight:500;
@@ -325,7 +333,7 @@ body.cursor-on #cur,body.cursor-on #curR{display:block}
 }
 .topbar .brand{color:var(--fg);font-weight:700}
 .topbar .right{display:flex;gap:20px;align-items:center}
-.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--fg);margin-right:7px;animation:pulse 2s infinite}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--fg);margin-right:7px}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 @media(max-width:700px){.topbar .hide-m{display:none}}
 
@@ -344,9 +352,12 @@ body.cursor-on #cur,body.cursor-on #curR{display:block}
   font-size:clamp(2.3rem,6.2vw,5.2rem);font-weight:800;
   line-height:.95;letter-spacing:-.03em;text-transform:uppercase;
 }
-.hero h1 .hollow{
-  color:transparent;-webkit-text-stroke:1.5px var(--fg);
+/* Hollow type: filled with the background and stroked underneath the fill,
+   so the variable font's overlapping contours do not show as seams. */
+.hero h1 .hollow,.bigline .hollow{
+  color:var(--bg);-webkit-text-stroke:2.4px var(--fg);paint-order:stroke fill;letter-spacing:-.015em;
 }
+@media(max-width:700px){.hero h1 .hollow,.bigline .hollow{-webkit-text-stroke-width:1.8px}}
 .hero .sub{
   display:block;
   margin:24px 0 18px;max-width:560px;font-size:clamp(1rem,1.5vw,1.15rem);
@@ -386,7 +397,7 @@ body.cursor-on #cur,body.cursor-on #curR{display:block}
   border-top:1px solid var(--line);border-bottom:1px solid var(--line);
   overflow:hidden;white-space:nowrap;padding:12px 0;
 }
-.ticker .track{display:inline-block;animation:tick 60s linear infinite;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.ticker .track{display:inline-block;animation:tick 60s linear infinite;font-family:var(--mono);font-size:11px;line-height:16px;height:16px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
 .ticker .track b{color:var(--fg);font-weight:700}
 .ticker:hover .track{animation-play-state:paused}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -409,12 +420,14 @@ main{max-width:1280px;margin:0 auto;padding:0 24px}
   font-size:clamp(1.9rem,4.6vw,3.9rem);font-weight:800;line-height:1.04;
   letter-spacing:-.025em;text-transform:uppercase;max-width:1000px;margin-bottom:56px;text-wrap:balance;
 }
-.bigline .hollow{color:transparent;-webkit-text-stroke:1.5px var(--fg)}
-.reveal{opacity:0;transform:translateY(22px);transition:all .6s cubic-bezier(.2,.7,.3,1)}
-.reveal.in{opacity:1;transform:none}
+/* Hidden-until-revealed only once the script has said it is running (the
+   html.js class, set first thing in <body>). If the script never runs, or
+   dies early, everything is simply visible. */
+html.js .reveal{opacity:0;transform:translateY(22px);transition:all .6s cubic-bezier(.2,.7,.3,1)}
+html.js .reveal.in{opacity:1;transform:none}
 /* headlines develop like a photograph */
-.reveal.dev{transform:none;filter:blur(14px) contrast(1.8);transition:opacity .7s ease,filter .9s ease}
-.reveal.dev.in{filter:none}
+html.js .reveal.dev{transform:none;filter:blur(5px);transition:opacity .7s ease,filter .9s ease}
+html.js .reveal.dev.in{filter:none}
 
 /* spotlight hover */
 .spot{position:relative}
@@ -431,6 +444,12 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 @media(max-width:860px){.bio-grid{grid-template-columns:1fr;gap:40px}}
 .bio-copy p{font-size:1.06rem;line-height:1.75;color:var(--dim);margin-bottom:1.3em;max-width:640px;text-wrap:pretty}
 .bio-copy p b{color:var(--fg);font-weight:700}
+/* the conviction paragraph, set as a pull quote */
+.bio-copy.conviction{max-width:680px;margin-bottom:56px}
+.bio-copy.conviction p{
+  font-size:clamp(1.15rem,1.6vw,1.4rem);font-weight:500;line-height:1.45;letter-spacing:-.015em;
+  color:var(--fg);margin-bottom:0;border-left:1px solid var(--fg);padding-left:28px;
+}
 
 /* photos: auto B/W + flash vignette + halftone that clears on hover; click = lightbox */
 .photo{
@@ -463,12 +482,12 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 
 .facts{
   display:grid;grid-template-columns:repeat(4,1fr);
-  gap:0;margin-bottom:64px;
+  gap:0 32px;margin-bottom:64px;border-top:1px solid var(--line);
 }
 @media(max-width:860px){.facts{grid-template-columns:repeat(2,1fr)}}
-.fact{padding:20px;background:var(--bg);border:1px solid var(--line)}
+.fact{padding:18px 0;border-bottom:1px solid var(--line)}
 .fact .k{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px}
-.fact .v{font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.02em}
+.fact .v{font-size:1rem;font-weight:500;letter-spacing:-.005em}
 
 /* contact sheet: 35mm strip; frames sit slightly askew, drag to scroll */
 .sheet{
@@ -496,6 +515,10 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .constellation{width:100%;margin-bottom:20px}
 .constellation svg{width:100%;height:auto;display:block}
 .constellation .stop{cursor:crosshair}
+/* Den Haag ping. A CSS animation, not SMIL, so reduced motion stops it. */
+.constellation .ping{transform-box:fill-box;transform-origin:center;animation:ping 2.5s ease-in-out infinite}
+@keyframes ping{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(3.67);opacity:0}}
+@media(prefers-reduced-motion:reduce){.constellation .ping{animation:none;opacity:0}}
 .route-tip{
   position:fixed;z-index:200;pointer-events:none;
   background:var(--bg);border:1px solid var(--line);padding:14px 18px;
@@ -508,14 +531,9 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .route-tip .tip-k{color:var(--dim)}
 .route-tip .tip-v{color:var(--fg)}
 @media(max-width:700px){
-  .constellation{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-  .constellation::-webkit-scrollbar{display:none}
-  .constellation svg{min-width:640px}
-  .constellation::after{
-    content:"[ DRAG \2192 ]";display:block;text-align:center;
-    font-family:var(--mono);font-size:10px;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--dim);padding:8px 0 0;
-  }
+  /* the script crops the viewBox to Europe on a narrow screen, so the
+     whole route fits without a sideways drag */
+  .constellation svg{min-width:0}
 }
 
 /* ═══ 07 · WORK ═════════════════════════════════════════════════════ */
@@ -524,7 +542,7 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
   display:grid;grid-template-columns:1fr 1fr;gap:36px;background:var(--card);
 }
 @media(max-width:860px){.now-card{grid-template-columns:1fr}}
-.now-card h3{font-size:clamp(1.5rem,3vw,2.3rem);font-weight:900;text-transform:uppercase;letter-spacing:-.02em;line-height:1;margin-bottom:14px}
+.now-card h3{font-size:clamp(1.5rem,3vw,2.3rem);font-weight:800;letter-spacing:-.03em;line-height:1;margin-bottom:14px}
 .status{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin-bottom:18px}
 .now-card p{color:var(--dim);line-height:1.7;font-size:1rem}
 .now-card p b{color:var(--fg)}
@@ -542,7 +560,7 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .track-row:hover{background:var(--fg);color:var(--bg)}
 .track-row:hover .tnum,.track-row:hover .tdesc{color:var(--bg)}
 .tnum{font-family:var(--mono);font-size:12px;color:var(--dim)}
-.tname{font-weight:900;text-transform:uppercase;font-size:1.25rem;letter-spacing:-.01em}
+.tname{font-weight:700;font-size:1.2rem;letter-spacing:-.015em}
 .tdesc{color:var(--dim);font-size:.95rem;line-height:1.6}
 @media(max-width:860px){.track-row{grid-template-columns:1fr;gap:6px;padding:20px 8px}}
 
@@ -562,7 +580,7 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
   font-size:.95rem;align-items:baseline;
 }
 .h-row .yr,.h-row .st{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
-.h-row .role{font-weight:700;text-transform:uppercase}
+.h-row .role{font-weight:600;letter-spacing:-.005em}
 .h-row .role small{display:block;font-weight:500;text-transform:none;color:var(--dim);font-size:.85rem;margin-top:4px;letter-spacing:0}
 @media(max-width:700px){.h-row{grid-template-columns:1fr;gap:4px}}
 
@@ -576,6 +594,7 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .stab:hover{border-color:var(--fg);color:var(--fg)}
 .stab.active{background:var(--fg);color:var(--bg);border-color:var(--fg);font-weight:700}
 .stab .n{color:var(--dim);margin-left:6px}
+.stab.active .n{color:inherit}
 .sub{display:none;animation:fadein .35s ease}
 .sub.active{display:block}
 .sub-note{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;margin-bottom:24px}
@@ -604,9 +623,12 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 @media(max-width:480px){.gh-card{grid-template-columns:1fr}.gh-avatar{display:none}}
 
 /* builds */
-.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:48px}
+/* Hairlines drawn by the cards themselves, so a short last row leaves empty
+   space rather than a grey block. */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0;border-top:1px solid var(--line);border-left:1px solid var(--line);margin-bottom:48px}
 .proj{
   padding:32px;background:var(--bg);
+  border-right:1px solid var(--line);border-bottom:1px solid var(--line);
   display:flex;flex-direction:column;gap:16px;min-height:280px;
   transition:background .15s,color .15s;position:relative;
 }
@@ -614,7 +636,7 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .proj:hover .pnum,.proj:hover .pdesc,.proj:hover .ptags{color:var(--bg)}
 .proj:hover .ptags span{border-color:var(--bg)}
 .pnum{font-family:var(--mono);font-size:12px;color:var(--dim)}
-.proj h3{font-size:1.5rem;font-weight:900;text-transform:uppercase;letter-spacing:-.015em;line-height:1.05}
+.proj h3{font-size:1.6rem;font-weight:800;letter-spacing:-.025em;line-height:1.05}
 .pdesc{color:var(--dim);font-size:.95rem;line-height:1.65;flex:1}
 .ptags{display:flex;gap:8px;flex-wrap:wrap;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
 .ptags span{border:1px solid var(--line);padding:4px 8px}
@@ -665,7 +687,7 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .wrow:hover .wdate,.wrow:hover .wsrc,.wrow:hover .wtype,.wrow:hover .warr{color:var(--bg)}
 .wdate{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.06em}
 .wsrc{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.12em;text-transform:uppercase}
-.wtitle{font-weight:700;font-size:1.02rem;line-height:1.35}
+.wtitle{font-weight:600;font-size:1.02rem;line-height:1.35;letter-spacing:.004em}
 .wtitle .new{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--dim);margin-left:10px;vertical-align:2px}
 .wrow:hover .wtitle .new{color:var(--bg)}
 .wtype{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;border:1px solid var(--line);padding:3px 7px}
@@ -680,7 +702,7 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 }
 
 /* events */
-.ev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:48px;align-items:stretch}
+.ev-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-flow:dense;gap:20px;margin-bottom:48px;align-items:stretch}
 @media(max-width:960px){.ev-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.ev-grid{grid-template-columns:1fr}}
 .ev{border:1px solid var(--line);transition:border-color .15s;opacity:0;transform:translateY(14px);display:flex;flex-direction:column}
@@ -689,11 +711,11 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .ev .photo{border:none;border-bottom:1px solid var(--line)}
 .ev-body{padding:18px 20px 20px;flex:1;display:flex;flex-direction:column}
 .ev-meta{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;display:flex;justify-content:space-between;gap:8px}
-.ev h3{font-size:1.15rem;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;line-height:1.15;margin-bottom:8px;min-height:2.3em}
+.ev h3{font-size:1.12rem;font-weight:700;letter-spacing:-.01em;line-height:1.25;margin-bottom:8px;min-height:2.3em}
 .ev .role{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg);border:1px solid var(--faint);padding:3px 8px;display:inline-block;align-self:flex-start;margin-top:auto}
 .ev.tmpl{border-style:dashed;color:var(--dim)}
 @media(min-width:700px){.ev.feat{grid-column:span 2}}
-.ev.feat h3{font-size:1.45rem}
+.ev.feat h3{font-size:1.35rem}
 .ev.tmpl h3{color:var(--dim)}
 /* no-photo typographic placeholder for events */
 .ev-nophoto{
@@ -750,8 +772,8 @@ footer{border-top:1px solid var(--line)}
 .f-cta::before{content:"[ ";color:var(--dim)}
 .f-cta::after{content:" ]";color:var(--dim)}
 .f-mail{
-  display:inline-block;font-size:clamp(1.6rem,5vw,3.6rem);font-weight:900;
-  text-transform:lowercase;letter-spacing:-.03em;border-bottom:3px solid var(--fg);
+  display:inline-block;font-size:clamp(1.6rem,5vw,3.6rem);font-weight:700;
+  text-transform:lowercase;letter-spacing:-.02em;border-bottom:1px solid var(--fg);padding-bottom:.06em;
   margin-bottom:48px;transition:all .15s;
 }
 .f-mail:hover{background:var(--fg);color:var(--bg)}
@@ -772,9 +794,9 @@ footer{border-top:1px solid var(--line)}
 }
 .skip-link:focus{top:14px}
 .rule{border-top:1px solid var(--line);margin:32px 0}
-.checklist{font-family:var(--mono);font-size:12px;letter-spacing:.06em;margin-bottom:32px;border:1px dashed var(--line);padding:20px 24px;background:var(--card)}
+.checklist{font-family:var(--mono);font-size:12px;letter-spacing:.06em;margin-bottom:32px;border:1px solid var(--line);padding:20px 24px;background:var(--card)}
 .cl-row{display:flex;gap:12px;align-items:baseline;padding:6px 0}
-.cl-row.past{text-decoration:line-through;color:var(--dim)}
+.cl-row.past{color:var(--dim)}
 .cl-row.upcoming{color:var(--fg)}
 .cl-label{font-size:10px;letter-spacing:.14em;color:var(--dim);min-width:90px}
 .cl-tag{font-size:10px;letter-spacing:.14em;color:var(--dim)}
@@ -799,13 +821,13 @@ footer{border-top:1px solid var(--line)}
   /* show all panels + subtabs, remove tab gating */
   .panel{display:block!important;padding:24px 0 12px!important;break-inside:avoid}
   .sub{display:block!important}
-  #sub-community{display:none!important} /* empty in-dev tab: never print */
   .reveal,.wrow,.ev{opacity:1!important;transform:none!important;filter:none!important}
 
   /* hero compact */
   .hero{padding:0!important;min-height:auto!important}
   .hero h1{font-size:1.8rem!important}
-  .hero .hollow{-webkit-text-stroke-width:.8px!important}
+  .hollow{color:inherit!important;-webkit-text-stroke:0!important}
+  .sheet{display:none!important}
   .hero .sub{font-size:.85rem!important;margin:8px 0 4px!important}
 
   /* photos: show inline, no filters */
@@ -827,6 +849,13 @@ footer{border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
+<script>
+/* Reveal-on-scroll hides content only while this class is set. Any script
+   error drops it again, so a broken script degrades to a static page
+   rather than a blank one. */
+document.documentElement.classList.add('js');
+addEventListener('error',function(){document.documentElement.classList.remove('js')});
+</script>
 
 <a class="skip-link" href="#main">[ SKIP TO CONTENT ]</a>
 
@@ -877,7 +906,7 @@ footer{border-top:1px solid var(--line)}
 <div class="route-tip" id="route-tip"></div>
 <section class="hero">
   <!-- Constellation: equirectangular cos(50°). Finnish cluster 5× local expansion. -->
-  <div class="constellation" aria-label="Living route constellation">
+  <div class="constellation" role="group" aria-label="Living route constellation">
     <svg viewBox="0 0 1300 240" xmlns="http://www.w3.org/2000/svg" fill="none">
       <defs>
         <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -967,18 +996,14 @@ footer{border-top:1px solid var(--line)}
         <!-- 09 Den Haag  52.08°N 4.30°E (current) -->
         <g class="stop" data-stop="8">
           <circle cx="928" cy="153" r="6" fill="var(--fg)"/>
-          <circle cx="928" cy="153" r="6" fill="var(--fg)" opacity=".3">
-            <animate attributeName="r" values="6;22;6" dur="2.5s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values=".3;0;.3" dur="2.5s" repeatCount="indefinite"/>
-          </circle>
+          <circle class="ping" cx="928" cy="153" r="6" fill="var(--fg)" opacity=".3"/>
           <text class="clbl" x="948" y="149" font-size="11" fill="var(--fg)" font-weight="700">Den Haag</text>
         </g>
       </g>
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.12.10</span>
-    <span>HEL &rarr; NYC &rarr; VIE &rarr; LON &rarr; DEN HAAG</span>
+    <span>PERSONAL SITE / V0.13.0</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
   <p class="sub">
@@ -1053,8 +1078,8 @@ footer{border-top:1px solid var(--line)}
   </div>
 
   <div class="plabel">01 / CONVICTION</div>
-  <div class="bio-copy reveal" style="max-width:680px;margin-bottom:56px">
-    <p style="font-size:1.1rem;font-weight:700;color:var(--fg);margin-bottom:0">I believe the best companies of the next decade will be built by founders who treat impact as an engineering constraint, not a marketing label. Europe has the talent, the regulation, and the market pull. What it needs is less hesitation and more conviction. I want to find those founders early, back them properly, and write about the patterns I see along the way.</p>
+  <div class="bio-copy reveal conviction">
+    <p>I believe the best companies of the next decade will be built by founders who treat impact as an engineering constraint, not a marketing label. Europe has the talent, the regulation, and the market pull. What it needs is less hesitation and more conviction. I want to find those founders early, back them properly, and write about the patterns I see along the way.</p>
   </div>
 
   <div class="plabel">01 / GALLERY &middot; <a href="gallery.html" style="color:var(--fg);border-bottom:1px solid var(--faint)">full archive &nearr;</a></div>
@@ -1232,7 +1257,6 @@ footer{border-top:1px solid var(--line)}
     <button class="stab active" data-sub="builds" role="tab" aria-selected="true" id="stab-builds" aria-controls="sub-builds" tabindex="0">BUILDS<span class="n" id="n-builds"></span></button>
     <button class="stab" data-sub="writing" role="tab" aria-selected="false" id="stab-writing" aria-controls="sub-writing" tabindex="-1">WRITING<span class="n" id="n-writing"></span></button>
     <button class="stab" data-sub="events" role="tab" aria-selected="false" id="stab-events" aria-controls="sub-events" tabindex="-1">EVENTS<span class="n" id="n-events"></span></button>
-    <button class="stab" data-sub="community" role="tab" aria-selected="false" id="stab-community" aria-controls="sub-community" tabindex="-1">COMMUNITY</button>
   </div>
 
   <!-- builds -->
@@ -1310,12 +1334,6 @@ footer{border-top:1px solid var(--line)}
     </div>
   </div>
 
-  <!-- community building -->
-  <div class="sub" id="sub-community" role="tabpanel" aria-labelledby="stab-community">
-    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:320px;text-align:center;border:1px dashed var(--line);padding:64px 24px">
-      <div style="font-family:var(--mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)">[ FILE 03/D / COMMUNITY / IN DEVELOPMENT ]</div>
-    </div>
-  </div>
 </section>
 
 </main>
@@ -1341,7 +1359,7 @@ footer{border-top:1px solid var(--line)}
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. Hand-written, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.12.10 / DEPLOYED 2026.10.17</span>
+      <span>V0.13.0 / DEPLOYED 2026.10.17</span>
     </div>
   </div>
 </footer>
@@ -1701,7 +1719,8 @@ const FINE = matchMedia('(pointer: fine)').matches;
 (function field(){
   const cv = document.getElementById('field');
   const cx = cv.getContext('2d');
-  let W,H,dots=[],t=0,raf=null;
+  let W,H,dots=[],t=0,raf=null,still=REDUCED;
+  const BUCKETS = 8;
   let mx=-9999,my=-9999,tx=-9999,ty=-9999;
   const GAP = 26;
   function size(){
@@ -1714,25 +1733,37 @@ const FINE = matchMedia('(pointer: fine)').matches;
     for(let y=GAP/2; y<H; y+=GAP)
       for(let x=GAP/2; x<W; x+=GAP) dots.push({x,y,p:(x*.7+y*1.3)*.05});
   }
+  /* Dots are grouped by alpha into BUCKETS paths and each path is filled
+     once, instead of one fill per dot: a few thousand fills a frame become
+     eight. A touch screen has no cursor to follow, so it runs at 30fps. */
+  let skip = false;
   function draw(){
-    t++;
+    raf = requestAnimationFrame(draw);
+    if(!FINE && (skip = !skip)) return;
+    t += FINE ? 1 : 2;
     if(!FINE){ tx = W/2 + Math.cos(t*.008)*W*.32; ty = H/2 + Math.sin(t*.011)*H*.28; }
-    mx += (tx-mx)*.08; my += (ty-my)*.08;
+    const k = FINE ? .08 : .15;
+    mx += (tx-mx)*k; my += (ty-my)*k;
     cx.clearRect(0,0,W,H);
     const neg = document.body.classList.contains('negative');
     cx.fillStyle = neg ? '#0d0d0c' : '#f4f4f1';
     const R2 = 240*240;
+    const paths = Array.from({length:BUCKETS}, ()=>new Path2D());
     for(let i=0;i<dots.length;i++){
       const d = dots[i];
       const dx = d.x-mx, dy = d.y-my, d2 = dx*dx+dy*dy;
       const boost = d2 < R2 ? 1 - Math.sqrt(d2)/240 : 0;
       const tw = .5 + .5*Math.sin(d.p + t*.02);
-      cx.globalAlpha = .05 + tw*.04 + boost*.45;
-      cx.beginPath(); cx.arc(d.x, d.y, .8 + tw*.3 + boost*1.9, 0, 6.2832);
-      cx.fill();
+      const a = tw*.04 + boost*.45;                     /* 0 … .49 above the .05 floor */
+      const b = Math.min(BUCKETS-1, Math.round(a/.49*(BUCKETS-1)));
+      const r = .8 + tw*.3 + boost*1.9;
+      paths[b].moveTo(d.x+r, d.y); paths[b].arc(d.x, d.y, r, 0, 6.2832);
+    }
+    for(let b=0;b<BUCKETS;b++){
+      cx.globalAlpha = .05 + b/(BUCKETS-1)*.49;
+      cx.fill(paths[b]);
     }
     cx.globalAlpha = 1;
-    raf = requestAnimationFrame(draw);
   }
   function drawStatic(){
     cx.clearRect(0,0,W,H);
@@ -1743,15 +1774,25 @@ const FINE = matchMedia('(pointer: fine)').matches;
       cx.fill();
     }
   }
+  function stop(){ cancelAnimationFrame(raf); raf=null; }
   size();
-  addEventListener('resize', ()=>{ size(); if(REDUCED) drawStatic(); });
-  if(REDUCED){ drawStatic(); document.addEventListener('negtoggle', drawStatic); return; }
+  let rT = null;
+  addEventListener('resize', ()=>{
+    clearTimeout(rT);
+    rT = setTimeout(()=>{ size(); if(still) drawStatic(); }, 150);
+  });
+  document.addEventListener('negtoggle', ()=>{ if(still) drawStatic(); });
   addEventListener('mousemove', e=>{ tx=e.clientX; ty=e.clientY; });
   document.addEventListener('visibilitychange', ()=>{
-    if(document.hidden){ cancelAnimationFrame(raf); raf=null; }
-    else if(!raf) draw();
+    if(document.hidden) stop();
+    else if(!raf && !still) draw();
   });
-  draw();
+  /* the visitor can switch reduced motion on (or off) without reloading */
+  matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', e=>{
+    still = e.matches;
+    if(still){ stop(); drawStatic(); } else if(!raf && !document.hidden) draw();
+  });
+  if(still) drawStatic(); else draw();
 })();
 
 /* ── custom cursor: dot + viewfinder ring, difference-blend ──────── */
@@ -1761,23 +1802,26 @@ const FINE = matchMedia('(pointer: fine)').matches;
   const dot = document.getElementById('cur');
   const ring = document.getElementById('curR');
   let x=innerWidth/2, y=innerHeight/2, rx=x, ry=y;
+  const at = (el,px,py)=>{ el.style.transform = `translate3d(${px}px,${py}px,0) translate(-50%,-50%)`; };
+  let cRaf=null;
+  /* The ring eases after the dot and the loop stops once it has caught up;
+     the next mousemove starts it again. */
+  function loop(){
+    rx += (x-rx)*.16; ry += (y-ry)*.16;
+    at(ring, rx, ry);
+    cRaf = (Math.abs(x-rx) + Math.abs(y-ry) > .3) ? requestAnimationFrame(loop) : null;
+  }
   addEventListener('mousemove', e=>{
     x=e.clientX; y=e.clientY;
-    dot.style.left=x+'px'; dot.style.top=y+'px';
+    at(dot, x, y);
     const t = e.target.closest ? e.target.closest('a,button,.tab,.stab,.fbtn') : null;
     const p = e.target.closest ? e.target.closest('.photo,.frame') : null;
     ring.classList.toggle('shoot', !!p);
     ring.classList.toggle('link', !!t && !p);
+    if(!cRaf && !document.hidden) cRaf = requestAnimationFrame(loop);
   });
-  let cRaf=null;
-  (function loop(){
-    rx += (x-rx)*.16; ry += (y-ry)*.16;
-    ring.style.left=rx+'px'; ring.style.top=ry+'px';
-    cRaf=requestAnimationFrame(loop);
-  })();
   document.addEventListener('visibilitychange', ()=>{
     if(document.hidden){ cancelAnimationFrame(cRaf); cRaf=null; }
-    else if(!cRaf)(function loop(){rx+=(x-rx)*.16;ry+=(y-ry)*.16;ring.style.left=rx+'px';ring.style.top=ry+'px';cRaf=requestAnimationFrame(loop);})();
   });
   document.addEventListener('mouseleave', ()=>{ dot.style.opacity=0; ring.style.opacity=0; });
   document.addEventListener('mouseenter', ()=>{ dot.style.opacity=1; ring.style.opacity=1; });
@@ -1804,11 +1848,11 @@ function fireFlash(){
 (function clock(){
   const el = document.getElementById('clock');
   const fmt = new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Amsterdam',
-    weekday:'short',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    weekday:'short',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
   const tzFmt = new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Amsterdam',timeZoneName:'short'});
   const getTZ = ()=>{ const p = tzFmt.formatToParts(new Date()); const tz = p.find(x=>x.type==='timeZoneName'); return tz ? tz.value : ''; };
   const tick = ()=> el.textContent = fmt.format(new Date()).replace(/,/g,'').toUpperCase()+' '+getTZ();
-  tick(); setInterval(tick,1000);
+  tick(); setInterval(tick,30000);
   const now = new Date();
   const doy = Math.ceil((now - new Date(now.getFullYear(),0,0)) / 864e5);
   const th = new Date(now); th.setDate(now.getDate()+4-(now.getDay()||7));
@@ -1863,7 +1907,7 @@ function fireFlash(){
 const wipe = document.getElementById('wipe');
 /* The projects subtabs, which double as #hash deep links. Declared up
    here because `const` is not hoisted and the tab router below reads it. */
-const SUBTABS = ['builds','writing','events','community'];
+const SUBTABS = ['builds','writing','events'];
 
 (function tabs(){
   const tabs = [...document.querySelectorAll('.tab')];
@@ -1904,16 +1948,17 @@ const SUBTABS = ['builds','writing','events','community'];
   tabs.forEach(t=>t.addEventListener('click',()=>go(t.dataset.panel)));
   /* roving tabindex: arrow keys move between tabs */
   document.querySelector('.tabs').addEventListener('keydown', e=>{
-    if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight') return;
+    if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key)) return;
     const cur = tabs.indexOf(document.activeElement);
     if(cur<0) return;
     e.preventDefault();
-    const next = e.key==='ArrowRight' ? (cur+1)%tabs.length : (cur-1+tabs.length)%tabs.length;
+    const next = e.key==='Home' ? 0 : e.key==='End' ? tabs.length-1
+               : e.key==='ArrowRight' ? (cur+1)%tabs.length : (cur-1+tabs.length)%tabs.length;
     go(tabs[next].dataset.panel);
     tabs[next].focus();
   });
   addEventListener('keydown',e=>{
-    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
+    if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName) || e.target.isContentEditable) return;
     if(e.metaKey||e.ctrlKey||e.altKey) return;
     const lbOpen = document.getElementById('lb')?.classList.contains('open');
     if(lbOpen){
@@ -1957,15 +2002,20 @@ function goSub(id){
 document.querySelectorAll('.stab').forEach(s=>s.addEventListener('click',()=>goSub(s.dataset.sub)));
 /* roving tabindex: arrow keys on subtabs */
 document.querySelector('.subtabs').addEventListener('keydown', e=>{
-  if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight') return;
+  if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key)) return;
   const stabs = [...document.querySelectorAll('.stab')];
   const cur = stabs.indexOf(document.activeElement);
   if(cur<0) return;
   e.preventDefault();
-  const next = e.key==='ArrowRight' ? (cur+1)%stabs.length : (cur-1+stabs.length)%stabs.length;
+  const next = e.key==='Home' ? 0 : e.key==='End' ? stabs.length-1
+             : e.key==='ArrowRight' ? (cur+1)%stabs.length : (cur-1+stabs.length)%stabs.length;
   goSub(stabs[next].dataset.sub);
   stabs[next].focus();
 });
+
+/* Escape a string for a double-quoted HTML attribute. Captions and alt
+   text are written in prose and one day one of them will hold a quote. */
+const attr = v => String(v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
 
 /* ── gallery registry (feeds the lightbox) ──────────────────────── */
 const GALLERY = [];
@@ -2029,7 +2079,7 @@ function renderWire(){
     const pos = (pic && pic.pos) || ev.pos;
     const posStyle = pos ? ` style="object-position:${pos}"` : '';
     d.innerHTML =
-      `<figure class="photo r1610" data-gi="${gi}" data-cap="${cap}">${pic?`<img src="${pic.src}" alt="${pic.alt}" loading="lazy" decoding="async"${posStyle}>`:noPhoto}
+      `<figure class="photo r1610" data-gi="${gi}" data-cap="${attr(cap)}">${pic?`<img src="${pic.src}" alt="${attr(pic.alt)}" loading="lazy" decoding="async"${posStyle}>`:noPhoto}
          <figcaption class="tag">${pic ? (ev.pics.length > 1 ? `PHOTO 1/${ev.pics.length}` : 'PHOTO') : ''}</figcaption></figure>`+
       `<div class="ev-body"><div class="ev-meta"><span>${ev.d}</span><span>${ev.city}</span></div>`+
       `<h3>${ev.name}</h3><span class="role">${ev.role}</span></div>`;
@@ -2079,7 +2129,7 @@ function renderBuildCards(items, live){
   // CTA card
   const cta = document.createElement('div');
   cta.className='proj';
-  cta.style.cssText='display:flex;align-items:center;justify-content:center;text-align:center;border-style:dashed;min-height:280px';
+  cta.style.cssText='display:flex;align-items:center;justify-content:center;text-align:center;min-height:280px';
   cta.innerHTML = `<div><h3 style="font-size:1.2rem;margin-bottom:12px">Interested?</h3><p class="pdesc" style="max-width:240px;margin:0 auto">Want to learn more about any of these projects? <a href="mailto:daniel@4impact.vc" style="color:var(--fg)">Get in touch</a>.</p></div>`;
   box.appendChild(cta);
   document.getElementById('n-builds').textContent = `(${items.filter(b=>!b.tmpl).length})`;
@@ -2126,13 +2176,28 @@ renderBuildCards(BUILDS, false);
   addEventListener('resize', trim, {passive:true});
 })();
 
+/* GitHub API read: gives up after 6s, and keeps the answer for 30 minutes
+   in sessionStorage, so moving between pages does not spend the anonymous
+   rate limit (60 an hour) again. Throws on any failure; callers fall back. */
+async function ghJSON(url){
+  const key = 'gh:'+url;
+  try{
+    const hit = JSON.parse(sessionStorage.getItem(key) || 'null');
+    if(hit && Date.now()-hit.t < 18e5) return hit.v;
+  }catch(e){}
+  const opt = typeof AbortSignal!=='undefined' && AbortSignal.timeout ? {signal:AbortSignal.timeout(6000)} : {};
+  const r = await fetch(url, opt);
+  if(!r.ok) throw new Error('github '+r.status);
+  const v = await r.json();
+  try{ sessionStorage.setItem(key, JSON.stringify({t:Date.now(), v})); }catch(e){}
+  return v;
+}
+
 /* then attempt live merge from GitHub API */
 (async function liveBuilds(){
   if(!CFG.GITHUB_USER) return;
   try{
-    const r = await fetch(`https://api.github.com/users/${CFG.GITHUB_USER}/repos?sort=pushed&per_page=100`);
-    if(!r.ok) throw 0;
-    const repos = await r.json();
+    const repos = await ghJSON(`https://api.github.com/users/${CFG.GITHUB_USER}/repos?sort=pushed&per_page=100`);
 
     /* language → readable tag */
     const langTag = l => l ? l.toLowerCase() : null;
@@ -2224,7 +2289,7 @@ renderBuildCards(BUILDS, false);
     f.className='frame'; f.dataset.gi = gi; f.dataset.cap = p.cap;
     const pos = p.pos || p.ev.pos;
     const posStyle = pos ? ` style="object-position:${pos}"` : '';
-    f.innerHTML = `<div class="ph" tabindex="0" role="button" aria-label="Open photo: ${p.cap}"><img src="${p.src}" alt="${p.alt}" loading="lazy" decoding="async"${posStyle}></div>`+
+    f.innerHTML = `<div class="ph" tabindex="0" role="button" aria-label="Open photo: ${attr(p.cap)}"><img src="${p.src}" alt="${attr(p.alt)}" loading="lazy" decoding="async"${posStyle}></div>`+
       `<div class="fcap">FR ${String(i+1).padStart(2,'0')} / ${p.cap}</div>`;
     /* keyboard: Enter/Space on .ph opens lightbox */
     f.querySelector('.ph').addEventListener('keydown', e=>{
@@ -2278,7 +2343,6 @@ document.querySelectorAll('#bio .photo').forEach(ph=>{
 const lb = document.getElementById('lb');
 let lbIdx = -1;
 let lbReturnFocus = null; /* element to restore focus to on close */
-const lbBtns = [document.getElementById('lb-p'), document.getElementById('lb-n'), document.getElementById('lb-x')];
 function showLb(){
   const g = GALLERY[lbIdx]; if(!g) return;
   document.getElementById('lb-img').src = g.src;
@@ -2296,8 +2360,14 @@ function showLb(){
   }
   document.getElementById('lb-i').textContent =
     String(lbIdx+1).padStart(2,'0')+'/'+String(GALLERY.length).padStart(2,'0');
-  lb.classList.add('open');
+  if(!lb.classList.contains('open')){
+    lb.classList.add('open');
+    document.documentElement.style.overflow = 'hidden';
+    lbBehind().forEach(el=>{ el.inert = true; });
+  }
 }
+/* everything outside the viewer, made inert while it is open */
+function lbBehind(){ return [...document.querySelectorAll('.topbar,.hero,main,.strip,footer,.skip-link')]; }
 function openLb(i){
   lbReturnFocus = document.activeElement;
   lbIdx = i; showLb();
@@ -2305,13 +2375,17 @@ function openLb(i){
 }
 function stepLb(d){ if(!lb.classList.contains('open')) return; lbIdx=(lbIdx+d+GALLERY.length)%GALLERY.length; showLb(); }
 function closeLb(){
+  if(!lb.classList.contains('open')) return;
   lb.classList.remove('open');
+  document.documentElement.style.overflow = '';
+  lbBehind().forEach(el=>{ el.inert = false; });
   if(lbReturnFocus && lbReturnFocus.focus){ lbReturnFocus.focus(); lbReturnFocus=null; }
 }
 /* trap Tab inside lightbox while open */
 lb.addEventListener('keydown', e=>{
   if(e.key!=='Tab') return;
-  const first=lbBtns[0], last=lbBtns[lbBtns.length-1];
+  const f = [...lb.querySelectorAll('a[href],button')];
+  const first=f[0], last=f[f.length-1];
   if(e.shiftKey){ if(document.activeElement===first){ e.preventDefault(); last.focus(); } }
   else{ if(document.activeElement===last){ e.preventDefault(); first.focus(); } }
 });
@@ -2382,6 +2456,7 @@ function runFeed(commits, live){
     setTimeout(()=>el.classList.add('on'), 300+i*180); });
   let idx = 6 % commits.length;
   setInterval(()=>{
+    if(document.hidden) return;
     const el = lineEl(commits[idx]); feed.appendChild(el);
     requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('on')));
     while(feed.children.length>8) feed.removeChild(feed.firstChild);
@@ -2396,15 +2471,12 @@ function runFeed(commits, live){
        public repos Daniel pushed to most recently, and the commits are read
        from each repo's own commits endpoint. Bot commits (the heatmap
        re-snapshot action) are dropped so the feed shows work, not upkeep. */
-    const r = await fetch(`https://api.github.com/users/${CFG.GITHUB_USER}/events/public?per_page=100`);
-    if(!r.ok) throw 0;
-    const evs = await r.json();
+    const evs = await ghJSON(`https://api.github.com/users/${CFG.GITHUB_USER}/events/public?per_page=100`);
     const repos = [...new Set(evs.filter(e=>e.type==='PushEvent').map(e=>e.repo.name))].slice(0,4);
     if(!repos.length) throw 0;
     const lists = await Promise.all(repos.map(async name=>{
-      const c = await fetch(`https://api.github.com/repos/${name}/commits?per_page=8`);
-      if(!c.ok) return [];
-      return (await c.json()).map(x=>({x, repo:name.split('/').pop()}));
+      const c = await ghJSON(`https://api.github.com/repos/${name}/commits?per_page=8`).catch(()=>[]);
+      return c.map(x=>({x, repo:name.split('/').pop()}));
     }));
     const commits = lists.flat()
       .filter(({x}) => !(x.author && x.author.type==='Bot') && !/^chore: re-snapshot/.test(x.commit.message))
@@ -2422,7 +2494,7 @@ function runFeed(commits, live){
 
 /* ── initial subtab ─────────────────────────────────────────────────
    Runs last on purpose: it also fires the row stagger. Honours a
-   #builds|#writing|#events|#community deep link, otherwise BUILDS. */
+   #builds|#writing|#events deep link, otherwise BUILDS. */
 goSub(SUBTABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'builds');
 
 /* ── route constellation tooltip ───────────────────────────────────── */
@@ -2458,6 +2530,19 @@ goSub(SUBTABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'build
     });
     g.addEventListener('mouseleave', ()=>tip.classList.remove('show'));
   });
+})();
+
+/* ── route constellation, narrow screens ──────────────────────────────
+   Below 700px the full map is too small to read, so the viewBox crops to
+   Europe: the Finnish cluster, Vienna, London and Den Haag. New York drops
+   off the left edge, the route line to it stays. */
+(function routeCrop(){
+  const svg = document.querySelector('.constellation svg');
+  if(!svg) return;
+  const mq = matchMedia('(max-width:700px)');
+  const set = ()=>svg.setAttribute('viewBox', mq.matches ? '800 20 485 215' : '0 0 1300 240');
+  set();
+  mq.addEventListener('change', set);
 })();
 </script>
 <script data-goatcounter="https://danieluusitalo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
