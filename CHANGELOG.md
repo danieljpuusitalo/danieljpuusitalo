@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.13.3 - 2026-10-18 "say what it does"
+
+Projects tab (03/BUILDS): every card's copy rewritten to be literal, and one card added.
+
+- Salient added as PRJ/10, IN DEVELOPMENT: a browser tower defence game on a deterministic lockstep simulation. No link, the repo is private.
+- All ten descriptions now state what the project does and what it can do, with the sales phrasing removed. Tech moved into the tags.
+- Team Intelligence tags follow the same pattern as the other cards: three stack tags.
+- FloatNote describes the 2.x to-do app instead of the original notepad.
+- OCS-Engine and Equity Cockpit copy corrected to match what each one actually does.
+- The static projects mirror is regenerated (10 cards). No meta tag, schema, photo or other tab changed.
+
 ## v0.13.2 - 2026-10-17 "streamlined"
 
 Two label changes on the work tab (02). Subtexts are unchanged.

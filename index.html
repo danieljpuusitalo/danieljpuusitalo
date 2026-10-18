@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.13.2
+     DANIEL UUSITALO / personal site v0.13.3
      Hand-written. No framework, no bundler. External dependencies: Google Fonts + GoatCounter (cookieless analytics).
      Companion pages: writing.html (generated), press-kit.html, gallery.html, 404.html.
      Project conventions & editing guide: see CLAUDE.md in this folder.
@@ -1003,7 +1003,7 @@ addEventListener('error',function(){document.documentElement.classList.remove('j
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.13.2</span>
+    <span>PERSONAL SITE / V0.13.3</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
   <p class="sub">
@@ -1292,15 +1292,16 @@ addEventListener('error',function(){document.documentElement.classList.remove('j
          the markers; edit BUILDS and re-run the script. -->
     <div class="proj-grid" id="builds-grid">
 <!-- GEN:BUILDS -->
-      <div class="proj"><span class="pnum">PRJ/01 / LIVE</span><h3>Team Intelligence</h3><p class="pdesc">Due diligence on startup teams, in daily use on real deal flow. Two lenses on the same founders: a scored questionnaire, and an evidence pipeline that reads decks, CVs and call transcripts, checks the claims against web search, Nordic company registries and domain records, then grades each dimension with a confidence interval instead of a single number.</p><div class="ptags"><span>internal tool</span><span>diligence</span><span>0→1</span></div></div>
-      <div class="proj"><span class="pnum">PRJ/02 / IN DEVELOPMENT</span><h3>DD-Dev</h3><p class="pdesc">Document transfer and validation infrastructure for due diligence: versioned, access-controlled and built for sensitive material.</p><div class="ptags"><span>react</span><span>supabase</span><span>security</span><span>diligence</span></div></div>
-      <a class="proj" href="https://www.huurhel.nl/" target="_blank" rel="noopener"><span class="pnum">PRJ/03 / LIVE</span><h3>HuurHel</h3><p class="pdesc">Unverified reviews helping renters make semi-informed decisions about Dutch rental properties. Search by address, read what others experienced.</p><div class="ptags"><span>react</span><span>supabase</span><span>leaflet</span></div></a>
-      <a class="proj" href="https://github.com/danieljpuusitalo/FloatNote" target="_blank" rel="noopener"><span class="pnum">PRJ/04 / LIVE</span><h3>FloatNote</h3><p class="pdesc">Always-on-top floating notepad for Windows. Frameless, transparent, auto-saves, global hotkey, system tray. Multiple windows, dark mode, markdown-ready.</p><div class="ptags"><span>electron</span><span>desktop</span><span>utility</span></div></a>
-      <a class="proj" href="https://github.com/danieljpuusitalo/nexus" target="_blank" rel="noopener"><span class="pnum">PRJ/05 / IN DEVELOPMENT</span><h3>Nexus</h3><p class="pdesc">Conversation record layer over meeting notetakers: reorganises transcripts by person instead of by meeting, and tracks a two-sided ledger of commitments made and owed.</p><div class="ptags"><span>react</span><span>typescript</span><span>vite</span></div></a>
-      <div class="proj"><span class="pnum">PRJ/06 / LIVE</span><h3>OCS-Engine</h3><p class="pdesc">Autonomous social media engine for small businesses, live for a chiropractic studio group in the Netherlands. Publishes on a schedule to Instagram, Facebook and two Google Business listings, behind a compliance linter and a human veto window in Notion. Four analytics feeds fold into one KPI contract that re-weights the next cycle. Over a thousand tests, runs unattended.</p><div class="ptags"><span>python</span><span>automation</span><span>social media</span></div></div>
-      <a class="proj" href="https://github.com/danieljpuusitalo/equity-cockpit" target="_blank" rel="noopener"><span class="pnum">PRJ/07 / LIVE</span><h3>Equity Cockpit</h3><p class="pdesc">Personal portfolio monitor that opens on the book rather than on a ticker: an allocation treemap, sector and geography exposure computed through the funds rather than around them, concentration, and a reporting calendar. Joins a broker export, live market prices and a written decision log, then reports only where the three disagree. It never suggests a trade.</p><div class="ptags"><span>python</span><span>analytics</span><span>self-hosted</span></div></a>
-      <a class="proj" href="https://github.com/danieljpuusitalo/danieljpuusitalo" target="_blank" rel="noopener"><span class="pnum">PRJ/08 / LIVE</span><h3>This Website</h3><p class="pdesc">The page you're reading. One hand-written HTML file plus four companion pages, no framework and no bundler. A cursor-reactive dot field, film negatives, a live commit log, a contribution heatmap that re-snapshots itself, and crawlable archives generated from the same arrays that render this page.</p><div class="ptags"><span>hand-written</span><span>design</span><span>github pages</span></div></a>
-      <a class="proj" href="https://github.com/danieljpuusitalo/sifter" target="_blank" rel="noopener"><span class="pnum">PRJ/09 / IN DEVELOPMENT</span><h3>Sifter</h3><p class="pdesc">Chrome extension that hides the ads your ad blocker misses: the sponsored posts and promoted results woven into the feed itself, which look like content because they are built like content. Per-site adapters find each post unit in the live DOM, read its visible label, and hide it in place without deleting anything, inside a strict per-batch time budget so scrolling never stutters. Plain-English mute rules on top. No backend, no remote code, no analytics.</p><div class="ptags"><span>typescript</span><span>chrome extension</span><span>wxt</span></div></a>
+      <div class="proj"><span class="pnum">PRJ/01 / LIVE</span><h3>Team Intelligence</h3><p class="pdesc">Due diligence on startup teams, used on live deal flow. Two separate lenses: a scored founder questionnaire, and an evidence pipeline that extracts claims from decks, CVs and call transcripts, checks them against web search, Nordic company registries and domain records, and grades each dimension with a confidence interval.</p><div class="ptags"><span>typescript</span><span>supabase</span><span>vercel</span></div></div>
+      <div class="proj"><span class="pnum">PRJ/02 / IN DEVELOPMENT</span><h3>DD-Dev</h3><p class="pdesc">Document transfer and validation for due diligence. Versioned, access-controlled storage for sensitive files.</p><div class="ptags"><span>react</span><span>supabase</span><span>typescript</span></div></div>
+      <a class="proj" href="https://www.huurhel.nl/" target="_blank" rel="noopener"><span class="pnum">PRJ/03 / LIVE</span><h3>HuurHel</h3><p class="pdesc">Reviews of Dutch rental properties. Search by address on a map and read what previous tenants reported. Reviews are not verified.</p><div class="ptags"><span>react</span><span>supabase</span><span>leaflet</span></div></a>
+      <a class="proj" href="https://github.com/danieljpuusitalo/FloatNote" target="_blank" rel="noopener"><span class="pnum">PRJ/04 / LIVE</span><h3>FloatNote</h3><p class="pdesc">Always-on-top to-do app for Windows. Four lists (Today, Next, Waiting, Later), a morning pick, global-hotkey capture and per-record sync between devices. A scheduled Claude job drops suggested to-dos into an inbox folder for review. Notes and habits as secondary tabs.</p><div class="ptags"><span>electron</span><span>javascript</span><span>firebase</span></div></a>
+      <a class="proj" href="https://github.com/danieljpuusitalo/nexus" target="_blank" rel="noopener"><span class="pnum">PRJ/05 / IN DEVELOPMENT</span><h3>Nexus</h3><p class="pdesc">Record layer over meeting notetakers. Regroups transcripts by person instead of by meeting and keeps a ledger of commitments made and owed.</p><div class="ptags"><span>react</span><span>typescript</span><span>vite</span></div></a>
+      <div class="proj"><span class="pnum">PRJ/06 / LIVE</span><h3>OCS-Engine</h3><p class="pdesc">Social media automation for a chiropractic studio group in the Netherlands. Schedules posts to Instagram, Facebook and Google Business listings, through a compliance linter and a veto window in Notion. An analytics dashboard tracks reach, engagement and bookings, with a booking forecast.</p><div class="ptags"><span>python</span><span>github actions</span><span>notion</span></div></div>
+      <a class="proj" href="https://github.com/danieljpuusitalo/equity-cockpit" target="_blank" rel="noopener"><span class="pnum">PRJ/07 / LIVE</span><h3>Equity Cockpit</h3><p class="pdesc">Personal portfolio monitor. Joins a broker export, Yahoo Finance prices and a written decision log, and sends a Telegram alert only when something changed or the three disagree. Allocation treemap, sector and country exposure looked through funds, concentration and a reporting calendar.</p><div class="ptags"><span>python</span><span>yfinance</span><span>telegram</span></div></a>
+      <a class="proj" href="https://github.com/danieljpuusitalo/danieljpuusitalo" target="_blank" rel="noopener"><span class="pnum">PRJ/08 / LIVE</span><h3>This Website</h3><p class="pdesc">This page. Hand-written HTML, CSS and JavaScript plus four companion pages, no framework or bundler. Zero-dependency Node scripts generate crawlable archives from the arrays that render the page, and a GitHub Action re-snapshots the contribution heatmap.</p><div class="ptags"><span>javascript</span><span>node</span><span>github pages</span></div></a>
+      <a class="proj" href="https://github.com/danieljpuusitalo/sifter" target="_blank" rel="noopener"><span class="pnum">PRJ/09 / IN DEVELOPMENT</span><h3>Sifter</h3><p class="pdesc">Chrome extension that hides sponsored posts and promoted results that ad blockers miss because they are built like regular content. Per-site adapters find each post in the live DOM, read its label and hide it in place within a per-batch time budget. Plain-English mute rules on top. No backend, no remote code, no analytics.</p><div class="ptags"><span>typescript</span><span>wxt</span><span>preact</span></div></a>
+      <div class="proj"><span class="pnum">PRJ/10 / IN DEVELOPMENT</span><h3>Salient</h3><p class="pdesc">Browser tower defence game with upgrade paths, a resource economy, a town-building campaign and a classic wave mode. Runs on a deterministic lockstep simulation (integer maths, seeded randomness, a golden replay hash in the tests) so co-op can be added without a rewrite.</p><div class="ptags"><span>typescript</span><span>three.js</span><span>webgpu</span></div></div>
 <!-- /GEN:BUILDS -->
     </div>
 
@@ -1359,7 +1360,7 @@ addEventListener('error',function(){document.documentElement.classList.remove('j
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. Hand-written, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.13.2 / DEPLOYED 2026.10.17</span>
+      <span>V0.13.3 / DEPLOYED 2026.10.18</span>
     </div>
   </div>
 </footer>
@@ -1638,57 +1639,60 @@ const EVENT_CHECKLIST = [
 /* builds: gh = repo URL if public */
 const BUILDS = [
   {num:"PRJ/01 / LIVE", name:"Team Intelligence",
-   desc:"Due diligence on startup teams, in daily use on real deal flow. Two lenses on the same founders: a scored questionnaire, and an evidence pipeline that reads decks, CVs and call transcripts, checks the claims against web search, Nordic company registries and domain records, then grades each dimension with a confidence interval instead of a single number.",
-   tags:["internal tool","diligence","0\u21921"], gh:""},
+   desc:"Due diligence on startup teams, used on live deal flow. Two separate lenses: a scored founder questionnaire, and an evidence pipeline that extracts claims from decks, CVs and call transcripts, checks them against web search, Nordic company registries and domain records, and grades each dimension with a confidence interval.",
+   tags:["typescript","supabase","vercel"], gh:""},
   {num:"PRJ/02 / IN DEVELOPMENT", name:"DD-Dev",
-   desc:"Document transfer and validation infrastructure for due diligence: versioned, access-controlled and built for sensitive material.",
-   tags:["react","supabase","security","diligence"], gh:""},
+   desc:"Document transfer and validation for due diligence. Versioned, access-controlled storage for sensitive files.",
+   tags:["react","supabase","typescript"], gh:""},
   {num:"PRJ/03 / LIVE", name:"HuurHel",
-   desc:"Unverified reviews helping renters make semi-informed decisions about Dutch rental properties. Search by address, read what others experienced.",
+   desc:"Reviews of Dutch rental properties. Search by address on a map and read what previous tenants reported. Reviews are not verified.",
    tags:["react","supabase","leaflet"], gh:"https://www.huurhel.nl/"}, /* product URL, repo is private */
   {num:"PRJ/04 / LIVE", name:"FloatNote",
-   desc:"Always-on-top floating notepad for Windows. Frameless, transparent, auto-saves, global hotkey, system tray. Multiple windows, dark mode, markdown-ready.",
-   tags:["electron","desktop","utility"], gh:"https://github.com/danieljpuusitalo/FloatNote"},
+   desc:"Always-on-top to-do app for Windows. Four lists (Today, Next, Waiting, Later), a morning pick, global-hotkey capture and per-record sync between devices. A scheduled Claude job drops suggested to-dos into an inbox folder for review. Notes and habits as secondary tabs.",
+   tags:["electron","javascript","firebase"], gh:"https://github.com/danieljpuusitalo/FloatNote"},
   {num:"PRJ/05 / IN DEVELOPMENT", name:"Nexus",
-   desc:"Conversation record layer over meeting notetakers: reorganises transcripts by person instead of by meeting, and tracks a two-sided ledger of commitments made and owed.",
+   desc:"Record layer over meeting notetakers. Regroups transcripts by person instead of by meeting and keeps a ledger of commitments made and owed.",
    tags:["react","typescript","vite"], gh:"https://github.com/danieljpuusitalo/nexus"},
   {num:"PRJ/06 / LIVE", name:"OCS-Engine",
-   desc:"Autonomous social media engine for small businesses, live for a chiropractic studio group in the Netherlands. Publishes on a schedule to Instagram, Facebook and two Google Business listings, behind a compliance linter and a human veto window in Notion. Four analytics feeds fold into one KPI contract that re-weights the next cycle. Over a thousand tests, runs unattended.",
-   tags:["python","automation","social media"], gh:""},
+   desc:"Social media automation for a chiropractic studio group in the Netherlands. Schedules posts to Instagram, Facebook and Google Business listings, through a compliance linter and a veto window in Notion. An analytics dashboard tracks reach, engagement and bookings, with a booking forecast.",
+   tags:["python","github actions","notion"], gh:""},
   {num:"PRJ/07 / LIVE", name:"Equity Cockpit",
-   desc:"Personal portfolio monitor that opens on the book rather than on a ticker: an allocation treemap, sector and geography exposure computed through the funds rather than around them, concentration, and a reporting calendar. Joins a broker export, live market prices and a written decision log, then reports only where the three disagree. It never suggests a trade.",
-   tags:["python","analytics","self-hosted"], gh:"https://github.com/danieljpuusitalo/equity-cockpit"},
+   desc:"Personal portfolio monitor. Joins a broker export, Yahoo Finance prices and a written decision log, and sends a Telegram alert only when something changed or the three disagree. Allocation treemap, sector and country exposure looked through funds, concentration and a reporting calendar.",
+   tags:["python","yfinance","telegram"], gh:"https://github.com/danieljpuusitalo/equity-cockpit"},
   {num:"PRJ/08 / LIVE", name:"This Website",
-   desc:"The page you're reading. One hand-written HTML file plus four companion pages, no framework and no bundler. A cursor-reactive dot field, film negatives, a live commit log, a contribution heatmap that re-snapshots itself, and crawlable archives generated from the same arrays that render this page.",
-   tags:["hand-written","design","github pages"], gh:"https://github.com/danieljpuusitalo/danieljpuusitalo"},
+   desc:"This page. Hand-written HTML, CSS and JavaScript plus four companion pages, no framework or bundler. Zero-dependency Node scripts generate crawlable archives from the arrays that render the page, and a GitHub Action re-snapshots the contribution heatmap.",
+   tags:["javascript","node","github pages"], gh:"https://github.com/danieljpuusitalo/danieljpuusitalo"},
   {num:"PRJ/09 / IN DEVELOPMENT", name:"Sifter",
-   desc:"Chrome extension that hides the ads your ad blocker misses: the sponsored posts and promoted results woven into the feed itself, which look like content because they are built like content. Per-site adapters find each post unit in the live DOM, read its visible label, and hide it in place without deleting anything, inside a strict per-batch time budget so scrolling never stutters. Plain-English mute rules on top. No backend, no remote code, no analytics.",
-   tags:["typescript","chrome extension","wxt"], gh:"https://github.com/danieljpuusitalo/sifter"}
+   desc:"Chrome extension that hides sponsored posts and promoted results that ad blockers miss because they are built like regular content. Per-site adapters find each post in the live DOM, read its label and hide it in place within a per-batch time budget. Plain-English mute rules on top. No backend, no remote code, no analytics.",
+   tags:["typescript","wxt","preact"], gh:"https://github.com/danieljpuusitalo/sifter"},
+  {num:"PRJ/10 / IN DEVELOPMENT", name:"Salient",
+   desc:"Browser tower defence game with upgrade paths, a resource economy, a town-building campaign and a classic wave mode. Runs on a deterministic lockstep simulation (integer maths, seeded randomness, a golden replay hash in the tests) so co-op can be added without a rewrite.",
+   tags:["typescript","three.js","webgpu"], gh:""} /* repo is private */
 ];
 
 /* builds overrides: keyed by repo name. Editorial content for known repos.
    API merges stars/language/recency; these fields win over API-generated content.
    Repos NOT in this map get auto-generated cards from the API.
-   Repos with no gh URL (Team Intelligence, DD-Dev, OCS-Engine) stay hardcoded in BUILDS only. */
+   Repos with no gh URL (Team Intelligence, DD-Dev, OCS-Engine, Salient) stay hardcoded in BUILDS only. */
 const BUILDS_OVERRIDES = {
-  'huurhel':          {num:"PRJ/03 / LIVE", name:"HuurHel",
-    desc:"Unverified reviews helping renters make semi-informed decisions about Dutch rental properties. Search by address, read what others experienced.",
+  'huurhel':         {num:"PRJ/03 / LIVE", name:"HuurHel",
+    desc:"Reviews of Dutch rental properties. Search by address on a map and read what previous tenants reported. Reviews are not verified.",
     tags:["react","supabase","leaflet"], url:"https://www.huurhel.nl/", skipApi:true}, /* product URL, repo is private */
-  'FloatNote':        {num:"PRJ/04 / LIVE", name:"FloatNote",
-    desc:"Always-on-top floating notepad for Windows. Frameless, transparent, auto-saves, global hotkey, system tray. Multiple windows, dark mode, markdown-ready.",
-    tags:["electron","desktop","utility"]},
-  'nexus':            {num:"PRJ/05 / IN DEVELOPMENT", name:"Nexus",
-    desc:"Conversation record layer over meeting notetakers: reorganises transcripts by person instead of by meeting, and tracks a two-sided ledger of commitments made and owed.",
+  'FloatNote':       {num:"PRJ/04 / LIVE", name:"FloatNote",
+    desc:"Always-on-top to-do app for Windows. Four lists (Today, Next, Waiting, Later), a morning pick, global-hotkey capture and per-record sync between devices. A scheduled Claude job drops suggested to-dos into an inbox folder for review. Notes and habits as secondary tabs.",
+    tags:["electron","javascript","firebase"]},
+  'nexus':           {num:"PRJ/05 / IN DEVELOPMENT", name:"Nexus",
+    desc:"Record layer over meeting notetakers. Regroups transcripts by person instead of by meeting and keeps a ledger of commitments made and owed.",
     tags:["react","typescript","vite"]},
-  'equity-cockpit':   {num:"PRJ/07 / LIVE", name:"Equity Cockpit",
-    desc:"Personal portfolio monitor that opens on the book rather than on a ticker: an allocation treemap, sector and geography exposure computed through the funds rather than around them, concentration, and a reporting calendar. Joins a broker export, live market prices and a written decision log, then reports only where the three disagree. It never suggests a trade.",
-    tags:["python","analytics","self-hosted"]},
+  'equity-cockpit':  {num:"PRJ/07 / LIVE", name:"Equity Cockpit",
+    desc:"Personal portfolio monitor. Joins a broker export, Yahoo Finance prices and a written decision log, and sends a Telegram alert only when something changed or the three disagree. Allocation treemap, sector and country exposure looked through funds, concentration and a reporting calendar.",
+    tags:["python","yfinance","telegram"]},
   'danieljpuusitalo': {num:"PRJ/08 / LIVE", name:"This Website",
-    desc:"The page you're reading. One hand-written HTML file plus four companion pages, no framework and no bundler. A cursor-reactive dot field, film negatives, a live commit log, a contribution heatmap that re-snapshots itself, and crawlable archives generated from the same arrays that render this page.",
-    tags:["hand-written","design","github pages"]},
-  'sifter':           {num:"PRJ/09 / IN DEVELOPMENT", name:"Sifter",
-    desc:"Chrome extension that hides the ads your ad blocker misses: the sponsored posts and promoted results woven into the feed itself, which look like content because they are built like content. Per-site adapters find each post unit in the live DOM, read its visible label, and hide it in place without deleting anything, inside a strict per-batch time budget so scrolling never stutters. Plain-English mute rules on top. No backend, no remote code, no analytics.",
-    tags:["typescript","chrome extension","wxt"]},
+    desc:"This page. Hand-written HTML, CSS and JavaScript plus four companion pages, no framework or bundler. Zero-dependency Node scripts generate crawlable archives from the arrays that render the page, and a GitHub Action re-snapshots the contribution heatmap.",
+    tags:["javascript","node","github pages"]},
+  'sifter':          {num:"PRJ/09 / IN DEVELOPMENT", name:"Sifter",
+    desc:"Chrome extension that hides sponsored posts and promoted results that ad blockers miss because they are built like regular content. Per-site adapters find each post in the live DOM, read its label and hide it in place within a per-batch time budget. Plain-English mute rules on top. No backend, no remote code, no analytics.",
+    tags:["typescript","wxt","preact"]},
   'FloatNote-mac':    {skipApi:true},
 };
 
