@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.13.4 - 2026-10-19 "on the store"
+
+Sifter (PRJ/09) is live on the Chrome Web Store. Its card moves from IN DEVELOPMENT to LIVE and now links to the store listing instead of the GitHub repo, in both `BUILDS` and `BUILDS_OVERRIDES`, so the static mirror and the client-rendered card agree. The description is unchanged. The static projects mirror is regenerated and the footer's deploy date moves with it.
+
 ## v0.13.3 - 2026-10-18 "say what it does"
 
 Projects tab (03/BUILDS): every card's copy rewritten to be literal, and one card added.

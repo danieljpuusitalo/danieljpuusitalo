@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.13.3
+     DANIEL UUSITALO / personal site v0.13.4
      Hand-written. No framework, no bundler. External dependencies: Google Fonts + GoatCounter (cookieless analytics).
      Companion pages: writing.html (generated), press-kit.html, gallery.html, 404.html.
      Project conventions & editing guide: see CLAUDE.md in this folder.
@@ -1003,7 +1003,7 @@ addEventListener('error',function(){document.documentElement.classList.remove('j
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.13.3</span>
+    <span>PERSONAL SITE / V0.13.4</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
   <p class="sub">
@@ -1300,7 +1300,7 @@ addEventListener('error',function(){document.documentElement.classList.remove('j
       <div class="proj"><span class="pnum">PRJ/06 / LIVE</span><h3>OCS-Engine</h3><p class="pdesc">Social media automation for a chiropractic studio group in the Netherlands. Schedules posts to Instagram, Facebook and Google Business listings, through a compliance linter and a veto window in Notion. An analytics dashboard tracks reach, engagement and bookings, with a booking forecast.</p><div class="ptags"><span>python</span><span>github actions</span><span>notion</span></div></div>
       <a class="proj" href="https://github.com/danieljpuusitalo/equity-cockpit" target="_blank" rel="noopener"><span class="pnum">PRJ/07 / LIVE</span><h3>Equity Cockpit</h3><p class="pdesc">Personal portfolio monitor. Joins a broker export, Yahoo Finance prices and a written decision log, and sends a Telegram alert only when something changed or the three disagree. Allocation treemap, sector and country exposure looked through funds, concentration and a reporting calendar.</p><div class="ptags"><span>python</span><span>yfinance</span><span>telegram</span></div></a>
       <a class="proj" href="https://github.com/danieljpuusitalo/danieljpuusitalo" target="_blank" rel="noopener"><span class="pnum">PRJ/08 / LIVE</span><h3>This Website</h3><p class="pdesc">This page. Hand-written HTML, CSS and JavaScript plus four companion pages, no framework or bundler. Zero-dependency Node scripts generate crawlable archives from the arrays that render the page, and a GitHub Action re-snapshots the contribution heatmap.</p><div class="ptags"><span>javascript</span><span>node</span><span>github pages</span></div></a>
-      <a class="proj" href="https://github.com/danieljpuusitalo/sifter" target="_blank" rel="noopener"><span class="pnum">PRJ/09 / IN DEVELOPMENT</span><h3>Sifter</h3><p class="pdesc">Chrome extension that hides sponsored posts and promoted results that ad blockers miss because they are built like regular content. Per-site adapters find each post in the live DOM, read its label and hide it in place within a per-batch time budget. Plain-English mute rules on top. No backend, no remote code, no analytics.</p><div class="ptags"><span>typescript</span><span>wxt</span><span>preact</span></div></a>
+      <a class="proj" href="https://chromewebstore.google.com/detail/sifter/bjmipjakmbcipmioiiboacddkjmbjfck?hl=en" target="_blank" rel="noopener"><span class="pnum">PRJ/09 / LIVE</span><h3>Sifter</h3><p class="pdesc">Chrome extension that hides sponsored posts and promoted results that ad blockers miss because they are built like regular content. Per-site adapters find each post in the live DOM, read its label and hide it in place within a per-batch time budget. Plain-English mute rules on top. No backend, no remote code, no analytics.</p><div class="ptags"><span>typescript</span><span>wxt</span><span>preact</span></div></a>
       <div class="proj"><span class="pnum">PRJ/10 / IN DEVELOPMENT</span><h3>Salient</h3><p class="pdesc">Browser tower defence game with upgrade paths, a resource economy, a town-building campaign and a classic wave mode. Runs on a deterministic lockstep simulation (integer maths, seeded randomness, a golden replay hash in the tests) so co-op can be added without a rewrite.</p><div class="ptags"><span>typescript</span><span>three.js</span><span>webgpu</span></div></div>
 <!-- /GEN:BUILDS -->
     </div>
@@ -1360,7 +1360,7 @@ addEventListener('error',function(){document.documentElement.classList.remove('j
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. Hand-written, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.13.3 / DEPLOYED 2026.10.18</span>
+      <span>V0.13.4 / DEPLOYED 2026.10.19</span>
     </div>
   </div>
 </footer>
@@ -1662,9 +1662,9 @@ const BUILDS = [
   {num:"PRJ/08 / LIVE", name:"This Website",
    desc:"This page. Hand-written HTML, CSS and JavaScript plus four companion pages, no framework or bundler. Zero-dependency Node scripts generate crawlable archives from the arrays that render the page, and a GitHub Action re-snapshots the contribution heatmap.",
    tags:["javascript","node","github pages"], gh:"https://github.com/danieljpuusitalo/danieljpuusitalo"},
-  {num:"PRJ/09 / IN DEVELOPMENT", name:"Sifter",
+  {num:"PRJ/09 / LIVE", name:"Sifter",
    desc:"Chrome extension that hides sponsored posts and promoted results that ad blockers miss because they are built like regular content. Per-site adapters find each post in the live DOM, read its label and hide it in place within a per-batch time budget. Plain-English mute rules on top. No backend, no remote code, no analytics.",
-   tags:["typescript","wxt","preact"], gh:"https://github.com/danieljpuusitalo/sifter"},
+   tags:["typescript","wxt","preact"], gh:"https://chromewebstore.google.com/detail/sifter/bjmipjakmbcipmioiiboacddkjmbjfck?hl=en"}, /* Chrome Web Store listing */
   {num:"PRJ/10 / IN DEVELOPMENT", name:"Salient",
    desc:"Browser tower defence game with upgrade paths, a resource economy, a town-building campaign and a classic wave mode. Runs on a deterministic lockstep simulation (integer maths, seeded randomness, a golden replay hash in the tests) so co-op can be added without a rewrite.",
    tags:["typescript","three.js","webgpu"], gh:""} /* repo is private */
@@ -1690,9 +1690,9 @@ const BUILDS_OVERRIDES = {
   'danieljpuusitalo': {num:"PRJ/08 / LIVE", name:"This Website",
     desc:"This page. Hand-written HTML, CSS and JavaScript plus four companion pages, no framework or bundler. Zero-dependency Node scripts generate crawlable archives from the arrays that render the page, and a GitHub Action re-snapshots the contribution heatmap.",
     tags:["javascript","node","github pages"]},
-  'sifter':          {num:"PRJ/09 / IN DEVELOPMENT", name:"Sifter",
+  'sifter':          {num:"PRJ/09 / LIVE", name:"Sifter",
     desc:"Chrome extension that hides sponsored posts and promoted results that ad blockers miss because they are built like regular content. Per-site adapters find each post in the live DOM, read its label and hide it in place within a per-batch time budget. Plain-English mute rules on top. No backend, no remote code, no analytics.",
-    tags:["typescript","wxt","preact"]},
+    tags:["typescript","wxt","preact"], url:"https://chromewebstore.google.com/detail/sifter/bjmipjakmbcipmioiiboacddkjmbjfck?hl=en"}, /* Chrome Web Store listing */
   'FloatNote-mac':    {skipApi:true},
 };
 
