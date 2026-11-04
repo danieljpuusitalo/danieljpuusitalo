@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.13.7 - 2026-11-04 "pockets"
+
+Events tab checklist.
+
+- Angel Prize 2026, Stockholm (9 December, Nordic Angels) added to `EVENT_CHECKLIST`, with its name linking to the event page. Entries take a new optional `url`.
+- The checklist folds by year: one `<details>` pocket per year, newest first, with a count of events and how many are upcoming. The pocket holding the next upcoming event opens by default, otherwise the newest year does. Adding the first 2027 event is enough to open a 2027 pocket and fold 2026; no year field to maintain.
+- The checklist is client-rendered and not in any schema or static mirror, so no SEO surface changed.
+
 ## v0.13.6 - 2026-11-04 "link rot"
 
 Health-check release. Nothing that identifies him changed: bio, titles, meta and og tags, canonicals, slugs and every JSON-LD block are byte-identical (verified by diffing each page's schema before and after).

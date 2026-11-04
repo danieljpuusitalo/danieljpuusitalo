@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.13.6
+     DANIEL UUSITALO / personal site v0.13.7
      Hand-written. No framework, no bundler. External dependencies: Google Fonts + GoatCounter (cookieless analytics).
      Companion pages: writing.html (generated), press-kit.html, gallery.html, 404.html.
      Project conventions & editing guide: see CLAUDE.md in this folder.
@@ -805,6 +805,16 @@ footer{border-top:1px solid var(--line)}
 .cl-row.upcoming{color:var(--fg)}
 .cl-label{font-size:10px;letter-spacing:.14em;color:var(--dim);min-width:90px}
 .cl-tag{font-size:10px;letter-spacing:.14em;color:var(--dim)}
+.cl-row a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line)}
+.cl-row a:hover{border-bottom-color:currentColor}
+.cl-year+.cl-year{border-top:1px solid var(--line);margin-top:8px;padding-top:8px}
+.cl-year>summary{display:flex;gap:12px;align-items:baseline;padding:6px 0;cursor:pointer;list-style:none;user-select:none}
+.cl-year>summary::-webkit-details-marker{display:none}
+.cl-year>summary::before{content:'\25B8';color:var(--fg);width:1em;font-size:15px;line-height:1}
+.cl-year[open]>summary::before{content:'\25BE'}
+.cl-year>summary:hover .cl-yr{text-decoration:underline}
+.cl-yr{flex:1;font-weight:700;letter-spacing:.14em}
+.cl-year[open]>summary{margin-bottom:4px}
 :focus-visible{outline:2px solid var(--fg);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
@@ -1008,7 +1018,7 @@ addEventListener('error',function(){document.documentElement.classList.remove('j
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.13.6</span>
+    <span>PERSONAL SITE / V0.13.7</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
   <p class="sub">
@@ -1364,7 +1374,7 @@ addEventListener('error',function(){document.documentElement.classList.remove('j
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. Hand-written, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.13.6 / DEPLOYED 2026.11.04</span>
+      <span>V0.13.7 / DEPLOYED 2026.11.04</span>
     </div>
   </div>
 </footer>
@@ -1627,7 +1637,9 @@ const ARCHIVE = EVENTS_SORTED.filter(e=>!e.archived)
     cap: p.cap || `${e.name}, ${e.city}`})));
 
 /* event checklist: auto-crossout once passed. `date` = event's LAST day
-   (YYYY-MM-DD); it stays UPCOMING through that day and crosses out the day after. */
+   (YYYY-MM-DD); it stays UPCOMING through that day and crosses out the day after.
+   Grouped into one foldable pocket per year, taken from `date`. Optional
+   `url` links the name. */
 const EVENT_CHECKLIST = [
   {name:"GoWest 2026, Gothenburg", date:"2026-01-28", display:"28 Jan 2026"},
   {name:"Techarena 2026, Stockholm", date:"2026-02-11", display:"11 Feb 2026"},
@@ -1638,7 +1650,8 @@ const EVENT_CHECKLIST = [
   {name:"The Drop 2026, Malmö", date:"2026-09-16", display:"15–16 Sep 2026"},
   {name:"Prompt What Matters Fixathon 2026, Barcelona", date:"2026-10-14", display:"13–14 Oct 2026"},
   {name:"Norrsken Impact Week 2026, Barcelona", date:"2026-10-15", display:"14–15 Oct 2026"},
-  {name:"Slush 2026, Helsinki", date:"2026-11-18", display:"18 Nov 2026"}
+  {name:"Slush 2026, Helsinki", date:"2026-11-18", display:"18 Nov 2026"},
+  {name:"Angel Prize 2026, Stockholm", date:"2026-12-09", display:"9 Dec 2026", url:"https://nordicangels.com/angel-prize-2026"}
 ];
 
 /* builds: gh = repo URL if public */
@@ -2116,21 +2129,38 @@ function renderWire(){
 /* ── render: event checklist (auto-crossout once an event has passed) ──
    ev.date = the event's LAST day (YYYY-MM-DD). Crossout is strict (< today)
    so an event stays UPCOMING through its final day and only crosses out the
-   day AFTER it has fully passed. */
+   day AFTER it has fully passed.
+   One foldable pocket per year, newest year first. The pocket holding the
+   next upcoming event starts open; with nothing upcoming, the newest year
+   does. So once the first 2027 event is added, 2027 opens and 2026 folds. */
 (function renderChecklist(){
   const box = document.getElementById('event-checklist');
   if(!box) return;
   const today = new Date().toISOString().split('T')[0];
-  box.innerHTML = EVENT_CHECKLIST.map(ev=>{
+  const sorted = [...EVENT_CHECKLIST].sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:0);
+  const years = [...new Set(sorted.map(ev=>ev.date.slice(0,4)))].sort().reverse();
+  const next = sorted.find(ev=>ev.date >= today);
+  const openYear = next ? next.date.slice(0,4) : years[0];
+  const row = ev=>{
     const past = ev.date < today;
     const check = past ? '&#9745;' : '&#9744;';
     const label = past ? 'DONE' : 'UPCOMING';
+    const name = ev.url ? `<a href="${ev.url}" target="_blank" rel="noopener">${ev.name}</a>` : ev.name;
     return `<div class="cl-row ${past?'past':'upcoming'}">
       <span>${check}</span>
-      <span style="flex:1">${ev.name}</span>
+      <span style="flex:1">${name}</span>
       <span class="cl-label">${ev.display}</span>
       <span class="cl-tag">${label}</span>
     </div>`;
+  };
+  box.innerHTML = years.map(y=>{
+    const evs = sorted.filter(ev=>ev.date.startsWith(y));
+    const up = evs.filter(ev=>ev.date >= today).length;
+    const meta = `${evs.length} EVENT${evs.length===1?'':'S'}${up?` &middot; ${up} UPCOMING`:''}`;
+    return `<details class="cl-year"${y===openYear?' open':''}>
+      <summary><span class="cl-yr">${y}</span><span class="cl-tag">${meta}</span></summary>
+      ${evs.map(row).join('')}
+    </details>`;
   }).join('');
 })();
 

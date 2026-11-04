@@ -1,6 +1,6 @@
 # CLAUDE.md — danieljpuusitalo personal site
 
-Personal website of Daniel Uusitalo — venture capitalist at 4impact capital, The Hague (Investor; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.13.6. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
+Personal website of Daniel Uusitalo — venture capitalist at 4impact capital, The Hague (Investor; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.13.7. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
 
 ## Positioning — non-negotiables
 
@@ -143,7 +143,7 @@ The archive anchor for a pic is `slug` for the first one and `slug-N` for the re
   - `skipApi:true` with editorial fields (e.g. HuurHel): card uses the override data, repo is skipped in API results.
   - `skipApi:true` without editorial fields (e.g. FloatNote-mac): repo is silently excluded from the builds grid entirely.
   - `url:` on an override: used instead of the GitHub repo URL (for product links on private repos).
-- **`EVENT_CHECKLIST`**: upcoming events with `date` (YYYY-MM-DD) for auto-crossout logic — past dates get strikethrough styling.
+- **`EVENT_CHECKLIST`**: upcoming events with `date` (YYYY-MM-DD) for auto-crossout logic — past dates get strikethrough styling. Optional `url` links the name. Rows are grouped into one foldable `<details>` pocket per year, derived from `date`; there is no year field to maintain. The pocket holding the next upcoming event opens by default, otherwise the newest year does, so adding the first 2027 event is all it takes to start the 2027 pocket.
 
 ## Common tasks
 
