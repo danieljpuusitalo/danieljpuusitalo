@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.13.5 - 2026-11-04 "expert advice"
+
+Content-only release. The writing archive gains Financial Tech Times' "Avoiding Common Pitfalls in Impact Investing: Expert Advice" (3 November 2026). It is filed as QUOTED because it is a roundup by another author with him as one of many contributors, so it sits under Interviews & commentary and emits `about`, not `author`. It takes the LATEST badge and the first ticker slot. The `sitemap.xml` `lastmod` for `writing.html` and the footer's deploy date move with it.
+
 ## v0.13.4 - 2026-10-19 "on the store"
 
 Sifter (PRJ/09) is live on the Chrome Web Store. Its card moves from IN DEVELOPMENT to LIVE and now links to the store listing instead of the GitHub repo, in both `BUILDS` and `BUILDS_OVERRIDES`, so the static mirror and the client-rendered card agree. The description is unchanged. The static projects mirror is regenerated and the footer's deploy date moves with it.
