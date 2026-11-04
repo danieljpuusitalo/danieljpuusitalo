@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.13.5
+     DANIEL UUSITALO / personal site v0.13.6
      Hand-written. No framework, no bundler. External dependencies: Google Fonts + GoatCounter (cookieless analytics).
      Companion pages: writing.html (generated), press-kit.html, gallery.html, 404.html.
      Project conventions & editing guide: see CLAUDE.md in this folder.
@@ -693,6 +693,11 @@ body.negative .spot::after{background:radial-gradient(220px circle at var(--mx,5
 .wtype{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;border:1px solid var(--line);padding:3px 7px}
 .wrow:hover .wtype{border-color:var(--bg)}
 .warr{font-family:var(--mono);color:var(--dim)}
+.wrow.off{cursor:default}
+.wrow.off:hover{background:none;color:inherit}
+.wrow.off:hover .wdate,.wrow.off:hover .wsrc,.wrow.off:hover .wtype,.wrow.off:hover .warr{color:var(--dim)}
+.wrow.off:hover .wtype{border-color:var(--line)}
+.wrow.off .warr{font-size:9px;letter-spacing:.14em}
 @media(max-width:860px){
   .wrow{grid-template-columns:90px 1fr auto;gap:12px}
   .wsrc{grid-column:2;order:-1}
@@ -1003,7 +1008,7 @@ addEventListener('error',function(){document.documentElement.classList.remove('j
     </svg>
   </div>
   <div class="meta">
-    <span>PERSONAL SITE / V0.13.5</span>
+    <span>PERSONAL SITE / V0.13.6</span>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
   <p class="sub">
@@ -1053,7 +1058,6 @@ addEventListener('error',function(){document.documentElement.classList.remove('j
       ice bathing, and building side projects.</p>
     </div>
     <div class="photo-stack reveal">
-      <!-- EDIT: swap Gravatar hotlinks for local files (photos/...) anytime -->
       <figure class="photo r45" data-cap="Portrait, Den Haag">
         <img src="photos/portrait.jpg" width="1024" height="1052" alt="Daniel Uusitalo smiling in a navy quarter-zip sweatshirt on a light-strung street in The Hague" loading="lazy" decoding="async">
         <figcaption class="tag">IMG/01 / portrait</figcaption>
@@ -1360,7 +1364,7 @@ addEventListener('error',function(){document.documentElement.classList.remove('j
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. Hand-written, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
-      <span>V0.13.5 / DEPLOYED 2026.11.04</span>
+      <span>V0.13.6 / DEPLOYED 2026.11.04</span>
     </div>
   </div>
 </footer>
@@ -1406,7 +1410,7 @@ const WRITING = [
   {d:"2025.11",    src:"Impact Loop",    type:"INTERVIEW", title:"Scouting Nordic energy tech: six startups on the radar", url:"https://www.impactloop.com/artikel/daniel-uusitalo-is-scouting-for-nordic-energy-tech-startups-these-6-are-on-his-radar"},
   {d:"2025.10",    src:"ArcticStartup",  type:"COLUMN",    title:"Building for International Scale from Day One", url:"https://arcticstartup.com/building-for-international-scale-from-day-one/"},
   {d:"2025.10",    src:"Medium",         type:"BLOG",      title:"24 months in VC, minus a few", url:"https://medium.com/@danieljpuusitalo/24-months-in-vc-minus-a-few-116233de85eb"},
-  {d:"2025.03",    src:"Platform6",      type:"BLOG",      title:"Attracting International Capital in the New Nordics", url:"https://platform6.fi/article/attracting-international-capital-in-the-new-nordics/"},
+  {d:"2025.03",    src:"Platform6",      type:"BLOG",      title:"Attracting International Capital in the New Nordics", url:"https://platform6.fi/article/attracting-international-capital-in-the-new-nordics/", note:"Original no longer online", offline:true},
   {d:"2025.03",    src:"ArcticStartup",  type:"COLUMN",    title:"Energy tech through the lens of the World Economic Forum", url:"https://arcticstartup.com/energy-tech-through-the-lens-of-of-the-world-economic-forum/"},
   {d:"2025.01",    src:"Der Brutkasten", type:"INTERVIEW", title:"Insights from Davos: the future of European energy tech", url:"https://brutkasten.com/artikel/insights-aus-davos-energy-tech-markt-europa/11", note:"German", lang:"de"},
   {d:"2025.01",    src:"Medium",         type:"BLOG",      title:"From Davos with Love", url:"https://medium.com/@danieljpuusitalo/from-davos-with-love-66f879d1ca0b"},
@@ -1532,7 +1536,7 @@ const EVENTS = [
       alt:"PitchXL jury slide naming Daniel Uusitalo of 4impact projected above a full auditorium at the Asif Ventures final in Amsterdam"}]},
 
   {k:"2025.03", d:"MAR 2025", city:"TAMPERE, FI", name:"Platform6 Stream Connect 2025", role:"SPEAKER",
-   slug:"platform6-stream-connect-2025", sheet:false, url:"https://platform6.fi/", pics:[
+   slug:"platform6-stream-connect-2025", sheet:false, pics:[
      {src:"photos/daniel-uusitalo-platform6-tampere-2025.jpg",
       alt:"Daniel Uusitalo speaking into a handheld microphone on a four-person investor panel at Platform6 Stream Connect in Tampere"}]},
 
@@ -1571,7 +1575,7 @@ const EVENTS = [
       alt:"Four panellists seated at a table beside Tech Nordic Advocates and XES banners at the Antler Helsinki pitch events"}]},
 
   {k:"2024.09", d:"SEP 2024", city:"TAMPERE, FI", name:"Platform6 Startup Showcase 2024", role:"INVESTOR JURY",
-   slug:"platform6-startup-showcase-2024", url:"https://platform6.fi/", pics:[
+   slug:"platform6-startup-showcase-2024", pics:[
      {src:"photos/startup-tampere-showcase-2024-audience.jpg",
       alt:"Audience wearing translation headsets at the Startup Tampere Showcase 2024 inside the Platform6 co-working space"},
      {src:"photos/startup-tampere-showcase-2024.jpg", sheet:true, cap:"platform6 showcase, tampere 2024", pos:"50% 25%",
@@ -2048,12 +2052,15 @@ function renderWire(){
   box.innerHTML = '';
   const list = WRITING_SORTED.filter(w=>wireFilter==='ALL'||w.src.toUpperCase()===wireFilter);
   list.forEach(w=>{
-    const a = document.createElement('a');
-    a.className='wrow'; a.href=w.url; a.target='_blank'; a.rel='noopener';
+    // offline: the publisher took the original down. Keep the credit,
+    // drop the dead link.
+    const a = document.createElement(w.offline?'div':'a');
+    if(w.offline){ a.className='wrow off'; a.title=w.note||'Original no longer online'; }
+    else { a.className='wrow'; a.href=w.url; a.target='_blank'; a.rel='noopener'; }
     a.innerHTML = `<span class="wdate">${w.d}</span>`+
       `<span class="wsrc">${w.src}</span>`+
       `<span class="wtitle">${w.title}${w===WRITING_SORTED[0]?'<span class="new">&#9679; LATEST</span>':''}</span>`+
-      `<span class="wtype">${w.type}</span><span class="warr">&nearr;</span>`;
+      `<span class="wtype">${w.type}</span><span class="warr">${w.offline?'OFFLINE':'&nearr;'}</span>`;
     box.appendChild(a);
   });
   box.querySelectorAll('.wrow').forEach((el,i)=>setTimeout(()=>el.classList.add('on'), 60+i*60));
@@ -2492,7 +2499,7 @@ function runFeed(commits, live){
     const repos = [...new Set(evs.filter(e=>e.type==='PushEvent').map(e=>e.repo.name))].slice(0,4);
     if(!repos.length) throw 0;
     const lists = await Promise.all(repos.map(async name=>{
-      const c = await ghJSON(`https://api.github.com/repos/${name}/commits?per_page=8`).catch(()=>[]);
+      const c = await ghJSON(`https://api.github.com/repos/${name}/commits?per_page=30`).catch(()=>[]);
       return c.map(x=>({x, repo:name.split('/').pop()}));
     }));
     const commits = lists.flat()

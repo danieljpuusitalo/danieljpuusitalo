@@ -637,6 +637,10 @@ h2{
 }
 .wrow:hover .wnote{color:var(--bg)}
 .warr{font-family:var(--mono);color:var(--dim)}
+.wrow.off{cursor:default}
+.wrow.off:hover{background:none;color:inherit}
+.wrow.off:hover .wdate,.wrow.off:hover .wsrc,.wrow.off:hover .warr,.wrow.off:hover .wnote{color:var(--dim)}
+.wrow.off .warr{font-size:9px;letter-spacing:.14em}
 @media(max-width:860px){
   .wrow{grid-template-columns:84px 1fr auto;gap:12px}
   .wsrc{grid-column:2;order:-1}
@@ -714,9 +718,10 @@ h2{
       <span class="wdate">2025.10</span><span class="wsrc">Medium</span>
       <span class="wtitle">24 months in VC, minus a few</span><span class="warr">&nearr;</span></a>
 
-    <a class="wrow" href="https://platform6.fi/article/attracting-international-capital-in-the-new-nordics/" rel="noopener">
+    <div class="wrow off">
       <span class="wdate">2025.03</span><span class="wsrc">Platform6</span>
-      <span class="wtitle">Attracting International Capital in the New Nordics</span><span class="warr">&nearr;</span></a>
+      <span class="wtitle">Attracting International Capital in the New Nordics
+        <span class="wnote">Original no longer online</span></span><span class="warr">OFFLINE</span></div>
 
     <a class="wrow" href="https://arcticstartup.com/energy-tech-through-the-lens-of-of-the-world-economic-forum/" rel="noopener">
       <span class="wdate">2025.03</span><span class="wsrc">ArcticStartup</span>

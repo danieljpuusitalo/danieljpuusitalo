@@ -6,7 +6,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://danieluusitalo.com/</loc>
-    <lastmod>2026-09-12</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <image:image>
       <image:loc>https://danieluusitalo.com/photos/portrait.jpg</image:loc>
       <image:caption>Portrait of Daniel Uusitalo, European venture capitalist, in The Hague</image:caption>
@@ -22,11 +22,11 @@
   </url>
   <url>
     <loc>https://danieluusitalo.com/press-kit.html</loc>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-09-23</lastmod>
   </url>
   <url>
     <loc>https://danieluusitalo.com/gallery.html</loc>
-    <lastmod>2026-09-12</lastmod>
+    <lastmod>2026-11-04</lastmod>
 <!-- GEN:IMAGES -->
     <image:image>
       <image:loc>https://danieluusitalo.com/photos/daniel-uusitalo-impact-week-barcelona-2026-fixathon.jpg</image:loc>

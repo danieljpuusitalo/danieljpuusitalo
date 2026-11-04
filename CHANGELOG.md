@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.13.6 - 2026-11-04 "link rot"
+
+Health-check release. Nothing that identifies him changed: bio, titles, meta and og tags, canonicals, slugs and every JSON-LD block are byte-identical (verified by diffing each page's schema before and after).
+
+- platform6.fi is down (503 since at least August, certificate expired in October, no archived copy). The Platform6 piece "Attracting International Capital in the New Nordics" stays in the archive and keeps its Article node, `author` claim and `@id`, but its row is no longer a dead link. On the homepage wire and in `writing.html` it renders as a plain row marked OFFLINE, with the note "Original no longer online". New optional `offline: true` field on `WRITING` entries; `build-writing.mjs` handles it.
+- The two Platform6 events no longer link to the dead platform6.fi homepage, on the event cards and in the gallery captions. Photos, alts, captions and anchors are unchanged.
+- `404.html` links are root-absolute, so they work from nested missing paths such as `/a/b` (they previously resolved to `/a/b/writing.html`).
+- `sitemap.xml` `lastmod` for `/`, `gallery.html` and `press-kit.html` now match when each page last changed.
+- The live commit log fetches the last 30 commits per repo instead of 8. Heatmap bot commits are filtered out, and they had been pushing this repo out of the log.
+- Removed a stale editing comment.
+
 ## v0.13.5 - 2026-11-04 "expert advice"
 
 Content-only release. The writing archive gains Financial Tech Times' "Avoiding Common Pitfalls in Impact Investing: Expert Advice" (3 November 2026). It is filed as QUOTED because it is a roundup by another author with him as one of many contributors, so it sits under Interviews & commentary and emits `about`, not `author`. It takes the LATEST badge and the first ticker slot. The `sitemap.xml` `lastmod` for `writing.html` and the footer's deploy date move with it.

@@ -117,9 +117,18 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 const isoDate = (d) => String(d).replace('.', '-');           // 2026.09 -> 2026-09
 const titleCase = (s) => s.charAt(0) + s.slice(1).toLowerCase();
 
+/* `offline: true` = the publisher took the original down. The row keeps
+   the credit but stops being a link; articleNode() still emits the same
+   @id/url, so the schema claim (and the Person linkage) does not move. */
 const row = (w) => {
-  const note = w.note || (KIND[w.type] === 'about' ? titleCase(w.type) : '');
+  const note = w.note || (w.offline ? 'Original no longer online'
+    : KIND[w.type] === 'about' ? titleCase(w.type) : '');
   const noteHtml = note ? `\n        <span class="wnote">${esc(note)}</span>` : '';
+  if (w.offline) return `
+    <div class="wrow off">
+      <span class="wdate">${esc(w.d)}</span><span class="wsrc">${esc(w.src)}</span>
+      <span class="wtitle">${esc(w.title)}${noteHtml}</span><span class="warr">OFFLINE</span></div>
+`;
   return `
     <a class="wrow" href="${esc(w.url)}" rel="noopener">
       <span class="wdate">${esc(w.d)}</span><span class="wsrc">${esc(w.src)}</span>

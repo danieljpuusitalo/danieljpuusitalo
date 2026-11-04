@@ -1,6 +1,6 @@
 # CLAUDE.md — danieljpuusitalo personal site
 
-Personal website of Daniel Uusitalo — venture capitalist at 4impact capital, The Hague (Investor; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.13.5. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
+Personal website of Daniel Uusitalo — venture capitalist at 4impact capital, The Hague (Investor; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.13.6. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
 
 ## Positioning — non-negotiables
 
@@ -148,7 +148,7 @@ The archive anchor for a pic is `slug` for the first one and `slug-N` for the re
 ## Common tasks
 
 - **Add an article**: ONE edit, then one command.
-  1. Prepend one object to `WRITING` in `index.html` (`d`, `src`, `type`, `title`, `url`; optional `note`, `lang`). Newest first; index 0 gets the LATEST badge. Filter chips and ticker update automatically.
+  1. Prepend one object to `WRITING` in `index.html` (`d`, `src`, `type`, `title`, `url`; optional `note`, `lang`, `offline`). Newest first; index 0 gets the LATEST badge. Filter chips and ticker update automatically.
   2. Run `node tools/build-writing.mjs` to regenerate `writing.html`.
 
   `WRITING` is the **single source of truth** for both the homepage wire and the crawlable archive. Never hand-edit `writing.html`'s rows or JSON-LD — the generator overwrites everything between the `<!-- GEN:… -->` markers. Prose outside the markers (intro, headings, styles) is safe to edit by hand.
@@ -160,6 +160,8 @@ The archive anchor for a pic is `slug` for the first one and `slug-N` for the re
   - `INTERVIEW` · `QUOTED` · `FEATURE` → "Interviews & commentary", emits `about:` + a `Person.subjectOf` reference
 
   Miscategorising an interview as authored is both a factual error and a schema one. An unknown `type` makes the generator **fail loudly** rather than guess — if you add one, extend `KIND` in the script and make the authored/about call deliberately. (Precedent: TechRound "GCSE Results Day" is a roundup by another author quoting him, not his byline; it was mislabelled `FEATURE` until 2026-09-08.)
+
+  **When a publisher takes a piece down, set `offline: true`. Never delete the entry and never change its `url`.** The row stops being a link on both the wire and `writing.html` and shows OFFLINE with the note "Original no longer online". The Article node keeps its `@id`, `url` and `author`/`about` claim, so the knowledge-graph credit survives the link rot. Precedent: Platform6, v0.13.6.
 
   `node tools/build-writing.mjs --check` exits non-zero if the two files have drifted — run it if you're unsure whether someone hand-edited the archive.
 
