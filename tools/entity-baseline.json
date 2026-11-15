@@ -1,0 +1,610 @@
+{
+  "_about": "Captured by tools/check-entity.mjs --write-baseline. Re-capture only for a deliberate change to what crawlers read.",
+  "bio": "Daniel Uusitalo is a venture capitalist at 4impact capital, where he invests in early-stage European software companies across the Nordics, DACH and Benelux. Born in Finland and based in The Hague, he is a Climate Reality Leader and writes about start-ups, artificial intelligence and climate tech.",
+  "bioLocations": [
+    "meta description",
+    "meta og:description",
+    "meta twitter:description",
+    "json-ld https://danieluusitalo.com/#website description",
+    "json-ld https://danieluusitalo.com/#webpage description",
+    "json-ld https://danieluusitalo.com/#person description"
+  ],
+  "pages": {
+    "index.html": {
+      "meta": {
+        "canonical": "https://danieluusitalo.com/",
+        "description": "Daniel Uusitalo is a venture capitalist at 4impact capital, where he invests in early-stage European software companies across the Nordics, DACH and Benelux. Born in Finland and based in The Hague, he is a Climate Reality Leader and writes about start-ups, artificial intelligence and climate tech.",
+        "og:description": "Daniel Uusitalo is a venture capitalist at 4impact capital, where he invests in early-stage European software companies across the Nordics, DACH and Benelux. Born in Finland and based in The Hague, he is a Climate Reality Leader and writes about start-ups, artificial intelligence and climate tech.",
+        "og:image": "https://danieluusitalo.com/og.png",
+        "og:image:alt": "Daniel Uusitalo / European Venture Capitalist",
+        "og:image:height": "630",
+        "og:image:width": "1200",
+        "og:locale": "en_US",
+        "og:site_name": "Daniel Uusitalo",
+        "og:title": "Daniel Uusitalo / European Venture Capitalist",
+        "og:type": "profile",
+        "og:url": "https://danieluusitalo.com/",
+        "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+        "title": "Daniel Uusitalo / European Venture Capitalist",
+        "twitter:card": "summary_large_image",
+        "twitter:creator": "@Daniel_Uusitalo",
+        "twitter:description": "Daniel Uusitalo is a venture capitalist at 4impact capital, where he invests in early-stage European software companies across the Nordics, DACH and Benelux. Born in Finland and based in The Hague, he is a Climate Reality Leader and writes about start-ups, artificial intelligence and climate tech.",
+        "twitter:image": "https://danieluusitalo.com/og.png",
+        "twitter:image:alt": "Daniel Uusitalo / European Venture Capitalist",
+        "twitter:site": "@Daniel_Uusitalo",
+        "twitter:title": "Daniel Uusitalo / European Venture Capitalist"
+      },
+      "h1": [
+        "Daniel Uusitalo"
+      ]
+    },
+    "writing.html": {
+      "meta": {
+        "canonical": "https://danieluusitalo.com/writing.html",
+        "description": "Articles, op-eds and columns by Daniel Uusitalo, venture capitalist at 4impact capital, published in Impact Loop, ArcticStartup, The Startup Club, SeedCue, Platform6, GeekRoom, LinkedIn and Medium, plus interviews and commentary in Nasdaq, Impact Loop, Der Brutkasten, SeedCue and TechRound.",
+        "og:description": "Articles, op-eds and columns by Daniel Uusitalo, venture capitalist at 4impact capital, published in Impact Loop, ArcticStartup, The Startup Club, SeedCue, Platform6, GeekRoom, LinkedIn and Medium, plus interviews and commentary in Nasdaq, Impact Loop, Der Brutkasten, SeedCue and TechRound.",
+        "og:image": "https://danieluusitalo.com/og.png",
+        "og:image:alt": "Daniel Uusitalo / European Venture Capitalist",
+        "og:image:height": "630",
+        "og:image:width": "1200",
+        "og:locale": "en_US",
+        "og:site_name": "Daniel Uusitalo",
+        "og:title": "Writing archive / Daniel Uusitalo",
+        "og:type": "website",
+        "og:url": "https://danieluusitalo.com/writing.html",
+        "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+        "title": "Writing archive / Daniel Uusitalo",
+        "twitter:card": "summary_large_image",
+        "twitter:creator": "@Daniel_Uusitalo",
+        "twitter:description": "Articles, op-eds and columns by Daniel Uusitalo, venture capitalist at 4impact capital, published in Impact Loop, ArcticStartup, The Startup Club, SeedCue, Platform6, GeekRoom, LinkedIn and Medium, plus interviews and commentary in Nasdaq, Impact Loop, Der Brutkasten, SeedCue and TechRound.",
+        "twitter:image": "https://danieluusitalo.com/og.png",
+        "twitter:image:alt": "Daniel Uusitalo / European Venture Capitalist",
+        "twitter:site": "@Daniel_Uusitalo",
+        "twitter:title": "Writing archive / Daniel Uusitalo"
+      },
+      "h1": [
+        "Daniel Uusitalo"
+      ]
+    },
+    "gallery.html": {
+      "meta": {
+        "canonical": "https://danieluusitalo.com/gallery.html",
+        "description": "Photo archive of Daniel Uusitalo, venture capitalist at 4impact capital: talks, panels and jury duty at startup and climate tech events across Europe, newest first.",
+        "og:description": "Photo archive of Daniel Uusitalo, venture capitalist at 4impact capital: talks, panels and jury duty at startup and climate tech events across Europe, newest first.",
+        "og:image": "https://danieluusitalo.com/og.png",
+        "og:image:alt": "Daniel Uusitalo / European Venture Capitalist",
+        "og:image:height": "630",
+        "og:image:width": "1200",
+        "og:locale": "en_US",
+        "og:site_name": "Daniel Uusitalo",
+        "og:title": "Photo archive / Daniel Uusitalo",
+        "og:type": "website",
+        "og:url": "https://danieluusitalo.com/gallery.html",
+        "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+        "title": "Photo archive / Daniel Uusitalo",
+        "twitter:card": "summary_large_image",
+        "twitter:creator": "@Daniel_Uusitalo",
+        "twitter:description": "Photo archive of Daniel Uusitalo, venture capitalist at 4impact capital: talks, panels and jury duty at startup and climate tech events across Europe, newest first.",
+        "twitter:image": "https://danieluusitalo.com/og.png",
+        "twitter:image:alt": "Daniel Uusitalo / European Venture Capitalist",
+        "twitter:site": "@Daniel_Uusitalo",
+        "twitter:title": "Photo archive / Daniel Uusitalo"
+      },
+      "h1": [
+        "Daniel Uusitalo"
+      ]
+    },
+    "press-kit.html": {
+      "meta": {
+        "canonical": "https://danieluusitalo.com/press-kit.html",
+        "description": "Daniel Uusitalo is a venture capitalist at 4impact capital. Press kit: short and full bios, headshots and speaking topics.",
+        "og:description": "Daniel Uusitalo is a venture capitalist at 4impact capital. Press kit: short and full bios, headshots and speaking topics.",
+        "og:image": "https://danieluusitalo.com/og.png",
+        "og:image:alt": "Daniel Uusitalo / European Venture Capitalist",
+        "og:image:height": "630",
+        "og:image:width": "1200",
+        "og:locale": "en_US",
+        "og:site_name": "Daniel Uusitalo",
+        "og:title": "Press kit / Daniel Uusitalo",
+        "og:type": "website",
+        "og:url": "https://danieluusitalo.com/press-kit.html",
+        "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+        "title": "Press kit / Daniel Uusitalo",
+        "twitter:card": "summary_large_image",
+        "twitter:creator": "@Daniel_Uusitalo",
+        "twitter:description": "Daniel Uusitalo is a venture capitalist at 4impact capital. Press kit: short and full bios, headshots and speaking topics.",
+        "twitter:image": "https://danieluusitalo.com/og.png",
+        "twitter:image:alt": "Daniel Uusitalo / European Venture Capitalist",
+        "twitter:site": "@Daniel_Uusitalo",
+        "twitter:title": "Press kit / Daniel Uusitalo"
+      },
+      "h1": [
+        "Daniel Uusitalo"
+      ]
+    },
+    "404.html": {
+      "meta": {
+        "description": "This page does not exist on danieluusitalo.com. Return to the index for work, writing, projects and the photo archive.",
+        "og:description": "This page does not exist. Return to the index for work, writing, projects and the photo archive.",
+        "og:image": "https://danieluusitalo.com/og.png",
+        "og:image:alt": "Daniel Uusitalo / European Venture Capitalist",
+        "og:locale": "en_US",
+        "og:site_name": "Daniel Uusitalo",
+        "og:title": "404 / Daniel Uusitalo",
+        "og:type": "website",
+        "robots": "noindex, follow",
+        "title": "404 / Daniel Uusitalo",
+        "twitter:card": "summary_large_image",
+        "twitter:image": "https://danieluusitalo.com/og.png"
+      },
+      "h1": [
+        "[ FRAME NOT FOUND ]"
+      ]
+    }
+  },
+  "h2": {
+    "index.html": [
+      "BORN IN FINLAND. INVESTED IN EUROPE.",
+      "IMPACT ISN'T PHILANTHROPY. IT'S THE MOST UNDERPRICED OPPORTUNITY IN EUROPEAN TECH.",
+      "BUILT, WRITTEN, SAID OUT LOUD."
+    ],
+    "writing.html": [
+      "Written by Daniel Uusitalo",
+      "Interviews & commentary"
+    ]
+  },
+  "indexGraph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://danieluusitalo.com/#website",
+      "url": "https://danieluusitalo.com/",
+      "name": "Daniel Uusitalo",
+      "alternateName": "danieluusitalo.com",
+      "description": "Daniel Uusitalo is a venture capitalist at 4impact capital, where he invests in early-stage European software companies across the Nordics, DACH and Benelux. Born in Finland and based in The Hague, he is a Climate Reality Leader and writes about start-ups, artificial intelligence and climate tech.",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://danieluusitalo.com/#person"
+      },
+      "about": {
+        "@id": "https://danieluusitalo.com/#person"
+      },
+      "hasPart": [
+        {
+          "@id": "https://danieluusitalo.com/writing.html#webpage"
+        },
+        {
+          "@id": "https://danieluusitalo.com/gallery.html#webpage"
+        },
+        {
+          "@id": "https://danieluusitalo.com/press-kit.html#webpage"
+        }
+      ]
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": "https://danieluusitalo.com/#webpage",
+      "url": "https://danieluusitalo.com/",
+      "name": "Daniel Uusitalo / European Venture Capitalist",
+      "description": "Daniel Uusitalo is a venture capitalist at 4impact capital, where he invests in early-stage European software companies across the Nordics, DACH and Benelux. Born in Finland and based in The Hague, he is a Climate Reality Leader and writes about start-ups, artificial intelligence and climate tech.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://danieluusitalo.com/#website"
+      },
+      "primaryImageOfPage": {
+        "@id": "https://danieluusitalo.com/#primaryimage"
+      },
+      "about": {
+        "@id": "https://danieluusitalo.com/#person"
+      },
+      "mainEntity": {
+        "@id": "https://danieluusitalo.com/#person"
+      }
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://danieluusitalo.com/#primaryimage",
+      "url": "https://danieluusitalo.com/photos/portrait.jpg",
+      "contentUrl": "https://danieluusitalo.com/photos/portrait.jpg",
+      "width": 1024,
+      "height": 1052,
+      "caption": "Daniel Uusitalo"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://danieluusitalo.com/#person",
+      "mainEntityOfPage": {
+        "@id": "https://danieluusitalo.com/#webpage"
+      },
+      "name": "Daniel Uusitalo",
+      "givenName": "Daniel",
+      "familyName": "Uusitalo",
+      "url": "https://danieluusitalo.com/",
+      "image": {
+        "@id": "https://danieluusitalo.com/#primaryimage"
+      },
+      "description": "Daniel Uusitalo is a venture capitalist at 4impact capital, where he invests in early-stage European software companies across the Nordics, DACH and Benelux. Born in Finland and based in The Hague, he is a Climate Reality Leader and writes about start-ups, artificial intelligence and climate tech.",
+      "jobTitle": [
+        "Venture Capitalist",
+        "Investor"
+      ],
+      "hasOccupation": [
+        {
+          "@type": "Occupation",
+          "name": "Venture Capitalist",
+          "occupationLocation": {
+            "@type": "Place",
+            "name": "Europe"
+          },
+          "sameAs": "https://www.wikidata.org/wiki/Q16023665"
+        },
+        {
+          "@type": "Occupation",
+          "name": "Investor",
+          "sameAs": "https://www.wikidata.org/wiki/Q557880"
+        }
+      ],
+      "nationality": {
+        "@type": "Country",
+        "name": "Finland",
+        "sameAs": "https://www.wikidata.org/wiki/Q33"
+      },
+      "worksFor": {
+        "@type": "Organization",
+        "name": "4impact capital",
+        "url": "https://www.4impact.vc/",
+        "sameAs": [
+          "https://www.wikidata.org/wiki/Q141104168",
+          "https://www.linkedin.com/company/4impactvc/",
+          "https://www.crunchbase.com/organization/4impact"
+        ]
+      },
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Aalto University",
+          "url": "https://www.aalto.fi",
+          "sameAs": "https://www.wikidata.org/wiki/Q300980"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Brunel University London",
+          "url": "https://www.brunel.ac.uk",
+          "sameAs": "https://www.wikidata.org/wiki/Q932411"
+        },
+        {
+          "@type": "Organization",
+          "name": "World Economic Forum Global Shapers Community",
+          "sameAs": "https://www.wikidata.org/wiki/Q24817272"
+        },
+        {
+          "@type": "Organization",
+          "name": "Helen Ventures",
+          "parentOrganization": {
+            "@type": "Organization",
+            "name": "Helen",
+            "sameAs": "https://www.wikidata.org/wiki/Q3129981"
+          }
+        }
+      ],
+      "knowsLanguage": [
+        "en",
+        "fi",
+        "sv",
+        "de"
+      ],
+      "knowsAbout": [
+        "Venture capital",
+        "Impact investing",
+        "Digital sovereignty",
+        "Energy transition",
+        "Nordic startup ecosystem",
+        "European technology"
+      ],
+      "memberOf": [
+        {
+          "@type": "Organization",
+          "name": "The Climate Reality Project",
+          "sameAs": "https://www.wikidata.org/wiki/Q5133444"
+        }
+      ],
+      "homeLocation": {
+        "@type": "Place",
+        "name": "The Hague, Netherlands",
+        "sameAs": "https://www.wikidata.org/wiki/Q36600"
+      },
+      "email": "daniel@4impact.vc",
+      "sameAs": [
+        "https://www.wikidata.org/wiki/Q140592115",
+        "https://www.google.com/search?kgmid=/g/11y6h5g1qp",
+        "https://orcid.org/0009-0005-9788-8142",
+        "https://www.linkedin.com/in/danieljpuusitalo",
+        "https://www.crunchbase.com/person/daniel-uusitalo",
+        "https://www.weforum.org/people/daniel-uusitalo/",
+        "https://medium.com/@danieljpuusitalo",
+        "https://x.com/Daniel_Uusitalo",
+        "https://www.threads.com/@danieljpuusitalo",
+        "https://github.com/danieljpuusitalo",
+        "https://www.instagram.com/danieljpuusitalo/",
+        "https://www.facebook.com/Daniel.Uusitalo/",
+        "https://www.youtube.com/@danieljpuusitalo",
+        "https://theorg.com/org/4impact-capital/person/daniel-uusitalo",
+        "https://danieljpuusitalo.link",
+        "https://impactloop.com/author/daniel-uusitalo",
+        "https://arcticstartup.com/author/daniel-uusitalo/",
+        "https://redbrick.fi/mentor/daniel-uusitalo/"
+      ]
+    }
+  ],
+  "pressKitJsonLd": [
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ProfilePage",
+          "@id": "https://danieluusitalo.com/press-kit.html#webpage",
+          "url": "https://danieluusitalo.com/press-kit.html",
+          "name": "Press kit / Daniel Uusitalo",
+          "description": "Daniel Uusitalo is a venture capitalist at 4impact capital. Press kit: short and full bios, headshots and speaking topics.",
+          "inLanguage": "en",
+          "isPartOf": {
+            "@id": "https://danieluusitalo.com/#website"
+          },
+          "about": {
+            "@id": "https://danieluusitalo.com/#person"
+          },
+          "mainEntity": {
+            "@id": "https://danieluusitalo.com/#person"
+          }
+        },
+        {
+          "@type": "Person",
+          "@id": "https://danieluusitalo.com/#person",
+          "name": "Daniel Uusitalo",
+          "url": "https://danieluusitalo.com/"
+        }
+      ]
+    }
+  ],
+  "bioImages": [
+    {
+      "src": "photos/portrait.jpg",
+      "alt": "Daniel Uusitalo smiling in a navy quarter-zip sweatshirt on a light-strung street in The Hague",
+      "width": "1024",
+      "height": "1052"
+    },
+    {
+      "src": "photos/bio-techarena.jpg",
+      "alt": "Daniel Uusitalo wearing a headset microphone during an onstage conversation at Techarena Zero in Stockholm",
+      "width": "1600",
+      "height": "1066"
+    }
+  ],
+  "heroLede": "Venture capitalist at 4impact capital, based in The Hague. Personal library for work, experiences and projects. Always on the lookout for interesting people.",
+  "sitemapLocs": [
+    "https://danieluusitalo.com/",
+    "https://danieluusitalo.com/gallery.html",
+    "https://danieluusitalo.com/press-kit.html",
+    "https://danieluusitalo.com/writing.html"
+  ],
+  "monotonic": {
+    "ids": [
+      "https://arcticstartup.com/building-for-international-scale-from-day-one/",
+      "https://arcticstartup.com/energy-tech-through-the-lens-of-of-the-world-economic-forum/",
+      "https://brutkasten.com/artikel/insights-aus-davos-energy-tech-markt-europa/11",
+      "https://danieluusitalo.com/#person",
+      "https://danieluusitalo.com/#primaryimage",
+      "https://danieluusitalo.com/#webpage",
+      "https://danieluusitalo.com/#website",
+      "https://danieluusitalo.com/gallery.html#webpage",
+      "https://danieluusitalo.com/photos/abbey-road-studios-hackathon-london-2020.jpg",
+      "https://danieluusitalo.com/photos/bio-techarena.jpg",
+      "https://danieluusitalo.com/photos/climate-reality-leadership-corps-rome-2024.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-antler-helsinki-pitch-2024.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-civics-innovation-hub-zagreb-2025.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-davos-2025-alexander-stubb.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-davos-2025-frej-larsson.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-global-shapers-summit-geneva-2022.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-impact-week-barcelona-2026-fixathon.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-machn-leipzig-2026-panel.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-machn-leipzig-2026.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-mastercard-lighthouse-nordic-tech-week-2026.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-pitchxl-amsterdam-2025.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-platform6-tampere-2025.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-solve-the-sdgs-hackathon-helsinki-2024.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-techarena-zero-stockholm-2026-panel.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-techarena-zero-stockholm-2026.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-the-drop-malmo-2026-roundtable.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-tirana-slushd-2025-conversation.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-tirana-slushd-2025-onstage.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-tirana-slushd-2025.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-wef-davos-2025-delegation.jpg",
+      "https://danieluusitalo.com/photos/nodus-talks-aalto-biochar-session.jpg",
+      "https://danieluusitalo.com/photos/solve-the-sdgs-hackathon-helsinki-2024-stage.jpg",
+      "https://danieluusitalo.com/photos/startup-tampere-showcase-2024-audience.jpg",
+      "https://danieluusitalo.com/photos/startup-tampere-showcase-2024.jpg",
+      "https://danieluusitalo.com/press-kit.html#webpage",
+      "https://danieluusitalo.com/writing.html#authored",
+      "https://danieluusitalo.com/writing.html#webpage",
+      "https://financialtechtimes.com/avoiding-common-pitfalls-in-impact-investing-expert-advice/",
+      "https://geekroom.al/en/tech/How-is-the-Balkans%27-new-ambition-developing-beyond-borders/",
+      "https://impactloop.com/article/eu-inc-collides-with-reality-of-european-politics-it-s-going-in-the-wrong-direction",
+      "https://impactloop.com/article/eu-inc-proposal-gets-mixed-reactions-from-impact-investors-on-paper-this-looks-great",
+      "https://medium.com/@danieljpuusitalo/12-months-in-vc-eaab957cd79e",
+      "https://medium.com/@danieljpuusitalo/24-months-in-vc-minus-a-few-116233de85eb",
+      "https://medium.com/@danieljpuusitalo/from-davos-with-love-66f879d1ca0b",
+      "https://medium.com/@danieljpuusitalo/the-rise-of-energy-communities-a-new-era-in-electricity-consumption-4cafed25451d",
+      "https://medium.com/@danieljpuusitalo/useless-journaling-and-its-not-so-useless-benefits-fc4d66c10c2c",
+      "https://platform6.fi/article/attracting-international-capital-in-the-new-nordics/",
+      "https://techround.co.uk/news/gcse-results-day-what-is-the-most-valuable-thing-a-16-year-old-can-do-with-ai-right-now/",
+      "https://thedropconf.com/ripples/summaries/the-electric-stack-who-wins",
+      "https://www.businessinsider.com/golf-popularity-boom-etiquette-clash-2026-9",
+      "https://www.impactloop.com/artikel/daniel-uusitalo-is-scouting-for-nordic-energy-tech-startups-these-6-are-on-his-radar",
+      "https://www.impactloop.com/artikel/humble-nordic-founders-are-finally-getting-bolder-now-they-need-to-stay-that-way",
+      "https://www.linkedin.com/pulse/capability-you-borrow-can-taken-back-daniel-uusitalo-ycwge/",
+      "https://www.nasdaq.com/articles/daniel-uusitalo%3A-supercharging-innovative-and-transformative-energy-tech-in-europe",
+      "https://www.seedcue.com/post/get-to-a-point-where-you-need-to-raise-capital-daniel-uusitalo-4impact-capital",
+      "https://www.seedcue.com/post/someone-else-decides-what-your-stack-costs-next-year",
+      "https://www.thestartupclub.net/post/investor-advisor-with-daniel-uusitalo",
+      "https://www.thestartupclub.net/post/what-the-vc-process-actually-looks-like",
+      "https://www.thestartupclub.net/post/why-the-no-had-nothing-to-do-with-your-product"
+    ],
+    "urls": [
+      "https://arcticstartup.com/author/daniel-uusitalo/",
+      "https://arcticstartup.com/building-for-international-scale-from-day-one/",
+      "https://arcticstartup.com/energy-tech-through-the-lens-of-of-the-world-economic-forum/",
+      "https://brutkasten.com/artikel/insights-aus-davos-energy-tech-markt-europa/11",
+      "https://danieljpuusitalo.link",
+      "https://danieluusitalo.com/",
+      "https://danieluusitalo.com/#person",
+      "https://danieluusitalo.com/#primaryimage",
+      "https://danieluusitalo.com/#webpage",
+      "https://danieluusitalo.com/#website",
+      "https://danieluusitalo.com/gallery.html",
+      "https://danieluusitalo.com/gallery.html#abbey-road-hackathon-2020",
+      "https://danieluusitalo.com/gallery.html#antler-helsinki-pitch-2024",
+      "https://danieluusitalo.com/gallery.html#civics-innovation-hub-zagreb-2025",
+      "https://danieluusitalo.com/gallery.html#climate-reality-leadership-corps-2024",
+      "https://danieluusitalo.com/gallery.html#global-shapers-annual-summit-2022",
+      "https://danieluusitalo.com/gallery.html#impact-week-barcelona-2026",
+      "https://danieluusitalo.com/gallery.html#machn-festival-2026",
+      "https://danieluusitalo.com/gallery.html#machn-festival-2026-2",
+      "https://danieluusitalo.com/gallery.html#nodus-talks",
+      "https://danieluusitalo.com/gallery.html#nordic-tech-week-2026",
+      "https://danieluusitalo.com/gallery.html#pitchxl-2025",
+      "https://danieluusitalo.com/gallery.html#platform6-startup-showcase-2024",
+      "https://danieluusitalo.com/gallery.html#platform6-startup-showcase-2024-2",
+      "https://danieluusitalo.com/gallery.html#platform6-stream-connect-2025",
+      "https://danieluusitalo.com/gallery.html#slushd-tirana-2025",
+      "https://danieluusitalo.com/gallery.html#slushd-tirana-2025-2",
+      "https://danieluusitalo.com/gallery.html#slushd-tirana-2025-3",
+      "https://danieluusitalo.com/gallery.html#solve-the-sdgs-hackathon-2024",
+      "https://danieluusitalo.com/gallery.html#solve-the-sdgs-hackathon-2024-2",
+      "https://danieluusitalo.com/gallery.html#techarena-zero-2026",
+      "https://danieluusitalo.com/gallery.html#techarena-zero-2026-2",
+      "https://danieluusitalo.com/gallery.html#techarena-zero-2026-3",
+      "https://danieluusitalo.com/gallery.html#the-drop-malmo-2026",
+      "https://danieluusitalo.com/gallery.html#webpage",
+      "https://danieluusitalo.com/gallery.html#wef-annual-meeting-2025",
+      "https://danieluusitalo.com/gallery.html#wef-annual-meeting-2025-2",
+      "https://danieluusitalo.com/gallery.html#wef-annual-meeting-2025-3",
+      "https://danieluusitalo.com/photos/abbey-road-studios-hackathon-london-2020.jpg",
+      "https://danieluusitalo.com/photos/bio-techarena.jpg",
+      "https://danieluusitalo.com/photos/climate-reality-leadership-corps-rome-2024.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-antler-helsinki-pitch-2024.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-civics-innovation-hub-zagreb-2025.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-davos-2025-alexander-stubb.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-davos-2025-frej-larsson.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-global-shapers-summit-geneva-2022.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-impact-week-barcelona-2026-fixathon.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-machn-leipzig-2026-panel.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-machn-leipzig-2026.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-mastercard-lighthouse-nordic-tech-week-2026.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-pitchxl-amsterdam-2025.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-platform6-tampere-2025.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-solve-the-sdgs-hackathon-helsinki-2024.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-techarena-zero-stockholm-2026-panel.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-techarena-zero-stockholm-2026.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-the-drop-malmo-2026-roundtable.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-tirana-slushd-2025-conversation.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-tirana-slushd-2025-onstage.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-tirana-slushd-2025.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-wef-davos-2025-delegation.jpg",
+      "https://danieluusitalo.com/photos/nodus-talks-aalto-biochar-session.jpg",
+      "https://danieluusitalo.com/photos/portrait.jpg",
+      "https://danieluusitalo.com/photos/solve-the-sdgs-hackathon-helsinki-2024-stage.jpg",
+      "https://danieluusitalo.com/photos/startup-tampere-showcase-2024-audience.jpg",
+      "https://danieluusitalo.com/photos/startup-tampere-showcase-2024.jpg",
+      "https://danieluusitalo.com/press-kit.html",
+      "https://danieluusitalo.com/press-kit.html#webpage",
+      "https://danieluusitalo.com/writing.html",
+      "https://danieluusitalo.com/writing.html#authored",
+      "https://danieluusitalo.com/writing.html#webpage",
+      "https://financialtechtimes.com/avoiding-common-pitfalls-in-impact-investing-expert-advice/",
+      "https://geekroom.al/en/tech/How-is-the-Balkans%27-new-ambition-developing-beyond-borders/",
+      "https://github.com/danieljpuusitalo",
+      "https://impactloop.com/article/eu-inc-collides-with-reality-of-european-politics-it-s-going-in-the-wrong-direction",
+      "https://impactloop.com/article/eu-inc-proposal-gets-mixed-reactions-from-impact-investors-on-paper-this-looks-great",
+      "https://impactloop.com/author/daniel-uusitalo",
+      "https://medium.com/@danieljpuusitalo",
+      "https://medium.com/@danieljpuusitalo/12-months-in-vc-eaab957cd79e",
+      "https://medium.com/@danieljpuusitalo/24-months-in-vc-minus-a-few-116233de85eb",
+      "https://medium.com/@danieljpuusitalo/from-davos-with-love-66f879d1ca0b",
+      "https://medium.com/@danieljpuusitalo/the-rise-of-energy-communities-a-new-era-in-electricity-consumption-4cafed25451d",
+      "https://medium.com/@danieljpuusitalo/useless-journaling-and-its-not-so-useless-benefits-fc4d66c10c2c",
+      "https://orcid.org/0009-0005-9788-8142",
+      "https://platform6.fi/article/attracting-international-capital-in-the-new-nordics/",
+      "https://redbrick.fi/mentor/daniel-uusitalo/",
+      "https://schema.org",
+      "https://schema.org/ItemListOrderDescending",
+      "https://techround.co.uk/news/gcse-results-day-what-is-the-most-valuable-thing-a-16-year-old-can-do-with-ai-right-now/",
+      "https://thedropconf.com/ripples/summaries/the-electric-stack-who-wins",
+      "https://theorg.com/org/4impact-capital/person/daniel-uusitalo",
+      "https://www.4impact.vc/",
+      "https://www.aalto.fi",
+      "https://www.brunel.ac.uk",
+      "https://www.businessinsider.com/golf-popularity-boom-etiquette-clash-2026-9",
+      "https://www.crunchbase.com/organization/4impact",
+      "https://www.crunchbase.com/person/daniel-uusitalo",
+      "https://www.facebook.com/Daniel.Uusitalo/",
+      "https://www.google.com/search?kgmid=/g/11y6h5g1qp",
+      "https://www.impactloop.com/artikel/daniel-uusitalo-is-scouting-for-nordic-energy-tech-startups-these-6-are-on-his-radar",
+      "https://www.impactloop.com/artikel/humble-nordic-founders-are-finally-getting-bolder-now-they-need-to-stay-that-way",
+      "https://www.instagram.com/danieljpuusitalo/",
+      "https://www.linkedin.com/company/4impactvc/",
+      "https://www.linkedin.com/in/danieljpuusitalo",
+      "https://www.linkedin.com/pulse/capability-you-borrow-can-taken-back-daniel-uusitalo-ycwge/",
+      "https://www.nasdaq.com/articles/daniel-uusitalo%3A-supercharging-innovative-and-transformative-energy-tech-in-europe",
+      "https://www.seedcue.com/post/get-to-a-point-where-you-need-to-raise-capital-daniel-uusitalo-4impact-capital",
+      "https://www.seedcue.com/post/someone-else-decides-what-your-stack-costs-next-year",
+      "https://www.thestartupclub.net/post/investor-advisor-with-daniel-uusitalo",
+      "https://www.thestartupclub.net/post/what-the-vc-process-actually-looks-like",
+      "https://www.thestartupclub.net/post/why-the-no-had-nothing-to-do-with-your-product",
+      "https://www.threads.com/@danieljpuusitalo",
+      "https://www.weforum.org/people/daniel-uusitalo/",
+      "https://www.wikidata.org/wiki/Q140592115",
+      "https://www.wikidata.org/wiki/Q141104168",
+      "https://www.wikidata.org/wiki/Q16023665",
+      "https://www.wikidata.org/wiki/Q24817272",
+      "https://www.wikidata.org/wiki/Q300980",
+      "https://www.wikidata.org/wiki/Q3129981",
+      "https://www.wikidata.org/wiki/Q33",
+      "https://www.wikidata.org/wiki/Q36600",
+      "https://www.wikidata.org/wiki/Q5133444",
+      "https://www.wikidata.org/wiki/Q557880",
+      "https://www.wikidata.org/wiki/Q932411",
+      "https://www.youtube.com/@danieljpuusitalo",
+      "https://x.com/Daniel_Uusitalo"
+    ],
+    "images": [
+      "https://danieluusitalo.com/og.png",
+      "https://danieluusitalo.com/photos/abbey-road-studios-hackathon-london-2020.jpg",
+      "https://danieluusitalo.com/photos/bio-techarena.jpg",
+      "https://danieluusitalo.com/photos/climate-reality-leadership-corps-rome-2024.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-antler-helsinki-pitch-2024.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-civics-innovation-hub-zagreb-2025.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-davos-2025-alexander-stubb.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-davos-2025-frej-larsson.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-global-shapers-summit-geneva-2022.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-impact-week-barcelona-2026-fixathon.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-machn-leipzig-2026-panel.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-machn-leipzig-2026.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-mastercard-lighthouse-nordic-tech-week-2026.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-pitchxl-amsterdam-2025.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-platform6-tampere-2025.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-solve-the-sdgs-hackathon-helsinki-2024.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-techarena-zero-stockholm-2026-panel.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-techarena-zero-stockholm-2026.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-the-drop-malmo-2026-roundtable.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-tirana-slushd-2025-conversation.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-tirana-slushd-2025-onstage.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-tirana-slushd-2025.jpg",
+      "https://danieluusitalo.com/photos/daniel-uusitalo-wef-davos-2025-delegation.jpg",
+      "https://danieluusitalo.com/photos/nodus-talks-aalto-biochar-session.jpg",
+      "https://danieluusitalo.com/photos/portrait-bw.jpg",
+      "https://danieluusitalo.com/photos/portrait.jpg",
+      "https://danieluusitalo.com/photos/solve-the-sdgs-hackathon-helsinki-2024-stage.jpg",
+      "https://danieluusitalo.com/photos/startup-tampere-showcase-2024-audience.jpg",
+      "https://danieluusitalo.com/photos/startup-tampere-showcase-2024.jpg"
+    ]
+  }
+}

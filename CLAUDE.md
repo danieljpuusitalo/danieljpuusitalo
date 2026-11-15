@@ -217,7 +217,10 @@ node tools/build-writing.mjs       --check
 node tools/build-gallery.mjs      --check
 node tools/build-projects.mjs     --check
 node tools/build-contributions.mjs --check
+node tools/check-entity.mjs
 ```
+
+The last one is the entity guard: it pins what crawlers read (the Person graph, the canonical bio in all nine places, head meta, headings, image and sitemap URLs) against `tools/entity-baseline.json`, and fails on an em dash or the forbidden role word in visitor text. If a change to any of that is deliberate, re-capture with `node tools/check-entity.mjs --write-baseline` and read the baseline diff before committing it.
 
 Then open `index.html` in a browser: check all three tabs + subtabs, filter chips, lightbox (click photo, Esc closes), no console errors. Also check ~390px width (mobile layout shifts). Print preview: all three panels present, writing + events visible. Negative mode [D]: verify constellation NYC visible in both modes.
 

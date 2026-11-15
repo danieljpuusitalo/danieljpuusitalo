@@ -68,6 +68,12 @@ jobs:
           node tools/build-gallery.mjs --check
           node tools/build-projects.mjs --check
 
+      - name: Verify what crawlers read did not regress
+        # Not blocking, for the same reason. The guard ignores the GEN:CONTRIB
+        # block this job rewrites, so a failure here is never the bot's doing.
+        continue-on-error: true
+        run: node tools/check-entity.mjs
+
       - name: Commit if the numbers moved
         run: |
           if git diff --quiet -- index.html; then
