@@ -44,6 +44,11 @@ const SRC = join(ROOT, 'index.html');
 
 const BUILDS = readArray(SRC, 'BUILDS');
 
+/* How many leading cards are drawn wide. Read from index.html, where
+   renderBuildCards() uses the same constant, so the two cannot disagree. */
+const FEATURED = Number((readFileSync(SRC, 'utf8').match(/const FEATURED_BUILDS = (\d+);/) || [])[1]);
+if (!Number.isInteger(FEATURED)) die('index.html has no `const FEATURED_BUILDS = <n>;`.');
+
 BUILDS.forEach((b, i) => {
   const who = `entry ${i} ("${b.name || '?'}")`;
   for (const f of ['num', 'name', 'desc', 'tags']) {
@@ -60,11 +65,12 @@ BUILDS.forEach((b, i) => {
 /* Matches renderBuildCards() exactly: <a> when there is a link, <div>
    when there is not, same classes, same child order. If you change the
    renderer, change this too or the first paint will shift. */
-const card = (b) => {
+const card = (b, i) => {
   const link = b.gh || b.url || '';
+  const cls = i < FEATURED ? 'proj feat' : 'proj';
   const open = link
-    ? `<a class="proj" href="${esc(link)}" target="_blank" rel="noopener">`
-    : '<div class="proj">';
+    ? `<a class="${cls}" href="${esc(link)}" target="_blank" rel="noopener">`
+    : `<div class="${cls}">`;
   const close = link ? '</a>' : '</div>';
   return `      ${open}<span class="pnum">${esc(b.num)}</span><h3>${esc(b.name)}</h3>` +
     `<p class="pdesc">${esc(b.desc)}</p>` +

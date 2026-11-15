@@ -201,7 +201,8 @@
 /* ═══ BASE · tokens + shared base ════════════════════════════════════
    Source of truth for the design system. tools/build-css.mjs copies it
    into every page between the GEN:BASECSS markers: index.html gets the
-   whole file, the other four pages get the TOKENS section only. Edit
+   whole file, the other four pages get everything above the END TOKENS
+   line (the tokens, plus the one component two pages share). Edit
    here, then run: node tools/build-css.mjs
    Strictly black, white and grey. No hue, anywhere. */
 
@@ -336,6 +337,61 @@ body.negative{
   --dot:#0d0d0c;
   --dot-still:rgba(13,13,12,.07);
 }
+
+/* ═══ WIRE ROW · the writing list on index.html and writing.html ═════
+   One row shape for both pages: date, source, title, then an end cell
+   holding the type tag (index only) and the arrow. It sits above the
+   cut so writing.html receives it; the other pages never use it. On
+   the 12-column grid the date takes columns 1-2 and the end cell 11-12,
+   the origins of the WORK record's year and state. */
+.wire{border-top:1px solid var(--line)}
+.wrow{
+  display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--s5);row-gap:var(--s1);
+  padding:var(--s5) 0;border-bottom:1px solid var(--line);align-items:baseline;
+  transition:background var(--dur-fast),color var(--dur-fast),box-shadow var(--dur-fast);
+}
+.wdate{grid-column:1/span 2}
+.wsrc{grid-column:3/span 2}
+.wtitle{grid-column:5/span 6}
+.wend{grid-column:11/-1;display:flex;justify-content:flex-end;align-items:baseline;gap:var(--s3)}
+/* rows develop in one by one where a script marks them; without one
+   (writing.html, or JS off) they are simply there */
+html.js .wrow:not(.on){opacity:0;transform:translateY(10px)}
+.wrow.on{opacity:1;transform:none;transition:opacity var(--dur-slow) ease,transform var(--dur-slow) ease,background var(--dur-fast),color var(--dur-fast),box-shadow var(--dur-fast)}
+/* the inverted bar bleeds sideways with a shadow, not padding, so the
+   text keeps its column origin */
+.wrow:hover{background:var(--fg);color:var(--bg);box-shadow:calc(-1*var(--s3)) 0 0 var(--fg),var(--s3) 0 0 var(--fg)}
+.wdate,.wsrc,.wnote,.wtitle .new,.wtype,.wrow.off .warr{
+  font-family:var(--mono);font-size:var(--t-cap);letter-spacing:var(--tr-cap);text-transform:uppercase;color:var(--dim);
+}
+.wtitle{font-weight:600;font-size:var(--t-body);line-height:var(--lh-title);letter-spacing:var(--tr-body)}
+.wnote{display:block;font-weight:400;margin-top:var(--s2)}
+.wtitle .new{margin-left:var(--s3);vertical-align:2px}
+/* a boxed tag, drawn here rather than by the shared tag rule, which only
+   index.html receives */
+.wtype{border:1px solid var(--line);padding:var(--s1) var(--s2)}
+.warr{font-family:var(--mono);color:var(--dim)}
+.wrow:hover .wdate,.wrow:hover .wsrc,.wrow:hover .wnote,.wrow:hover .new,.wrow:hover .wtype,.wrow:hover .warr{color:var(--bg)}
+.wrow:hover .wtype{border-color:var(--bg)}
+.wrow.off{cursor:default}
+.wrow.off:hover{background:none;color:inherit;box-shadow:none}
+.wrow.off:hover .wdate,.wrow.off:hover .wsrc,.wrow.off:hover .wnote,.wrow.off:hover .wtype,.wrow.off:hover .warr{color:var(--dim)}
+.wrow.off:hover .wtype{border-color:var(--line)}
+/* tablet: the WORK record's three columns, source over title */
+@media(max-width:860px){
+  .wrow{grid-template-columns:minmax(min-content,1fr) minmax(0,3fr) minmax(min-content,1fr);column-gap:var(--s3)}
+  .wdate{grid-column:1;grid-row:1/span 2}
+  .wsrc{grid-column:2;grid-row:1}
+  .wtitle{grid-column:2;grid-row:2}
+  .wend{grid-column:3;grid-row:1}
+  .wtype{display:none}
+}
+/* phone: date, source and arrow on one line, the title under them */
+@media(max-width:560px){
+  .wrow{grid-template-columns:auto minmax(0,1fr) auto}
+  .wdate{grid-row:1}
+  .wtitle{grid-column:1/-1}
+}
 /* ═══ END TOKENS ════════════════════════════════════════════════════ */
 
 /* ═══ SHARED BASE ═══════════════════════════════════════════════════ */
@@ -388,7 +444,7 @@ a{color:inherit;text-decoration:none}
 
 /* tag: small boxed mono label. Colour is set per variant, so a tag
    inside a hover-inverted card can inherit it */
-.photo .tag,.ptags span,.wtype,.ev .role{
+.photo .tag,.ptags span{
   font-family:var(--mono);font-size:var(--t-cap);letter-spacing:var(--tr-cap);
   text-transform:uppercase;border:1px solid var(--line);padding:var(--s1) var(--s2);
 }
@@ -711,36 +767,34 @@ html.js .reveal.dev{transform:none;transition:opacity var(--dur-develop) ease}
 .status{font-family:var(--mono);font-size:var(--t-cap);letter-spacing:var(--tr-cap);text-transform:uppercase;color:var(--dim);margin-bottom:var(--s4)}
 .now-card p{color:var(--text);line-height:var(--lh-body);font-size:var(--t-body)}
 .now-card p b{color:var(--fg)}
-/* The WORK lead is unboxed and sits on the shared 12-column grid, like
-   BIO: role and paragraph split 6/6, the fund facts under them as a stat
-   band. The boxed now-card above stays for the speaking card in LIBRARY */
-.work-lead,.work-intro,.fund-facts,.tracks,.record-pair{
+/* The WORK lead is unboxed and sits on the shared 12-column grid in two
+   halves, the same 1 / 7 origins the tracks below use: the role and its
+   paragraph on the left, the fund sheet on the right. The boxed now-card
+   above stays for the speaking card in LIBRARY */
+.work-lead,.tracks,.record-pair{
   display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--s5);
 }
-.work-lead{margin-bottom:var(--s8)}
-.work-intro{grid-column:1/-1}
-.work-intro .status,.work-intro h3{grid-column:1/span 6}
-.work-intro h3{font-size:var(--t-h3);font-weight:800;letter-spacing:var(--tr-display);line-height:var(--lh-display)}
-.work-intro p{grid-column:7/-1;grid-row:1/span 2;align-self:end;color:var(--text);line-height:var(--lh-body);font-size:var(--t-body)}
+.work-lead{margin-bottom:var(--s8);align-items:start}
+.work-intro{grid-column:1/span 5}
+.work-intro .status{margin-bottom:var(--s3)}
+.work-intro h3{font-size:var(--t-h3);font-weight:800;letter-spacing:var(--tr-display);line-height:var(--lh-display);margin-bottom:var(--s5)}
+.work-intro p{color:var(--text);line-height:var(--lh-body);font-size:var(--t-body)}
 .work-intro p b{color:var(--fg)}
-/* stat band: mono caption over a display figure; a figure's tail drops
-   to a second line in body type so the numeral carries the cell */
-.fund-facts{grid-column:1/-1;margin-top:var(--s7);border-top:1px solid var(--line);row-gap:var(--s5)}
-.fund-facts>div{grid-column:span var(--span);padding-top:var(--s5)}
-.fund-facts>div:nth-child(n){--span:4}
-.fund-facts>div:nth-child(n+4){--span:6}
+/* fund sheet: one headline figure across the top, then a 2x2 of smaller
+   ones, every cell a mono caption over its value */
+.fund-facts{grid-column:7/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--s5)}
+.fund-facts>div{padding:var(--s4) 0;border-top:1px solid var(--line)}
+.fund-facts>div:first-child{grid-column:1/-1;padding-top:0;padding-bottom:var(--s5);border-top:0}
 .fund-facts .k{display:block;font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);letter-spacing:var(--tr-cap);text-transform:uppercase;margin-bottom:var(--s3)}
-.fund-facts .v{display:block;font-size:var(--t-h3);font-weight:800;letter-spacing:var(--tr-display);line-height:var(--lh-display);color:var(--fg)}
+.fund-facts .v{display:block;font-size:var(--t-title);font-weight:800;letter-spacing:var(--tr-display);line-height:var(--lh-display);color:var(--fg)}
+.fund-facts>div:first-child .v{font-size:var(--t-big)}
 .fund-facts .v small{display:block;font-size:var(--t-small);font-weight:500;letter-spacing:var(--tr-body);line-height:var(--lh-title);color:var(--text);margin-top:var(--s2)}
 @media(max-width:860px){
-  .work-intro .status,.work-intro h3,.work-intro p{grid-column:1/-1}
-  .work-intro p{grid-row:auto;margin-top:var(--s5)}
+  .work-intro,.fund-facts{grid-column:1/-1}
+  .fund-facts{margin-top:var(--s6);padding-top:var(--s5);border-top:1px solid var(--line)}
 }
 @media(max-width:560px){
-  .fund-facts>div:nth-child(n){--span:6}
-  .fund-facts>div:first-child{--span:12}
-  .fund-facts>div:nth-child(4){--span:8}
-  .fund-facts>div:nth-child(5){--span:4}
+  .fund-facts .v{font-size:var(--t-lead)}
 }
 
 /* tracks: a two-column numbered index on the grid; an odd last track
@@ -816,20 +870,35 @@ html.js .reveal.dev{transform:none;transition:opacity var(--dur-develop) ease}
 }
 
 /* ═══ 08 · PROJECTS / subtabs ═══════════════════════════════════════ */
-.subtabs{display:flex;gap:var(--s3);margin-bottom:var(--s7);flex-wrap:wrap}
-/* subtab: a pill variant (base: tools/base.css) */
-.stab{padding:var(--s3) var(--s5)}
-.stab:hover,.fbtn:hover{border-color:var(--fg);color:var(--fg)}
-.stab .n{color:var(--dim);margin-left:var(--s2)}
-.stab.active .n{color:inherit}
+/* the main tab bar's pattern one level down: equal cells between
+   hairlines, the active one inverted (base: tools/base.css) */
+.subtabs{
+  display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:var(--s7);
+}
+.stab{
+  display:flex;align-items:center;gap:var(--s2);min-width:0;min-height:var(--tap);
+  padding:0 var(--s4);border:none;border-left:1px solid var(--line);text-align:left;
+}
+.stab:last-child{border-right:1px solid var(--line)}
+.stab:hover{background:var(--fg);color:var(--bg)}
+.stab .n{color:var(--dim)}
+.stab:hover .n,.stab.active .n{color:inherit}
+@media(max-width:560px){.stab{justify-content:center;padding:0 var(--s2);font-size:var(--t-cap)}}
 .sub{animation:fadein var(--dur-mid) ease}
 html.js .sub:not(.active){display:none}
 .sub.active{display:block}
 .sub-note{font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);letter-spacing:var(--tr-cap);text-transform:uppercase;margin-bottom:var(--s5)}
 
 /* github profile card */
-.gh-card{display:grid;grid-template-columns:auto 1fr;gap:var(--s5);padding:var(--s5);border:1px solid var(--line);margin-bottom:var(--s5);align-items:center}
-.gh-left{display:flex;flex-direction:column;gap:var(--s3);align-items:flex-start}
+/* identity on the left, the year filling the rest; stacked below 861 */
+.gh-card{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s5);padding:var(--s5);border:1px solid var(--line);margin-bottom:var(--s5);align-items:center}
+.gh-left{display:flex;gap:var(--s4);align-items:center}
+@media(min-width:861px){
+  .gh-card{grid-template-columns:repeat(12,minmax(0,1fr))}
+  .gh-left{grid-column:1/span 3;flex-direction:column;align-items:flex-start;gap:var(--s3)}
+  .gh-graph{grid-column:4/-1}
+}
 .gh-avatar{width:96px;height:96px;border-radius:50%;filter:grayscale(1) contrast(1.1);display:block;flex-shrink:0}
 .gh-user{font-weight:900;font-size:var(--t-small);text-transform:uppercase;letter-spacing:var(--tr-body);margin-bottom:var(--s1)}
 .gh-link{font-family:var(--mono);font-size:var(--t-cap);letter-spacing:var(--tr-cap);text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color var(--dur-fast);display:block}
@@ -838,29 +907,42 @@ html.js .sub:not(.active){display:none}
 .gh-graph{min-width:0}
 /* the 3px cell gap is a pixel grid, not spacing: it stays literal */
 .gh-heatmap{display:flex;gap:3px;overflow:hidden;justify-content:flex-end}
-.gh-col{display:flex;flex-direction:column;gap:3px}
+/* Columns start at --s2 and grow to fill the graph's width, cells stay
+   square. Where the year does not fit, the columns overflow on the left
+   and ghTrim() drops the cut ones; the rest then grow into the space. */
+.gh-col{display:flex;flex-direction:column;gap:3px;flex:1 0 var(--s2)}
 /* Five steps of grey, not GitHub's greens — see the palette rule in
    CLAUDE.md. A cell with no data-l is a day past the snapshot date and
    stays transparent so it never reads as a zero. */
-.gh-cell{width:12px;height:12px;flex-shrink:0;background:transparent}
+.gh-cell{width:100%;aspect-ratio:1;flex-shrink:0;background:transparent}
 .gh-cell[data-l="0"]{background:var(--heat-0)}
 .gh-cell[data-l="1"]{background:var(--heat-1)}
 .gh-cell[data-l="2"]{background:var(--heat-2)}
 .gh-cell[data-l="3"]{background:var(--heat-3)}
 .gh-cell[data-l="4"]{background:var(--heat-4)}
 .gh-count{font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);letter-spacing:var(--tr-cap);text-transform:uppercase;margin-top:var(--s3);text-align:right}
-@media(max-width:560px){.gh-card{grid-template-columns:1fr}.gh-avatar{display:none}}
+@media(max-width:560px){.gh-avatar{display:none}}
 
 /* builds */
-/* Hairlines drawn by the cards themselves, so a short last row leaves empty
-   space rather than a grey block. */
-.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0;border-top:1px solid var(--line);border-left:1px solid var(--line);margin-bottom:var(--s7)}
+/* A wrapping row, not a grid, so a short row stretches to the full width
+   and no count of cards ever leaves a hole. Hairlines are drawn by the
+   cards themselves. Bases per row: the two feature cards (.feat, marked
+   by renderBuildCards and build-projects.mjs) two to a row on desktop,
+   one on tablet; the compact cards three, then two, then one; the
+   closing card always a row of its own. Cards in a row share its height. */
+.proj-grid{display:flex;flex-wrap:wrap;border-top:1px solid var(--line);border-left:1px solid var(--line);margin-bottom:var(--s7)}
 .proj{
+  flex:1 1 30%;min-width:0;
   padding:var(--s6);background:var(--bg);
   border-right:1px solid var(--line);border-bottom:1px solid var(--line);
   display:flex;flex-direction:column;gap:var(--s4);min-height:280px;
   transition:background var(--dur-fast),color var(--dur-fast);position:relative;
 }
+.proj.feat{flex-basis:45%}
+.proj.feat h3{font-size:var(--t-h3)}
+.proj.feat .pdesc{max-width:calc(var(--wrap) / 2)}
+@media(max-width:1100px){.proj{flex-basis:45%}.proj.feat{flex-basis:100%}}
+@media(max-width:560px){.proj{flex-basis:100%;min-height:0}}
 .proj:hover{background:var(--fg);color:var(--bg)}
 .proj:hover .pnum,.proj:hover .pdesc,.proj:hover .ptags{color:var(--bg)}
 .proj:hover .ptags span{border-color:var(--bg)}
@@ -870,10 +952,11 @@ html.js .sub:not(.active){display:none}
 .ptags{display:flex;gap:var(--s2);flex-wrap:wrap;font-family:var(--mono);font-size:var(--t-cap);letter-spacing:var(--tr-cap);text-transform:uppercase;color:var(--dim)}
 .pstars{float:right;color:var(--dim);font-variant-numeric:tabular-nums}
 .proj:hover .pstars{color:var(--bg)}
-/* the closing "Interested?" card the script appends */
-.proj.cta{align-items:center;justify-content:center;text-align:center}
-.proj.cta h3{font-size:var(--t-lead);margin-bottom:var(--s3)}
-.proj.cta .pdesc{max-width:240px;margin:0 auto}
+/* the closing "Interested?" card the script appends: a full-width row,
+   heading and line side by side */
+.proj.cta{flex-basis:100%;min-height:0;padding:var(--s5) var(--s6)}
+.proj.cta>div{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s2) var(--s5)}
+.proj.cta h3{font-size:var(--t-lead)}
 .proj.cta a{color:var(--fg)}
 .proj.cta:hover a{color:var(--bg)}
 
@@ -899,40 +982,22 @@ html.js .sub:not(.active){display:none}
   .feed-line .time{display:none}
 }
 
-/* writing wire + source filters */
+/* writing wire + source filters. The rows are the shared wire row in
+   tools/base.css, the same definition writing.html uses. */
 .wfilters{display:flex;flex-wrap:wrap;gap:var(--s3);margin-bottom:var(--s6)}
 /* filter: a pill variant (base: tools/base.css) */
-.fbtn{font-size:var(--t-cap);padding:var(--s2) var(--s4)}
-.wire{border-top:1px solid var(--line)}
-.wrow{
-  display:grid;grid-template-columns:110px 130px 1fr auto auto;gap:var(--s5);
-  padding:var(--s5) var(--s3);border-bottom:1px solid var(--line);
-  align-items:baseline;transition:background var(--dur-fast),color var(--dur-fast);
-}
-html.js .wrow:not(.on){opacity:0;transform:translateY(10px)}
-.wrow.on{opacity:1;transform:none;transition:opacity var(--dur-slow) ease,transform var(--dur-slow) ease,background var(--dur-fast),color var(--dur-fast)}
-.wrow:hover{background:var(--fg);color:var(--bg)}
-.wrow:hover .wdate,.wrow:hover .wsrc,.wrow:hover .wtype,.wrow:hover .warr{color:var(--bg)}
-.wdate{font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);letter-spacing:var(--tr-cap)}
-.wsrc{font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);letter-spacing:var(--tr-cap);text-transform:uppercase}
-.wtitle{font-weight:600;font-size:var(--t-body);line-height:var(--lh-title);letter-spacing:var(--tr-body)}
-.wtitle .new{font-family:var(--mono);font-size:var(--t-cap);letter-spacing:var(--tr-cap);color:var(--dim);margin-left:var(--s3);vertical-align:2px}
-.wrow:hover .wtitle .new{color:var(--bg)}
-/* a tag variant (base: tools/base.css) */
-.wtype{color:var(--dim)}
-.wrow:hover .wtype{border-color:var(--bg)}
-.warr{font-family:var(--mono);color:var(--dim)}
-.wrow.off{cursor:default}
-.wrow.off:hover{background:none;color:inherit}
-.wrow.off:hover .wdate,.wrow.off:hover .wsrc,.wrow.off:hover .wtype,.wrow.off:hover .warr{color:var(--dim)}
-.wrow.off:hover .wtype{border-color:var(--line)}
-.wrow.off .warr{font-size:var(--t-cap);letter-spacing:var(--tr-cap)}
+.fbtn{font-size:var(--t-cap);padding:var(--s2) var(--s4);min-height:var(--tap)}
+.fbtn:hover{border-color:var(--fg);color:var(--fg)}
+/* below 861 the chips stay on one line that scrolls sideways inside its
+   own box. The scrollbar is hidden; touch, trackpad and Tab still move it.
+   The padding keeps the focus ring inside the clip, the margin cancels it */
 @media(max-width:860px){
-  .wrow{grid-template-columns:90px 1fr auto;gap:var(--s3)}
-  .wsrc{grid-column:2;order:-1}
-  .wtitle{grid-column:2}
-  .wtype{display:none}
-  .wdate{grid-row:span 2}
+  .wfilters{
+    flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain;
+    padding:var(--s2);margin:calc(-1*var(--s2)) calc(-1*var(--s2)) var(--s4);
+  }
+  .wfilters::-webkit-scrollbar{display:none}
+  .fbtn{flex:none;white-space:nowrap}
 }
 
 /* events */
@@ -958,11 +1023,24 @@ html.js .ev:not(.on){opacity:0;transform:translateY(14px)}
 .ev-body{padding:var(--s4) var(--s5) var(--s5);flex:1;display:flex;flex-direction:column}
 .ev-meta{font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);letter-spacing:var(--tr-cap);text-transform:uppercase;margin-bottom:var(--s2);display:flex;justify-content:space-between;gap:var(--s2)}
 .ev h3{font-size:var(--t-body);font-weight:700;letter-spacing:var(--tr-body);line-height:var(--lh-title);margin-bottom:var(--s2);min-height:2.3em}
-/* a tag variant (base: tools/base.css) */
-.ev .role{color:var(--fg);border-color:var(--faint);display:inline-block;align-self:flex-start;margin-top:auto}
+/* the role is a caption under the name, not a boxed tag: one box fewer */
+.ev .role{
+  font-family:var(--mono);font-size:var(--t-cap);letter-spacing:var(--tr-cap);text-transform:uppercase;
+  color:var(--dim);margin-top:auto;
+}
 /* a featured card spans two columns wherever the grid has two or more */
 @media(min-width:561px){.ev-cell.feat{grid-column:span 2}}
 .ev.feat h3{font-size:var(--t-lead)}
+/* on the three-column grid it also takes two rows, so two ordinary cards
+   stack beside it instead of one stretching to its height; the photo
+   takes up the slack */
+@media(min-width:861px){
+  .ev-cell.feat{grid-row:span 2}
+  .ev-cell.feat .photo{flex:1 1 0;aspect-ratio:auto;min-height:0}
+  .ev-cell.feat .photo img{position:absolute;inset:0}
+  .ev-cell.feat .ev-body{flex:0 0 auto}
+  .ev-cell.feat .ev-open{aspect-ratio:auto;height:100%}
+}
 
 /* lightbox with prev/next */
 #lb{
@@ -1025,12 +1103,20 @@ footer{border-top:1px solid var(--line)}
   transition:top var(--dur-fast) ease;
 }
 .skip-link:focus{top:14px}
-.checklist{font-family:var(--mono);font-size:var(--t-meta);letter-spacing:var(--tr-cap);margin-bottom:var(--s6);border:1px solid var(--line);padding:var(--s5);background:var(--card)}
-.cl-row{display:flex;gap:var(--s3);align-items:baseline;padding:var(--s2) 0}
+/* Event checklist: a strip between two hairlines, not a boxed card. One
+   pocket per year; open, its rows run in two columns from 861 up, each
+   row glyph, name, date, state on one line. A past event is crossed out. */
+.checklist{font-family:var(--mono);font-size:var(--t-meta);letter-spacing:var(--tr-cap);margin-bottom:var(--s6);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cl-rows{column-gap:var(--s5);padding-bottom:var(--s2)}
+/* columns, not a 2-col grid: the list then reads down the first column
+   and on into the second, so date order survives the split */
+@media(min-width:861px){.cl-rows{columns:2}}
+.cl-rows>.cl-row{break-inside:avoid}
+.cl-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:var(--s3);align-items:baseline;padding:var(--s1) 0}
 .cl-row.past{color:var(--dim)}
+.cl-row.past .cl-name{text-decoration:line-through}
 .cl-row.upcoming{color:var(--fg)}
-.cl-name{flex:1}
-.cl-label{font-size:var(--t-cap);letter-spacing:var(--tr-cap);color:var(--dim);min-width:90px}
+.cl-label{font-size:var(--t-cap);letter-spacing:var(--tr-cap);color:var(--dim)}
 .cl-tag{font-size:var(--t-cap);letter-spacing:var(--tr-cap);color:var(--dim)}
 .cl-row a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line)}
 .cl-row a:hover{border-bottom-color:currentColor}
@@ -1042,6 +1128,18 @@ footer{border-top:1px solid var(--line)}
 .cl-year>summary:hover .cl-yr{text-decoration:underline}
 .cl-yr{flex:1;font-weight:700;letter-spacing:var(--tr-cap)}
 .cl-year[open]>summary{margin-bottom:var(--s1)}
+/* The library panel's small controls reach --tap at every width, not
+   only on touch: the pocket heads grow, the two text links get the
+   invisible centred hit area the tap-target block below uses. Screen
+   only, so print keeps its URL suffixes */
+@media screen{
+  .cl-year>summary{min-height:var(--tap);align-items:center}
+  .gh-link,.cl-row a{position:relative}
+  .gh-link::after,.cl-row a::after{
+    content:"";position:absolute;left:50%;top:50%;
+    width:max(100%,var(--tap));height:max(100%,var(--tap));transform:translate(-50%,-50%);
+  }
+}
 /* Reduced motion: the looping animations stop outright; one-shot ones
    and transitions still finish, at once. */
 @media(prefers-reduced-motion:reduce){
@@ -1056,9 +1154,9 @@ footer{border-top:1px solid var(--line)}
    inside sentences are exempt. Screen only, so print keeps its URL suffixes */
 @media screen and (pointer:coarse),screen and (max-width:560px){
   .tab,.stab,.fbtn{min-height:var(--tap)}
-  .cl-row,.cl-year>summary{min-height:var(--tap);align-items:center}
-  #lb button,#lb-cap a,.f-mail,.f-links a,.f-neg,.gh-link,.cl-row a{position:relative}
-  #lb button::after,#lb-cap a::after,.f-mail::after,.f-links a::after,.f-neg::after,.gh-link::after,.cl-row a::after{
+  .cl-row{min-height:var(--tap);align-items:center}
+  #lb button,#lb-cap a,.f-mail,.f-links a,.f-neg{position:relative}
+  #lb button::after,#lb-cap a::after,.f-mail::after,.f-links a::after,.f-neg::after{
     content:"";position:absolute;left:50%;top:50%;
     width:max(100%,var(--tap));height:max(100%,var(--tap));transform:translate(-50%,-50%);
   }
@@ -1569,8 +1667,8 @@ footer{border-top:1px solid var(--line)}
          the markers; edit BUILDS and re-run the script. -->
     <div class="proj-grid" id="builds-grid">
 <!-- GEN:BUILDS -->
-      <div class="proj"><span class="pnum">PRJ/01 / LIVE</span><h3>Team Intelligence</h3><p class="pdesc">Due diligence on startup teams, used on live deal flow. Two separate lenses: a scored founder questionnaire, and an evidence pipeline that extracts claims from decks, CVs and call transcripts, checks them against web search, Nordic company registries and domain records, and grades each dimension with a confidence interval.</p><div class="ptags"><span>typescript</span><span>supabase</span><span>vercel</span></div></div>
-      <div class="proj"><span class="pnum">PRJ/02 / IN DEVELOPMENT</span><h3>DD-Dev</h3><p class="pdesc">Document transfer and validation for due diligence. Versioned, access-controlled storage for sensitive files.</p><div class="ptags"><span>react</span><span>supabase</span><span>typescript</span></div></div>
+      <div class="proj feat"><span class="pnum">PRJ/01 / LIVE</span><h3>Team Intelligence</h3><p class="pdesc">Due diligence on startup teams, used on live deal flow. Two separate lenses: a scored founder questionnaire, and an evidence pipeline that extracts claims from decks, CVs and call transcripts, checks them against web search, Nordic company registries and domain records, and grades each dimension with a confidence interval.</p><div class="ptags"><span>typescript</span><span>supabase</span><span>vercel</span></div></div>
+      <div class="proj feat"><span class="pnum">PRJ/02 / IN DEVELOPMENT</span><h3>DD-Dev</h3><p class="pdesc">Document transfer and validation for due diligence. Versioned, access-controlled storage for sensitive files.</p><div class="ptags"><span>react</span><span>supabase</span><span>typescript</span></div></div>
       <a class="proj" href="https://www.huurhel.nl/" target="_blank" rel="noopener"><span class="pnum">PRJ/03 / LIVE</span><h3>HuurHel</h3><p class="pdesc">Reviews of Dutch rental properties. Search by address on a map and read what previous tenants reported. Reviews are not verified.</p><div class="ptags"><span>react</span><span>supabase</span><span>leaflet</span></div></a>
       <a class="proj" href="https://github.com/danieljpuusitalo/FloatNote" target="_blank" rel="noopener"><span class="pnum">PRJ/04 / LIVE</span><h3>FloatNote</h3><p class="pdesc">Always-on-top to-do app for Windows. Four lists (Today, Next, Waiting, Later), a morning pick, global-hotkey capture and per-record sync between devices. A scheduled Claude job drops suggested to-dos into an inbox folder for review. Notes and habits as secondary tabs.</p><div class="ptags"><span>electron</span><span>javascript</span><span>firebase</span></div></a>
       <a class="proj" href="https://github.com/danieljpuusitalo/nexus" target="_blank" rel="noopener"><span class="pnum">PRJ/05 / IN DEVELOPMENT</span><h3>Nexus</h3><p class="pdesc">Record layer over meeting notetakers. Regroups transcripts by person instead of by meeting and keeps a ledger of commitments made and owed.</p><div class="ptags"><span>react</span><span>typescript</span><span>vite</span></div></a>
@@ -2396,7 +2494,7 @@ function renderWire(){
     a.innerHTML = `<span class="wdate">${w.d}</span>`+
       `<span class="wsrc">${w.src}</span>`+
       `<span class="wtitle">${w.title}${w===WRITING_SORTED[0]?'<span class="new">&#9679; LATEST</span>':''}</span>`+
-      `<span class="wtype">${w.type}</span><span class="warr">${w.offline?'OFFLINE':'&nearr;'}</span>`;
+      `<span class="wend"><span class="wtype">${w.type}</span><span class="warr">${w.offline?'OFFLINE':'&nearr;'}</span></span>`;
     box.appendChild(a);
   });
   box.querySelectorAll('.wrow').forEach((el,i)=>setTimeout(()=>el.classList.add('on'), 60+i*60));
@@ -2492,21 +2590,25 @@ safely(function renderChecklist(){
     const meta = `${evs.length} EVENT${evs.length===1?'':'S'}${up?` &middot; ${up} UPCOMING`:''}`;
     return `<details class="cl-year"${y===openYear?' open':''}>
       <summary><span class="cl-yr">${y}</span><span class="cl-tag">${meta}</span></summary>
-      ${evs.map(row).join('')}
+      <div class="cl-rows">${evs.map(row).join('')}</div>
     </details>`;
   }).join('');
 });
 
 /* ── render: builds / live GitHub API merge with static fallback ── */
+/* The first FEATURED_BUILDS cards in render order are drawn wide. The same
+   number is in tools/build-projects.mjs, so the static mirror and the live
+   render mark the same cards: both put PRJ/01 and PRJ/02 first. */
+const FEATURED_BUILDS = 2;
 function renderBuildCards(items, live){
   const box = document.getElementById('builds-grid');
   if(!box) return;
   box.innerHTML = '';
-  items.forEach(b=>{
+  items.forEach((b,i)=>{
     const link = b.gh || b.url || '';
     const el = document.createElement(link?'a':'div');
     if(link){ el.href=link; el.target='_blank'; el.rel='noopener'; }
-    el.className='proj';
+    el.className = i < FEATURED_BUILDS ? 'proj feat' : 'proj';
     const stars = b.stars ? `<span class="pstars">\u2605 ${b.stars}</span>` : '';
     el.innerHTML = `<span class="pnum">${b.num}${stars}</span><h3>${b.name}</h3>`+
       `<p class="pdesc">${b.desc}</p>`+

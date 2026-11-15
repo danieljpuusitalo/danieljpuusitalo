@@ -561,7 +561,8 @@
 /* ═══ BASE · tokens + shared base ════════════════════════════════════
    Source of truth for the design system. tools/build-css.mjs copies it
    into every page between the GEN:BASECSS markers: index.html gets the
-   whole file, the other four pages get the TOKENS section only. Edit
+   whole file, the other four pages get everything above the END TOKENS
+   line (the tokens, plus the one component two pages share). Edit
    here, then run: node tools/build-css.mjs
    Strictly black, white and grey. No hue, anywhere. */
 
@@ -695,6 +696,61 @@ body.negative{
   --scrim:rgba(242,242,239,.97);
   --dot:#0d0d0c;
   --dot-still:rgba(13,13,12,.07);
+}
+
+/* ═══ WIRE ROW · the writing list on index.html and writing.html ═════
+   One row shape for both pages: date, source, title, then an end cell
+   holding the type tag (index only) and the arrow. It sits above the
+   cut so writing.html receives it; the other pages never use it. On
+   the 12-column grid the date takes columns 1-2 and the end cell 11-12,
+   the origins of the WORK record's year and state. */
+.wire{border-top:1px solid var(--line)}
+.wrow{
+  display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--s5);row-gap:var(--s1);
+  padding:var(--s5) 0;border-bottom:1px solid var(--line);align-items:baseline;
+  transition:background var(--dur-fast),color var(--dur-fast),box-shadow var(--dur-fast);
+}
+.wdate{grid-column:1/span 2}
+.wsrc{grid-column:3/span 2}
+.wtitle{grid-column:5/span 6}
+.wend{grid-column:11/-1;display:flex;justify-content:flex-end;align-items:baseline;gap:var(--s3)}
+/* rows develop in one by one where a script marks them; without one
+   (writing.html, or JS off) they are simply there */
+html.js .wrow:not(.on){opacity:0;transform:translateY(10px)}
+.wrow.on{opacity:1;transform:none;transition:opacity var(--dur-slow) ease,transform var(--dur-slow) ease,background var(--dur-fast),color var(--dur-fast),box-shadow var(--dur-fast)}
+/* the inverted bar bleeds sideways with a shadow, not padding, so the
+   text keeps its column origin */
+.wrow:hover{background:var(--fg);color:var(--bg);box-shadow:calc(-1*var(--s3)) 0 0 var(--fg),var(--s3) 0 0 var(--fg)}
+.wdate,.wsrc,.wnote,.wtitle .new,.wtype,.wrow.off .warr{
+  font-family:var(--mono);font-size:var(--t-cap);letter-spacing:var(--tr-cap);text-transform:uppercase;color:var(--dim);
+}
+.wtitle{font-weight:600;font-size:var(--t-body);line-height:var(--lh-title);letter-spacing:var(--tr-body)}
+.wnote{display:block;font-weight:400;margin-top:var(--s2)}
+.wtitle .new{margin-left:var(--s3);vertical-align:2px}
+/* a boxed tag, drawn here rather than by the shared tag rule, which only
+   index.html receives */
+.wtype{border:1px solid var(--line);padding:var(--s1) var(--s2)}
+.warr{font-family:var(--mono);color:var(--dim)}
+.wrow:hover .wdate,.wrow:hover .wsrc,.wrow:hover .wnote,.wrow:hover .new,.wrow:hover .wtype,.wrow:hover .warr{color:var(--bg)}
+.wrow:hover .wtype{border-color:var(--bg)}
+.wrow.off{cursor:default}
+.wrow.off:hover{background:none;color:inherit;box-shadow:none}
+.wrow.off:hover .wdate,.wrow.off:hover .wsrc,.wrow.off:hover .wnote,.wrow.off:hover .wtype,.wrow.off:hover .warr{color:var(--dim)}
+.wrow.off:hover .wtype{border-color:var(--line)}
+/* tablet: the WORK record's three columns, source over title */
+@media(max-width:860px){
+  .wrow{grid-template-columns:minmax(min-content,1fr) minmax(0,3fr) minmax(min-content,1fr);column-gap:var(--s3)}
+  .wdate{grid-column:1;grid-row:1/span 2}
+  .wsrc{grid-column:2;grid-row:1}
+  .wtitle{grid-column:2;grid-row:2}
+  .wend{grid-column:3;grid-row:1}
+  .wtype{display:none}
+}
+/* phone: date, source and arrow on one line, the title under them */
+@media(max-width:560px){
+  .wrow{grid-template-columns:auto minmax(0,1fr) auto}
+  .wdate{grid-row:1}
+  .wtitle{grid-column:1/-1}
 }
 /* ═══ END TOKENS ════════════════════════════════════════════════════ */
 </style>
