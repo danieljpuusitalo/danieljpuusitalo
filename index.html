@@ -202,7 +202,8 @@
    Source of truth for the design system. tools/build-css.mjs copies it
    into every page between the GEN:BASECSS markers: index.html gets the
    whole file, the other four pages get everything above the END TOKENS
-   line (the tokens, plus the one component two pages share). Edit
+   line (the tokens, the wire row, and the shared base: reset, page
+   chrome, layout and the photo treatment). Edit
    here, then run: node tools/build-css.mjs
    Strictly black, white and grey. No hue, anywhere. */
 
@@ -392,11 +393,15 @@ html.js .wrow:not(.on){opacity:0;transform:translateY(10px)}
   .wdate{grid-row:1}
   .wtitle{grid-column:1/-1}
 }
-/* ═══ END TOKENS ════════════════════════════════════════════════════ */
-
-/* ═══ SHARED BASE ═══════════════════════════════════════════════════ */
+/* ═══ SHARED BASE · every page ═══════════════════════════════════════
+   Reset, page chrome, the 12-column layout and the photo treatment.
+   Above the cut, so the four companion pages share them with
+   index.html. Nothing here starts hidden: the companions never set
+   html.js, so a gated start state would never be released there. */
 *{margin:0;padding:0;box-sizing:border-box}
-html{scrollbar-color:var(--faint) var(--bg)}
+/* the bar at the top stands in front of anything an anchor jumps to;
+   index.html adds its tab bar to this */
+html{scrollbar-color:var(--faint) var(--bg);scroll-padding-top:var(--topbar-h)}
 @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 body{
   background:var(--bg);color:var(--fg);
@@ -417,8 +422,69 @@ a{color:inherit;text-decoration:none}
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* skip link: visible only on focus */
+.skip-link{
+  position:fixed;top:-100%;left:var(--s5);z-index:var(--z-top);
+  font-family:var(--mono);font-size:var(--t-meta);letter-spacing:var(--tr-cap);text-transform:uppercase;
+  color:var(--bg);background:var(--fg);padding:var(--s3) var(--s5);text-decoration:none;
+  transition:top var(--dur-fast) ease;
+}
+.skip-link:focus{top:14px}
+
+/* topbar: the brand mark on the left; telemetry on index.html, the way
+   back to it everywhere else. Solid, so nothing shows through */
+.topbar{
+  position:sticky;top:0;z-index:var(--z-topbar);
+  height:var(--topbar-h);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 var(--s5);
+  font-family:var(--mono);font-size:var(--t-cap);letter-spacing:var(--tr-cap);color:var(--dim);
+  background:var(--bg);
+  text-transform:uppercase;font-variant-numeric:tabular-nums;
+}
+.topbar .brand{color:var(--fg);font-weight:700}
+.topbar a{transition:color var(--dur-fast)}
+.topbar a:hover{color:var(--fg)}
+
+/* the content column and the 12-column grid every band shares. .cols is
+   the companion pages' main: the same grid, with the hero's spacing */
+.hero,main{max-width:var(--wrap);margin:0 auto;padding-left:var(--s5);padding-right:var(--s5)}
+.hero,.bio-grid,.cols{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--s5)}
+.hero,.cols{padding-top:var(--s8);padding-bottom:var(--s7)}
+.hero>*,.cols>*{grid-column:1/-1;min-width:0}
+
+/* the page title: the hero name's treatment, on every page */
+.hero h1,.page-title{
+  font-size:var(--t-hero);font-weight:800;line-height:var(--lh-display);
+  letter-spacing:var(--tr-display);text-transform:uppercase;
+}
+/* the lede under it: half the grid, wider as the screen narrows */
+.hero .lede,.cols>.lede{
+  display:block;grid-column:1/span 6;margin-top:var(--s5);
+  font-size:var(--t-body);line-height:var(--lh-body);color:var(--text);
+}
+@media(max-width:860px){.hero .lede,.cols>.lede{grid-column:1/span 9}}
+@media(max-width:560px){.hero .lede,.cols>.lede{grid-column:1/-1}}
+
+/* section label, bracketed: [ FILE 01 / BIO ] */
+.plabel{font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);letter-spacing:var(--tr-cap);text-transform:uppercase;margin-bottom:var(--s6)}
+.plabel::before{content:"[ ";color:var(--dim)}
+.plabel::after{content:" ]";color:var(--dim)}
+
+/* footer */
+footer{border-top:1px solid var(--line)}
+.f-inner{max-width:var(--wrap);margin:0 auto;padding:64px var(--s5) var(--s6)}
+.f-links{display:flex;gap:var(--s6);font-family:var(--mono);font-size:var(--t-meta);letter-spacing:var(--tr-cap);text-transform:uppercase;color:var(--dim);margin-bottom:56px;flex-wrap:wrap}
+.f-links:last-child{margin-bottom:0}
+.f-links a:hover{color:var(--fg)}
+
+/* photographs: forced black and white, a vignette and a halftone screen
+   that clears on hover, and viewfinder corner brackets. .photo is the
+   index.html card; .grid figure is the archive frame in gallery.html,
+   whose markup is generated and carries no class of its own */
+.photo img,.grid figure img{filter:grayscale(1) contrast(1.2) brightness(1.05)}
 /* viewfinder corner brackets: the intro and every photo */
-#flash .vf::before,.photo::before{
+#flash .vf::before,.photo::before,.grid figure::before{
   content:"";position:absolute;inset:10px;pointer-events:none;z-index:2;opacity:.75;
   background:
     linear-gradient(var(--fg),var(--fg)) left 0 top 0/var(--vf-arm) var(--vf-weight),
@@ -431,6 +497,43 @@ a{color:inherit;text-decoration:none}
     linear-gradient(var(--fg),var(--fg)) right 0 bottom 0/var(--vf-weight) var(--vf-arm);
   background-repeat:no-repeat;
 }
+.photo::after,.grid figure::after{
+  content:"";position:absolute;inset:0;pointer-events:none;transition:opacity var(--dur-mid);
+  background:
+    radial-gradient(circle at 50% 38%,transparent 45%,var(--vignette)),
+    radial-gradient(var(--halftone) 1px,transparent 1.4px);
+  background-size:auto,5px 5px;
+}
+.photo:hover::after,.grid figure:hover::after{opacity:.3}
+@media(hover:none){.photo::after,.grid figure::after{opacity:.35}}
+/* the archive frame holds a caption under its 3:2 image, so both layers
+   cover the image only. The transparent border sets the brackets 10px in,
+   as on .photo */
+.grid figure{position:relative}
+.grid figure::before,.grid figure::after{inset:0 0 auto;aspect-ratio:3/2;box-sizing:border-box}
+.grid figure::before{border:10px solid transparent}
+
+/* Reduced motion: transitions and one-shot animations still finish, at
+   once. index.html stops its looping animations outright as well */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+/* tap targets: an invisible hit area centred on the link, so a small
+   label still takes a full-size press and nothing around it moves */
+@media screen{
+  .topbar a,.f-links a{position:relative}
+  .topbar a::after,.f-links a::after{
+    content:"";position:absolute;left:50%;top:50%;
+    width:max(100%,var(--tap));height:max(100%,var(--tap));transform:translate(-50%,-50%);
+  }
+}
+@media print{
+  .grain,.topbar,.skip-link,.photo::before,.photo::after,.grid figure::before,.grid figure::after{display:none!important}
+  .photo img,.grid figure img{filter:none!important}
+}
+/* ═══ END TOKENS ════════════════════════════════════════════════════ */
+
+/* ═══ INDEX ONLY ════════════════════════════════════════════════════ */
 
 /* pill: every button-like control. Variants set size, padding and hover */
 .tab,.stab,.fbtn,.chip,#lb button{
@@ -466,11 +569,9 @@ body.negative .frame img,body.negative #lb img{
 .tdesc a:hover,.now-card p a:hover,.bio-copy a:hover,.h-row .role a:hover{border-bottom-color:var(--fg)}
 .textlink{color:var(--fg)}
 .hero,.ticker,main,footer{position:relative;z-index:var(--z-content)}
-/* the 12-column grid every band shares: hero, panels, bio. Same left edge
-   and max width as the tab bar and the footer */
-.hero,main{max-width:var(--wrap);margin:0 auto;padding-left:var(--s5);padding-right:var(--s5)}
-.hero,.bio-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--s5)}
-/* the bars at the top stand in front of anything an anchor jumps to */
+/* the 12-column grid every band shares (hero, panels, bio) and its
+   column live in tools/base.css. The bars at the top stand in front of
+   anything an anchor jumps to */
 html{scroll-padding-top:calc(var(--topbar-h) + var(--tabbar-h))}
 html:not(.js){scroll-padding-top:var(--topbar-h)}
 
@@ -527,17 +628,9 @@ html:not(.js) #flash{display:none}
 #reticle.shoot{display:block}
 
 /* ═══ 03 · TOPBAR ═══════════════════════════════════════════════════ */
-.topbar{
-  position:fixed;top:0;left:0;right:0;z-index:var(--z-topbar);height:var(--topbar-h);
-  display:flex;justify-content:space-between;align-items:center;
-  padding:0 var(--s5);font-family:var(--mono);font-size:var(--t-cap);
-  letter-spacing:var(--tr-cap);color:var(--dim);
-  /* solid: the tab bar sticks directly underneath, so nothing may show
-     through between the two */
-  background:var(--bg);
-  text-transform:uppercase;font-variant-numeric:tabular-nums;
-}
-.topbar .brand{color:var(--fg);font-weight:700}
+/* the shared bar (tools/base.css), fixed here: the tab bar sticks
+   directly underneath, so nothing may show through between the two */
+.topbar{position:fixed;left:0;right:0}
 .topbar .right{display:flex;gap:var(--s5);align-items:center}
 .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--fg);margin-right:var(--s2)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
@@ -548,8 +641,7 @@ html:not(.js) #flash{display:none}
 /* Hero: route map, caption row, name, one-liner, all on the shared
    12-column grid. The map and the caption row run the full width; the
    one-liner keeps a reading measure of six columns */
-.hero{padding-top:var(--s8);padding-bottom:var(--s7);width:100%}
-.hero>*{grid-column:1/-1;min-width:0}
+.hero{width:100%}
 /* the caption row: version on the left, the NOW rotator on the right,
    between two hairlines like the data strip under a frame */
 .hero .meta{
@@ -559,10 +651,6 @@ html:not(.js) #flash{display:none}
   border-top:1px solid var(--line);border-bottom:1px solid var(--line);
   padding:var(--s3) 0;margin-bottom:var(--s6);
 }
-.hero h1{
-  font-size:var(--t-hero);font-weight:800;
-  line-height:var(--lh-display);letter-spacing:var(--tr-display);text-transform:uppercase;
-}
 /* Hollow type: filled with the background and stroked underneath the fill,
    so the variable font's overlapping contours do not show as seams. The
    -.015em is a deliberate literal: the stroke needs more room than
@@ -571,13 +659,6 @@ html:not(.js) #flash{display:none}
   color:var(--bg);-webkit-text-stroke:2.4px var(--fg);paint-order:stroke fill;letter-spacing:-.015em;
 }
 @media(max-width:560px){.hero h1 .hollow,.bigline .hollow{-webkit-text-stroke-width:1.8px}}
-.hero .lede{
-  display:block;grid-column:1/span 6;
-  margin-top:var(--s5);font-size:var(--t-body);
-  line-height:var(--lh-body);color:var(--text);
-}
-@media(max-width:860px){.hero .lede{grid-column:1/span 9}}
-@media(max-width:560px){.hero .lede{grid-column:1/-1}}
 .hero .lede b{color:var(--fg);font-weight:700}
 .nowline #rot{color:var(--fg);border-bottom:1px solid var(--faint);padding-bottom:var(--s1)}
 .nowline #rot.blink{animation:rblink var(--dur-flash)}
@@ -628,9 +709,6 @@ html:not(.js) .tabbar{display:none}
 html.js .panel:not(.active){display:none}
 .panel.active{display:block}
 @keyframes fadein{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.plabel{font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);letter-spacing:var(--tr-cap);text-transform:uppercase;margin-bottom:var(--s6)}
-.plabel::before{content:"[ ";color:var(--dim)}
-.plabel::after{content:" ]";color:var(--dim)}
 .bigline{
   font-size:var(--t-big);font-weight:800;line-height:var(--lh-display);
   letter-spacing:var(--tr-display);text-transform:uppercase;max-width:1000px;margin-bottom:56px;text-wrap:balance;
@@ -667,7 +745,8 @@ html.js .reveal.dev{transform:none;transition:opacity var(--dur-develop) ease}
   color:var(--fg);margin-bottom:0;max-width:none;
 }
 
-/* photos: auto B/W + flash vignette + halftone that clears on hover; click = lightbox */
+/* photos: the B/W filter, vignette, halftone and brackets are shared
+   (tools/base.css); click = lightbox */
 .photo{
   position:relative;border:1px solid var(--line);overflow:hidden;
   background:
@@ -678,16 +757,7 @@ html.js .reveal.dev{transform:none;transition:opacity var(--dur-develop) ease}
 .photo.r45{aspect-ratio:4/5}
 .photo.r32{aspect-ratio:3/2}
 .photo.r1610{aspect-ratio:16/10}
-.photo img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.2) brightness(1.05)}
-.photo::after{
-  content:"";position:absolute;inset:0;pointer-events:none;transition:opacity var(--dur-mid);
-  background:
-    radial-gradient(circle at 50% 38%,transparent 45%,var(--vignette)),
-    radial-gradient(var(--halftone) 1px,transparent 1.4px);
-  background-size:auto,5px 5px;
-}
-.photo:hover::after{opacity:.3}
-@media(hover:none){.photo::after{opacity:.35}}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
 /* a tag variant (base: tools/base.css) */
 .photo .tag{position:absolute;bottom:10px;left:10px;z-index:2;color:var(--dim);background:var(--bg)}
 .photo-stack{display:flex;flex-direction:column;gap:var(--s5)}
@@ -1065,8 +1135,7 @@ html.js .ev:not(.on){opacity:0;transform:translateY(14px)}
 #lb button{border:none;color:var(--fg);font:inherit;letter-spacing:inherit;text-transform:inherit}
 
 /* ═══ 09 · FOOTER ═══════════════════════════════════════════════════ */
-footer{border-top:1px solid var(--line)}
-.f-inner{max-width:1280px;margin:0 auto;padding:64px var(--s5) var(--s6)}
+/* footer, .f-inner and .f-links are shared (tools/base.css) */
 .f-cta{font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);letter-spacing:var(--tr-cap);text-transform:uppercase;margin-bottom:var(--s5)}
 .f-cta.tight{margin-bottom:var(--s3)}
 .f-cta::before{content:"[ ";color:var(--dim)}
@@ -1078,8 +1147,6 @@ footer{border-top:1px solid var(--line)}
   margin-bottom:var(--s7);transition:all var(--dur-fast);
 }
 .f-mail:hover{background:var(--fg);color:var(--bg)}
-.f-links{display:flex;gap:var(--s6);font-family:var(--mono);font-size:var(--t-meta);letter-spacing:var(--tr-cap);text-transform:uppercase;color:var(--dim);margin-bottom:56px;flex-wrap:wrap}
-.f-links a:hover{color:var(--fg)}
 .f-small{
   display:flex;justify-content:space-between;gap:var(--s4);flex-wrap:wrap;
   font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);
@@ -1095,14 +1162,6 @@ footer{border-top:1px solid var(--line)}
   transition:color var(--dur-quick),box-shadow var(--dur-quick);
 }
 .f-neg:hover,.f-neg[aria-pressed="true"]{color:var(--fg);box-shadow:0 1px 0 var(--fg)}
-/* skip link: visible only on focus */
-.skip-link{
-  position:fixed;top:-100%;left:var(--s5);z-index:var(--z-top);
-  font-family:var(--mono);font-size:var(--t-meta);letter-spacing:var(--tr-cap);text-transform:uppercase;
-  color:var(--bg);background:var(--fg);padding:var(--s3) var(--s5);text-decoration:none;
-  transition:top var(--dur-fast) ease;
-}
-.skip-link:focus{top:14px}
 /* Event checklist: a strip between two hairlines, not a boxed card. One
    pocket per year; open, its rows run in two columns from 861 up, each
    row glyph, name, date, state on one line. A past event is crossed out. */
@@ -1141,11 +1200,10 @@ footer{border-top:1px solid var(--line)}
   }
 }
 /* Reduced motion: the looping animations stop outright; one-shot ones
-   and transitions still finish, at once. */
+   and transitions still finish, at once (tools/base.css). */
 @media(prefers-reduced-motion:reduce){
   #flash .af,.ticker .track,.constellation .ping{animation:none}
   #shutter,#reticle{display:none!important}
-  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
 
 /* Tap targets: on touch and phone widths every control reaches --tap.
@@ -1155,8 +1213,8 @@ footer{border-top:1px solid var(--line)}
 @media screen and (pointer:coarse),screen and (max-width:560px){
   .tab,.stab,.fbtn{min-height:var(--tap)}
   .cl-row{min-height:var(--tap);align-items:center}
-  #lb button,#lb-cap a,.f-mail,.f-links a,.f-neg{position:relative}
-  #lb button::after,#lb-cap a::after,.f-mail::after,.f-links a::after,.f-neg::after{
+  #lb button,#lb-cap a,.f-mail,.f-neg{position:relative}
+  #lb button::after,#lb-cap a::after,.f-mail::after,.f-neg::after{
     content:"";position:absolute;left:50%;top:50%;
     width:max(100%,var(--tap));height:max(100%,var(--tap));transform:translate(-50%,-50%);
   }
@@ -1171,9 +1229,10 @@ footer{border-top:1px solid var(--line)}
   :root{--bg:#fff;--fg:#000;--text:#222;--dim:#555;--faint:#999;--line:#ccc;--line-strong:#999;--card:#f5f5f5;--t-small:var(--t-cap)}
 
   /* hide decorative/interactive layers */
-  #field,.grain,.gridlines,#flash,#shutter,#exp,#reticle,
-  .topbar,.skip-link,.constellation,
-  #lb,.snapfx,.photo::before,.photo::after,
+  /* (.grain, .topbar, .skip-link and the photo layers: tools/base.css) */
+  #field,.gridlines,#flash,#shutter,#exp,#reticle,
+  .constellation,
+  #lb,.snapfx,
   .tabbar,.subtabs,.checklist,.ev-open,
   .ticker{display:none!important}
 
@@ -1192,7 +1251,7 @@ footer{border-top:1px solid var(--line)}
   .hero .lede{font-size:var(--t-cap)!important;margin:8px 0 4px!important}
 
   /* photos: show inline, no filters */
-  .photo img,.frame img,#lb img{filter:none!important}
+  .frame img,#lb img{filter:none!important}
   .photo,.frame{max-width:100px;margin:6px 0}
 
   /* typography */
