@@ -222,13 +222,12 @@
   --heat-2:#60605a;
   --heat-3:#9a9a94;
   --heat-4:var(--fg);
-  /* overlays: [G] grid, spotlight hover, lightbox scrim, field canvas dots */
+  /* overlays: [G] grid, lightbox scrim, field canvas dots */
   --grid-line:rgba(255,255,255,.07);
-  --spot:rgba(244,244,241,.09);
   --scrim:rgba(10,10,10,.97);
   --dot:#f4f4f1;
   --dot-still:rgba(244,244,241,.07);
-  /* the shutter flash and the cursor are white in both modes */
+  /* the shutter flash and the photo reticle are white in both modes */
   --flash:#fff;
   /* photo placeholders and vignette: photos stay positive in both modes */
   --ph-glow:rgba(255,255,255,.16);
@@ -286,7 +285,7 @@
   --z-grid:8999;
   --z-grain:9000;
   --z-exp:9200;
-  --z-wipe:9300;
+  --z-shutter:9300;
   --z-snap:9400;
   --z-lb:9500;
   --z-cursor:9600;
@@ -325,7 +324,6 @@ body.negative{
   --heat-3:#52524e;
   --heat-4:var(--fg);
   --grid-line:rgba(0,0,0,.07);
-  --spot:rgba(13,13,12,.07);
   --scrim:rgba(242,242,239,.97);
   --dot:#0d0d0c;
   --dot-still:rgba(13,13,12,.07);
@@ -346,19 +344,12 @@ body{
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--fg);outline-offset:3px}
 
-/* film grain */
+/* film grain: a static texture, never animated */
 .grain{
-  position:fixed;inset:-50%;width:200%;height:200%;
+  position:fixed;inset:0;
   pointer-events:none;z-index:var(--z-grain);opacity:.055;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation:grain 8s steps(10) infinite;
 }
-@keyframes grain{
-  0%,100%{transform:translate(0,0)}10%{transform:translate(-5%,-8%)}
-  30%{transform:translate(4%,-4%)}50%{transform:translate(-6%,6%)}
-  70%{transform:translate(6%,2%)}90%{transform:translate(-3%,4%)}
-}
-@media(prefers-reduced-motion:reduce){.grain{animation:none}}
 
 /* viewfinder corner brackets: the intro and every photo */
 #flash .vf::before,.photo::before{
@@ -408,9 +399,9 @@ body.negative .frame img,body.negative #lb img{
 .tdesc a,.now-card p a,.bio-copy a,.h-row .role a,.textlink{border-bottom:1px solid var(--faint)}
 .tdesc a:hover,.now-card p a:hover,.bio-copy a:hover,.h-row .role a:hover{border-bottom-color:var(--fg)}
 .textlink{color:var(--fg)}
-.hero,main,footer,.strip{position:relative;z-index:var(--z-content)}
+.hero,main,footer{position:relative;z-index:var(--z-content)}
 
-/* ═══ 02 · FIELD / OVERLAYS (canvas, grain, grid, flash, wipe) ══════ */
+/* ═══ 02 · FIELD / OVERLAYS (canvas, grain, grid, flash, shutter) ═══ */
 #field{position:fixed;inset:0;z-index:var(--z-field);pointer-events:none}
 .gridlines{
   position:fixed;inset:0;pointer-events:none;z-index:var(--z-grid);display:none;
@@ -441,35 +432,26 @@ html:not(.js) #flash{display:none}
 .snapfx{position:fixed;inset:0;background:var(--flash);z-index:var(--z-snap);pointer-events:none;animation:snapfade .38s ease-out forwards}
 @keyframes snapfade{from{opacity:.92}to{opacity:0}}
 
-/* shutter wipe between tabs */
-#wipe{position:fixed;inset:0;z-index:var(--z-wipe);pointer-events:none;visibility:hidden}
-#wipe.run{visibility:visible}
-#wipe .w-top,#wipe .w-bot{
-  position:absolute;left:0;right:0;height:50.5%;background:var(--bg);
-  transform:scaleY(0);transition:transform .22s var(--ease-shutter);
+/* shutter line on a tab change: decorative only. The panel has already
+   swapped when it runs, so it never delays or blocks anything */
+#shutter{
+  position:fixed;top:50%;left:0;right:0;height:2px;background:var(--fg);
+  z-index:var(--z-shutter);pointer-events:none;opacity:0;transform:scaleX(0);
 }
-#wipe .w-top{top:0;transform-origin:top}
-#wipe .w-bot{bottom:0;transform-origin:bottom}
-#wipe .w-top::after{content:"";position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--fg);opacity:0;transition:opacity .1s}
-#wipe.closed .w-top,#wipe.closed .w-bot{transform:scaleY(1)}
-#wipe.closed .w-top::after{opacity:1}
+#shutter.fire{animation:shut var(--dur-fast) var(--ease-shutter)}
+@keyframes shut{0%{opacity:1;transform:scaleX(0)}60%{opacity:1;transform:scaleX(1)}100%{opacity:0;transform:scaleX(1)}}
 
 /* scroll exposure bar */
 #exp{position:fixed;top:0;left:0;height:2px;width:0;background:var(--fg);z-index:var(--z-exp)}
 
-/* custom cursor (fine pointers only, enabled via JS) */
-body.cursor-on,body.cursor-on a,body.cursor-on button,
-body.cursor-on .photo,body.cursor-on .frame,body.cursor-on .sheet{cursor:none}
-#cur,#curR{position:fixed;top:0;left:0;pointer-events:none;z-index:var(--z-cursor);mix-blend-mode:difference;display:none}
-body.cursor-on #cur,body.cursor-on #curR{display:block}
-#cur{width:6px;height:6px;background:var(--flash);border-radius:50%;transform:translate(-50%,-50%)}
-#curR{
-  width:34px;height:34px;border:1px solid var(--flash);border-radius:50%;
-  transform:translate(-50%,-50%);
-  transition:width .18s,height .18s,border-radius .18s,border-style .18s;
+/* photo reticle: a dashed frame around the native cursor, over photographs
+   only, on fine pointers only (shown via JS). The cursor itself stays native */
+#reticle{
+  position:fixed;top:0;left:0;width:70px;height:70px;margin:-35px 0 0 -35px;
+  border:1px dashed var(--flash);pointer-events:none;z-index:var(--z-cursor);
+  mix-blend-mode:difference;display:none;
 }
-#curR.link{width:54px;height:54px;border-radius:0}
-#curR.shoot{width:70px;height:70px;border-radius:0;border-style:dashed}
+#reticle.shoot{display:block}
 
 /* ═══ 03 · TOPBAR ═══════════════════════════════════════════════════ */
 .topbar{
@@ -545,7 +527,7 @@ body.cursor-on #cur,body.cursor-on #curR{display:block}
 }
 .ticker .track{display:inline-block;animation:tick 60s linear infinite;font-family:var(--mono);font-size:var(--t-cap);line-height:16px;height:16px;letter-spacing:var(--tr-cap);text-transform:uppercase;color:var(--dim)}
 .ticker .track b{color:var(--fg);font-weight:700}
-.ticker:hover .track{animation-play-state:paused}
+.ticker:hover .track,.ticker.off .track{animation-play-state:paused}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ═══ 05 · PANELS (shared) ══════════════════════════════════════════ */
@@ -556,12 +538,6 @@ main{max-width:1280px;margin:0 auto;padding:0 var(--s5)}
 html.js .panel:not(.active){display:none}
 .panel.active{display:block}
 @keyframes fadein{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.pnum-bg{
-  position:absolute;top:var(--s5);right:0;z-index:-1;line-height:var(--lh-display);
-  font-size:clamp(6rem,17vw,13rem);font-weight:900;
-  color:transparent;-webkit-text-stroke:1px var(--line);
-  pointer-events:none;user-select:none;
-}
 .plabel{font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);letter-spacing:var(--tr-cap);text-transform:uppercase;margin-bottom:var(--s6)}
 .plabel::before{content:"[ ";color:var(--dim)}
 .plabel::after{content:" ]";color:var(--dim)}
@@ -572,20 +548,10 @@ html.js .panel:not(.active){display:none}
 /* Hidden-until-revealed only once the script has said it is running (the
    html.js class, set first thing in <body>). If the script never runs, or
    dies early, everything is simply visible. */
-html.js .reveal{opacity:0;transform:translateY(22px);transition:all .6s var(--ease-develop)}
+html.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s var(--ease-develop),transform .6s var(--ease-develop)}
 html.js .reveal.in{opacity:1;transform:none}
-/* headlines develop like a photograph */
-html.js .reveal.dev{transform:none;filter:blur(5px);transition:opacity var(--dur-develop) ease,filter .9s ease}
-html.js .reveal.dev.in{filter:none}
-
-/* spotlight hover */
-.spot{position:relative}
-.spot::after{
-  content:"";position:absolute;inset:0;pointer-events:none;opacity:0;z-index:1;
-  background:radial-gradient(220px circle at var(--mx,50%) var(--my,50%),var(--spot),transparent 65%);
-  transition:opacity var(--dur-base);
-}
-.spot:hover::after{opacity:1}
+/* headlines fade in place, without the rise */
+html.js .reveal.dev{transform:none;transition:opacity var(--dur-develop) ease}
 
 /* ═══ 06 · BIO ══════════════════════════════════════════════════════ */
 .bio-grid{display:grid;grid-template-columns:1fr minmax(0,500px);gap:var(--s7);align-items:start;margin-bottom:64px}
@@ -798,9 +764,7 @@ html.js .sub:not(.active){display:none}
 }
 .feedhead .live{color:var(--fg)}
 .feed{padding:var(--s3) var(--s5) var(--s4);font-family:var(--mono);font-size:var(--t-meta);line-height:var(--lh-list);min-height:240px}
-.feed-line{display:flex;gap:var(--s4);transition:all var(--dur-slow) ease;white-space:nowrap;overflow:hidden}
-html.js .feed-line:not(.on){opacity:0;transform:translateY(6px)}
-.feed-line.on{opacity:1;transform:none}
+.feed-line{display:flex;gap:var(--s4);white-space:nowrap;overflow:hidden}
 .feed-line .sha{color:var(--dim)}
 .feed-line .repo{color:var(--dim);min-width:150px}
 .feed-line .msg{color:var(--fg);overflow:hidden;text-overflow:ellipsis;flex:1}
@@ -899,17 +863,7 @@ html.js .ev:not(.on){opacity:0;transform:translateY(14px)}
 /* a borderless pill variant (base: tools/base.css) that takes the caption's type */
 #lb button{border:none;color:var(--fg);font:inherit;letter-spacing:inherit;text-transform:inherit}
 
-/* ═══ 09 · NAME STRIP + FOOTER ══════════════════════════════════════ */
-.strip{overflow:hidden;border-top:1px solid var(--line);padding:var(--s5) 0;white-space:nowrap}
-.strip-t{
-  display:inline-block;line-height:var(--lh-display);
-  font-size:clamp(3rem,9vw,6.5rem);font-weight:900;letter-spacing:var(--tr-display);
-  text-transform:uppercase;color:transparent;
-  -webkit-text-stroke:1.5px var(--faint);
-  animation:tick 40s linear infinite;transition:-webkit-text-stroke-color .3s;
-}
-.strip-t>span{margin:0 .6em}
-.strip:hover .strip-t{-webkit-text-stroke-color:var(--dim);animation-play-state:paused}
+/* ═══ 09 · FOOTER ═══════════════════════════════════════════════════ */
 footer{border-top:1px solid var(--line)}
 .f-inner{max-width:1280px;margin:0 auto;padding:64px var(--s5) var(--s6)}
 .f-cta{font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);letter-spacing:var(--tr-cap);text-transform:uppercase;margin-bottom:var(--s5)}
@@ -969,7 +923,8 @@ footer{border-top:1px solid var(--line)}
 /* Reduced motion: the looping animations stop outright; one-shot ones
    and transitions still finish, at once. */
 @media(prefers-reduced-motion:reduce){
-  .grain,#flash .af,.ticker .track,.strip-t,.constellation .ping{animation:none}
+  #flash .af,.ticker .track,.constellation .ping{animation:none}
+  #shutter,#reticle{display:none!important}
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
 
@@ -996,8 +951,8 @@ footer{border-top:1px solid var(--line)}
   :root{--bg:#fff;--fg:#000;--text:#222;--dim:#555;--faint:#999;--line:#ccc;--line-strong:#999;--card:#f5f5f5;--t-small:var(--t-cap)}
 
   /* hide decorative/interactive layers */
-  #field,.grain,.gridlines,#flash,#wipe,#exp,#cur,#curR,
-  .strip,.topbar,.skip-link,.constellation,
+  #field,.grain,.gridlines,#flash,#shutter,#exp,#reticle,
+  .topbar,.skip-link,.constellation,
   #lb,.snapfx,.photo::before,.photo::after,
   .tabs,.subtabs,.checklist,.ev-open,
   .ticker{display:none!important}
@@ -1005,7 +960,7 @@ footer{border-top:1px solid var(--line)}
   /* show all panels + subtabs, remove tab gating */
   .panel{display:block!important;padding:24px 0 12px!important;break-inside:avoid}
   .sub{display:block!important}
-  .reveal,.wrow,.ev{opacity:1!important;transform:none!important;filter:none!important}
+  .reveal,.wrow,.ev{opacity:1!important;transform:none!important}
 
   /* hero compact */
   .hero{padding:0!important;min-height:auto!important}
@@ -1057,9 +1012,8 @@ footer{border-top:1px solid var(--line)}
 <div class="grain"></div>
 <div class="gridlines"></div>
 <div id="exp" aria-hidden="true"></div>
-<div id="wipe" aria-hidden="true"><div class="w-top"></div><div class="w-bot"></div></div>
-<div id="cur" aria-hidden="true"></div>
-<div id="curR" aria-hidden="true"></div>
+<div id="shutter" aria-hidden="true"></div>
+<div id="reticle" aria-hidden="true"></div>
 
 <!-- camera-flash intro: once per session -->
 <div id="flash"><div class="vf"><span class="af">AF &#9679;</span></div></div>
@@ -1219,7 +1173,6 @@ footer{border-top:1px solid var(--line)}
 
 <!-- ═══ PANEL 01 · BIO ═══ -->
 <section class="panel active" id="bio" role="tabpanel" aria-labelledby="tab-bio">
-  <div class="pnum-bg" aria-hidden="true">01</div>
   <div class="plabel">FILE 01 / BIO</div>
   <h2 class="bigline reveal dev">BORN IN <span class="hollow">FINLAND</span>.<br>INVESTED IN EUROPE.</h2>
 
@@ -1262,14 +1215,14 @@ footer{border-top:1px solid var(--line)}
   </div>
 
   <div class="facts reveal">
-    <div class="fact spot"><div class="k">Base</div><div class="v">Den Haag, NL</div></div>
-    <div class="fact spot"><div class="k">Route</div><div class="v">HEL&middot;NYC&middot;VIE&middot;LON</div></div>
-    <div class="fact spot"><div class="k">Day job</div><div class="v">Venture capital</div></div>
-    <div class="fact spot"><div class="k">Languages</div><div class="v">EN &middot; FI &middot; SE &middot; DE</div></div>
-    <div class="fact spot"><div class="k">Focus</div><div class="v">Pre-seed to Series A</div></div>
-    <div class="fact spot"><div class="k">Coverage</div><div class="v">Nordics &middot; DACH &middot; Benelux</div></div>
-    <div class="fact spot"><div class="k">Side quests</div><div class="v">Writing &middot; Building &middot; Markets</div></div>
-    <div class="fact spot"><div class="k">House view</div><div class="v">Less ruinous humility</div></div>
+    <div class="fact"><div class="k">Base</div><div class="v">Den Haag, NL</div></div>
+    <div class="fact"><div class="k">Route</div><div class="v">HEL&middot;NYC&middot;VIE&middot;LON</div></div>
+    <div class="fact"><div class="k">Day job</div><div class="v">Venture capital</div></div>
+    <div class="fact"><div class="k">Languages</div><div class="v">EN &middot; FI &middot; SE &middot; DE</div></div>
+    <div class="fact"><div class="k">Focus</div><div class="v">Pre-seed to Series A</div></div>
+    <div class="fact"><div class="k">Coverage</div><div class="v">Nordics &middot; DACH &middot; Benelux</div></div>
+    <div class="fact"><div class="k">Side quests</div><div class="v">Writing &middot; Building &middot; Markets</div></div>
+    <div class="fact"><div class="k">House view</div><div class="v">Less ruinous humility</div></div>
   </div>
 
   <div class="plabel">01 / CONVICTION</div>
@@ -1285,11 +1238,10 @@ footer{border-top:1px solid var(--line)}
 
 <!-- ═══ PANEL 02 · WORK ═══ -->
 <section class="panel" id="work" role="tabpanel" aria-labelledby="tab-work">
-  <div class="pnum-bg" aria-hidden="true">02</div>
   <div class="plabel">FILE 02 / WORK</div>
   <h2 class="bigline reveal dev">IMPACT ISN'T PHILANTHROPY.<br>IT'S THE MOST <span class="hollow">UNDERPRICED</span><br>OPPORTUNITY IN EUROPEAN TECH.</h2>
 
-  <div class="now-card reveal spot">
+  <div class="now-card reveal">
     <div>
       <div class="status">&#9632; CURRENT</div>
       <h3>Investor<br><a href="https://4impact.vc" target="_blank" rel="noopener">4impact capital</a></h3>
@@ -1444,7 +1396,6 @@ footer{border-top:1px solid var(--line)}
 
 <!-- ═══ PANEL 03 · PROJECTS ═══ -->
 <section class="panel" id="projects" role="tabpanel" aria-labelledby="tab-projects">
-  <div class="pnum-bg" aria-hidden="true">03</div>
   <div class="plabel">FILE 03 / LIBRARY</div>
   <h2 class="bigline reveal dev">BUILT, <span class="hollow">WRITTEN</span>,<br>SAID OUT LOUD.</h2>
 
@@ -1463,7 +1414,7 @@ footer{border-top:1px solid var(--line)}
          from a browser. It is real HTML rather than a client render
          because the numbers are the point and a crawler should see
          them. Do not edit inside the markers; re-run the script. -->
-    <div id="gh-card" class="gh-card spot">
+    <div id="gh-card" class="gh-card">
 <!-- GEN:CONTRIB -->
       <div class="gh-left">
         <img class="gh-avatar" src="https://avatars.githubusercontent.com/u/262142937?v=4" alt="danieljpuusitalo" width="96" height="96" loading="lazy">
@@ -1500,7 +1451,7 @@ footer{border-top:1px solid var(--line)}
 <!-- /GEN:BUILDS -->
     </div>
 
-    <div class="feedbox spot">
+    <div class="feedbox">
       <div class="feedhead">
         <span><span class="live">&#9679; COMMIT LOG</span> / <span id="feed-mode">CONNECTING&hellip;</span></span>
         <span id="feed-note">@danieljpuusitalo</span>
@@ -1522,7 +1473,7 @@ footer{border-top:1px solid var(--line)}
     <div class="sub-note">speaking, hosting and panels &middot; every photo, including the ones no card shows, sits in the <a href="gallery.html" class="textlink">photo archive &nearr;</a> &middot; interviews live in the <a href="writing.html" class="textlink">writing archive &nearr;</a></div>
     <div id="event-checklist" class="reveal checklist"></div>
     <div class="ev-grid" id="events-grid"></div>
-    <div class="now-card reveal spot solo">
+    <div class="now-card reveal solo">
       <div>
         <h3>Get in touch</h3>
         <p>Interested in having me speak at your event, join a panel, or host a session? <a href="mailto:daniel@4impact.vc" class="textlink">Drop me a line</a>.</p>
@@ -1534,8 +1485,7 @@ footer{border-top:1px solid var(--line)}
 
 </main>
 
-<!-- ═══ NAME STRIP + FOOTER ═══ -->
-<div class="strip" aria-hidden="true"><div class="strip-t" id="strip-t"></div></div>
+<!-- ═══ FOOTER ═══ -->
 <footer>
   <div class="f-inner">
     <div class="f-cta tight">CONTACT SHEET</div>
@@ -1958,7 +1908,7 @@ safely(function field(){
   if(!cx) return;
   let W,H,dots=[],t=0,raf=null,still=REDUCED;
   const BUCKETS = 8;
-  let mx=-9999,my=-9999,tx=-9999,ty=-9999;
+  let mx=-9999,my=-9999;
   const GAP = 26;
   /* Dot colours come from the --dot tokens, so negative mode is defined in
      CSS once. Read again on every [D] toggle, never per frame. */
@@ -1979,17 +1929,12 @@ safely(function field(){
     for(let y=GAP/2; y<H; y+=GAP)
       for(let x=GAP/2; x<W; x+=GAP) dots.push({x,y,p:(x*.7+y*1.3)*.05});
   }
-  /* Dots are grouped by alpha into BUCKETS paths and each path is filled
-     once, instead of one fill per dot: a few thousand fills a frame become
-     eight. A touch screen has no cursor to follow, so it runs at 30fps. */
-  let skip = false;
-  function draw(){
-    raf = requestAnimationFrame(draw);
-    if(!FINE && (skip = !skip)) return;
-    t += FINE ? 1 : 2;
-    if(!FINE){ tx = W/2 + Math.cos(t*.008)*W*.32; ty = H/2 + Math.sin(t*.011)*H*.28; }
-    const k = FINE ? .08 : .15;
-    mx += (tx-mx)*k; my += (ty-my)*k;
+  /* Nothing loops. A frame is drawn once at load, then only while the
+     pointer moves (at most one per animation frame, none once it stops),
+     on resize and on a [D] toggle. Dots are grouped by alpha into BUCKETS
+     paths and each path is filled once: a few thousand fills become eight. */
+  function frame(){
+    t++;
     cx.clearRect(0,0,W,H);
     cx.fillStyle = DOT;
     const R2 = 240*240;
@@ -2018,58 +1963,44 @@ safely(function field(){
       cx.fill();
     }
   }
-  function stop(){ cancelAnimationFrame(raf); raf=null; }
+  function paint(){ if(still) drawStatic(); else frame(); }
+  function tick(){ raf = null; frame(); }
   size();
   let rT = null;
   addEventListener('resize', ()=>{
     clearTimeout(rT);
-    rT = setTimeout(()=>{ size(); if(still) drawStatic(); }, 150);
+    rT = setTimeout(()=>{ size(); paint(); }, 150);
   });
-  document.addEventListener('negtoggle', ()=>{ colours(); if(still) drawStatic(); });
-  addEventListener('mousemove', e=>{ tx=e.clientX; ty=e.clientY; });
-  document.addEventListener('visibilitychange', ()=>{
-    if(document.hidden) stop();
-    else if(!raf && !still) draw();
+  document.addEventListener('negtoggle', ()=>{ colours(); paint(); });
+  /* the beam follows a fine pointer only; a touch screen keeps the field still */
+  if(FINE) addEventListener('mousemove', e=>{
+    mx=e.clientX; my=e.clientY;
+    if(!raf && !still) raf = requestAnimationFrame(tick);
   });
   /* the visitor can switch reduced motion on (or off) without reloading */
   onMedia(matchMedia('(prefers-reduced-motion: reduce)'), e=>{
     still = e.matches;
-    if(still){ stop(); drawStatic(); } else if(!raf && !document.hidden) draw();
+    cancelAnimationFrame(raf); raf = null;
+    paint();
   });
-  if(still) drawStatic(); else draw();
+  paint();
 });
 
-/* ── custom cursor: dot + viewfinder ring, difference-blend ──────── */
-safely(function cursor(){
+/* ── photo reticle: a dashed frame around the native cursor ───────── */
+/* Shown only over a photograph (bio and event photos, contact sheet
+   frames, the lightbox image), on fine pointers only. It is placed straight
+   from the mousemove, with no easing and no animation loop. */
+safely(function reticle(){
   if(!FINE || REDUCED) return;
-  const dot = document.getElementById('cur');
-  const ring = document.getElementById('curR');
-  if(!dot || !ring) return;
-  document.body.classList.add('cursor-on');
-  let x=innerWidth/2, y=innerHeight/2, rx=x, ry=y;
-  const at = (el,px,py)=>{ el.style.transform = `translate3d(${px}px,${py}px,0) translate(-50%,-50%)`; };
-  let cRaf=null;
-  /* The ring eases after the dot and the loop stops once it has caught up;
-     the next mousemove starts it again. */
-  function loop(){
-    rx += (x-rx)*.16; ry += (y-ry)*.16;
-    at(ring, rx, ry);
-    cRaf = (Math.abs(x-rx) + Math.abs(y-ry) > .3) ? requestAnimationFrame(loop) : null;
-  }
+  const r = document.getElementById('reticle');
+  if(!r) return;
   addEventListener('mousemove', e=>{
-    x=e.clientX; y=e.clientY;
-    at(dot, x, y);
-    const t = e.target.closest ? e.target.closest('a,button,.tab,.stab,.fbtn') : null;
-    const p = e.target.closest ? e.target.closest('.photo,.frame') : null;
-    ring.classList.toggle('shoot', !!p);
-    ring.classList.toggle('link', !!t && !p);
-    if(!cRaf && !document.hidden) cRaf = requestAnimationFrame(loop);
+    const p = e.target.closest ? e.target.closest('.photo,.frame .ph,#lb img') : null;
+    const on = !!p && (!p.classList.contains('photo') || !!p.querySelector('img'));
+    r.classList.toggle('shoot', on);
+    if(on) r.style.transform = `translate3d(${e.clientX}px,${e.clientY}px,0)`;
   });
-  document.addEventListener('visibilitychange', ()=>{
-    if(document.hidden){ cancelAnimationFrame(cRaf); cRaf=null; }
-  });
-  document.addEventListener('mouseleave', ()=>{ dot.style.opacity=0; ring.style.opacity=0; });
-  document.addEventListener('mouseenter', ()=>{ dot.style.opacity=1; ring.style.opacity=1; });
+  document.addEventListener('mouseleave', ()=>{ r.classList.remove('shoot'); });
 });
 
 /* ── camera-flash intro ─────────────────────────────────────────── */
@@ -2154,19 +2085,14 @@ safely(function ticker(){
     .map(w=>`<b>${w.src.toUpperCase()}</b> &middot; ${w.title.toUpperCase()} &nbsp;&nbsp;&#9642;&nbsp;&nbsp; `)
     .join('');
   track.innerHTML = items + items;
+  /* paused while it is scrolled out of view */
+  const box = track.closest('.ticker');
+  if(box && 'IntersectionObserver' in window)
+    new IntersectionObserver(es=>es.forEach(e=>box.classList.toggle('off', !e.isIntersecting))).observe(box);
 });
 
-/* ── name strip ─────────────────────────────────────────────────── */
-safely(function strip(){
-  const box = document.getElementById('strip-t');
-  if(!box) return;
-  const names = ['MONITOR DELOITTE','ERNST & YOUNG','NORDEA','HELEN VENTURES','4IMPACT CAPITAL','AALTO UNIVERSITY','BRUNEL UNIVERSITY'];
-  const s = names.map(n=>`<span>${n}</span>`).join('&middot;') + '&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;&nbsp;';
-  box.innerHTML = s + s;
-});
-
-/* ── main tabs: shutter wipe + keys 1-3 + hash ──────────────────── */
-const wipe = document.getElementById('wipe');
+/* ── main tabs: shutter line + keys 1-3 + hash ──────────────────── */
+const shutter = document.getElementById('shutter');
 /* The projects subtabs, which double as #hash deep links. Declared up
    here because `const` is not hoisted and the tab router below reads it. */
 const SUBTABS = ['builds','writing','events'];
@@ -2174,7 +2100,6 @@ const SUBTABS = ['builds','writing','events'];
 safely(function tabs(){
   const tabs = [...document.querySelectorAll('.tab')];
   const panels = [...document.querySelectorAll('.panel')];
-  let busy = false;
   let firstActivate = true;
   function activate(id){
     tabs.forEach(t=>{
@@ -2194,22 +2119,17 @@ safely(function tabs(){
       setTimeout(()=>el.classList.add('in'), 80+i*110);
     });
   }
-  /* A click that lands mid-wipe is queued, not dropped: dropping it read as
-     "the tab did not respond" and cost the visitor a second click. */
-  let pending = null;
+  /* The panel swaps at once, every time, so the last tab asked for is the
+     one that shows. The shutter line runs after the swap and is decoration
+     only: it holds no state and never delays or blocks a change. */
   function go(id){
-    if(busy){ pending = id; return; }
     const panel = document.getElementById(id);
     if(!panel || panel.classList.contains('active')) return;
-    if(REDUCED || !wipe){ activate(id); return; }
-    busy = true;
-    wipe.classList.add('run');
-    requestAnimationFrame(()=>requestAnimationFrame(()=>wipe.classList.add('closed')));
-    setTimeout(()=>{ activate(id); wipe.classList.remove('closed'); }, 260);
-    setTimeout(()=>{
-      wipe.classList.remove('run'); busy=false;
-      if(pending){ const p = pending; pending = null; go(p); }
-    }, 520);
+    activate(id);
+    if(REDUCED || !shutter) return;
+    shutter.classList.remove('fire');
+    void shutter.offsetWidth;   /* restart the animation on a quick repeat */
+    shutter.classList.add('fire');
   }
   tabs.forEach(t=>t.addEventListener('click',()=>go(t.dataset.panel)));
   /* roving tabindex: arrow keys move between tabs */
@@ -2362,7 +2282,7 @@ safely(function renderEvents(){
     const isLink = ev.url;
     const d = document.createElement(isLink ? 'a' : 'div');
     if(isLink){ d.href=ev.url; d.target='_blank'; d.rel='noopener'; }
-    d.className = 'ev spot'+(ev.feat?' feat':'');
+    d.className = 'ev'+(ev.feat?' feat':'');
     const pic = (ev.pics || [])[0];
     const cap = (pic && pic.cap) || `${ev.name}, ${ev.city}`;
     const gi = pic ? regPhoto(pic.src, cap, pic.alt, ev.slug) : -1;
@@ -2689,7 +2609,7 @@ function showLb(){
   }
 }
 /* everything outside the viewer, made inert while it is open */
-function lbBehind(){ return [...document.querySelectorAll('.topbar,.hero,main,.strip,footer,.skip-link')]; }
+function lbBehind(){ return [...document.querySelectorAll('.topbar,.hero,main,footer,.skip-link')]; }
 function openLb(i){
   lbReturnFocus = document.activeElement;
   lbIdx = i; showLb();
@@ -2731,25 +2651,6 @@ document.addEventListener('click', e=>{
 });
 });
 
-/* ── spotlight + magnetic buttons ───────────────────────────────── */
-document.addEventListener('mousemove', e=>{
-  const s = e.target.closest ? e.target.closest('.spot') : null;
-  if(s){
-    const r = s.getBoundingClientRect();
-    s.style.setProperty('--mx', (e.clientX-r.left)+'px');
-    s.style.setProperty('--my', (e.clientY-r.top)+'px');
-  }
-});
-if(FINE && !REDUCED) safely(()=>{
-  document.querySelectorAll('.tab,.stab').forEach(b=>{
-    b.addEventListener('mousemove', e=>{
-      const r = b.getBoundingClientRect();
-      b.style.transform = `translate(${(e.clientX-r.left-r.width/2)*.08}px,${(e.clientY-r.top-r.height/2)*.25}px)`;
-    });
-    b.addEventListener('mouseleave', ()=>b.style.transform='');
-  });
-});
-
 /* ── scroll reveal ──────────────────────────────────────────────── */
 safely(function reveal(){
   const els = document.querySelectorAll('.reveal');
@@ -2782,17 +2683,8 @@ function runFeed(commits, live){
   setText('feed-mode', live ? 'LIVE / GITHUB' : 'STATIC');
   setText('feed-note', '@'+CFG.GITHUB_USER);
   if(!feed || !commits.length) return;
-  const initial = commits.slice(0,6);
-  initial.forEach((c,i)=>{ const el=lineEl(c); feed.appendChild(el);
-    setTimeout(()=>el.classList.add('on'), 300+i*180); });
-  let idx = 6 % commits.length;
-  setInterval(()=>{
-    if(document.hidden) return;
-    const el = lineEl(commits[idx]); feed.appendChild(el);
-    requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('on')));
-    while(feed.children.length>8) feed.removeChild(feed.firstChild);
-    idx = (idx+1)%commits.length;
-  }, 5000);
+  /* rendered once, in full: the eight most recent, newest first */
+  commits.slice(0,8).forEach(c=>feed.appendChild(lineEl(c)));
 }
 (async function feed(){
   if(!CFG.GITHUB_USER) return runFeed(DEMO_COMMITS,false);
