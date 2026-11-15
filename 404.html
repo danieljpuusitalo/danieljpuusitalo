@@ -100,6 +100,9 @@
   --s6:32px;
   --s7:48px;
   --s8:72px;
+  /* minimum touch target: every control reaches it on coarse pointers and
+     phone widths, by growing or by an invisible hit area */
+  --tap:44px;
 
   /* viewfinder brackets: arm length and weight */
   --vf-arm:16px;
@@ -208,6 +211,17 @@ a:hover{border-color:var(--fg)}
 /* A dead end is a wasted crawl and a wasted visit. The nav below is the
    only outbound path off this page, so it names every other page. */
 .nav{display:flex;gap:var(--s5);justify-content:center;flex-wrap:wrap;margin-top:var(--s6)}
+/* the site's focus ring: this page takes the tokens, not the shared base */
+:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+/* tap targets on touch and phone widths: every link gets an invisible
+   hit area centred on it, so nothing in the frame moves */
+@media screen and (pointer:coarse),screen and (max-width:560px){
+  a{position:relative}
+  a::after{
+    content:"";position:absolute;left:50%;top:50%;
+    width:max(100%,var(--tap));height:max(100%,var(--tap));transform:translate(-50%,-50%);
+  }
+}
 </style>
 </head>
 <body>

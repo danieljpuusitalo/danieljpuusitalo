@@ -628,6 +628,9 @@
   --s6:32px;
   --s7:48px;
   --s8:72px;
+  /* minimum touch target: every control reaches it on coarse pointers and
+     phone widths, by growing or by an invisible hit area */
+  --tap:44px;
 
   /* viewfinder brackets: arm length and weight */
   --vf-arm:16px;
@@ -786,6 +789,20 @@ h2{
 .back:hover{color:var(--fg);border-color:var(--fg)}
 /* the closing row of page links */
 .wrap>.back+.back{margin-left:var(--s5)}
+
+/* the site's focus ring: this page takes the tokens, not the shared base */
+:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+/* tap targets on touch and phone widths. The heading link gets an invisible
+   hit area; the closing links grow upward, so each text and its rule stay
+   together and wrapped rows sit a full target apart */
+@media screen and (pointer:coarse),screen and (max-width:560px){
+  .heading a{position:relative}
+  .heading a::after{
+    content:"";position:absolute;left:50%;top:50%;
+    width:max(100%,var(--tap));height:max(100%,var(--tap));transform:translate(-50%,-50%);
+  }
+  .back{display:inline-flex;align-items:flex-end;min-height:var(--tap)}
+}
 
 .grain{
   position:fixed;inset:-50%;width:200%;height:200%;

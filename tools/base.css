@@ -69,6 +69,9 @@
   --s6:32px;
   --s7:48px;
   --s8:72px;
+  /* minimum touch target: every control reaches it on coarse pointers and
+     phone widths, by growing or by an invisible hit area */
+  --tap:44px;
 
   /* viewfinder brackets: arm length and weight */
   --vf-arm:16px;

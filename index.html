@@ -269,6 +269,9 @@
   --s6:32px;
   --s7:48px;
   --s8:72px;
+  /* minimum touch target: every control reaches it on coarse pointers and
+     phone widths, by growing or by an invisible hit area */
+  --tap:44px;
 
   /* viewfinder brackets: arm length and weight */
   --vf-arm:16px;
@@ -521,7 +524,8 @@ body.cursor-on #cur,body.cursor-on #curR{display:block}
 .nowline #rot.blink{animation:rblink var(--dur-flash)}
 @keyframes rblink{0%{opacity:1}40%{opacity:0}60%{opacity:0}100%{opacity:1}}
 
-/* tab nav: a pill variant (base: tools/base.css) */
+/* tab nav: a pill variant (base: tools/base.css). The tablist is a div
+   inside a bare <nav>, so the nav landmark survives the tablist role */
 .tabs{display:flex;gap:0;border:1px solid var(--line);width:max-content;max-width:100%}
 .tab{padding:var(--s4) var(--s6);border:none;border-right:1px solid var(--line)}
 .tab:last-child{border-right:none}
@@ -848,6 +852,17 @@ html.js .wrow:not(.on){opacity:0;transform:translateY(10px)}
 .ev-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-flow:dense;gap:var(--s5);margin-bottom:var(--s7);align-items:stretch}
 @media(max-width:860px){.ev-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.ev-grid{grid-template-columns:1fr}}
+/* each card sits in a cell with its keyboard photo button as a sibling:
+   a button cannot live inside the card's <a> */
+.ev-cell{position:relative;display:flex;flex-direction:column}
+.ev-cell>.ev{flex:1}
+/* covers the photo; pointer and touch fall through to the photo, so only
+   keyboard and assistive tech use it. Hidden until its card develops in */
+.ev-open{
+  position:absolute;top:0;left:0;width:100%;aspect-ratio:16/10;
+  background:transparent;border:none;padding:0;pointer-events:none;
+}
+html.js .ev:not(.on)+.ev-open{visibility:hidden}
 .ev{border:1px solid var(--line);transition:border-color var(--dur-fast);display:flex;flex-direction:column}
 html.js .ev:not(.on){opacity:0;transform:translateY(14px)}
 .ev.on{opacity:1;transform:none;transition:opacity .45s ease,transform .45s ease,border-color var(--dur-fast)}
@@ -859,7 +874,7 @@ html.js .ev:not(.on){opacity:0;transform:translateY(14px)}
 /* a tag variant (base: tools/base.css) */
 .ev .role{color:var(--fg);border-color:var(--faint);display:inline-block;align-self:flex-start;margin-top:auto}
 /* a featured card spans two columns wherever the grid has two or more */
-@media(min-width:561px){.ev.feat{grid-column:span 2}}
+@media(min-width:561px){.ev-cell.feat{grid-column:span 2}}
 .ev.feat h3{font-size:var(--t-lead)}
 
 /* lightbox with prev/next */
@@ -916,6 +931,15 @@ footer{border-top:1px solid var(--line)}
   letter-spacing:var(--tr-cap);text-transform:uppercase;
   border-top:1px solid var(--line);padding-top:var(--s5);
 }
+/* the [D] hint is also the switch, for touch screens with no keyboard */
+.f-neg{
+  font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;
+  background:none;border:none;padding:0;cursor:pointer;
+  /* the underline is a shadow, not a border, so the footer row keeps its height */
+  box-shadow:0 1px 0 var(--faint);
+  transition:color var(--dur-quick),box-shadow var(--dur-quick);
+}
+.f-neg:hover,.f-neg[aria-pressed="true"]{color:var(--fg);box-shadow:0 1px 0 var(--fg)}
 /* skip link: visible only on focus */
 .skip-link{
   position:fixed;top:-100%;left:var(--s5);z-index:var(--z-top);
@@ -949,6 +973,20 @@ footer{border-top:1px solid var(--line)}
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
 
+/* Tap targets: on touch and phone widths every control reaches --tap.
+   Pills and list rows grow; text links and the lightbox buttons keep their
+   look and get an invisible hit area centred on them instead. Inline links
+   inside sentences are exempt. Screen only, so print keeps its URL suffixes */
+@media screen and (pointer:coarse),screen and (max-width:560px){
+  .tab,.stab,.fbtn{min-height:var(--tap)}
+  .cl-row,.cl-year>summary{min-height:var(--tap);align-items:center}
+  #lb button,#lb-cap a,.f-mail,.f-links a,.f-neg,.gh-link,.cl-row a{position:relative}
+  #lb button::after,#lb-cap a::after,.f-mail::after,.f-links a::after,.f-neg::after,.gh-link::after,.cl-row a::after{
+    content:"";position:absolute;left:50%;top:50%;
+    width:max(100%,var(--tap));height:max(100%,var(--tap));transform:translate(-50%,-50%);
+  }
+}
+
 /* ═══ PRINT / clean one-page B/W CV ═══════════════════════════════ */
 @media print{
   *{animation:none!important;transition:none!important}
@@ -961,7 +999,7 @@ footer{border-top:1px solid var(--line)}
   #field,.grain,.gridlines,#flash,#wipe,#exp,#cur,#curR,
   .strip,.topbar,.skip-link,.constellation,
   #lb,.snapfx,.photo::before,.photo::after,
-  .tabs,.subtabs,.checklist,
+  .tabs,.subtabs,.checklist,.ev-open,
   .ticker{display:none!important}
 
   /* show all panels + subtabs, remove tab gating */
@@ -1167,10 +1205,12 @@ footer{border-top:1px solid var(--line)}
     Venture capitalist at 4impact capital, based in The Hague. Personal library for work, experiences and projects. Always on the lookout for interesting people.
   </p>
   <div class="nowline">NOW / <span id="rot">SOURCING THE NORDICS</span></div>
-  <nav class="tabs" role="tablist">
+  <nav>
+  <div class="tabs" role="tablist">
     <button class="tab active" data-panel="bio" role="tab" aria-selected="true" id="tab-bio" aria-controls="bio" tabindex="0"><span class="idx">01</span>BIO</button>
     <button class="tab" data-panel="work" role="tab" aria-selected="false" id="tab-work" aria-controls="work" tabindex="-1"><span class="idx">02</span>WORK</button>
     <button class="tab" data-panel="projects" role="tab" aria-selected="false" id="tab-projects" aria-controls="projects" tabindex="-1"><span class="idx">03</span>LIBRARY</button>
+  </div>
   </nav>
   <div class="ticker" aria-hidden="true"><div class="track" id="ticker-track"></div></div>
 </section>
@@ -1514,7 +1554,7 @@ footer{border-top:1px solid var(--line)}
     </div>
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. Hand-written, no cookies</span>
-      <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; [D] negative</span>
+      <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; <button type="button" class="f-neg" id="neg-toggle" aria-pressed="false">[D] negative</button></span>
       <span>V0.13.7 / DEPLOYED 2026.11.04</span>
     </div>
   </div>
@@ -2197,12 +2237,18 @@ safely(function tabs(){
     if(e.key==='1') go('bio'); if(e.key==='2') go('work'); if(e.key==='3') go('projects');
     if(e.key.toLowerCase()==='g') document.body.classList.toggle('show-grid');
     if(e.key.toLowerCase()==='f') fireFlash();
-    if(e.key.toLowerCase()==='d'){
-      document.body.classList.toggle('negative');
-      document.dispatchEvent(new Event('negtoggle'));
-    }
+    if(e.key.toLowerCase()==='d') toggleNegative();
     if(e.key==='Escape') closeLb();
   });
+  /* negative mode: the [D] key and the footer button share one path, and
+     the button's pressed state follows the class whichever one fired */
+  const negBtn = document.getElementById('neg-toggle');
+  function toggleNegative(){
+    const on = document.body.classList.toggle('negative');
+    if(negBtn) negBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    document.dispatchEvent(new Event('negtoggle'));
+  }
+  if(negBtn) negBtn.addEventListener('click', toggleNegative);
   /* Deep links. #bio|#work|#projects open a tab; a subtab name opens the
      projects tab, so the archive pages and the footer can point at an exact
      panel. The subtab itself is selected by the stagger call at the bottom
@@ -2327,7 +2373,20 @@ safely(function renderEvents(){
          <figcaption class="tag">${pic ? (ev.pics.length > 1 ? `PHOTO 1/${ev.pics.length}` : 'PHOTO') : ''}</figcaption></figure>`+
       `<div class="ev-body"><div class="ev-meta"><span>${ev.d}</span><span>${ev.city}</span></div>`+
       `<h3>${ev.name}</h3><span class="role">${ev.role}</span></div>`;
-    box.appendChild(d);
+    /* the cell carries the grid span; the photo button is the card's
+       sibling, since nothing interactive may sit inside its <a> */
+    const cell = document.createElement('div');
+    cell.className = 'ev-cell'+(ev.feat?' feat':'');
+    cell.appendChild(d);
+    if(gi >= 0){
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'ev-open';
+      b.setAttribute('aria-label', 'Open photo: '+cap);
+      b.addEventListener('click', ()=>openLb(gi));
+      cell.appendChild(b);
+    }
+    box.appendChild(cell);
   });
   setText('n-events',
     `(${EVENTS.filter(e=>!e.archived && e.card !== false).length})`);
