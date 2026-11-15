@@ -27,13 +27,148 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0a'/%3E%3Cpath fill='%23f4f4f1' d='M10 10h14v3H13v11h-3zM40 10h14v14h-3V13H40zM10 40h3v11h11v3H10zM51 40h3v14H40v-3h11z'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23f4f4f1'/%3E%3C/svg%3E">
+<!-- GEN:BASECSS -->
 <style>
+/* ═══ BASE · tokens + shared base ════════════════════════════════════
+   Source of truth for the design system. tools/build-css.mjs copies it
+   into every page between the GEN:BASECSS markers: index.html gets the
+   whole file, the other four pages get the TOKENS section only. Edit
+   here, then run: node tools/build-css.mjs
+   Strictly black, white and grey. No hue, anywhere. */
+
+/* ═══ TOKENS ════════════════════════════════════════════════════════ */
+:root{
+  /* colour. --text is body copy; --dim is captions and labels only */
+  --bg:#0a0a0a;
+  --fg:#f4f4f1;
+  --text:#c9c9c4;
+  --dim:#8f8f8a;
+  --faint:#3a3a37;
+  --line:#32322f;
+  --line-strong:#4a4a46;
+  --card:#0f0f0e;
+  /* heatmap steps, low to high. A cell with no level stays transparent */
+  --heat-0:#1a1a19;
+  --heat-1:var(--faint);
+  --heat-2:#60605a;
+  --heat-3:#9a9a94;
+  --heat-4:var(--fg);
+  /* overlays: [G] grid, spotlight hover, lightbox scrim, field canvas dots */
+  --grid-line:rgba(255,255,255,.07);
+  --spot:rgba(244,244,241,.09);
+  --scrim:rgba(10,10,10,.97);
+  --dot:#f4f4f1;
+  --dot-still:rgba(244,244,241,.07);
+  /* the shutter flash and the cursor are white in both modes */
+  --flash:#fff;
+  /* photo placeholders and vignette: photos stay positive in both modes */
+  --ph-glow:rgba(255,255,255,.16);
+  --ph-a:#101010;
+  --ph-b:#0c0c0c;
+  --ph-frame:#0e0e0d;
+  --vignette:rgba(0,0,0,.55);
+  --halftone:rgba(0,0,0,.4);
+
+  /* type. 11px is a hard floor: nothing renders smaller, media queries
+     and print included. cap/meta are px (mono labels); the rest are rem
+     so the print sheet's smaller root still scales them */
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --disp:'Inter Tight','Helvetica Neue',sans-serif;
+  --t-cap:11px;
+  --t-meta:12.5px;
+  --t-small:.9375rem;    /* 15px */
+  --t-body:1.0625rem;    /* 17px */
+  --t-lead:1.3125rem;    /* 21px */
+  --t-title:1.6rem;      /* project card titles */
+  --t-h3:clamp(1.5rem,3vw,2.3rem);
+  --t-big:clamp(1.9rem,4.6vw,3.9rem);
+  --t-hero:clamp(2.3rem,6.2vw,5.2rem);
+  --tr-display:-.03em;
+  --tr-body:0;
+  --tr-cap:.12em;
+  --lh-display:1;
+  --lh-title:1.35;
+  --lh-body:1.7;
+  --lh-list:2.15;
+
+  /* space */
+  --s1:4px;
+  --s2:8px;
+  --s3:12px;
+  --s4:16px;
+  --s5:24px;
+  --s6:32px;
+  --s7:48px;
+  --s8:72px;
+
+  /* viewfinder brackets: arm length and weight */
+  --vf-arm:16px;
+  --vf-arm-lg:24px;
+  --vf-weight:2px;
+
+  /* stacking, low to high */
+  --z-field:0;
+  --z-content:1;
+  --z-topbar:100;
+  --z-tip:200;
+  --z-grid:8999;
+  --z-grain:9000;
+  --z-exp:9200;
+  --z-wipe:9300;
+  --z-snap:9400;
+  --z-lb:9500;
+  --z-cursor:9600;
+  --z-top:9999;
+
+  /* motion */
+  --dur-fast:.15s;
+  --dur-quick:.2s;
+  --dur-base:.25s;
+  --dur-mid:.35s;
+  --dur-slow:.4s;
+  --dur-flash:.5s;
+  --dur-develop:.7s;
+  --ease-shutter:cubic-bezier(.65,0,.35,1);
+  --ease-develop:cubic-bezier(.2,.7,.3,1);
+
+  /* breakpoints, written as literals in @media because custom properties
+     cannot be used there: 560 (phone), 860 (tablet), 1100 (reserved).
+     700 survives in two places: the topbar's .hide-m, and the
+     constellation crop, which the script also tests at 700. */
+}
+/* negative-film mode: toggle with [D]. Every value mirrors its dark
+   counterpart at the same contrast against the background. */
+body.negative{
+  --bg:#f2f2ef;
+  --fg:#0d0d0c;
+  --text:#2f2f2b;
+  --dim:#5b5b57;
+  --faint:#babab5;
+  --line:#c5c5c0;
+  --line-strong:#a4a49f;
+  --card:#eaeae6;
+  --heat-0:#e4e4e0;
+  --heat-1:var(--faint);
+  --heat-2:#898985;
+  --heat-3:#52524e;
+  --heat-4:var(--fg);
+  --grid-line:rgba(0,0,0,.07);
+  --spot:rgba(13,13,12,.07);
+  --scrim:rgba(242,242,239,.97);
+  --dot:#0d0d0c;
+  --dot-still:rgba(13,13,12,.07);
+}
+/* ═══ END TOKENS ════════════════════════════════════════════════════ */
+</style>
+<!-- /GEN:BASECSS -->
+<style>
+/* Tokens arrive in the GEN:BASECSS block above, from tools/base.css. */
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  background:#0a0a0a;color:#f4f4f1;
-  font-family:'JetBrains Mono',ui-monospace,monospace;
+  background:var(--bg);color:var(--fg);
+  font-family:var(--mono);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-height:100vh;text-align:center;padding:24px;
+  min-height:100vh;text-align:center;padding:var(--s5);
   -webkit-font-smoothing:antialiased;
 }
 .vf{
@@ -43,35 +178,36 @@ body{
 .vf::before{
   content:"";position:absolute;inset:0;pointer-events:none;
   background:
-    linear-gradient(#f4f4f1,#f4f4f1) left 0 top 0/24px 2px,
-    linear-gradient(#f4f4f1,#f4f4f1) left 0 top 0/2px 24px,
-    linear-gradient(#f4f4f1,#f4f4f1) right 0 top 0/24px 2px,
-    linear-gradient(#f4f4f1,#f4f4f1) right 0 top 0/2px 24px,
-    linear-gradient(#f4f4f1,#f4f4f1) left 0 bottom 0/24px 2px,
-    linear-gradient(#f4f4f1,#f4f4f1) left 0 bottom 0/2px 24px,
-    linear-gradient(#f4f4f1,#f4f4f1) right 0 bottom 0/24px 2px,
-    linear-gradient(#f4f4f1,#f4f4f1) right 0 bottom 0/2px 24px;
+    linear-gradient(var(--fg),var(--fg)) left 0 top 0/var(--vf-arm-lg) var(--vf-weight),
+    linear-gradient(var(--fg),var(--fg)) left 0 top 0/var(--vf-weight) var(--vf-arm-lg),
+    linear-gradient(var(--fg),var(--fg)) right 0 top 0/var(--vf-arm-lg) var(--vf-weight),
+    linear-gradient(var(--fg),var(--fg)) right 0 top 0/var(--vf-weight) var(--vf-arm-lg),
+    linear-gradient(var(--fg),var(--fg)) left 0 bottom 0/var(--vf-arm-lg) var(--vf-weight),
+    linear-gradient(var(--fg),var(--fg)) left 0 bottom 0/var(--vf-weight) var(--vf-arm-lg),
+    linear-gradient(var(--fg),var(--fg)) right 0 bottom 0/var(--vf-arm-lg) var(--vf-weight),
+    linear-gradient(var(--fg),var(--fg)) right 0 bottom 0/var(--vf-weight) var(--vf-arm-lg);
   background-repeat:no-repeat;
 }
+/* the h1 keeps its own clamp and open tracking on purpose */
 h1{
-  font-family:'Inter Tight','Helvetica Neue',sans-serif;
+  font-family:var(--disp);
   font-weight:900;font-size:clamp(1.4rem,4vw,2rem);
   letter-spacing:.06em;text-transform:uppercase;
-  margin-bottom:16px;
+  margin-bottom:var(--s4);
 }
 .label{
-  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-  color:#7d7d78;margin-bottom:24px;
+  font-size:var(--t-cap);letter-spacing:var(--tr-cap);text-transform:uppercase;
+  color:var(--dim);margin-bottom:var(--s5);
 }
 a{
-  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-  color:#f4f4f1;border-bottom:1px solid #3a3a37;
-  text-decoration:none;transition:border-color .2s;
+  font-size:var(--t-cap);letter-spacing:var(--tr-cap);text-transform:uppercase;
+  color:var(--fg);border-bottom:1px solid var(--faint);
+  text-decoration:none;transition:border-color var(--dur-quick);
 }
-a:hover{border-color:#f4f4f1}
+a:hover{border-color:var(--fg)}
 /* A dead end is a wasted crawl and a wasted visit. The nav below is the
    only outbound path off this page, so it names every other page. */
-.nav{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.nav{display:flex;gap:var(--s5);justify-content:center;flex-wrap:wrap;margin-top:var(--s6)}
 </style>
 </head>
 <body>

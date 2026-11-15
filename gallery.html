@@ -556,17 +556,144 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0a'/%3E%3Cpath fill='%23f4f4f1' d='M10 10h14v3H13v11h-3zM40 10h14v14h-3V13H40zM10 40h3v11h11v3H10zM51 40h3v14H40v-3h11z'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23f4f4f1'/%3E%3C/svg%3E">
+<!-- GEN:BASECSS -->
 <style>
+/* ═══ BASE · tokens + shared base ════════════════════════════════════
+   Source of truth for the design system. tools/build-css.mjs copies it
+   into every page between the GEN:BASECSS markers: index.html gets the
+   whole file, the other four pages get the TOKENS section only. Edit
+   here, then run: node tools/build-css.mjs
+   Strictly black, white and grey. No hue, anywhere. */
+
+/* ═══ TOKENS ════════════════════════════════════════════════════════ */
 :root{
+  /* colour. --text is body copy; --dim is captions and labels only */
   --bg:#0a0a0a;
   --fg:#f4f4f1;
-  --dim:#7d7d78;
+  --text:#c9c9c4;
+  --dim:#8f8f8a;
   --faint:#3a3a37;
-  --line:#242422;
+  --line:#32322f;
+  --line-strong:#4a4a46;
   --card:#0f0f0e;
+  /* heatmap steps, low to high. A cell with no level stays transparent */
+  --heat-0:#1a1a19;
+  --heat-1:var(--faint);
+  --heat-2:#60605a;
+  --heat-3:#9a9a94;
+  --heat-4:var(--fg);
+  /* overlays: [G] grid, spotlight hover, lightbox scrim, field canvas dots */
+  --grid-line:rgba(255,255,255,.07);
+  --spot:rgba(244,244,241,.09);
+  --scrim:rgba(10,10,10,.97);
+  --dot:#f4f4f1;
+  --dot-still:rgba(244,244,241,.07);
+  /* the shutter flash and the cursor are white in both modes */
+  --flash:#fff;
+  /* photo placeholders and vignette: photos stay positive in both modes */
+  --ph-glow:rgba(255,255,255,.16);
+  --ph-a:#101010;
+  --ph-b:#0c0c0c;
+  --ph-frame:#0e0e0d;
+  --vignette:rgba(0,0,0,.55);
+  --halftone:rgba(0,0,0,.4);
+
+  /* type. 11px is a hard floor: nothing renders smaller, media queries
+     and print included. cap/meta are px (mono labels); the rest are rem
+     so the print sheet's smaller root still scales them */
   --mono:'JetBrains Mono',ui-monospace,monospace;
   --disp:'Inter Tight','Helvetica Neue',sans-serif;
+  --t-cap:11px;
+  --t-meta:12.5px;
+  --t-small:.9375rem;    /* 15px */
+  --t-body:1.0625rem;    /* 17px */
+  --t-lead:1.3125rem;    /* 21px */
+  --t-title:1.6rem;      /* project card titles */
+  --t-h3:clamp(1.5rem,3vw,2.3rem);
+  --t-big:clamp(1.9rem,4.6vw,3.9rem);
+  --t-hero:clamp(2.3rem,6.2vw,5.2rem);
+  --tr-display:-.03em;
+  --tr-body:0;
+  --tr-cap:.12em;
+  --lh-display:1;
+  --lh-title:1.35;
+  --lh-body:1.7;
+  --lh-list:2.15;
+
+  /* space */
+  --s1:4px;
+  --s2:8px;
+  --s3:12px;
+  --s4:16px;
+  --s5:24px;
+  --s6:32px;
+  --s7:48px;
+  --s8:72px;
+
+  /* viewfinder brackets: arm length and weight */
+  --vf-arm:16px;
+  --vf-arm-lg:24px;
+  --vf-weight:2px;
+
+  /* stacking, low to high */
+  --z-field:0;
+  --z-content:1;
+  --z-topbar:100;
+  --z-tip:200;
+  --z-grid:8999;
+  --z-grain:9000;
+  --z-exp:9200;
+  --z-wipe:9300;
+  --z-snap:9400;
+  --z-lb:9500;
+  --z-cursor:9600;
+  --z-top:9999;
+
+  /* motion */
+  --dur-fast:.15s;
+  --dur-quick:.2s;
+  --dur-base:.25s;
+  --dur-mid:.35s;
+  --dur-slow:.4s;
+  --dur-flash:.5s;
+  --dur-develop:.7s;
+  --ease-shutter:cubic-bezier(.65,0,.35,1);
+  --ease-develop:cubic-bezier(.2,.7,.3,1);
+
+  /* breakpoints, written as literals in @media because custom properties
+     cannot be used there: 560 (phone), 860 (tablet), 1100 (reserved).
+     700 survives in two places: the topbar's .hide-m, and the
+     constellation crop, which the script also tests at 700. */
 }
+/* negative-film mode: toggle with [D]. Every value mirrors its dark
+   counterpart at the same contrast against the background. */
+body.negative{
+  --bg:#f2f2ef;
+  --fg:#0d0d0c;
+  --text:#2f2f2b;
+  --dim:#5b5b57;
+  --faint:#babab5;
+  --line:#c5c5c0;
+  --line-strong:#a4a49f;
+  --card:#eaeae6;
+  --heat-0:#e4e4e0;
+  --heat-1:var(--faint);
+  --heat-2:#898985;
+  --heat-3:#52524e;
+  --heat-4:var(--fg);
+  --grid-line:rgba(0,0,0,.07);
+  --spot:rgba(13,13,12,.07);
+  --scrim:rgba(242,242,239,.97);
+  --dot:#0d0d0c;
+  --dot-still:rgba(13,13,12,.07);
+}
+/* ═══ END TOKENS ════════════════════════════════════════════════════ */
+</style>
+<!-- /GEN:BASECSS -->
+<style>
+/* Tokens arrive in the GEN:BASECSS block above, from tools/base.css.
+   Spacing literals left here (40, 56, 64, 80) sit more than 4px from any
+   --s step; the h1 keeps its own clamp and open tracking on purpose. */
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
@@ -579,56 +706,57 @@ body{
 a{color:inherit;text-decoration:none}
 
 .wrap{
-  max-width:960px;margin:0 auto;padding:80px 24px 64px;
+  max-width:960px;margin:0 auto;padding:80px var(--s5) 64px;
 }
 
 .vf{
-  position:relative;padding:48px 40px;margin-bottom:56px;
+  position:relative;padding:var(--s7) 40px;margin-bottom:56px;
 }
 .vf::before{
   content:"";position:absolute;inset:0;pointer-events:none;
   background:
-    linear-gradient(var(--fg),var(--fg)) left 0 top 0/24px 2px,
-    linear-gradient(var(--fg),var(--fg)) left 0 top 0/2px 24px,
-    linear-gradient(var(--fg),var(--fg)) right 0 top 0/24px 2px,
-    linear-gradient(var(--fg),var(--fg)) right 0 top 0/2px 24px,
-    linear-gradient(var(--fg),var(--fg)) left 0 bottom 0/24px 2px,
-    linear-gradient(var(--fg),var(--fg)) left 0 bottom 0/2px 24px,
-    linear-gradient(var(--fg),var(--fg)) right 0 bottom 0/24px 2px,
-    linear-gradient(var(--fg),var(--fg)) right 0 bottom 0/2px 24px;
+    linear-gradient(var(--fg),var(--fg)) left 0 top 0/var(--vf-arm-lg) var(--vf-weight),
+    linear-gradient(var(--fg),var(--fg)) left 0 top 0/var(--vf-weight) var(--vf-arm-lg),
+    linear-gradient(var(--fg),var(--fg)) right 0 top 0/var(--vf-arm-lg) var(--vf-weight),
+    linear-gradient(var(--fg),var(--fg)) right 0 top 0/var(--vf-weight) var(--vf-arm-lg),
+    linear-gradient(var(--fg),var(--fg)) left 0 bottom 0/var(--vf-arm-lg) var(--vf-weight),
+    linear-gradient(var(--fg),var(--fg)) left 0 bottom 0/var(--vf-weight) var(--vf-arm-lg),
+    linear-gradient(var(--fg),var(--fg)) right 0 bottom 0/var(--vf-arm-lg) var(--vf-weight),
+    linear-gradient(var(--fg),var(--fg)) right 0 bottom 0/var(--vf-weight) var(--vf-arm-lg);
   background-repeat:no-repeat;
 }
 
 .heading{
-  font-family:var(--mono);font-size:11px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--dim);margin-bottom:24px;
+  font-family:var(--mono);font-size:var(--t-cap);letter-spacing:var(--tr-cap);
+  text-transform:uppercase;color:var(--dim);margin-bottom:var(--s5);
 }
 
 h1{
   font-family:var(--disp);font-weight:900;
   font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:.04em;
-  text-transform:uppercase;line-height:1.1;
+  text-transform:uppercase;line-height:var(--lh-display);
 }
 
 .intro{
-  font-size:.95rem;line-height:1.7;color:var(--dim);max-width:640px;
-  margin-bottom:20px;
+  font-size:var(--t-small);line-height:var(--lh-body);color:var(--text);max-width:640px;
+  margin-bottom:var(--s5);
 }
+.intro a{text-decoration:underline}
 
 /* generated counts: the one line that has to stay true as photos are added */
 .stat{
-  font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  font-family:var(--mono);font-size:var(--t-cap);letter-spacing:var(--tr-cap);
   text-transform:uppercase;color:var(--dim);margin-bottom:56px;
 }
 
 .rule{border-top:1px solid var(--line);margin:0 0 56px}
 
 .grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:56px;
+  display:grid;grid-template-columns:1fr 1fr;gap:var(--s5);margin-bottom:56px;
 }
-@media(max-width:640px){.grid{grid-template-columns:1fr}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
 
-figure{border:1px solid var(--line);background:var(--card);scroll-margin-top:24px}
+figure{border:1px solid var(--line);background:var(--card);scroll-margin-top:var(--s5)}
 /* every figure has an id, so gallery.html#slug is a real deep link */
 figure:target{border-color:var(--fg)}
 /* height:auto is load-bearing: every img carries width/height attributes
@@ -640,28 +768,30 @@ figure img{
   filter:grayscale(1) contrast(1.2) brightness(1.05);
 }
 figcaption{
-  font-family:var(--mono);font-size:10px;color:var(--dim);
-  letter-spacing:.1em;text-transform:uppercase;padding:14px 16px;
+  font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);
+  letter-spacing:var(--tr-cap);text-transform:uppercase;padding:var(--s4);
   border-top:1px solid var(--line);
 }
-figcaption b{color:var(--fg);font-weight:700;display:block;font-size:11px;margin-bottom:4px;text-transform:none;letter-spacing:0}
-figcaption b a{border-bottom:1px solid var(--faint);transition:border-color .2s}
+figcaption b{color:var(--fg);font-weight:700;display:block;font-size:var(--t-cap);margin-bottom:var(--s1);text-transform:none;letter-spacing:var(--tr-body)}
+figcaption b a{border-bottom:1px solid var(--faint);transition:border-color var(--dur-quick)}
 figcaption b a:hover{border-color:var(--fg)}
 figcaption time{color:var(--dim)}
 
-.heading a{color:var(--fg);border-bottom:1px solid var(--faint);padding:6px 0;transition:border-color .2s}
+.heading a{color:var(--fg);border-bottom:1px solid var(--faint);padding:var(--s2) 0;transition:border-color var(--dur-quick)}
 .heading a:hover{border-color:var(--fg)}
 .back{
-  display:inline-block;font-family:var(--mono);font-size:11px;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
-  border-bottom:1px solid var(--faint);padding-bottom:2px;
-  transition:color .2s,border-color .2s;
+  display:inline-block;font-family:var(--mono);font-size:var(--t-cap);
+  letter-spacing:var(--tr-cap);text-transform:uppercase;color:var(--dim);
+  border-bottom:1px solid var(--faint);padding-bottom:var(--s1);
+  transition:color var(--dur-quick),border-color var(--dur-quick);
 }
 .back:hover{color:var(--fg);border-color:var(--fg)}
+/* the closing row of page links */
+.wrap>.back+.back{margin-left:var(--s5)}
 
 .grain{
   position:fixed;inset:-50%;width:200%;height:200%;
-  pointer-events:none;z-index:9000;opacity:.055;
+  pointer-events:none;z-index:var(--z-grain);opacity:.055;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
   animation:grain 8s steps(10) infinite;
 }
@@ -670,6 +800,7 @@ figcaption time{color:var(--dim)}
   30%{transform:translate(4%,-4%)}50%{transform:translate(-6%,6%)}
   70%{transform:translate(6%,2%)}90%{transform:translate(-3%,4%)}
 }
+@media(prefers-reduced-motion:reduce){.grain{animation:none}}
 </style>
 </head>
 <body>
@@ -681,7 +812,7 @@ figcaption time{color:var(--dim)}
     <h1>Daniel Uusitalo</h1>
   </div>
 
-  <p class="intro">The complete set, ordered by date of occurrence, newest first. Talks, panels, hosting and jury duty across the Nordics, the Balkans, Germany, Italy, Switzerland and the UK, including the events the <a href="./#events" style="text-decoration:underline">index</a> shows no card for. Every frame links to its event; each one has its own anchor. For headshots and bio copy, see the <a href="press-kit.html" style="text-decoration:underline">press kit</a>.</p>
+  <p class="intro">The complete set, ordered by date of occurrence, newest first. Talks, panels, hosting and jury duty across the Nordics, the Balkans, Germany, Italy, Switzerland and the UK, including the events the <a href="./#events">index</a> shows no card for. Every frame links to its event; each one has its own anchor. For headshots and bio copy, see the <a href="press-kit.html">press kit</a>.</p>
 
 <!-- GEN:STAT -->
   <p class="stat">26 photographs &middot; 17 events &middot; 2020 to 2026 &middot; newest first</p>
@@ -801,8 +932,8 @@ figcaption time{color:var(--dim)}
   <div class="rule"></div>
 
   <a class="back" href="./">&larr; [ RETURN TO INDEX ]</a>
-  <a class="back" href="writing.html" style="margin-left:24px">[ WRITING ARCHIVE ] &rarr;</a>
-  <a class="back" href="press-kit.html" style="margin-left:24px">[ PRESS KIT ] &rarr;</a>
+  <a class="back" href="writing.html">[ WRITING ARCHIVE ] &rarr;</a>
+  <a class="back" href="press-kit.html">[ PRESS KIT ] &rarr;</a>
 </div>
 <script data-goatcounter="https://danieluusitalo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>

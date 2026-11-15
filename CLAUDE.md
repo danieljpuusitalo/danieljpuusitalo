@@ -26,7 +26,7 @@ Identity-facing copy leads **person-first**, not employer-first.
 - **One file — a preference, not a commandment.** Everything lives in `index.html`: CSS, HTML, JS, data. No frameworks, no bundler, no npm. Only external dependency: Google Fonts (Inter Tight + JetBrains Mono).
 
   **Daniel's own framing (2026-09-08): "the one file no build step thing is more of a marketing gimmick as part of this website — it is not a hard rule if it makes sense to improve the website in ways the principle does not align with, as long as the website continues to be easy to maintain and add to."** So the real test is **maintainability, not purity**. Don't refuse a genuine improvement to protect the slogan; do refuse anything that makes adding an article, event or project harder than editing an array. React, Tailwind and a full SSG remain off the table unless Daniel asks — those fail the maintainability test, not the slogan test.
-- **`tools/` holds hand-run maintenance scripts, not a build pipeline.** Four generators, all zero-dependency, all sharing `tools/lib.mjs`, all supporting `--check`:
+- **`tools/` holds hand-run maintenance scripts, not a build pipeline.** Five generators, all zero-dependency, all sharing `tools/lib.mjs`, all supporting `--check`:
 
   | Script | Reads | Writes |
   |---|---|---|
@@ -34,19 +34,24 @@ Identity-facing copy leads **person-first**, not employer-first.
   | `build-gallery.mjs` | `EVENTS` | `gallery.html` + `sitemap.xml` |
   | `build-projects.mjs` | `BUILDS` | the static mirror inside `index.html`'s `#builds-grid` |
   | `build-contributions.mjs` | github.com/users/:u/contributions (network) | the contribution card inside `index.html`'s `#gh-card` |
+  | `build-css.mjs` | `tools/base.css` | the `GEN:BASECSS` style block in all five pages (index gets the whole file, the four companions get the tokens section only) |
+
+  `build-css.mjs` is pure like the first three; it was added in v0.14 alongside them.
 
   The first three are pure: same input, same output, so `--check` demands byte equality. `build-contributions.mjs` reads a live third-party page that changes every time Daniel commits, so byte equality would fail daily and train you to ignore it. Its `--check` is offline and validates structure and age instead (missing markers, malformed grid, snapshot older than 90 days). Only the re-snapshot path touches the network.
 
   Because the first three demand byte equality, **line endings are load-bearing**, and `.gitattributes` pins every text file to LF on checkout. Do not remove it. Without it, Windows checks `index.html` out as CRLF while the generators join their markup with LF, and `build-projects.mjs --check` reports drift on a clean tree with nothing to fix — a check that fails when it should pass is worse than no check, because the next person learns to run it and shrug. CI runs on Linux and never saw it, so the local check was the one lying. Found and fixed 2026-09-19.
 
-  The site still deploys as plain static files with nothing to compile. Don't add a `package.json` or a watcher — the value is that a human runs one command and can read the diff. **Run all four `--check`s before calling any content change done.**
+  The site still deploys as plain static files with nothing to compile. Don't add a `package.json` or a watcher — the value is that a human runs one command and can read the diff. **Run all five `--check`s before calling any content change done.**
 
   ⚠️ **GitHub disables a scheduled workflow after 60 days without repository activity, and the job's own bot commits do not count** — only a human push does. GitHub emails before it happens. If the card ever goes quiet for weeks, check the Actions tab for a disabled schedule before assuming the script broke; the fix is the "Enable workflow" button, and any real commit resets the clock. For this repo it is mostly theoretical, since 60 untouched days would make the whole site stale anyway.
 
   **The one automated exception, added 2026-09-19 at Daniel's request:** `.github/workflows/contributions.yml` runs `build-contributions.mjs` on a schedule and commits the result. It earns the exception because it is the only generator whose input is not in the repo — writing, gallery and projects are pure functions of arrays a human edits, so a human should run them and read the diff, and that rule is unchanged for all three. The heatmap's input is Daniel's own activity, which moves without anyone touching a file, so leaving it to memory guarantees a stale card. **Don't generalise this into a build pipeline.** If you are about to automate a generator whose input lives in `index.html`, the answer is no.
 - **Client-rendered panels need static mirrors.** Every dynamic section renders inside two nested `display:none` containers, so a crawler that doesn't execute JS sees nothing. Googlebot renders JS; the OpenAI, Anthropic and Perplexity crawlers do not. Four surfaces are therefore mirrored: writing → `writing.html`, events/photos → `gallery.html`, projects → generated HTML inside `#builds-grid` that the renderer overwrites on load, and the contribution heatmap → generated HTML inside `#gh-card`, which since v0.12.0 has no client render at all. The commit-log feedbox is the one that is still JS-only, by design: it is a live ticker, not content. **If you add another client-rendered content section, it needs a mirror too** — otherwise it is invisible to everything except Google.
 - **Companion pages (four):** `writing.html` (generated writing archive), `press-kit.html` (headshot downloads, bios, speaking topics), `gallery.html` (photo archive), `404.html` (custom error page). All four share the same design language and favicon.
-- **Strictly black & white.** All colors come from the CSS tokens in `:root` (`--bg #0a0a0a`, `--fg #f4f4f1`, `--dim`, `--faint`, `--line`, `--card`). Never add a hue. Photos are forced to B/W via CSS filters — never bypass this.
+- **Strictly black & white.** All colors come from the CSS tokens in `tools/base.css` (`--bg #0a0a0a`, `--fg #f4f4f1`, `--text`, `--dim`, `--faint`, `--line`, `--card`). Never add a hue. Photos are forced to B/W via CSS filters — never bypass this.
+- **Design tokens live in `tools/base.css`, not in the pages.** Edit that file, then run `node tools/build-css.mjs` to copy it into each page's `GEN:BASECSS` block; never hand-edit inside that block. Type, spacing, tracking, line-height, z-index and motion all come from tokens: use the `--t-*` sizes, the `--s1`..`--s8` spacing steps (4/8/12/16/24/32/48/72) and `--tr-*` / `--lh-*`, and add a token before adding a new literal.
+- **11px (`--t-cap`) is a hard floor for text, on every page, at every breakpoint and in print.** Nothing renders smaller. If something feels like it wants 9 or 10px, it wants less text or more letter-spacing, not a smaller size.
 - **Content is data.** Dynamic sections render from JS arrays in the `DATA` block at the bottom of `index.html`: `WRITING`, `EVENTS`, `BUILDS`, `BUILDS_OVERRIDES`, `EVENT_CHECKLIST`, `DEMO_COMMITS`, plus `CFG`. Editing content means editing an array, not markup. Keep it that way.
 
   **There is no `PHOTOS` array any more** (removed 2026-09-12). Every event photograph is declared once, in that event's `pics[]`, and three derived lists fall out of it — don't reintroduce a second hand-maintained photo list:
@@ -210,13 +215,14 @@ LinkedIn `/in/danieljpuusitalo`, GitHub `danieljpuusitalo`, Medium `@danieljpuus
 
 ## Verification before calling anything done
 
-Run all four drift checks — they are the cheap half and they catch the failure nobody notices, a mirror quietly going stale:
+Run all five drift checks — they are the cheap half and they catch the failure nobody notices, a mirror quietly going stale:
 
 ```
 node tools/build-writing.mjs       --check
 node tools/build-gallery.mjs      --check
 node tools/build-projects.mjs     --check
 node tools/build-contributions.mjs --check
+node tools/build-css.mjs          --check
 node tools/check-entity.mjs
 ```
 
