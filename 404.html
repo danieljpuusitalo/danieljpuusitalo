@@ -103,6 +103,13 @@
      phone widths, by growing or by an invisible hit area */
   --tap:44px;
 
+  /* layout: the content column every band shares (hero, tab bar, panels,
+     footer), and the two fixed bars stacked at the top of the viewport.
+     The tab bar's height includes its bottom rule */
+  --wrap:1280px;
+  --topbar-h:48px;
+  --tabbar-h:49px;
+
   /* viewfinder brackets: arm length and weight */
   --vf-arm:16px;
   --vf-arm-lg:24px;
@@ -111,6 +118,7 @@
   /* stacking, low to high */
   --z-field:0;
   --z-content:1;
+  --z-tabbar:50;
   --z-topbar:100;
   --z-tip:200;
   --z-grid:8999;
@@ -134,9 +142,9 @@
   --ease-develop:cubic-bezier(.2,.7,.3,1);
 
   /* breakpoints, written as literals in @media because custom properties
-     cannot be used there: 560 (phone), 860 (tablet), 1100 (reserved).
-     700 survives in two places: the topbar's .hide-m, and the
-     constellation crop, which the script also tests at 700. */
+     cannot be used there: 560 (phone), 860 (tablet), 1100 (small
+     desktop: the topbar telemetry hides below it). The constellation
+     crop is 860, and the script tests the same width. */
 }
 /* negative-film mode: toggle with [D]. Every value mirrors its dark
    counterpart at the same contrast against the background. */

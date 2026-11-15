@@ -272,6 +272,13 @@
      phone widths, by growing or by an invisible hit area */
   --tap:44px;
 
+  /* layout: the content column every band shares (hero, tab bar, panels,
+     footer), and the two fixed bars stacked at the top of the viewport.
+     The tab bar's height includes its bottom rule */
+  --wrap:1280px;
+  --topbar-h:48px;
+  --tabbar-h:49px;
+
   /* viewfinder brackets: arm length and weight */
   --vf-arm:16px;
   --vf-arm-lg:24px;
@@ -280,6 +287,7 @@
   /* stacking, low to high */
   --z-field:0;
   --z-content:1;
+  --z-tabbar:50;
   --z-topbar:100;
   --z-tip:200;
   --z-grid:8999;
@@ -303,9 +311,9 @@
   --ease-develop:cubic-bezier(.2,.7,.3,1);
 
   /* breakpoints, written as literals in @media because custom properties
-     cannot be used there: 560 (phone), 860 (tablet), 1100 (reserved).
-     700 survives in two places: the topbar's .hide-m, and the
-     constellation crop, which the script also tests at 700. */
+     cannot be used there: 560 (phone), 860 (tablet), 1100 (small
+     desktop: the topbar telemetry hides below it). The constellation
+     crop is 860, and the script tests the same width. */
 }
 /* negative-film mode: toggle with [D]. Every value mirrors its dark
    counterpart at the same contrast against the background. */
@@ -338,7 +346,9 @@ body{
   background:var(--bg);color:var(--fg);
   font-family:var(--disp);font-weight:500;
   -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;transition:background var(--dur-mid) ease;
+  /* clip, not hidden: hidden makes body a scroll container the moment the
+     lightbox sets overflow on html, and the sticky tab bar would let go */
+  overflow-x:clip;transition:background var(--dur-mid) ease;
 }
 ::selection{background:var(--fg);color:var(--bg)}
 a{color:inherit;text-decoration:none}
@@ -399,7 +409,14 @@ body.negative .frame img,body.negative #lb img{
 .tdesc a,.now-card p a,.bio-copy a,.h-row .role a,.textlink{border-bottom:1px solid var(--faint)}
 .tdesc a:hover,.now-card p a:hover,.bio-copy a:hover,.h-row .role a:hover{border-bottom-color:var(--fg)}
 .textlink{color:var(--fg)}
-.hero,main,footer{position:relative;z-index:var(--z-content)}
+.hero,.ticker,main,footer{position:relative;z-index:var(--z-content)}
+/* the 12-column grid every band shares: hero, panels, bio. Same left edge
+   and max width as the tab bar and the footer */
+.hero,main{max-width:var(--wrap);margin:0 auto;padding-left:var(--s5);padding-right:var(--s5)}
+.hero,.bio-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--s5)}
+/* the bars at the top stand in front of anything an anchor jumps to */
+html{scroll-padding-top:calc(var(--topbar-h) + var(--tabbar-h))}
+html:not(.js){scroll-padding-top:var(--topbar-h)}
 
 /* ═══ 02 · FIELD / OVERLAYS (canvas, grain, grid, flash, shutter) ═══ */
 #field{position:fixed;inset:0;z-index:var(--z-field);pointer-events:none}
@@ -455,30 +472,36 @@ html:not(.js) #flash{display:none}
 
 /* ═══ 03 · TOPBAR ═══════════════════════════════════════════════════ */
 .topbar{
-  position:fixed;top:0;left:0;right:0;z-index:var(--z-topbar);
+  position:fixed;top:0;left:0;right:0;z-index:var(--z-topbar);height:var(--topbar-h);
   display:flex;justify-content:space-between;align-items:center;
-  padding:var(--s4) var(--s5);font-family:var(--mono);font-size:var(--t-cap);
+  padding:0 var(--s5);font-family:var(--mono);font-size:var(--t-cap);
   letter-spacing:var(--tr-cap);color:var(--dim);
-  background:linear-gradient(var(--bg) 60%,transparent);
+  /* solid: the tab bar sticks directly underneath, so nothing may show
+     through between the two */
+  background:var(--bg);
   text-transform:uppercase;font-variant-numeric:tabular-nums;
 }
 .topbar .brand{color:var(--fg);font-weight:700}
 .topbar .right{display:flex;gap:var(--s5);align-items:center}
 .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--fg);margin-right:var(--s2)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-/* 700, not 560: the topbar's full line needs the room until here */
-@media(max-width:700px){.topbar .hide-m{display:none}}
+/* the telemetry (clock, day, exposure) is desktop-only; it stays in the DOM */
+@media(max-width:1100px){.topbar .hide-m{display:none}}
 
 /* ═══ 04 · HERO ═════════════════════════════════════════════════════ */
-.hero{
-  min-height:auto;display:flex;flex-direction:column;
-  justify-content:flex-end;padding:var(--s8) var(--s5) 0;
-  max-width:1280px;margin:0 auto;width:100%;
-}
+/* Hero: route map, caption row, name, one-liner, all on the shared
+   12-column grid. The map and the caption row run the full width; the
+   one-liner keeps a reading measure of six columns */
+.hero{padding-top:var(--s8);padding-bottom:var(--s7);width:100%}
+.hero>*{grid-column:1/-1;min-width:0}
+/* the caption row: version on the left, the NOW rotator on the right,
+   between two hairlines like the data strip under a frame */
 .hero .meta{
   font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);
-  letter-spacing:var(--tr-cap);text-transform:uppercase;margin-bottom:var(--s5);
-  display:flex;gap:var(--s5);flex-wrap:wrap;
+  letter-spacing:var(--tr-cap);text-transform:uppercase;
+  display:flex;justify-content:space-between;align-items:baseline;gap:var(--s3) var(--s5);flex-wrap:wrap;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:var(--s3) 0;margin-bottom:var(--s6);
 }
 .hero h1{
   font-size:var(--t-hero);font-weight:800;
@@ -493,34 +516,46 @@ html:not(.js) #flash{display:none}
 }
 @media(max-width:560px){.hero h1 .hollow,.bigline .hollow{-webkit-text-stroke-width:1.8px}}
 .hero .lede{
-  display:block;
-  margin:var(--s5) 0 var(--s4);max-width:560px;font-size:var(--t-body);
+  display:block;grid-column:1/span 6;
+  margin-top:var(--s5);font-size:var(--t-body);
   line-height:var(--lh-body);color:var(--text);
 }
+@media(max-width:860px){.hero .lede{grid-column:1/span 9}}
+@media(max-width:560px){.hero .lede{grid-column:1/-1}}
 .hero .lede b{color:var(--fg);font-weight:700}
-.nowline{
-  font-family:var(--mono);font-size:var(--t-cap);letter-spacing:var(--tr-cap);
-  text-transform:uppercase;color:var(--dim);margin-bottom:38px;
-}
 .nowline #rot{color:var(--fg);border-bottom:1px solid var(--faint);padding-bottom:var(--s1)}
 .nowline #rot.blink{animation:rblink var(--dur-flash)}
 @keyframes rblink{0%{opacity:1}40%{opacity:0}60%{opacity:0}100%{opacity:1}}
 
-/* tab nav: a pill variant (base: tools/base.css). The tablist is a div
-   inside a bare <nav>, so the nav landmark survives the tablist role */
-.tabs{display:flex;gap:0;border:1px solid var(--line);width:max-content;max-width:100%}
-.tab{padding:var(--s4) var(--s6);border:none;border-right:1px solid var(--line)}
-.tab:last-child{border-right:none}
-.tab .idx{color:var(--dim);margin-right:var(--s2)}
+/* Tab bar: a full-bleed band between the hero and the panels that sticks
+   under the topbar. The tablist is a div inside a bare <nav>, so the nav
+   landmark survives the tablist role. Its three cells split the content
+   column evenly; the open one is inverted. Without the script the tabs
+   do nothing and every panel is already open, so the bar steps aside. */
+.tabbar{
+  position:sticky;top:var(--topbar-h);z-index:var(--z-tabbar);
+  height:var(--tabbar-h);background:var(--bg);border-bottom:1px solid var(--line);
+}
+html:not(.js) .tabbar{display:none}
+.tabs{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  max-width:var(--wrap);height:100%;margin:0 auto;padding:0 var(--s5);
+}
+/* a pill variant (base: tools/base.css) */
+.tab{
+  display:flex;align-items:center;gap:var(--s3);min-width:0;
+  padding:0 var(--s4);border:none;border-left:1px solid var(--line);text-align:left;
+}
+.tab:last-child{border-right:1px solid var(--line)}
+.tab .idx{color:var(--dim)}
 .tab:hover,#lb button:hover{background:var(--fg);color:var(--bg)}
 .tab:hover .idx,.tab.active .idx{color:var(--bg)}
 @media(max-width:560px){
-  .tabs{width:100%}
-  .tab{flex:1;padding:var(--s4) var(--s2);text-align:center;font-size:var(--t-cap)}
+  .tab{justify-content:center;padding:0 var(--s2);font-size:var(--t-cap)}
   .tab .idx{display:none}
 }
 
-/* ticker: generated from the writing feed */
+/* ticker: generated from the writing feed. Full bleed, outside the grid */
 .ticker{
   border-top:1px solid var(--line);border-bottom:1px solid var(--line);
   overflow:hidden;white-space:nowrap;padding:var(--s3) 0;
@@ -531,7 +566,6 @@ html:not(.js) #flash{display:none}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ═══ 05 · PANELS (shared) ══════════════════════════════════════════ */
-main{max-width:1280px;margin:0 auto;padding:0 var(--s5)}
 /* Panels and subpanels fold away only while the script runs; without it
    they all stay open, one after another. */
 .panel{padding:var(--s8) 0 40px;position:relative;animation:fadein var(--dur-slow) ease}
@@ -554,15 +588,27 @@ html.js .reveal.in{opacity:1;transform:none}
 html.js .reveal.dev{transform:none;transition:opacity var(--dur-develop) ease}
 
 /* ═══ 06 · BIO ══════════════════════════════════════════════════════ */
-.bio-grid{display:grid;grid-template-columns:1fr minmax(0,500px);gap:var(--s7);align-items:start;margin-bottom:64px}
-@media(max-width:860px){.bio-grid{grid-template-columns:1fr;gap:40px}}
+/* Two columns on the shared grid: copy and the spec sheet on the left,
+   the photographs on the right. The spec sheet sits at the foot of the
+   copy column, so both columns end on the same line. The split is sized
+   so the copy plus the spec sheet runs about as tall as the two photos:
+   8/4 on a wide screen, 7/5 where the copy wraps onto more lines */
+.bio-grid{row-gap:var(--s7);align-items:stretch;margin-bottom:64px}
+.bio-main{grid-column:1/span 8;display:flex;flex-direction:column;gap:var(--s6)}
+.bio-grid .photo-stack{grid-column:9/-1}
+@media(max-width:1100px){.bio-main{grid-column:1/span 7}.bio-grid .photo-stack{grid-column:8/-1}}
+@media(max-width:860px){.bio-main,.bio-grid .photo-stack{grid-column:1/-1}}
 .bio-copy p{font-size:var(--t-body);line-height:var(--lh-body);color:var(--text);margin-bottom:1.3em;max-width:640px;text-wrap:pretty}
 .bio-copy p b{color:var(--fg);font-weight:700}
-/* the conviction paragraph, set as a pull quote */
-.bio-copy.conviction{max-width:680px;margin-bottom:56px}
+.bio-main .bio-copy p:last-child{margin-bottom:0}
+/* the lead paragraph is the canonical bio: one step up, in full white */
+.bio-main .bio-copy p:first-of-type{font-size:var(--t-lead);line-height:var(--lh-title);color:var(--fg)}
+/* the conviction paragraph, set as a pull quote at display size across
+   the full content width */
+.bio-copy.conviction{margin-bottom:56px}
 .bio-copy.conviction p{
-  font-size:var(--t-lead);font-weight:500;line-height:var(--lh-title);letter-spacing:var(--tr-body);
-  color:var(--fg);margin-bottom:0;border-left:1px solid var(--fg);padding-left:var(--s6);
+  font-size:var(--t-h3);font-weight:500;line-height:var(--lh-title);letter-spacing:var(--tr-display);
+  color:var(--fg);margin-bottom:0;max-width:none;
 }
 
 /* photos: auto B/W + flash vignette + halftone that clears on hover; click = lightbox */
@@ -590,11 +636,11 @@ html.js .reveal.dev{transform:none;transition:opacity var(--dur-develop) ease}
 .photo .tag{position:absolute;bottom:10px;left:10px;z-index:2;color:var(--dim);background:var(--bg)}
 .photo-stack{display:flex;flex-direction:column;gap:var(--s5)}
 
+/* the spec sheet: 2 across, 4 down, at the foot of the copy column */
 .facts{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:0 var(--s6);margin-bottom:64px;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 var(--s5);margin-top:auto;border-top:1px solid var(--line);
 }
-@media(max-width:860px){.facts{grid-template-columns:repeat(2,1fr)}}
 .fact{padding:var(--s4) 0;border-bottom:1px solid var(--line)}
 .fact .k{font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);letter-spacing:var(--tr-cap);text-transform:uppercase;margin-bottom:var(--s2)}
 .fact .v{font-size:var(--t-body);font-weight:500;letter-spacing:var(--tr-body)}
@@ -602,7 +648,7 @@ html.js .reveal.dev{transform:none;transition:opacity var(--dur-develop) ease}
 /* contact sheet: 35mm strip; frames sit slightly askew, drag to scroll.
    The 8/28/5px sprocket holes are drawn, not spaced, so they stay literal. */
 .sheet{
-  display:flex;gap:var(--s4);overflow-x:auto;padding:var(--s5) var(--s2);position:relative;
+  display:flex;gap:var(--s4);overflow-x:auto;padding:var(--s5) 0;position:relative;
   border-top:1px solid var(--line);border-bottom:1px solid var(--line);
   background:
     repeating-linear-gradient(90deg,var(--faint) 0 8px,transparent 8px 28px) left top/100% 5px no-repeat,
@@ -626,6 +672,17 @@ html.js .reveal.dev{transform:none;transition:opacity var(--dur-develop) ease}
 .constellation{width:100%;margin-bottom:var(--s5)}
 .constellation svg{width:100%;height:auto;display:block}
 .constellation .stop{cursor:crosshair}
+/* Labels are sized in map units, so they shrink with the map. The script
+   sets --clbl so they always render at --t-cap on screen; without it they
+   keep the 11 units the markup gives them */
+.constellation .clbl{font-size:var(--clbl,11px)}
+/* the cropped map (860 and below, set by the script): London's label
+   moves under its dot so the crop can start at the Channel, and Espoo's
+   drops a little so it clears the Helsinki dot at the larger label size */
+@media(max-width:860px){
+  .constellation .stop[data-stop="6"] .clbl{text-anchor:middle;transform:translate(16px,calc(14px + .8em))}
+  .constellation .stop[data-stop="4"] .clbl{transform:translateY(.35em)}
+}
 /* Den Haag ping. A CSS animation, not SMIL, so reduced motion stops it. */
 .constellation .ping{transform-box:fill-box;transform-origin:center;animation:ping 2.5s ease-in-out infinite}
 @keyframes ping{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(3.67);opacity:0}}
@@ -641,11 +698,6 @@ html.js .reveal.dev{transform:none;transition:opacity var(--dur-develop) ease}
 .route-tip .tip-city{color:var(--fg);font-weight:700;font-size:var(--t-cap);display:block;margin-bottom:var(--s1)}
 .route-tip .tip-k{color:var(--dim)}
 .route-tip .tip-v{color:var(--fg)}
-/* 700, not 560: the script crops the viewBox to Europe below the same
-   width (matchMedia), so the whole route fits without a sideways drag */
-@media(max-width:700px){
-  .constellation svg{min-width:0}
-}
 
 /* ═══ 07 · WORK ═════════════════════════════════════════════════════ */
 .now-card{
@@ -954,7 +1006,7 @@ footer{border-top:1px solid var(--line)}
   #field,.grain,.gridlines,#flash,#shutter,#exp,#reticle,
   .topbar,.skip-link,.constellation,
   #lb,.snapfx,.photo::before,.photo::after,
-  .tabs,.subtabs,.checklist,.ev-open,
+  .tabbar,.subtabs,.checklist,.ev-open,
   .ticker{display:none!important}
 
   /* show all panels + subtabs, remove tab gating */
@@ -963,7 +1015,9 @@ footer{border-top:1px solid var(--line)}
   .reveal,.wrow,.ev{opacity:1!important;transform:none!important}
 
   /* hero compact */
-  .hero{padding:0!important;min-height:auto!important}
+  .hero{padding:0!important;min-height:auto!important;display:block!important}
+  .hero .meta{border:none;padding:0;margin-bottom:4px}
+  .bio-grid{display:block!important}
   .hero h1{font-size:1.8rem!important}
   .hollow{color:inherit!important;-webkit-text-stroke:0!important}
   .sheet{display:none!important}
@@ -1150,24 +1204,28 @@ footer{border-top:1px solid var(--line)}
       </g>
     </svg>
   </div>
+  <!-- caption row: the version and the NOW rotator share one strip -->
   <div class="meta">
     <span>PERSONAL SITE / V0.13.7</span>
+    <div class="nowline">NOW / <span id="rot">SOURCING THE NORDICS</span></div>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
   <p class="lede">
     <!-- EDIT: hero one-liner -->
     Venture capitalist at 4impact capital, based in The Hague. Personal library for work, experiences and projects. Always on the lookout for interesting people.
   </p>
-  <div class="nowline">NOW / <span id="rot">SOURCING THE NORDICS</span></div>
-  <nav>
-  <div class="tabs" role="tablist">
-    <button class="tab active" data-panel="bio" role="tab" aria-selected="true" id="tab-bio" aria-controls="bio" tabindex="0"><span class="idx">01</span>BIO</button>
-    <button class="tab" data-panel="work" role="tab" aria-selected="false" id="tab-work" aria-controls="work" tabindex="-1"><span class="idx">02</span>WORK</button>
-    <button class="tab" data-panel="projects" role="tab" aria-selected="false" id="tab-projects" aria-controls="projects" tabindex="-1"><span class="idx">03</span>LIBRARY</button>
-  </div>
-  </nav>
-  <div class="ticker" aria-hidden="true"><div class="track" id="ticker-track"></div></div>
 </section>
+
+<div class="ticker" aria-hidden="true"><div class="track" id="ticker-track"></div></div>
+
+<!-- ═══ TAB BAR ═══ sticks under the topbar -->
+<nav class="tabbar">
+<div class="tabs" role="tablist">
+  <button class="tab active" data-panel="bio" role="tab" aria-selected="true" id="tab-bio" aria-controls="bio" tabindex="0"><span class="idx">01</span>BIO</button>
+  <button class="tab" data-panel="work" role="tab" aria-selected="false" id="tab-work" aria-controls="work" tabindex="-1"><span class="idx">02</span>WORK</button>
+  <button class="tab" data-panel="projects" role="tab" aria-selected="false" id="tab-projects" aria-controls="projects" tabindex="-1"><span class="idx">03</span>LIBRARY</button>
+</div>
+</nav>
 
 <main id="main" tabindex="-1">
 
@@ -1177,6 +1235,7 @@ footer{border-top:1px solid var(--line)}
   <h2 class="bigline reveal dev">BORN IN <span class="hollow">FINLAND</span>.<br>INVESTED IN EUROPE.</h2>
 
   <div class="bio-grid">
+    <div class="bio-main">
     <div class="bio-copy reveal">
       <!-- EDIT: bio copy -->
       <!-- LEAD PARAGRAPH = the canonical bio, third person, verbatim.
@@ -1201,9 +1260,20 @@ footer{border-top:1px solid var(--line)}
       <p>Off the clock: public equities, Brazilian jiu-jitsu, reading,
       ice bathing, and building side projects.</p>
     </div>
+    <div class="facts reveal">
+      <div class="fact"><div class="k">Base</div><div class="v">Den Haag, NL</div></div>
+      <div class="fact"><div class="k">Route</div><div class="v">HEL&middot;NYC&middot;VIE&middot;LON</div></div>
+      <div class="fact"><div class="k">Day job</div><div class="v">Venture capital</div></div>
+      <div class="fact"><div class="k">Languages</div><div class="v">EN &middot; FI &middot; SE &middot; DE</div></div>
+      <div class="fact"><div class="k">Focus</div><div class="v">Pre-seed to Series A</div></div>
+      <div class="fact"><div class="k">Coverage</div><div class="v">Nordics &middot; DACH &middot; Benelux</div></div>
+      <div class="fact"><div class="k">Side quests</div><div class="v">Writing &middot; Building &middot; Markets</div></div>
+      <div class="fact"><div class="k">House view</div><div class="v">Less ruinous humility</div></div>
+    </div>
+    </div>
     <div class="photo-stack reveal">
       <figure class="photo r45" data-cap="Portrait, Den Haag">
-        <img src="photos/portrait.jpg" width="1024" height="1052" alt="Daniel Uusitalo smiling in a navy quarter-zip sweatshirt on a light-strung street in The Hague" loading="lazy" decoding="async">
+        <img src="photos/portrait.jpg" width="1024" height="1052" alt="Daniel Uusitalo smiling in a navy quarter-zip sweatshirt on a light-strung street in The Hague" loading="eager" fetchpriority="high" decoding="async">
         <figcaption class="tag">IMG/01 / portrait</figcaption>
       </figure>
       <figure class="photo r32" data-cap="Techarena Zero, Stockholm 2026">
@@ -1212,17 +1282,6 @@ footer{border-top:1px solid var(--line)}
         <figcaption class="tag">IMG/02 / techarena zero</figcaption>
       </figure>
     </div>
-  </div>
-
-  <div class="facts reveal">
-    <div class="fact"><div class="k">Base</div><div class="v">Den Haag, NL</div></div>
-    <div class="fact"><div class="k">Route</div><div class="v">HEL&middot;NYC&middot;VIE&middot;LON</div></div>
-    <div class="fact"><div class="k">Day job</div><div class="v">Venture capital</div></div>
-    <div class="fact"><div class="k">Languages</div><div class="v">EN &middot; FI &middot; SE &middot; DE</div></div>
-    <div class="fact"><div class="k">Focus</div><div class="v">Pre-seed to Series A</div></div>
-    <div class="fact"><div class="k">Coverage</div><div class="v">Nordics &middot; DACH &middot; Benelux</div></div>
-    <div class="fact"><div class="k">Side quests</div><div class="v">Writing &middot; Building &middot; Markets</div></div>
-    <div class="fact"><div class="k">House view</div><div class="v">Less ruinous humility</div></div>
   </div>
 
   <div class="plabel">01 / CONVICTION</div>
@@ -2122,10 +2181,26 @@ safely(function tabs(){
   /* The panel swaps at once, every time, so the last tab asked for is the
      one that shows. The shutter line runs after the swap and is decoration
      only: it holds no state and never delays or blocks a change. */
+  /* While the tab bar is stuck the new panel's top is somewhere above it,
+     often far above a short panel's end. Bring the panel top back to just
+     under the bar. Not stuck: the panel already starts below the bar, so
+     the page stays where it is. The panel arrives with a fadein that starts
+     it 14px low, and the rect includes that, so take the translate back
+     out; scrollIntoView would aim at the moving copy and land 14px short. */
+  const stickyBar = document.querySelector('.tabbar');
+  function settleUnderBar(panel){
+    if(!stickyBar) return;
+    const t = getComputedStyle(panel).transform;
+    const top = panel.getBoundingClientRect().top - (t && t!=='none' ? new DOMMatrix(t).m42 : 0);
+    const bar = stickyBar.getBoundingClientRect().bottom;
+    if(top >= bar - 1) return;
+    window.scrollTo({top: scrollY + top - bar, behavior: REDUCED ? 'instant' : 'smooth'});
+  }
   function go(id){
     const panel = document.getElementById(id);
     if(!panel || panel.classList.contains('active')) return;
     activate(id);
+    settleUnderBar(panel);
     if(REDUCED || !shutter) return;
     shutter.classList.remove('fire');
     void shutter.offsetWidth;   /* restart the animation on a quick repeat */
@@ -2170,8 +2245,8 @@ safely(function tabs(){
   }
   if(negBtn) negBtn.addEventListener('click', toggleNegative);
   /* Deep links. #bio|#work|#projects open a tab; a subtab name opens the
-     projects tab, so the archive pages and the footer can point at an exact
-     panel. The subtab itself is selected by the stagger call at the bottom
+     projects tab, so the archive pages can point at an exact panel
+     (gallery.html links ./#events). The subtab itself is selected by the stagger call at the bottom
      of this script, which runs last and would otherwise reset it. */
   const h = location.hash.slice(1);
   activate(SUBTABS.includes(h) ? 'projects'
@@ -2609,7 +2684,9 @@ function showLb(){
   }
 }
 /* everything outside the viewer, made inert while it is open */
-function lbBehind(){ return [...document.querySelectorAll('.topbar,.hero,main,footer,.skip-link')]; }
+/* derived from the DOM, not a list of selectors, so a band added to the
+   body later (the tab bar was one) cannot be left reachable behind it */
+function lbBehind(){ return [...document.body.children].filter(el=>el!==lb); }
 function openLb(i){
   lbReturnFocus = document.activeElement;
   lbIdx = i; showLb();
@@ -2735,37 +2812,88 @@ safely(function routeTip(){
     {city:"Helsinki, Finland",elev:"10 m",pop:"665,000",note:"Baltic capital, design and tech hub"},
     {city:"Den Haag, Netherlands",elev:"1 m",pop:"553,000",note:"City of peace and justice, seat of government"},
   ];
-  document.querySelectorAll('.constellation .stop').forEach(g=>{
+  const svg = document.querySelector('.constellation svg');
+  const groups = [...document.querySelectorAll('.constellation .stop')];
+  let shown = -1;
+  function fill(i){
+    const s = stops[i];
+    tip.innerHTML =
+      `<span class="tip-city">${String(i+1).padStart(2,'0')} / ${s.city}</span>`+
+      `<span class="tip-k">ELEV </span><span class="tip-v">${s.elev}</span><br>`+
+      `<span class="tip-k">POP  </span><span class="tip-v">${s.pop}</span><br>`+
+      `<span class="tip-k">     </span>${s.note}`;
+  }
+  /* beside the point, flipped to its left when it would leave the screen */
+  function place(x, y){
+    const w = tip.offsetWidth || 240, gap = 16, edge = 8;
+    const left = x+gap+w > innerWidth-edge ? x-gap-w : x+gap;
+    tip.style.left = Math.max(edge, left)+'px';
+    tip.style.top = (y-10)+'px';
+  }
+  function show(i, x, y){
+    if(shown!==i){ fill(i); shown = i; }
+    tip.classList.add('show');
+    place(x, y);
+  }
+  function hide(){ shown = -1; tip.classList.remove('show'); }
+  /* a mouse gets the tip on hover and it follows the pointer */
+  groups.forEach(g=>{
     const i = parseInt(g.dataset.stop);
-    const s = stops[i]; if(!s) return;
-    g.addEventListener('mouseenter', ()=>{
-      tip.innerHTML =
-        `<span class="tip-city">${String(i+1).padStart(2,'0')} / ${s.city}</span>`+
-        `<span class="tip-k">ELEV </span><span class="tip-v">${s.elev}</span><br>`+
-        `<span class="tip-k">POP  </span><span class="tip-v">${s.pop}</span><br>`+
-        `<span class="tip-k">     </span>${s.note}`;
-      tip.classList.add('show');
-    });
-    g.addEventListener('mousemove', e=>{
-      const x = e.clientX+16;
-      tip.style.left = (x+240>innerWidth ? e.clientX-256 : x)+'px';
-      tip.style.top = (e.clientY-10)+'px';
-    });
-    g.addEventListener('mouseleave', ()=>tip.classList.remove('show'));
+    if(!stops[i]) return;
+    g.addEventListener('pointerenter', e=>{ if(e.pointerType==='mouse') show(i, e.clientX, e.clientY); });
+    g.addEventListener('pointermove', e=>{ if(e.pointerType==='mouse') show(i, e.clientX, e.clientY); });
+    g.addEventListener('pointerleave', e=>{ if(e.pointerType==='mouse') hide(); });
   });
+  /* A tap shows it, pinned to the dot. The Finnish dots sit a few pixels
+     apart on a phone, so each cannot own a separate 44px square: a tap
+     anywhere on the map picks the nearest dot within half of --tap, and a
+     label or dot hit directly always wins. Tapping the same stop again,
+     tapping elsewhere or scrolling puts it away. */
+  if(!svg) return;
+  const reach = ()=> (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tap'))||44)/2;
+  const centre = g=>{ const r = g.querySelector('circle').getBoundingClientRect(); return [r.left+r.width/2, r.top+r.height/2]; };
+  svg.addEventListener('click', e=>{
+    let g = e.target.closest && e.target.closest('.stop');
+    if(!g){
+      let best = null, bd = Infinity;
+      groups.forEach(s=>{ const [cx,cy] = centre(s); const d = Math.hypot(e.clientX-cx, e.clientY-cy); if(d<bd){ bd = d; best = s; } });
+      if(bd <= reach()) g = best;
+    }
+    if(!g){ hide(); return; }
+    const i = parseInt(g.dataset.stop);
+    if(!stops[i]) return;
+    if(shown===i && e.pointerType!=='mouse'){ hide(); return; }
+    const [cx,cy] = centre(g);
+    show(i, cx, cy);
+  });
+  document.addEventListener('click', e=>{ if(shown>=0 && !svg.contains(e.target)) hide(); });
+  addEventListener('scroll', ()=>{ if(shown>=0) hide(); }, {passive:true});
 });
 
-/* ── route constellation, narrow screens ──────────────────────────────
-   Below 700px the full map is too small to read, so the viewBox crops to
-   Europe: the Finnish cluster, Vienna, London and Den Haag. New York drops
-   off the left edge, the route line to it stays. */
+/* ── route constellation: crop and label size ─────────────────────────
+   At 860 and below the full map is too small to read, so the viewBox
+   crops to Europe: the Finnish cluster, Vienna, London and Den Haag. New
+   York drops off the left edge, the route line to it stays. Above it the
+   full map runs a little past 1300 so the Helsinki label has room at the
+   larger size below.
+   The labels are SVG text, so they scale with the map. --clbl undoes that
+   scale: label size in map units = --t-cap / (rendered px per map unit),
+   so every label lands on the 11px floor or just above it, at any width. */
 safely(function routeCrop(){
   const svg = document.querySelector('.constellation svg');
   if(!svg) return;
-  const mq = matchMedia('(max-width:700px)');
-  const set = ()=>svg.setAttribute('viewBox', mq.matches ? '800 20 485 215' : '0 0 1300 240');
+  const mq = matchMedia('(max-width:860px)');
+  const cap = ()=> parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--t-cap')) || 11;
+  const fit = ()=>{
+    const w = svg.getBoundingClientRect().width, vb = svg.viewBox.baseVal;
+    if(!w || !vb || !vb.width) return;
+    svg.style.setProperty('--clbl', (cap()*vb.width/w*1.02).toFixed(2)+'px');
+  };
+  const set = ()=>{ svg.setAttribute('viewBox', mq.matches ? '828 25 486 182' : '0 0 1320 240'); fit(); };
   set();
   onMedia(mq, set);
+  if(window.ResizeObserver) new ResizeObserver(fit).observe(svg);
+  else addEventListener('resize', fit);
 });
 
 /* Last statement on purpose: from here on the head guard treats an error
