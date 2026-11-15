@@ -711,38 +711,109 @@ html.js .reveal.dev{transform:none;transition:opacity var(--dur-develop) ease}
 .status{font-family:var(--mono);font-size:var(--t-cap);letter-spacing:var(--tr-cap);text-transform:uppercase;color:var(--dim);margin-bottom:var(--s4)}
 .now-card p{color:var(--text);line-height:var(--lh-body);font-size:var(--t-body)}
 .now-card p b{color:var(--fg)}
-.fund-facts{font-family:var(--mono);font-size:var(--t-meta);line-height:var(--lh-list);color:var(--dim)}
-.fund-facts div{display:grid;grid-template-columns:110px 1fr}
-.fund-facts .k{color:var(--dim)}
-.fund-facts .v{color:var(--fg)}
-
-.tracks{border-top:1px solid var(--line);margin-bottom:64px}
-.track-row{
-  display:grid;grid-template-columns:80px 280px 1fr;gap:var(--s5);
-  padding:var(--s5) var(--s3);border-bottom:1px solid var(--line);
-  transition:background var(--dur-fast),color var(--dur-fast);align-items:baseline;
+/* The WORK lead is unboxed and sits on the shared 12-column grid, like
+   BIO: role and paragraph split 6/6, the fund facts under them as a stat
+   band. The boxed now-card above stays for the speaking card in LIBRARY */
+.work-lead,.work-intro,.fund-facts,.tracks,.record-pair{
+  display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--s5);
 }
-.track-row:hover{background:var(--fg);color:var(--bg)}
+.work-lead{margin-bottom:var(--s8)}
+.work-intro{grid-column:1/-1}
+.work-intro .status,.work-intro h3{grid-column:1/span 6}
+.work-intro h3{font-size:var(--t-h3);font-weight:800;letter-spacing:var(--tr-display);line-height:var(--lh-display)}
+.work-intro p{grid-column:7/-1;grid-row:1/span 2;align-self:end;color:var(--text);line-height:var(--lh-body);font-size:var(--t-body)}
+.work-intro p b{color:var(--fg)}
+/* stat band: mono caption over a display figure; a figure's tail drops
+   to a second line in body type so the numeral carries the cell */
+.fund-facts{grid-column:1/-1;margin-top:var(--s7);border-top:1px solid var(--line);row-gap:var(--s5)}
+.fund-facts>div{grid-column:span var(--span);padding-top:var(--s5)}
+.fund-facts>div:nth-child(n){--span:4}
+.fund-facts>div:nth-child(n+4){--span:6}
+.fund-facts .k{display:block;font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);letter-spacing:var(--tr-cap);text-transform:uppercase;margin-bottom:var(--s3)}
+.fund-facts .v{display:block;font-size:var(--t-h3);font-weight:800;letter-spacing:var(--tr-display);line-height:var(--lh-display);color:var(--fg)}
+.fund-facts .v small{display:block;font-size:var(--t-small);font-weight:500;letter-spacing:var(--tr-body);line-height:var(--lh-title);color:var(--text);margin-top:var(--s2)}
+@media(max-width:860px){
+  .work-intro .status,.work-intro h3,.work-intro p{grid-column:1/-1}
+  .work-intro p{grid-row:auto;margin-top:var(--s5)}
+}
+@media(max-width:560px){
+  .fund-facts>div:nth-child(n){--span:6}
+  .fund-facts>div:first-child{--span:12}
+  .fund-facts>div:nth-child(4){--span:8}
+  .fund-facts>div:nth-child(5){--span:4}
+}
+
+/* tracks: a two-column numbered index on the grid; an odd last track
+   takes the full row, its description on the right column's origin */
+.tracks{border-top:1px solid var(--line);margin-bottom:var(--s8)}
+.track-row{
+  grid-column:span 6;display:grid;grid-template-columns:minmax(0,1fr);row-gap:var(--s2);align-content:start;
+  padding:var(--s5) 0;border-bottom:1px solid var(--line);
+  transition:background var(--dur-fast),color var(--dur-fast),box-shadow var(--dur-fast);
+}
+/* the inverted bar bleeds sideways with a shadow, not padding, so the
+   text keeps its column origin */
+.track-row:hover{background:var(--fg);color:var(--bg);box-shadow:calc(-1*var(--s3)) 0 0 var(--fg),var(--s3) 0 0 var(--fg)}
 .track-row:hover .tnum,.track-row:hover .tdesc{color:var(--bg)}
 .tnum{font-family:var(--mono);font-size:var(--t-meta);color:var(--dim)}
 .tname{font-weight:700;font-size:var(--t-lead);letter-spacing:var(--tr-display)}
 .tdesc{color:var(--text);font-size:var(--t-small);line-height:var(--lh-body)}
-@media(max-width:860px){.track-row{grid-template-columns:1fr;gap:var(--s2);padding:var(--s5) var(--s2)}}
+@media(min-width:861px){
+  .track-row:last-child:nth-child(odd){grid-column:1/-1;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--s5)}
+  .track-row:last-child:nth-child(odd) .tnum,.track-row:last-child:nth-child(odd) .tname{grid-column:1/span 6}
+  .track-row:last-child:nth-child(odd) .tdesc{grid-column:7/-1;grid-row:1/span 2;align-self:end}
+}
+@media(max-width:860px){.track-row{grid-column:1/-1}}
 
 /* theme chips: a pill variant that is not a control, so no hover state */
-.themes{display:flex;flex-wrap:wrap;gap:var(--s3);margin-bottom:64px}
+.themes{display:flex;flex-wrap:wrap;gap:var(--s3);margin-bottom:var(--s8)}
 .chip{font-size:var(--t-cap);padding:var(--s3) var(--s4);cursor:default}
 
+/* record, affiliations, education: one row component. On the grid the
+   label takes columns 1-2, the role 3-10 and the state 11-12; in the
+   side-by-side pair each half is six columns, the state under the label,
+   so every role still starts on column 3 (or 9, its twin on the right) */
 .history{border-top:1px solid var(--line)}
 .h-row{
-  display:grid;grid-template-columns:130px 1fr auto;gap:var(--s5);
-  padding:var(--s5) var(--s3);border-bottom:1px solid var(--line);
+  display:grid;grid-template-columns:minmax(min-content,1fr) minmax(0,3fr) minmax(min-content,1fr);
+  column-gap:var(--s5);row-gap:var(--s1);padding:var(--s5) 0;border-bottom:1px solid var(--line);
   font-size:var(--t-small);align-items:baseline;
 }
 .h-row .yr,.h-row .st{font-family:var(--mono);font-size:var(--t-cap);color:var(--dim);letter-spacing:var(--tr-cap);text-transform:uppercase}
+.h-row .st{justify-self:end;white-space:nowrap}
 .h-row .role{font-weight:600;letter-spacing:var(--tr-body)}
 .h-row .role small{display:block;font-weight:500;text-transform:none;color:var(--dim);font-size:var(--t-meta);margin-top:var(--s1);letter-spacing:var(--tr-body)}
-@media(max-width:560px){.h-row{grid-template-columns:1fr;gap:var(--s1)}}
+.record-pair{margin-top:var(--s8);row-gap:var(--s8)}
+.record-col{grid-column:1/-1}
+@media(min-width:861px){
+  .h-row{grid-template-columns:repeat(12,minmax(0,1fr))}
+  .h-row .yr{grid-column:1/span 2}
+  .h-row .role{grid-column:3/span 8}
+  .h-row .st{grid-column:11/-1}
+  .record-col{grid-column:span 6}
+  .record-pair .h-row{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .record-pair .h-row .role{grid-column:3/-1;grid-row:1/span 2}
+  .record-pair .h-row .st{grid-column:1/span 2;grid-row:2;justify-self:start}
+}
+/* the record reads as a timeline: a spine in the gutter before the role,
+   a node per post, filled for the current one like its glyph */
+.record .role{position:relative}
+.record .role::before{
+  content:"";position:absolute;left:calc(var(--s5)/-2);
+  top:calc(-1*var(--s5));bottom:calc(-1*var(--s5) - 1px);border-left:1px solid var(--line-strong);
+}
+.record .h-row:first-child .role::before{top:var(--s2)}
+.record .h-row:last-child .role::before{bottom:auto;height:calc(var(--s5) + var(--s2))}
+.record .role::after{
+  content:"";position:absolute;left:calc(var(--s5)/-2 - var(--s1));top:var(--s2);
+  width:var(--s2);height:var(--s2);border:1px solid var(--fg);background:var(--bg);box-sizing:border-box;
+}
+.record .h-row:first-child .role::after{background:var(--fg)}
+@media(max-width:560px){
+  .h-row{grid-template-columns:minmax(0,1fr) auto}
+  .h-row .role{grid-column:1/-1;grid-row:2}
+  .record .role::before,.record .role::after{display:none}
+}
 
 /* ═══ 08 · PROJECTS / subtabs ═══════════════════════════════════════ */
 .subtabs{display:flex;gap:var(--s3);margin-bottom:var(--s7);flex-wrap:wrap}
@@ -954,7 +1025,6 @@ footer{border-top:1px solid var(--line)}
   transition:top var(--dur-fast) ease;
 }
 .skip-link:focus{top:14px}
-.rule{border-top:1px solid var(--line);margin:var(--s6) 0}
 .checklist{font-family:var(--mono);font-size:var(--t-meta);letter-spacing:var(--tr-cap);margin-bottom:var(--s6);border:1px solid var(--line);padding:var(--s5);background:var(--card)}
 .cl-row{display:flex;gap:var(--s3);align-items:baseline;padding:var(--s2) 0}
 .cl-row.past{color:var(--dim)}
@@ -1300,8 +1370,8 @@ footer{border-top:1px solid var(--line)}
   <div class="plabel">FILE 02 / WORK</div>
   <h2 class="bigline reveal dev">IMPACT ISN'T PHILANTHROPY.<br>IT'S THE MOST <span class="hollow">UNDERPRICED</span><br>OPPORTUNITY IN EUROPEAN TECH.</h2>
 
-  <div class="now-card reveal">
-    <div>
+  <div class="work-lead reveal">
+    <div class="work-intro">
       <div class="status">&#9632; CURRENT</div>
       <h3>Investor<br><a href="https://4impact.vc" target="_blank" rel="noopener">4impact capital</a></h3>
       <p>Software-focused impact VC out of the Netherlands, backing <b>pre-seed to
@@ -1313,8 +1383,8 @@ footer{border-top:1px solid var(--line)}
       <div><span class="k">AUM</span> <span class="v">&euro;84M</span></div>
       <div><span class="k">FUNDS</span> <span class="v">Fund I, Fund II</span></div>
       <div><span class="k">LABEL</span> <span class="v">SFDR Article 9</span></div>
-      <div><span class="k">CHEQUES</span> <span class="v">&euro;250k &ndash; &euro;2.5M initial + reserves</span></div>
-      <div><span class="k">PORTFOLIO</span> <span class="v">23+ companies</span></div>
+      <div><span class="k">CHEQUES</span> <span class="v">&euro;250k &ndash; &euro;2.5M <small>initial + reserves</small></span></div>
+      <div><span class="k">PORTFOLIO</span> <span class="v">23+ <small>companies</small></span></div>
     </div>
   </div>
 
@@ -1359,7 +1429,7 @@ footer{border-top:1px solid var(--line)}
   </div>
 
   <div class="plabel">02 / RECORD</div>
-  <div class="history reveal">
+  <div class="history record reveal">
     <div class="h-row">
       <span class="yr">NOW</span>
       <span class="role">Investor, <a href="https://4impact.vc" target="_blank" rel="noopener">4impact capital</a>
@@ -1398,8 +1468,8 @@ footer{border-top:1px solid var(--line)}
     </div>
   </div>
 
-  <div class="rule"></div>
-
+  <div class="record-pair">
+  <div class="record-col">
   <div class="plabel">02 / AFFILIATIONS &amp; MENTORING</div>
   <div class="history reveal">
     <div class="h-row">
@@ -1427,9 +1497,9 @@ footer{border-top:1px solid var(--line)}
       <span class="st">&#9632; current</span>
     </div>
   </div>
+  </div>
 
-  <div class="rule"></div>
-
+  <div class="record-col">
   <div class="plabel">02 / EDUCATION</div>
   <div class="history reveal">
     <div class="h-row">
@@ -1450,6 +1520,8 @@ footer{border-top:1px solid var(--line)}
         <small>Learned to love London.</small></span>
       <span class="st">&#9633; archive</span>
     </div>
+  </div>
+  </div>
   </div>
 </section>
 
