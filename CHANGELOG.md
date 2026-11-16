@@ -1,5 +1,76 @@
 # Changelog
 
+## v0.14.0 - 2026-11-16 "on the grid"
+
+Redesign release. All five pages now draw from one token system and one 12-column grid. Motion is cut back to a fixed budget, and the page stays readable with JavaScript off or after a script error. Nothing a crawler reads changed. These are byte-identical to v0.13.7:
+- titles, meta and og tags, and canonicals
+- h1 and h2 text, and the canonical bio
+- the `src`, `alt`, `width` and `height` of every image in the markup
+- every JSON-LD block
+
+The only new anchors are the skip links on the companion pages. A new check now pins all of this.
+
+### Visible
+- **Tokens.** Colours, type sizes, tracking, line heights, spacing, z-index and motion durations are custom properties, defined once in `tools/base.css`. `tools/build-css.mjs` copies that file into a `GEN:BASECSS` block in all five pages. `index.html` gets the whole file. The four companion pages get everything above the `END TOKENS` line: the tokens, the writing row and the shared base.
+- **Type floor and contrast.**
+  - Nothing renders below 11px, on any page, at any width or in print.
+  - Body copy moves to a brighter `--text` token, hairlines are lifted and `--line-strong` is added.
+  - Negative mode gets its own heatmap and gridline colours.
+  - Breakpoints are 560, 860 and 1100.
+- **Hero on the grid.** The hero has one caption row (version on the left, the NOW line on the right) and a full-bleed ticker under it. The tab bar moves between the hero and the panels, spans the full width and sticks under the topbar.
+- **Route map.**
+  - At 860 and below it crops to Europe and its labels render at 11px. Its stops respond to tap.
+  - Without JavaScript the labels used to shrink with the map, as small as 3px on a phone. They now render at 14 map units above 1100 wide and are hidden at 1100 and below. The dots and the route stay.
+- **BIO.** The canonical bio is the lead paragraph, at lead size. The facts form a 2 by 4 sheet under the copy, beside the photos. The conviction quote runs the full width.
+- **WORK.**
+  - The lead is two halves: the intro, and a fund sheet led by the AUM figure.
+  - Tracks run two to a row.
+  - The record sits on the 12-column grid with a timeline rule. Affiliations and education sit side by side above 860px.
+  - Two empty rule elements that doubled the hairline are gone.
+- **LIBRARY.**
+  - The GitHub card holds the identity plus a full-width heatmap.
+  - The first two builds are drawn wide (`FEATURED_BUILDS`), in the static mirror as well.
+  - The writing row has one shape, shared with `writing.html`.
+  - At 860 and below the filter chips stay on one line that scrolls sideways.
+  - The events checklist is compact, and the event role is a caption.
+  - The featured event card spans two rows, so its neighbours no longer stretch.
+- **Companion pages.** `writing.html`, `gallery.html`, `press-kit.html` and `404.html` use the index's top bar, page title, 12-column grid, footer, skip link and landmarks. Gallery photos get the halftone screen and viewfinder brackets, in CSS only.
+- **Removed:**
+  - the name marquee above the footer
+  - the ghost panel numerals
+  - the cursor-following glow on cards
+  - magnetic tabs
+  - the custom cursor
+  - the shutter-bar wipe between tabs, which is replaced by a 150ms line
+- **Print.** Every page prints dark on white. The companion pages used to print light text on a black page. On the index, the GitHub avatar prints without its filter, and the writing filter chips, which ran off the page, are left out.
+
+### Behaviour
+- **Resilience.**
+  - With JavaScript off, or after a script error during startup, everything is visible. The intro overlay, closed tabs and row start states apply only under `html.js`. An error removes that class until the main script's last statement sets `html.booted`.
+  - Without the script the tab bar steps aside and every panel is open.
+  - Each feature block runs on its own, so one that throws cannot stop the rest. Storage and media-query calls are guarded.
+- **Tabs.** Tabs follow hash changes. A switch while the bar is stuck brings the new panel to just under the bar. The panel swaps at once, and the shutter line never delays a switch.
+- **Motion budget.**
+  - Grain is a static texture.
+  - The commit feed renders once instead of typing itself out.
+  - Headlines fade in without blur.
+  - The dot field redraws only while the pointer moves.
+  - The ticker pauses when scrolled off screen.
+  - Looping animations stop outright under reduced motion.
+  - A dashed reticle appears around the native cursor over photographs only.
+- **Accessibility.**
+  - The tablist role moves off the `<nav>` landmark onto an inner element.
+  - Controls reach 44px on touch screens and at phone widths.
+  - Event photos get a button outside the card link that opens the lightbox from the keyboard and returns focus on close.
+  - The footer [D] hint is now a button. It toggles negative mode in step with the key and reports its pressed state.
+  - Companion pages get the site focus ring.
+- **Images and fonts.**
+  - Script-rendered photos carry `width` and `height` from a generated size table. `GEN:PHOTODIMS` is written by `build-gallery.mjs` from the image files and covered by its `--check`.
+  - The bio portrait and the first two gallery images load eagerly.
+  - The companion pages load fonts without blocking first paint, as the index already did.
+- **Entity check.** `tools/check-entity.mjs` compares head meta, JSON-LD, headings, the bio sentence, bio images and the sitemap against `tools/entity-baseline.json`. It derives the writing, gallery and builds checks from the data arrays. The contributions workflow runs it after the drift checks, as a non-blocking step.
+- **Cleanup.** The hero one-liner's class is now `lede`. Dead CSS and JS are removed, and inline styles move to classes.
+
 ## v0.13.7 - 2026-11-04 "pockets"
 
 Events tab checklist.

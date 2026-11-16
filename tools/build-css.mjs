@@ -11,9 +11,10 @@
    whole <style> element between <!-- GEN:BASECSS --> markers, placed
    before the page's own <style> so the page can still override it.
 
-   index.html gets the whole file (tokens plus the shared base). The
-   other four pages get the TOKENS section only, the part above the
-   END TOKENS line, so their own rules keep working unchanged.
+   index.html gets the whole file. The other four pages get everything
+   down to the END TOKENS line: the tokens, the wire row and the shared
+   base (reset, page chrome, the 12-column layout, the photo treatment,
+   print). Below that line is index-only (the pill and tag rules).
 
    Usage:
      node tools/build-css.mjs           rewrite the pages

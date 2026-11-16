@@ -891,6 +891,10 @@ footer{border-top:1px solid var(--line)}
   }
 }
 @media print{
+  /* paper is white: the dark screen tokens would print light text on a
+     black page */
+  :root,body.negative{--bg:#fff;--fg:#000;--text:#222;--dim:#555;--faint:#999;--line:#ccc;--line-strong:#999;--card:#f5f5f5}
+  html,body{background:#fff!important;color:#000!important}
   .grain,.topbar,.skip-link,.photo::before,.photo::after,.grid figure::before,.grid figure::after{display:none!important}
   .photo img,.grid figure img{filter:none!important}
 }

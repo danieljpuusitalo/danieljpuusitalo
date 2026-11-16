@@ -1,6 +1,6 @@
 # CLAUDE.md — danieljpuusitalo personal site
 
-Personal website of Daniel Uusitalo — venture capitalist at 4impact capital, The Hague (Investor; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.13.7. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
+Personal website of Daniel Uusitalo — venture capitalist at 4impact capital, The Hague (Investor; leads Nordic sourcing; writes publicly). Hand-written static site, currently v0.14.0. Hosted on GitHub Pages, served at the custom domain **https://danieluusitalo.com/** (the `danieljpuusitalo.github.io/danieljpuusitalo/` URL now 301-redirects here).
 
 ## Positioning — non-negotiables
 
@@ -34,9 +34,9 @@ Identity-facing copy leads **person-first**, not employer-first.
   | `build-gallery.mjs` | `EVENTS` | `gallery.html` + `sitemap.xml` + the `GEN:PHOTODIMS` photo sizes inside `index.html` |
   | `build-projects.mjs` | `BUILDS` | the static mirror inside `index.html`'s `#builds-grid` |
   | `build-contributions.mjs` | github.com/users/:u/contributions (network) | the contribution card inside `index.html`'s `#gh-card` |
-  | `build-css.mjs` | `tools/base.css` | the `GEN:BASECSS` style block in all five pages (index gets the whole file, the four companions get the tokens section only) |
+  | `build-css.mjs` | `tools/base.css` | the `GEN:BASECSS` style block in all five pages (index gets the whole file; the four companions get everything above the `END TOKENS` line: the tokens, the wire row and the shared base) |
 
-  `build-css.mjs` is pure like the first three; it was added in v0.14 alongside them.
+  `build-css.mjs` (added in v0.14) is pure like the first three, and its `--check` demands byte equality the same way.
 
   The first three are pure: same input, same output, so `--check` demands byte equality. `build-contributions.mjs` reads a live third-party page that changes every time Daniel commits, so byte equality would fail daily and train you to ignore it. Its `--check` is offline and validates structure and age instead (missing markers, malformed grid, snapshot older than 90 days). Only the re-snapshot path touches the network.
 
@@ -48,8 +48,8 @@ Identity-facing copy leads **person-first**, not employer-first.
 
   **The one automated exception, added 2026-09-19 at Daniel's request:** `.github/workflows/contributions.yml` runs `build-contributions.mjs` on a schedule and commits the result. It earns the exception because it is the only generator whose input is not in the repo — writing, gallery and projects are pure functions of arrays a human edits, so a human should run them and read the diff, and that rule is unchanged for all three. The heatmap's input is Daniel's own activity, which moves without anyone touching a file, so leaving it to memory guarantees a stale card. **Don't generalise this into a build pipeline.** If you are about to automate a generator whose input lives in `index.html`, the answer is no.
 - **Client-rendered panels need static mirrors.** Every dynamic section renders inside two nested `display:none` containers, so a crawler that doesn't execute JS sees nothing. Googlebot renders JS; the OpenAI, Anthropic and Perplexity crawlers do not. Four surfaces are therefore mirrored: writing → `writing.html`, events/photos → `gallery.html`, projects → generated HTML inside `#builds-grid` that the renderer overwrites on load, and the contribution heatmap → generated HTML inside `#gh-card`, which since v0.12.0 has no client render at all. The commit-log feedbox is the one that is still JS-only, by design: it is a live log, not content. **If you add another client-rendered content section, it needs a mirror too** — otherwise it is invisible to everything except Google.
-- **Companion pages (four):** `writing.html` (generated writing archive), `press-kit.html` (headshot downloads, bios, speaking topics), `gallery.html` (photo archive), `404.html` (custom error page). All four share the same design language and favicon.
-- **Strictly black & white.** All colors come from the CSS tokens in `tools/base.css` (`--bg #0a0a0a`, `--fg #f4f4f1`, `--text`, `--dim`, `--faint`, `--line`, `--card`). Never add a hue. Photos are forced to B/W via CSS filters — never bypass this.
+- **Companion pages (four):** `writing.html` (generated writing archive), `press-kit.html` (headshot downloads, bios, speaking topics), `gallery.html` (photo archive), `404.html` (custom error page). All four share the same design language and favicon, and since v0.14 the same base CSS as the index: top bar, page title, 12-column grid, footer, skip link and photo treatment. A rule two pages need goes in `tools/base.css` above the cut; a companion page's own `<style>` is for what is particular to it.
+- **Strictly black & white.** All colors come from the CSS tokens in `tools/base.css` (`--bg #0a0a0a`, `--fg #f4f4f1`, `--text`, `--dim`, `--faint`, `--line`, `--line-strong`, `--card`). Never add a hue. Photos are forced to B/W via CSS filters — never bypass this.
 - **Design tokens live in `tools/base.css`, not in the pages.** Edit that file, then run `node tools/build-css.mjs` to copy it into each page's `GEN:BASECSS` block; never hand-edit inside that block. Type, spacing, tracking, line-height, z-index and motion all come from tokens: use the `--t-*` sizes, the `--s1`..`--s8` spacing steps (4/8/12/16/24/32/48/72) and `--tr-*` / `--lh-*`, and add a token before adding a new literal.
 - **11px (`--t-cap`) is a hard floor for text, on every page, at every breakpoint and in print.** Nothing renders smaller. If something feels like it wants 9 or 10px, it wants less text or more letter-spacing, not a smaller size.
 - **Content is data.** Dynamic sections render from JS arrays in the `DATA` block at the bottom of `index.html`: `WRITING`, `EVENTS`, `BUILDS`, `BUILDS_OVERRIDES`, `EVENT_CHECKLIST`, `DEMO_COMMITS`, plus `CFG`. Editing content means editing an array, not markup. Keep it that way.
@@ -77,7 +77,7 @@ Identity-facing copy leads **person-first**, not employer-first.
 | `press-kit.html` | Standalone press kit page (linked from footer) |
 | `404.html` | Custom 404 page |
 | `og.png` | Open Graph image (1200×630) |
-| `photos/` | All images — local, compressed, lazy-loaded |
+| `photos/` | All images — local, compressed, lazy-loaded except the bio portrait and the first two gallery images, which load eagerly |
 | `photos/portrait.jpg` | Color headshot |
 | `photos/portrait-bw.jpg` | B/W headshot derivative (grayscale + contrast 1.2) |
 | `gallery.html` | Photo archive — **generated** from `EVENTS`. The most complete surface on the site: every frame, including ones no event card shows. |
@@ -99,14 +99,21 @@ Identity-facing copy leads **person-first**, not employer-first.
 
 Norrsken-adjacent editorial black/white, deliberately NOT a terminal/OS persona (an earlier draft drifted too close to komulainen.org, do not reintroduce boot sequences, `~$` prompts, `cat`/`grep` labels, or "cold DM" jokes):
 
+- **Tokens, not literals.** Everything below is built from the `tools/base.css` tokens (see Architecture rules): `--t-cap` 11px up to `--t-hero` for type, `--s1`..`--s8` for spacing, `--tap` 44px for touch targets, `--wrap` 1280px for the content width, `--topbar-h` / `--tabbar-h` for the two sticky bars, `--z-*` for stacking, `--dur-*` / `--ease-*` for motion. `body.negative` redefines the same names, so a rule written against tokens works in both modes with no extra selector.
+- **Three breakpoints, written as literals** (custom properties cannot sit in a media query): **560** phone, **860** tablet, **1100** wide (the topbar telemetry goes below it). Don't add a fourth without a reason; the route map's 860 crop is also tested in the script, so the two must move together.
+- **One 12-column grid.** `.hero`, `.bio-grid` and `.cols` are `repeat(12,minmax(0,1fr))` with a `--s5` gutter, inside `--wrap`; their children span the full width unless placed. Panel layouts (the WORK lead, tracks, record, LIBRARY) use the same 12 columns and the same 1 / 7 origins, so edges line up from section to section. Place things on the grid rather than adding a one-off flex row or a fixed width.
+- **One of each component.** There is one pill (`.tab,.stab,.fbtn,.chip,#lb button`), one tag (`.photo .tag,.ptags span`), one writing row (`.wrow`, shared with `writing.html`), one section label (`.plabel`), one page title (`.page-title`, the hero h1 treatment), one lead paragraph (`.lede`: 6 columns, 9 at ≤860, full at ≤560) and one fact sheet (mono caption over value: the BIO `.facts`, the WORK `.fund-facts`). A new control or label reuses one of these; it does not get its own border, size or tracking.
 - Section labels: mono, bracketed — `[ FILE 01 / BIO ]`, `[ INDEX / RECORD ]`.
 - Status glyphs: `■ current` / `□ archive` (not ●/○).
-- Photos: auto-B/W + vignette + viewfinder corner brackets + halftone screen that clears on hover; click opens the lightbox (prev/next, arrow keys).
-- Camera-flash intro (once per session). Keys: `[1][2][3]` tabs, `[G]` grid, `[F]` re-fire flash, `[D]` negative-film mode.
+- Photos: auto-B/W + vignette + viewfinder corner brackets + halftone screen that clears on hover; click opens the lightbox (prev/next, arrow keys). The filter, vignette, halftone and brackets are shared base CSS, so gallery frames get them too. Print turns the filters off.
+- **The hero sits on the grid:** one caption row (`.meta`: the version on the left, the NOW rotator on the right), the name, the `.lede`, then a full-bleed ticker. The tab bar comes after the hero, spans the full width and sticks under the topbar (`.tabbar`, `top: var(--topbar-h)`). The tablist role is on the inner `.tabs` div, not on the `<nav>`.
+- Camera-flash intro (once per session). Keys: `[1][2][3]` tabs, `[G]` grid, `[F]` re-fire flash, `[D]` negative-film mode. The footer `[D]` is a real button (`#neg-toggle`, `aria-pressed`) that calls the same toggle as the key.
 - Hover state everywhere: invert to white bg / black text.
 - Big type: Inter Tight 800/900 uppercase, tight tracking, `.hollow` = outlined text (filled with `--bg`, stroke painted under the fill so the variable font's contour overlaps don't show). Uppercase-heavy is reserved for the hero name and the `.bigline` headlines; card titles, roles, fact values and event names are sentence case at 600–800 (polish pass 2026-10). Hero name stays modest in size — Daniel vetoed the oversized version. Headlines carry `.reveal.dev` and fade in place, with no blur and no rise. Reveal transitions name `opacity` and `transform` only, never `all`.
-- `.reveal` hides content only under `html.js`, which an inline script at the top of `<body>` sets and any script error removes. A broken script must degrade to a visible static page, never a blank one.
+- `.reveal` hides content only under `html.js`, which an inline script at the top of `<body>` sets and any script error removes. A broken script must degrade to a visible static page, never a blank one. The full contract is under "Resilience" below.
 - Grain overlay (a static texture, never animated) + ticker (auto-generated from `WRITING` top 6 headlines — never hardcode ticker text). The ticker is the one looping marquee; it pauses on hover and while scrolled out of view.
+- **Route map labels** are SVG text, so they scale with the map. The script crops the map at ≤860 and sets `--clbl` so they render at 11px on screen. Without the script there is no crop: above 1100 they get a fixed 14 map units, which clears the floor, and at 1100 and below they are hidden (dots and route stay). New York sits off the ≤860 crop by design.
+- **Print** is dark on white on every page. The shared `@media print` block in `tools/base.css` resets the colour tokens to paper values, hides the grain, topbar, skip link and photo overlays, and drops the photo filters; the index has its own print block on top (every panel open, no fixed bars, no tab bar, no filter chips). Anything new that is fixed, decorative or filtered needs a line there.
 
 ## Interaction layer — the "flash field"
 
@@ -118,6 +125,28 @@ Norrsken-adjacent editorial black/white, deliberately NOT a terminal/OS persona 
 - NOW rotator: `CFG.NOW` array, shutter-blink swap every ~3.2s.
 - Negative mode: `body.negative` swaps the token values (light bg, dark fg) and double-inverts photos into film negatives. Never implement it via `filter: invert()` on body/html — that breaks position:fixed anchoring.
 - ALL motion respects `prefers-reduced-motion` (static dot field, no photo reticle, no tab shutter, no rotator, no ticker, no smooth scroll, no Den Haag ping). Keep that guarantee for anything new — which is why animation is CSS, never SMIL: reduced motion cannot stop a SMIL `<animate>`.
+
+### Motion budget
+
+What still moves: the flash intro, the dot field under the pointer, the photo reticle, the ~150ms tab shutter, panel and headline fade-ins, writing rows easing in, the ticker, the NOW rotator and the Den Haag ping. Those last three are the only loops. That is the whole budget.
+
+**Removed in v0.14, and not to be reintroduced without asking Daniel:** the name marquee above the footer (`.strip`), the ghost panel numerals (`.pnum-bg`), the cursor-following glow on cards (`.spot`), magnetic tabs, the custom cursor (`#cur` / `#curR`), the full-screen shutter-bar wipe between tabs (`#wipe`), animated grain, the typed-out commit feed, blur on headline reveals, and the idle animation loop on the dot field.
+
+### Resilience: the `html.js` / `booted` contract
+
+- The inline script at the top of `<body>` adds `html.js`. Its `error` listener removes `#flash` and, unless `html.booted` is already set, removes `js` too.
+- Every hidden start state is gated on `html.js`: closed panels, `.reveal`, `.wrow:not(.on)`, the intro flash. Without it, `.tabbar` is hidden and every panel is open. Never write a rule that hides content without that gate.
+- Each feature block in the engine runs through `safely(fn, unfold)`. A throw is logged and the next block still runs; a block the layout depends on (tab routers, scroll reveal) passes `unfold`, which drops `js` so the page shows everything open.
+- The last statement of the engine adds `html.booted`. After that, a late error (a lightbox click, a resize) no longer unfolds the page.
+- The companion pages never set `html.js`, so nothing in the shared base may start hidden.
+
+### Tabs, the sticky bar and the lightbox
+
+- `go(id)` activates the panel first, then `settleUnderBar(panel)`: if the bar is stuck and the new panel's top is above it, the page scrolls to put the panel just under the bar. Tabs follow `hashchange`, so `#work` style deep links and the back button both work. Arrow keys, Home and End rove across the tabs.
+- The lightbox makes everything behind it `inert` through `lbBehind()`, which is every child of `<body>` except `#lb`. It is derived from the DOM on purpose, so a new top-level band (the tab bar was one) is covered without touching the lightbox. Tab is trapped inside it and focus returns to the opener on close. Event cards get a separate `.ev-open` button outside the card link, so the lightbox opens from the keyboard.
+- `FEATURED_BUILDS` (in the engine, next to the builds renderer) is how many of the first build cards are drawn wide. `build-projects.mjs` reads the same constant so the static mirror matches; change it in one place.
+- The writing row on the index and on `writing.html` is one component: the CSS lives in the WIRE ROW section of `tools/base.css`, and `build-writing.mjs` emits the same four cells `renderWire()` renders (date, source, title, end cell; the index adds the type tag in the end cell). Change both sides together and run both checks.
+- Event photos rendered by the script carry `width` / `height` from `PHOTO_DIMS`, which lives in the `GEN:PHOTODIMS` block that `build-gallery.mjs` writes from the image files. Never hand-edit it; adding a photo and re-running the gallery build is enough.
 
 ## Data conventions
 
@@ -183,7 +212,7 @@ The archive anchor for a pic is `slug` for the first one and `slug-N` for the re
 - **Exclude a repo**: add `'repo-name': {skipApi:true}` to `BUILDS_OVERRIDES`.
 - **Deep-link into a panel**: `#bio`, `#work`, `#projects` open a tab; `#builds`, `#writing`, `#events` open the projects tab on that subtab (the empty COMMUNITY subtab was removed 2026-10; `#community` now falls back to the bio tab). `gallery.html` links back with `./#events`; the footer links to the archive pages themselves and carries no hash links. While the tab bar is stuck, a tab switch scrolls the new panel to just under it. The initial subtab is selected by the `goSub` call near the end of the script, after every renderer (it also fires the row stagger) — setting it earlier gets overwritten.
 - **Swap photos**: drop files into `photos/` (color is fine, CSS converts to B/W), update the `src` in that event's `pics[]` or in the bio `<figure>`s, then run `node tools/build-gallery.mjs`. Name files descriptively — the filename is itself an image-search signal, so `daniel-uusitalo-machn-leipzig-2026.jpg` beats `contact-04.jpg`.
-- **Bump version**: the version string lives in **4** places — update all four when releasing: (1) the `<!-- v0.x.x -->` comment near line 5, (2) the hero `.meta` span `V0.x.x`, (3) the footer `V0.x.x` line, and (4) **`DEMO_COMMITS`** — *if* it still carries a `feat: ship v0.x.x` entry. As of v0.12.0 it does not; the fallback feed is all undated placeholder commits. Check before hunting for a fourth occurrence. Also update `currently v0.x.x` in this file's first paragraph. Search for the current version to find them all.
+- **Bump version**: the version string lives in **3** places in `index.html` — update all three when releasing: (1) the `personal site v0.x.x` comment near line 5, (2) the hero `.meta` caption span `PERSONAL SITE / V0.x.x`, (3) the footer `V0.x.x / DEPLOYED` line. None of them is in JSON-LD or head meta. **`DEMO_COMMITS`** carried a fourth (`feat: ship v0.x.x`) until v0.12.0; it no longer does, the fallback feed is all undated placeholder commits, so don't hunt for one. Also update `currently v0.x.x` in this file's first paragraph. Search for the current version to find them all.
 
   The footer also carries a hardcoded `DEPLOYED YYYY.MM.DD` — it is the only date readout on the page that is not computed, so it goes stale the next time you push without touching it. Update it in the same pass.
 - **Refresh the contribution heatmap**: `node tools/build-contributions.mjs`. **Since 2026-09-19 a GitHub Action does this for you** (`.github/workflows/contributions.yml`): every six hours at :17, on every push to `master`, and on a `workflow_dispatch` button in the Actions tab. You should never need to run it by hand. It commits to `master`, which is also the deploy. The push trigger does not recurse — a commit made with `GITHUB_TOKEN` cannot start another workflow run, which is GitHub's own loop protection, not something this file arranges. Expect roughly one bot commit whenever the numbers actually move, and one a week otherwise — the generator refuses to rewrite the file just to bump its own snapshot date, but refreshes anyway every 7 days so `--check`'s staleness guard stays meaningful. The grid is a fixed 12-month window because that is all GitHub's fragment serves, and there is nothing earlier to show — full-year fetches for 2023, 2024 and 2025 all return zero active days, the account's first public repo being from 2026-02-17. **Commits only reach this graph if their author email is on the GitHub account**, so an unrecognised `git config user.email` silently deletes work from it.
@@ -229,7 +258,7 @@ node tools/check-entity.mjs
 
 The last one is the entity guard: it pins what crawlers read (the Person graph, the canonical bio in all nine places, head meta, headings, image and sitemap URLs) against `tools/entity-baseline.json`, and fails on an em dash or the forbidden role word in visitor text. If a change to any of that is deliberate, re-capture with `node tools/check-entity.mjs --write-baseline` and read the baseline diff before committing it.
 
-Then open `index.html` in a browser: check all three tabs + subtabs, filter chips, lightbox (click photo, Esc closes), no console errors. Also check ~390px width (mobile layout shifts). Print preview: all three panels present, writing + events visible. Negative mode [D]: verify constellation NYC visible in both modes.
+Then open `index.html` in a browser: check all three tabs + subtabs, filter chips, lightbox (click photo, Esc closes), no console errors. Also check ~390px width (mobile layout shifts) and the 860 and 1100 edges. Nothing visible under 11px, no horizontal overflow. Reload once with JavaScript disabled: every panel open, no tab bar, nothing hidden. Print preview: all three panels present, writing + events visible, white page, dark text, photos unfiltered, no fixed bars. Negative mode [D]: verify the route map is visible in both modes (New York shows on desktop; it is off the ≤860 crop by design).
 
 If you touched schema, re-parse it rather than trusting `--check`, which only proves two files agree and will happily confirm that both are broken the same way:
 
