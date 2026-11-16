@@ -15,9 +15,15 @@
    most complete surface on the site without anyone maintaining a second
    list by hand.
 
+   It also writes one small block back into index.html, GEN:PHOTODIMS: the
+   pixel size of every pic in EVENTS, read from the file itself. The
+   homepage renders its event cards and contact sheet in the browser and
+   cannot read a JPEG header there, so this is how those <img>s get real
+   width/height attributes without a size field on every pic.
+
    Usage:
-     node tools/build-gallery.mjs           rewrite both files
-     node tools/build-gallery.mjs --check   exit 1 if either has drifted
+     node tools/build-gallery.mjs           rewrite all three
+     node tools/build-gallery.mjs --check   exit 1 if any has drifted
 
    No dependencies, no npm, no bundler. A maintenance script you run by
    hand, NOT a build step; the site still deploys as plain static files.
@@ -114,7 +120,7 @@ const archive = sorted.filter((e) => !e.archived).flatMap((e) =>
   })));
 
 /* ── gallery.html ──────────────────────────────────────────────────── */
-const figure = (p) => {
+const figure = (p, i) => {
   const e = p.ev;
   const note = p.note || titleCase(e.role);
   const label = e.url
@@ -125,8 +131,13 @@ const figure = (p) => {
      over the event's. */
   const pos = p.pos || e.pos;
   const style = pos ? ` style="object-position:${esc(pos)}"` : '';
+  /* The grid is two frames a row, and the first row is above the fold on
+     arrival, so those two load at once (the first at high priority). Lazy
+     loading them only delays the largest paint. Everything below stays lazy. */
+  const load = i === 0 ? 'loading="eager" fetchpriority="high"'
+    : i < 2 ? 'loading="eager"' : 'loading="lazy"';
   return `    <figure id="${p.id}">
-      <img src="${esc(p.src)}" width="${p.w}" height="${p.h}" alt="${esc(p.alt)}" loading="lazy" decoding="async"${style}>
+      <img src="${esc(p.src)}" width="${p.w}" height="${p.h}" alt="${esc(p.alt)}" ${load} decoding="async"${style}>
       <figcaption><b>${label}</b><time datetime="${isoDate(e.k)}">${titleCase(e.d)}</time> &middot; ${esc(place(e.city))} &middot; ${esc(note)}</figcaption>
     </figure>`;
 };
@@ -196,6 +207,18 @@ const images = archive.map((p) =>
   `      <image:caption>${esc(p.alt)}</image:caption>\n` +
   `    </image:image>`).join('\n');
 
+/* ── index.html photo sizes ────────────────────────────────────────────
+   Every pic in EVENTS, archived ones included, so the homepage never has
+   to know which of them it happens to render. Keyed by src, sorted, one
+   per line: adding a photo is a one-line diff. A JSON data block, not
+   code, so it never runs and a missing entry only means no attributes. */
+const dims = [...referenced].sort().map((src) => {
+  const { w, h } = jpegSize(join(ROOT, src));
+  return `  ${JSON.stringify(src)}: [${w}, ${h}]`;
+});
+const dimsBlock = '<script type="application/json" id="photo-dims">\n{\n' +
+  dims.join(',\n').replace(/</g, '\\u003c') + '\n}\n</script>';
+
 /* ── write ─────────────────────────────────────────────────────────── */
 let html = readFileSync(GALLERY, 'utf8');
 html = splice(html, 'SCHEMA', schema, 'gallery.html');
@@ -205,8 +228,11 @@ html = splice(html, 'GRID', archive.map(figure).join('\n'), 'gallery.html');
 let xml = readFileSync(SITEMAP, 'utf8');
 xml = splice(xml, 'IMAGES', images, 'sitemap.xml');
 
+let index = readFileSync(SRC, 'utf8');
+index = splice(index, 'PHOTODIMS', dimsBlock, 'index.html');
+
 const check = process.argv.includes('--check');
-const files = [[GALLERY, html, 'gallery.html'], [SITEMAP, xml, 'sitemap.xml']];
+const files = [[GALLERY, html, 'gallery.html'], [SITEMAP, xml, 'sitemap.xml'], [SRC, index, 'index.html']];
 const stale = files.filter(([f, next]) => readFileSync(f, 'utf8') !== next);
 
 if (check) {
@@ -214,10 +240,10 @@ if (check) {
     die(`${stale.map(([, , n]) => n).join(' and ')} OUT OF SYNC with the EVENTS array.\n` +
         '    Run: node tools/build-gallery.mjs');
   }
-  console.log(`\n  ✓ gallery.html and sitemap.xml are in sync ` +
+  console.log(`\n  ✓ gallery.html, sitemap.xml and index.html's photo sizes are in sync ` +
               `(${archive.length} photos across ${eventCount} events).\n`);
 } else if (!stale.length) {
-  console.log(`\n  = gallery.html and sitemap.xml already up to date (${archive.length} photos).\n`);
+  console.log(`\n  = gallery.html, sitemap.xml and index.html's photo sizes already up to date (${archive.length} photos).\n`);
 } else {
   stale.forEach(([f, next]) => writeFileSync(f, next));
   console.log(`\n  ✓ regenerated ${stale.map(([, , n]) => n).join(' + ')}: ` +

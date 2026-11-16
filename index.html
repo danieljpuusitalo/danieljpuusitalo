@@ -1798,6 +1798,42 @@ html.js .ev:not(.on){opacity:0;transform:translateY(14px)}
   </div>
 </footer>
 
+<!-- GEN:PHOTODIMS -->
+<script type="application/json" id="photo-dims">
+{
+  "photos/abbey-road-studios-hackathon-london-2020.jpg": [1200, 921],
+  "photos/bio-techarena.jpg": [1600, 1066],
+  "photos/climate-reality-leadership-corps-rome-2024.jpg": [1200, 1600],
+  "photos/daniel-uusitalo-antler-helsinki-pitch-2024.jpg": [1600, 1067],
+  "photos/daniel-uusitalo-civics-innovation-hub-zagreb-2025.jpg": [1024, 683],
+  "photos/daniel-uusitalo-davos-2025-alexander-stubb.jpg": [1200, 1600],
+  "photos/daniel-uusitalo-davos-2025-frej-larsson.jpg": [1600, 1200],
+  "photos/daniel-uusitalo-global-shapers-summit-geneva-2022.jpg": [1600, 1067],
+  "photos/daniel-uusitalo-impact-week-barcelona-2026-fixathon.jpg": [1600, 1067],
+  "photos/daniel-uusitalo-machn-leipzig-2026-panel.jpg": [1600, 1066],
+  "photos/daniel-uusitalo-machn-leipzig-2026.jpg": [1600, 2400],
+  "photos/daniel-uusitalo-mastercard-lighthouse-nordic-tech-week-2026.jpg": [1600, 1067],
+  "photos/daniel-uusitalo-pitchxl-amsterdam-2025.jpg": [1600, 1348],
+  "photos/daniel-uusitalo-platform6-tampere-2025.jpg": [1338, 918],
+  "photos/daniel-uusitalo-solve-the-sdgs-hackathon-helsinki-2024.jpg": [1080, 1076],
+  "photos/daniel-uusitalo-techarena-zero-stockholm-2026-panel.jpg": [1600, 1066],
+  "photos/daniel-uusitalo-techarena-zero-stockholm-2026.jpg": [1600, 1066],
+  "photos/daniel-uusitalo-the-drop-malmo-2026-roundtable.jpg": [1600, 1067],
+  "photos/daniel-uusitalo-tirana-slushd-2025-conversation.jpg": [1600, 1068],
+  "photos/daniel-uusitalo-tirana-slushd-2025-onstage.jpg": [1600, 1067],
+  "photos/daniel-uusitalo-tirana-slushd-2025.jpg": [1600, 1068],
+  "photos/daniel-uusitalo-wef-davos-2025-delegation.jpg": [1024, 471],
+  "photos/der-brutkasten-interview.jpg": [1275, 634],
+  "photos/energy-tech-nordics.jpg": [1080, 1080],
+  "photos/nasdaq-ladderworks.jpg": [1600, 900],
+  "photos/nodus-talks-aalto-biochar-session.jpg": [1200, 1600],
+  "photos/solve-the-sdgs-hackathon-helsinki-2024-stage.jpg": [1024, 683],
+  "photos/startup-club-interview.jpg": [967, 1050],
+  "photos/startup-tampere-showcase-2024-audience.jpg": [800, 533],
+  "photos/startup-tampere-showcase-2024.jpg": [480, 720]
+}
+</script>
+<!-- /GEN:PHOTODIMS -->
 <script>
 /* ═══════════════════════════════════════════════════════════════════
    DATA / edit these arrays, refresh, done. (See CLAUDE.md for recipes.)
@@ -2475,8 +2511,9 @@ safely(function tabs(){
   if(negBtn) negBtn.addEventListener('click', toggleNegative);
   /* Deep links. #bio|#work|#projects open a tab; a subtab name opens the
      projects tab, so the archive pages can point at an exact panel
-     (gallery.html links ./#events). The subtab itself is selected by the stagger call at the bottom
-     of this script, which runs last and would otherwise reset it. */
+     (gallery.html links ./#events). The subtab itself is selected by the
+     goSub call near the end of this script, after every renderer, which
+     would otherwise reset it. */
   const h = location.hash.slice(1);
   activate(SUBTABS.includes(h) ? 'projects'
          : ['bio','work','projects'].includes(h) ? h : 'bio');
@@ -2529,6 +2566,17 @@ if(bar) bar.addEventListener('keydown', e=>{
 /* Escape a string for a double-quoted HTML attribute. Captions and alt
    text are written in prose and one day one of them will hold a quote. */
 const attr = v => String(v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+
+/* Real pixel size of every EVENTS photo, from the GEN:PHOTODIMS block that
+   tools/build-gallery.mjs writes out of the files themselves. It gives the
+   rendered <img>s width/height attributes, so the browser knows each
+   frame's ratio before the file arrives. Their CSS sets both width and
+   height, so the attributes never resize anything. No entry, no attributes. */
+const PHOTO_DIMS = (()=>{
+  try{ return JSON.parse(document.getElementById('photo-dims').textContent); }
+  catch(e){ return {}; }
+})();
+const dimAttrs = src => { const d = PHOTO_DIMS[src]; return d ? ` width="${d[0]}" height="${d[1]}"` : ''; };
 
 /* ── gallery registry (feeds the lightbox) ──────────────────────── */
 const GALLERY = [];
@@ -2593,7 +2641,7 @@ safely(function renderEvents(){
     const pos = (pic && pic.pos) || ev.pos;
     const posStyle = pos ? ` style="object-position:${pos}"` : '';
     d.innerHTML =
-      `<figure class="photo r1610" data-gi="${gi}" data-cap="${attr(cap)}">${pic?`<img src="${pic.src}" alt="${attr(pic.alt)}" loading="lazy" decoding="async"${posStyle}>`:''}
+      `<figure class="photo r1610" data-gi="${gi}" data-cap="${attr(cap)}">${pic?`<img src="${pic.src}"${dimAttrs(pic.src)} alt="${attr(pic.alt)}" loading="lazy" decoding="async"${posStyle}>`:''}
          <figcaption class="tag">${pic ? (ev.pics.length > 1 ? `PHOTO 1/${ev.pics.length}` : 'PHOTO') : ''}</figcaption></figure>`+
       `<div class="ev-body"><div class="ev-meta"><span>${ev.d}</span><span>${ev.city}</span></div>`+
       `<h3>${ev.name}</h3><span class="role">${ev.role}</span></div>`;
@@ -2837,7 +2885,7 @@ safely(function renderSheet(){
     f.className='frame'; f.dataset.gi = gi; f.dataset.cap = p.cap;
     const pos = p.pos || p.ev.pos;
     const posStyle = pos ? ` style="object-position:${pos}"` : '';
-    f.innerHTML = `<div class="ph" tabindex="0" role="button" aria-label="Open photo: ${attr(p.cap)}"><img src="${p.src}" alt="${attr(p.alt)}" loading="lazy" decoding="async"${posStyle}></div>`+
+    f.innerHTML = `<div class="ph" tabindex="0" role="button" aria-label="Open photo: ${attr(p.cap)}"><img src="${p.src}"${dimAttrs(p.src)} alt="${attr(p.alt)}" loading="lazy" decoding="async"${posStyle}></div>`+
       `<div class="fcap">FR ${String(i+1).padStart(2,'0')} / ${p.cap}</div>`;
     /* keyboard: Enter/Space on .ph opens lightbox */
     f.querySelector('.ph').addEventListener('keydown', e=>{
@@ -3026,7 +3074,7 @@ function runFeed(commits, live){
 })();
 
 /* ── initial subtab ─────────────────────────────────────────────────
-   Runs last on purpose: it also fires the row stagger. Honours a
+   Runs after every renderer on purpose: it also fires the row stagger. Honours a
    #builds|#writing|#events deep link, otherwise BUILDS. */
 safely(()=>goSub(SUBTABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'builds'), true);
 

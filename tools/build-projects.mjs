@@ -16,9 +16,9 @@
    the events grid have static mirrors (writing.html, gallery.html);
    the projects grid had none.
 
-   So this writes the seven curated cards into the page as real HTML,
-   byte-matching what renderBuildCards(BUILDS, false) produces. A
-   browser wipes them ~instantly and renders the live version, which is
+   So this writes the curated cards, one per BUILDS entry, into the
+   page as real HTML, byte-matching what renderBuildCards(BUILDS, false)
+   produces. A browser wipes them ~instantly and renders the live version, which is
    plain progressive enhancement: the static copy is a faithful subset
    of the rendered one, never a substitute shown only to crawlers.
 

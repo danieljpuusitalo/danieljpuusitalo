@@ -553,7 +553,11 @@
 <!-- /GEN:SCHEMA -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<!-- Fonts load without blocking first paint: the stylesheet arrives as
+     media=print and switches itself on. The noscript copy covers no-JS. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet"></noscript>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0a'/%3E%3Cpath fill='%23f4f4f1' d='M10 10h14v3H13v11h-3zM40 10h14v14h-3V13H40zM10 40h3v11h11v3H10zM51 40h3v14H40v-3h11z'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23f4f4f1'/%3E%3C/svg%3E">
 <!-- GEN:BASECSS -->
 <style>
