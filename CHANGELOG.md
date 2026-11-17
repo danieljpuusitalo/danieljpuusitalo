@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.14.1 - 2026-11-17 "the reaction"
+
+Content-only release. The writing archive gains Impact Loop’s "VC’s react to Jensen Huang drama: ‘Plenty of lessons for early-stage startups’" (16 November 2026). It is filed as QUOTED because it is a roundup of investor reactions, so it sits under Interviews & commentary and emits `about`, not `author`. It takes the LATEST badge and the first ticker slot. The `sitemap.xml` `lastmod` for `writing.html` and the footer deploy date move with it.
+
 ## v0.14.0 - 2026-11-16 "on the grid"
 
 Redesign release. All five pages now draw from one token system and one 12-column grid. Motion is cut back to a fixed budget, and the page stays readable with JavaScript off or after a script error. Nothing a crawler reads changed. These are byte-identical to v0.13.7:
