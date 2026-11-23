@@ -2,7 +2,7 @@
 
 ## v0.14.2 - 2026-11-23 "the alum"
 
-Content-only release. The writing archive gains Aalto University’s alumni profile "Alum Daniel Uusitalo: My journey has taken me from Aalto to The Hague into the world of impact investing" (23 November 2026). It is filed as INTERVIEW because it is a profile written by the university around his quotes, so it sits under Interviews & commentary and emits `about`, not `author`. The row links to the Finnish original, carries the note "Finnish" and `inLanguage: fi`, and shows the headline of the university’s own English edition. It takes the LATEST badge and the first ticker slot. The `sitemap.xml` `lastmod` for `writing.html` and the footer deploy date move with it.
+Content-only release. The writing archive gains Aalto University’s alumni profile "Alum Daniel Uusitalo: My journey has taken me from Aalto to The Hague into the world of impact investing" (23 November 2026). It is filed as INTERVIEW because it is a profile written by the university around his quotes, so it sits under Interviews & commentary and emits `about`, not `author`. The row links to the university’s English edition. It takes the LATEST badge and the first ticker slot. The `sitemap.xml` `lastmod` for `writing.html` and the footer deploy date move with it.
 
 ## v0.14.1 - 2026-11-17 "the reaction"
 
