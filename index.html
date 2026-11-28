@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.14.2
+     DANIEL UUSITALO / personal site v0.15.0
      Hand-written. No framework, no bundler. External dependencies: Google Fonts + GoatCounter (cookieless analytics).
      Companion pages: writing.html (generated), press-kit.html, gallery.html, 404.html.
      Project conventions & editing guide: see CLAUDE.md in this folder.
@@ -691,9 +691,26 @@ html:not(.js) .tabbar{display:none}
 .tab .idx{color:var(--dim)}
 .tab:hover,#lb button:hover{background:var(--fg);color:var(--bg)}
 .tab:hover .idx,.tab.active .idx{color:var(--bg)}
+/* Phone: the bar leaves the flow and pins to the bottom of the screen,
+   where a thumb reaches it, as three full-height cells with the numeral
+   over the name. It is taller here (--tap plus a step), sits on a strong
+   top rule, and pads itself past the home indicator. The page gets the
+   same room at its foot so the footer clears it, and an anchor jump only
+   has the topbar to clear. Still gated on html.js above; print hides it. */
 @media(max-width:560px){
-  .tab{justify-content:center;padding:0 var(--s2);font-size:var(--t-cap)}
-  .tab .idx{display:none}
+  :root{--tabbar-h:calc(var(--tap) + var(--s3))}
+  html{scroll-padding-top:var(--topbar-h)}
+  .tabbar{
+    position:fixed;top:auto;bottom:0;left:0;right:0;
+    height:calc(var(--tabbar-h) + env(safe-area-inset-bottom,0px));
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    border-bottom:none;border-top:1px solid var(--line-strong);
+  }
+  html.js body{padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom,0px))}
+  .tabs{padding:0}
+  .tab{flex-direction:column;justify-content:center;align-items:center;gap:var(--s1);padding:0 var(--s2);font-size:var(--t-cap)}
+  .tab:first-child{border-left:none}
+  .tab:last-child{border-right:none}
 }
 
 /* ticker: generated from the writing feed. Full bleed, outside the grid */
@@ -806,13 +823,19 @@ html.js .reveal.dev{transform:none;transition:opacity var(--dur-develop) ease}
    sets --clbl so they always render at --t-cap on screen; without it they
    keep the 11 units the markup gives them */
 .constellation .clbl{font-size:var(--clbl,11px)}
-/* the cropped map (860 and below, set by the script): London's label
+/* the cropped map (561 to 860, set by the script): London's label
    moves under its dot so the crop can start at the Channel, and Espoo's
-   drops a little so it clears the Helsinki dot at the larger label size */
+   drops a little so it clears the Helsinki dot at the larger label size.
+   The phone composition (svg.phone, 560 and below) places every label
+   itself, so these stay off it */
 @media(max-width:860px){
-  .constellation .stop[data-stop="6"] .clbl{text-anchor:middle;transform:translate(16px,calc(14px + .8em))}
-  .constellation .stop[data-stop="4"] .clbl{transform:translateY(.35em)}
+  .constellation svg:not(.phone) .stop[data-stop="6"] .clbl{text-anchor:middle;transform:translate(16px,calc(14px + .8em))}
+  .constellation svg:not(.phone) .stop[data-stop="4"] .clbl{transform:translateY(.35em)}
 }
+/* On the phone composition the land drops the full-map vignette (the
+   script removes the mask: it is centred on the whole map, so over the
+   crop it would leave almost nothing) and comes up enough to read */
+.constellation svg.phone .land{opacity:.6}
 /* Without the script there is no crop and no --clbl, so the labels keep
    the full 1300-unit map and shrink with it. Above 1100 a fixed 14 units
    clears the floor (11.3px at 1101 wide); at 1100 and below they would
@@ -1281,18 +1304,18 @@ html.js .ev:not(.on){opacity:0;transform:translateY(14px)}
 <body>
 <script>
 /* Reveal-on-scroll, the tab panels and the intro overlay hide content only
-   while this class is set. An error before the main script has finished
-   (its last act is to set html.booted) drops it again, so a broken script
-   degrades to a static page rather than a blank one. An error after that,
-   such as an opaque "Script error." from a third-party script, leaves the
-   working page alone and only makes sure the intro overlay is gone. */
+   while this class is set. Whether it stays is decided by a positive check,
+   not by listening for errors: the boot check right after the main script
+   drops it unless the main script reached its last line (html.booted). A
+   window error event cannot tell the page's own errors from those of
+   scripts a browser injects (Chrome on iOS does), so all an error does
+   here is make sure the intro overlay is gone. */
 (function(){
   var root = document.documentElement;
   root.classList.add('js');
   addEventListener('error', function(){
     var flash = document.getElementById('flash');
     if (flash && flash.parentNode) flash.parentNode.removeChild(flash);
-    if (!root.classList.contains('booted')) root.classList.remove('js');
   });
 })();
 </script>
@@ -1366,7 +1389,7 @@ html.js .ev:not(.on){opacity:0;transform:translateY(14px)}
       </style>
 
       <!-- faded landmasses for geographic orientation -->
-      <g mask="url(#fade)" fill="var(--line)" stroke="var(--faint)" stroke-width=".5" opacity=".3">
+      <g class="land" mask="url(#fade)" fill="var(--line)" stroke="var(--faint)" stroke-width=".5" opacity=".3">
         <!-- US East Coast -->
         <path d="M43,341 L44,332 L34,321 L38,320 L48,305 L52,300 L60,282 L63,281 L82,280 L84,276 L89,271 L103,265 L104,269 L97,271 L92,262 L97,258 L101,254 L103,248 L106,244 L124,240 L137,234 L148,237 L152,246 L175,236 L215,221 L237,243 L160,310 L43,366 Z"/>
         <!-- Europe mainland: Iberia → France → Benelux → Denmark, closed through central Europe -->
@@ -1384,7 +1407,7 @@ html.js .ev:not(.on){opacity:0;transform:translateY(14px)}
       </g>
 
       <!-- route path (3× Finnish expansion from center 1136,62) -->
-      <path d="M1097,56 L1106,56 L1094,65
+      <path class="route" d="M1097,56 L1106,56 L1094,65
                Q480,300 60,215
                Q600,-30 1187,65
                L1062,196 L879,160 L1196,68 L928,153"
@@ -1443,7 +1466,7 @@ html.js .ev:not(.on){opacity:0;transform:translateY(14px)}
   </div>
   <!-- caption row: the version and the NOW rotator share one strip -->
   <div class="meta">
-    <span>PERSONAL SITE / V0.14.2</span>
+    <span>PERSONAL SITE / V0.15.0</span>
     <div class="nowline">NOW / <span id="rot">SOURCING THE NORDICS</span></div>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
@@ -1803,7 +1826,7 @@ html.js .ev:not(.on){opacity:0;transform:translateY(14px)}
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. Hand-written, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; <button type="button" class="f-neg" id="neg-toggle" aria-pressed="false">[D] negative</button></span>
-      <span>V0.14.2 / DEPLOYED 2026.11.23</span>
+      <span>V0.15.0 / DEPLOYED 2026.11.28</span>
     </div>
   </div>
 </footer>
@@ -2219,8 +2242,8 @@ const FINE = matchMedia('(pointer: fine)').matches;
 /* Every feature block below runs through safely(), so one that throws
    cannot stop the blocks after it. A block the layout depends on (the tab
    routers, scroll reveal) passes unfold: if it fails, the page drops
-   html.js and shows everything open, as the head guard does for an
-   uncaught error, rather than leaving content hidden. */
+   html.js and shows everything open, as the boot check after this script
+   does for an uncaught error, rather than leaving content hidden. */
 function safely(fn, unfold){
   try{ return fn(); }
   catch(e){
@@ -2464,11 +2487,26 @@ safely(function tabs(){
      the page stays where it is. The panel arrives with a fadein that starts
      it 14px low, and the rect includes that, so take the translate back
      out; scrollIntoView would aim at the moving copy and land 14px short. */
+  /* On a phone (560 and below, the same literal as the CSS) the bar is
+     pinned to the bottom of the screen and marks no panel edge, so a
+     switch always brings the new panel's top to just under the topbar,
+     even from the top of the page: otherwise tapping WORK while the hero
+     fills the screen would change nothing visible. The first activate()
+     and a deep link on load do not come through here, so they never
+     scroll. */
   const stickyBar = document.querySelector('.tabbar');
+  const topbar = document.querySelector('.topbar');
+  const phoneBar = matchMedia('(max-width:560px)');
   function settleUnderBar(panel){
     if(!stickyBar) return;
     const t = getComputedStyle(panel).transform;
     const top = panel.getBoundingClientRect().top - (t && t!=='none' ? new DOMMatrix(t).m42 : 0);
+    if(phoneBar.matches){
+      const under = topbar ? topbar.getBoundingClientRect().bottom : 0;
+      if(Math.abs(top - under) < 1) return;
+      window.scrollTo({top: scrollY + top - under, behavior: REDUCED ? 'instant' : 'smooth'});
+      return;
+    }
     const bar = stickyBar.getBoundingClientRect().bottom;
     if(top >= bar - 1) return;
     window.scrollTo({top: scrollY + top - bar, behavior: REDUCED ? 'instant' : 'smooth'});
@@ -3116,12 +3154,18 @@ safely(function routeTip(){
       `<span class="tip-k">POP  </span><span class="tip-v">${s.pop}</span><br>`+
       `<span class="tip-k">     </span>${s.note}`;
   }
-  /* beside the point, flipped to its left when it would leave the screen */
+  /* beside the point, flipped to its left when it would leave the screen,
+     and lifted when it would run under the tab bar pinned to the bottom
+     of a phone screen */
+  const bar = document.querySelector('.tabbar');
   function place(x, y){
     const w = tip.offsetWidth || 240, gap = 16, edge = 8;
     const left = x+gap+w > innerWidth-edge ? x-gap-w : x+gap;
+    let top = y-10;
+    if(bar && getComputedStyle(bar).position==='fixed')
+      top = Math.max(edge, Math.min(top, bar.getBoundingClientRect().top-edge-tip.offsetHeight));
     tip.style.left = Math.max(edge, left)+'px';
-    tip.style.top = (y-10)+'px';
+    tip.style.top = top+'px';
   }
   function show(i, x, y){
     if(shown!==i){ fill(i); shown = i; }
@@ -3138,7 +3182,8 @@ safely(function routeTip(){
     g.addEventListener('pointerleave', e=>{ if(e.pointerType==='mouse') hide(); });
   });
   /* A tap shows it, pinned to the dot. The Finnish dots sit a few pixels
-     apart on a phone, so each cannot own a separate 44px square: a tap
+     apart on a tablet crop (and some 20px apart on the phone composition),
+     so each cannot own a separate 44px square: a tap
      anywhere on the map picks the nearest dot within half of --tap, and a
      label or dot hit directly always wins. Tapping the same stop again,
      tapping elsewhere or scrolling puts it away. */
@@ -3171,27 +3216,105 @@ safely(function routeTip(){
    larger size below.
    The labels are SVG text, so they scale with the map. --clbl undoes that
    scale: label size in map units = --t-cap / (rendered px per map unit),
-   so every label lands on the 11px floor or just above it, at any width. */
+   so every label lands on the 11px floor or just above it, at any width.
+   At 560 and below (the phone, the same literal as the tab bar) even the
+   crop is a thin strip with the Finnish dots a few pixels apart, so the
+   map is recomposed instead: a taller frame over the same Europe, the
+   Finnish cluster spread out with its labels placed clear of each other,
+   New York pinned to the left edge with an arrowhead pointing off the
+   frame (both transatlantic lines end at it), a route drawn through the
+   new positions, and the land without the full-map vignette. The markup
+   keeps the full map; everything here is undone above 560. */
+const ROUTE_PHONE = {
+  viewBox: '826 -30 500 368',
+  /* per stop, in data-stop order: dot x, dot y, label x, label y, anchor */
+  stops: [
+    [1100,  40, 1088,  46, 'end'],      /* Naantali */
+    [1118,  70, 1106,  76, 'end'],      /* Turku */
+    [1096, 102, 1084, 104, 'end'],      /* Nauvo */
+    [ 848,   6,  876,  13, 'start'],    /* New York, on the frame edge */
+    [1164,  74, 1176,  70, 'start'],    /* Espoo */
+    [1062, 196, 1080, 192, 'start'],    /* Vienna */
+    [ 879, 160,  879, 188, 'middle'],   /* London */
+    [1200,  92, 1212,  97, 'start'],    /* Helsinki */
+    [ 928, 153,  950, 164, 'start'],    /* Den Haag */
+  ],
+  route: 'M1100,40 L1118,70 L1096,102 Q960,140 848,6 Q1000,-60 1164,74 L1062,196 L879,160 L1200,92 L928,153',
+  /* points off the frame, to the left of the New York dot */
+  arrow: 'M839,0 L830,6 L839,12 Z',
+};
 safely(function routeCrop(){
   const svg = document.querySelector('.constellation svg');
   if(!svg) return;
   const mq = matchMedia('(max-width:860px)');
+  const phone = matchMedia('(max-width:560px)');
   const cap = ()=> parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--t-cap')) || 11;
   const fit = ()=>{
     const w = svg.getBoundingClientRect().width, vb = svg.viewBox.baseVal;
     if(!w || !vb || !vb.width) return;
     svg.style.setProperty('--clbl', (cap()*vb.width/w*1.02).toFixed(2)+'px');
   };
-  const set = ()=>{ svg.setAttribute('viewBox', mq.matches ? '828 25 486 182' : '0 0 1320 240'); fit(); };
+  /* the markup's own geometry, read once, so leaving the phone restores it */
+  const route = svg.querySelector('.route');
+  const land = svg.querySelector('.land');
+  const stops = [...svg.querySelectorAll('.stop')].map(g=>{
+    const dots = [...g.querySelectorAll('circle')], lbl = g.querySelector('.clbl');
+    return {g, dots, lbl, cx:dots[0].getAttribute('cx'), cy:dots[0].getAttribute('cy'),
+            x:lbl.getAttribute('x'), y:lbl.getAttribute('y'), anchor:lbl.getAttribute('text-anchor')};
+  });
+  const fullRoute = route && route.getAttribute('d');
+  const fullMask = land && land.getAttribute('mask');
+  const attr = (el, k, v)=> v==null ? el.removeAttribute(k) : el.setAttribute(k, v);
+  let arrow = null, composed = false;
+  const compose = on=>{
+    if(on===composed) return;
+    composed = on;
+    svg.classList.toggle('phone', on);
+    if(route) route.setAttribute('d', on ? ROUTE_PHONE.route : fullRoute);
+    if(land) attr(land, 'mask', on ? null : fullMask);
+    stops.forEach((s,i)=>{
+      const p = on && ROUTE_PHONE.stops[i];
+      s.dots.forEach(c=>{ c.setAttribute('cx', p ? p[0] : s.cx); c.setAttribute('cy', p ? p[1] : s.cy); });
+      s.lbl.setAttribute('x', p ? p[2] : s.x);
+      s.lbl.setAttribute('y', p ? p[3] : s.y);
+      attr(s.lbl, 'text-anchor', p ? p[4] : s.anchor);
+    });
+    const ny = stops[3];
+    if(on && ny){
+      arrow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      arrow.setAttribute('d', ROUTE_PHONE.arrow);
+      arrow.setAttribute('fill', 'var(--fg)');
+      ny.g.insertBefore(arrow, ny.lbl);
+    }else if(arrow){ arrow.remove(); arrow = null; }
+  };
+  const set = ()=>{
+    compose(phone.matches);
+    svg.setAttribute('viewBox', phone.matches ? ROUTE_PHONE.viewBox : mq.matches ? '828 25 486 182' : '0 0 1320 240');
+    fit();
+  };
   set();
   onMedia(mq, set);
+  onMedia(phone, set);
   if(window.ResizeObserver) new ResizeObserver(fit).observe(svg);
   else addEventListener('resize', fit);
 });
 
-/* Last statement on purpose: from here on the head guard treats an error
-   as not the page's own and leaves html.js, and so the open tabs, alone. */
+/* Last statement on purpose: the boot check below keeps html.js, and so
+   the folded tabs, only if the script got this far. */
 document.documentElement.classList.add('booted');
+</script>
+<script>
+/* The boot check. A syntax error or an uncaught throw in the script above
+   means it never reached its last line, so html.booted is missing: drop
+   html.js and the intro overlay, and the page shows every panel open.
+   Errors raised by scripts this page did not write cannot trip it. */
+(function(){
+  var root = document.documentElement;
+  if (root.classList.contains('booted')) return;
+  root.classList.remove('js');
+  var flash = document.getElementById('flash');
+  if (flash && flash.parentNode) flash.parentNode.removeChild(flash);
+})();
 </script>
 <script data-goatcounter="https://danieluusitalo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>

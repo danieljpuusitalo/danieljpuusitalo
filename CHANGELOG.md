@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.15.0 - 2026-11-28 "thumb reach"
+
+Phone release. Nothing a crawler reads changed.
+
+- **Boot check.** The page now decides whether to fold its tabs by a positive check, not by listening for errors. A small script right after the main one drops `html.js` only if the main script never reached its last line, where it sets `html.booted`. The head guard's error listener now only removes the intro flash. Before, any error event during load unfolded the page, including errors from scripts the browser itself injects. On a phone that showed every panel open with no tab bar. A Playwright WebKit run with the iPhone 15 profile did not reproduce that, so the cause is suspected, not confirmed.
+- **Tab bar on phones.** At 560px and below the tab bar is fixed to the bottom of the screen: three equal cells, each with its numeral over its name, padded for the home indicator. The page is padded by the same height so the footer ends above it. A tab switch scrolls the new panel to just under the topbar. The route map's tooltip is lifted so it never runs under the bar.
+- **Route map on phones.** At 560px and below the map is recomposed instead of cropped. It uses a taller frame, about 230 to 250px high. The Finnish stops are spread out, with their labels clear of each other and of the dots. New York is pinned to the left edge with an arrowhead pointing off the map, and the route is redrawn through the new positions. The labels stay at 11px. The markup still holds the full map, and the script restores it above 560px.
+
 ## v0.14.2 - 2026-11-23 "the alum"
 
 Content-only release. The writing archive gains Aalto University’s alumni profile "Alum Daniel Uusitalo: My journey has taken me from Aalto to The Hague into the world of impact investing" (23 November 2026). It is filed as INTERVIEW because it is a profile written by the university around his quotes, so it sits under Interviews & commentary and emits `about`, not `author`. The row links to the university’s English edition. It takes the LATEST badge and the first ticker slot. The `sitemap.xml` `lastmod` for `writing.html` and the footer deploy date move with it.
