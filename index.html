@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ═══════════════════════════════════════════════════════════════════
-     DANIEL UUSITALO / personal site v0.15.0
+     DANIEL UUSITALO / personal site v0.15.1
      Hand-written. No framework, no bundler. External dependencies: Google Fonts + GoatCounter (cookieless analytics).
      Companion pages: writing.html (generated), press-kit.html, gallery.html, 404.html.
      Project conventions & editing guide: see CLAUDE.md in this folder.
@@ -691,26 +691,15 @@ html:not(.js) .tabbar{display:none}
 .tab .idx{color:var(--dim)}
 .tab:hover,#lb button:hover{background:var(--fg);color:var(--bg)}
 .tab:hover .idx,.tab.active .idx{color:var(--bg)}
-/* Phone: the bar leaves the flow and pins to the bottom of the screen,
-   where a thumb reaches it, as three full-height cells with the numeral
-   over the name. It is taller here (--tap plus a step), sits on a strong
-   top rule, and pads itself past the home indicator. The page gets the
-   same room at its foot so the footer clears it, and an anchor jump only
-   has the topbar to clear. Still gated on html.js above; print hides it. */
+/* Phone: the bar keeps its place in the flow, after the hero and above
+   the panels, but does not stick: it scrolls away with the page and
+   leaves the small screen to the content. So an anchor jump only has the
+   topbar to clear. The cells keep the desktop row, numeral then name,
+   centred and at the 11px size so the three fit at 360 wide. */
 @media(max-width:560px){
-  :root{--tabbar-h:calc(var(--tap) + var(--s3))}
   html{scroll-padding-top:var(--topbar-h)}
-  .tabbar{
-    position:fixed;top:auto;bottom:0;left:0;right:0;
-    height:calc(var(--tabbar-h) + env(safe-area-inset-bottom,0px));
-    padding-bottom:env(safe-area-inset-bottom,0px);
-    border-bottom:none;border-top:1px solid var(--line-strong);
-  }
-  html.js body{padding-bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom,0px))}
-  .tabs{padding:0}
-  .tab{flex-direction:column;justify-content:center;align-items:center;gap:var(--s1);padding:0 var(--s2);font-size:var(--t-cap)}
-  .tab:first-child{border-left:none}
-  .tab:last-child{border-right:none}
+  .tabbar{position:static}
+  .tab{justify-content:center;padding:0 var(--s2);font-size:var(--t-cap)}
 }
 
 /* ticker: generated from the writing feed. Full bleed, outside the grid */
@@ -1466,7 +1455,7 @@ html.js .ev:not(.on){opacity:0;transform:translateY(14px)}
   </div>
   <!-- caption row: the version and the NOW rotator share one strip -->
   <div class="meta">
-    <span>PERSONAL SITE / V0.15.0</span>
+    <span>PERSONAL SITE / V0.15.1</span>
     <div class="nowline">NOW / <span id="rot">SOURCING THE NORDICS</span></div>
   </div>
   <h1>Daniel <span class="hollow">Uusitalo</span></h1>
@@ -1478,7 +1467,7 @@ html.js .ev:not(.on){opacity:0;transform:translateY(14px)}
 
 <div class="ticker" aria-hidden="true"><div class="track" id="ticker-track"></div></div>
 
-<!-- ═══ TAB BAR ═══ sticks under the topbar -->
+<!-- ═══ TAB BAR ═══ sticks under the topbar (above 560; on a phone it scrolls away) -->
 <nav class="tabbar">
 <div class="tabs" role="tablist">
   <button class="tab active" data-panel="bio" role="tab" aria-selected="true" id="tab-bio" aria-controls="bio" tabindex="0"><span class="idx">01</span>BIO</button>
@@ -1826,7 +1815,7 @@ html.js .ev:not(.on){opacity:0;transform:translateY(14px)}
     <div class="f-small">
       <span>&copy; 2026 Daniel Uusitalo. Hand-written, no cookies</span>
       <span>[1][2][3] tabs &middot; [G] grid &middot; [F] flash &middot; <button type="button" class="f-neg" id="neg-toggle" aria-pressed="false">[D] negative</button></span>
-      <span>V0.15.0 / DEPLOYED 2026.11.28</span>
+      <span>V0.15.1 / DEPLOYED 2026.11.28</span>
     </div>
   </div>
 </footer>
@@ -2487,27 +2476,19 @@ safely(function tabs(){
      the page stays where it is. The panel arrives with a fadein that starts
      it 14px low, and the rect includes that, so take the translate back
      out; scrollIntoView would aim at the moving copy and land 14px short. */
-  /* On a phone (560 and below, the same literal as the CSS) the bar is
-     pinned to the bottom of the screen and marks no panel edge, so a
-     switch always brings the new panel's top to just under the topbar,
-     even from the top of the page: otherwise tapping WORK while the hero
-     fills the screen would change nothing visible. The first activate()
-     and a deep link on load do not come through here, so they never
-     scroll. */
+  /* On a phone (560 and below) the bar does not stick, so once it has
+     scrolled away its bottom is far above the screen and would wave every
+     switch through, leaving the reader deep inside the new panel. The line
+     to land under is therefore the lower of the bar and the topbar: the
+     bar wherever it sticks, the topbar once a static bar has gone. */
   const stickyBar = document.querySelector('.tabbar');
   const topbar = document.querySelector('.topbar');
-  const phoneBar = matchMedia('(max-width:560px)');
   function settleUnderBar(panel){
     if(!stickyBar) return;
     const t = getComputedStyle(panel).transform;
     const top = panel.getBoundingClientRect().top - (t && t!=='none' ? new DOMMatrix(t).m42 : 0);
-    if(phoneBar.matches){
-      const under = topbar ? topbar.getBoundingClientRect().bottom : 0;
-      if(Math.abs(top - under) < 1) return;
-      window.scrollTo({top: scrollY + top - under, behavior: REDUCED ? 'instant' : 'smooth'});
-      return;
-    }
-    const bar = stickyBar.getBoundingClientRect().bottom;
+    const bar = Math.max(stickyBar.getBoundingClientRect().bottom,
+                         topbar ? topbar.getBoundingClientRect().bottom : 0);
     if(top >= bar - 1) return;
     window.scrollTo({top: scrollY + top - bar, behavior: REDUCED ? 'instant' : 'smooth'});
   }
@@ -3154,18 +3135,12 @@ safely(function routeTip(){
       `<span class="tip-k">POP  </span><span class="tip-v">${s.pop}</span><br>`+
       `<span class="tip-k">     </span>${s.note}`;
   }
-  /* beside the point, flipped to its left when it would leave the screen,
-     and lifted when it would run under the tab bar pinned to the bottom
-     of a phone screen */
-  const bar = document.querySelector('.tabbar');
+  /* beside the point, flipped to its left when it would leave the screen */
   function place(x, y){
     const w = tip.offsetWidth || 240, gap = 16, edge = 8;
     const left = x+gap+w > innerWidth-edge ? x-gap-w : x+gap;
-    let top = y-10;
-    if(bar && getComputedStyle(bar).position==='fixed')
-      top = Math.max(edge, Math.min(top, bar.getBoundingClientRect().top-edge-tip.offsetHeight));
     tip.style.left = Math.max(edge, left)+'px';
-    tip.style.top = top+'px';
+    tip.style.top = (y-10)+'px';
   }
   function show(i, x, y){
     if(shown!==i){ fill(i); shown = i; }

@@ -1,11 +1,17 @@
 # Changelog
 
+## v0.15.1 - 2026-11-28 "back on top"
+
+Phone follow-up. Nothing a crawler reads changed.
+
+- **Tab bar on phones, reverted.** At 560px and below the bar is back in its place after the hero and the ticker, directly above the panels, and it no longer follows the reader: it is static there and scrolls away with the page. The numerals stay, in one row with the name as on desktop. The bottom pinning, its taller cells, the home indicator padding, the padding at the foot of the page and the tooltip lift are gone. A tab switch from deep in a panel still lands at the start of the new panel, just under the topbar. Above 560px nothing changed.
+
 ## v0.15.0 - 2026-11-28 "thumb reach"
 
 Phone release. Nothing a crawler reads changed.
 
 - **Boot check.** The page now decides whether to fold its tabs by a positive check, not by listening for errors. A small script right after the main one drops `html.js` only if the main script never reached its last line, where it sets `html.booted`. The head guard's error listener now only removes the intro flash. Before, any error event during load unfolded the page, including errors from scripts the browser itself injects. On a phone that showed every panel open with no tab bar. A Playwright WebKit run with the iPhone 15 profile did not reproduce that, so the cause is suspected, not confirmed.
-- **Tab bar on phones.** At 560px and below the tab bar is fixed to the bottom of the screen: three equal cells, each with its numeral over its name, padded for the home indicator. The page is padded by the same height so the footer ends above it. A tab switch scrolls the new panel to just under the topbar. The route map's tooltip is lifted so it never runs under the bar.
+- **Tab bar on phones** (reverted in v0.15.1). At 560px and below the tab bar is fixed to the bottom of the screen: three equal cells, each with its numeral over its name, padded for the home indicator. The page is padded by the same height so the footer ends above it. A tab switch scrolls the new panel to just under the topbar. The route map's tooltip is lifted so it never runs under the bar.
 - **Route map on phones.** At 560px and below the map is recomposed instead of cropped. It uses a taller frame, about 230 to 250px high. The Finnish stops are spread out, with their labels clear of each other and of the dots. New York is pinned to the left edge with an arrowhead pointing off the map, and the route is redrawn through the new positions. The labels stay at 11px. The markup still holds the full map, and the script restores it above 560px.
 
 ## v0.14.2 - 2026-11-23 "the alum"
